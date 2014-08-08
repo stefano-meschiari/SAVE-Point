@@ -1,6 +1,6 @@
 {
   "require": {
     "mustache/mustache": "*",
-    "webit/eval-math": "dev-master",
-  }
+    "webit/eval-math": "dev-master"
+    }
 }
