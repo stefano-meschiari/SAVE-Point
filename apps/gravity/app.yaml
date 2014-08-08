@@ -1,0 +1,26 @@
+---
+description: A game of gravity
+title: Gravity
+requires:
+  - jquery
+  - bootstrap
+  - paper
+
+missions:
+  - title: Circular orbit
+    rule: ecc < 0.02
+    enabled: true
+    text: >-
+      Get a circular orbit.
+
+  - title: Eccentric orbit
+    rule: ecc > 0.02
+    enabled: true
+    text: >-
+      Get an eccentric orbit.
+
+  - title: Hyperbolic orbit
+    rule: ecc < -0.02
+    enabled: true
+    text: >-
+      Get a hyperbolic orbit.

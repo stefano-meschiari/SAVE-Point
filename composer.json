@@ -1,6 +1,7 @@
 {
-  "require": {
-    "mustache/mustache": "*",
-    "webit/eval-math": "dev-master"
+    "require": {
+        "mustache/mustache": "*",
+        "webit/eval-math": "dev-master",
+        "mustangostang/spyc": "0.5.*@dev"
     }
 }

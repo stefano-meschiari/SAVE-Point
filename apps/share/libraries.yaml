@@ -1,0 +1,13 @@
+# All paths referenced to the top-level document directory (apps).
+
+paper:
+  - share/paper/dist/paper-full.min.js
+
+jquery:
+  - share/jquery/dist/jquery.min.js
+
+bootstrap:
+  - share/bootstrap/dist/css/bootstrap.min.css
+  - share/bootstrap/dist/css/bootstrap-theme.min.css
+  - share/bootstrap/dist/js/bootstrap.min.js
+  
