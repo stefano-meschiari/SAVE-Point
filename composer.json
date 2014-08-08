@@ -2,6 +2,8 @@
   "require": {
     "mustache/mustache": "*",
     "webit/eval-math": "dev-master",
-    "heroku/heroku-buildpack-php":"*"
+  },
+  "require-dev": {
+      "heroku/heroku-buildpack-php":"*"
   } 
 }
