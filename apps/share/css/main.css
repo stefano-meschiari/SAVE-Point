@@ -1,0 +1,47 @@
+html, body {
+  margin:0px;
+  padding:0px;
+  min-height:100%;
+}
+
+#canvas-container {
+  background-color:black;
+  /* background: -webkit-radial-gradient(center, circle cover, #444444 0%, black 100%); */
+  /* background: radial-gradient(circle at center, #444444 0%, black 100%); */
+  background:url('../img/bg.png');
+}
+
+#sidebar {
+  background:rgba(255, 255, 255, 0.2);
+  width:70px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  height:100%;
+  padding:10px;
+}
+
+#menu {
+  width:50px;
+  height:50px;
+  font-size:30px;
+  color:white;
+  border:1px solid white;
+  text-align:center;
+}
+
+#missions {
+  margin-top:10px;
+  font-size:10px;
+  color:gray;
+}
+
+
+span.mission-title {
+  text-transform:uppercase;
+}
+
+div.mission-completed {
+  color:white;
+}
+

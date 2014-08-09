@@ -16,12 +16,22 @@ function write_footer($cfg) {
   echo $m->render(file_get_contents(ROOT . "share/skeleton/footer.html"), $cfg);
 };
 
+function write_js_requires($cfg) {
+  echo $cfg['js-requires'];
+}
+
+function write_missions($cfg) {
+  foreach ($cfg['missions'] as $mission) {
+    echo "<>";
+  }
+}
+
 // Loads the package configuration, and the required libraries.
 function init() {
   $cfg = spyc_load_file("./app.yaml");
   $libs = spyc_load_file(ROOT . "apps/share/libraries.yaml");
-  $cfg['header-reqs'] = array();
-  $cfg['footer-reqs'] = array();
+  $cfg['css-requires'] = array();
+  $cfg['js-requires'] = array();
   
   if ($cfg['requires'] !== NULL) {
     foreach ($cfg['requires'] as $req) {
@@ -32,9 +42,9 @@ function init() {
         foreach ($libs[$req] as $file) {
           $file = DOCUMENT_ROOT . $file;
           if (preg_match('/.js$/', $file)) {
-            $cfg['footer-reqs'][] = "<script type=\"text/javascript\" src=\"$file\"></script>";
+            $cfg['js-requires'][] = "<script type=\"text/javascript\" src=\"$file\"></script>";
           } elseif (preg_match('/.css$/', $file)) {
-            $cfg['header-reqs'][] = "<link rel=\"stylesheet\" href=\"$file\">";
+            $cfg['css-requires'][] = "<link rel=\"stylesheet\" href=\"$file\">";
           } else {
             error_log("Don't know how to interpret " . $file);
           };
@@ -43,12 +53,10 @@ function init() {
     }
   }
 
-  $cfg['footer-reqs'] = implode("\n", $cfg['footer-reqs']);
-  $cfg['header-reqs'] = implode("\n", $cfg['header-reqs']);
+  $cfg['css-requires'] = implode("\n", $cfg['css-requires']);
+  $cfg['js-requires'] = implode("\n", $cfg['js-requires']);
   
   return($cfg);
 }
-
-
 
 ?>
