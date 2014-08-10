@@ -22,11 +22,12 @@ function write_js_requires($cfg) {
 
 /* Finish */
 function write_missions($cfg) {
+  /*
   $i = 0;
   foreach ($cfg['missions'] as $mission) {
       echo '<div class="mission"><div class="mission-symbol"></div><div class="mission-label">' . $mission['title'] . '</div></div>';
     $i++;
-  }
+  }*/
 }
 
 // Loads the package configuration, and the required libraries.
