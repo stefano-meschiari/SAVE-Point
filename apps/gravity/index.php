@@ -44,7 +44,7 @@ write_header($cfg);
 </div>
 
 <div id="canvas-container">
-  <canvas id="canvas" resize></canvas>
+  <canvas id="canvas" resize hidpi="false"></canvas>
 </div>
 <div id="info-top">
   <table cols="2">
