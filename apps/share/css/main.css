@@ -2,6 +2,7 @@ html, body {
   margin:0px;
   padding:0px;
   min-height:100%;
+  font-family:Raleway, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #canvas-container {
@@ -10,6 +11,7 @@ html, body {
   /* background: radial-gradient(circle at center, #444444 0%, black 100%); */
   background:url('../img/bg.png');
 }
+
 
 #sidebar {
   background:rgba(255, 255, 255, 0.2);
@@ -28,20 +30,79 @@ html, body {
   color:white;
   border:1px solid white;
   text-align:center;
+  background-color:black;
 }
 
 #missions {
-  margin-top:10px;
+  margin-top:30px;
   font-size:10px;
   color:gray;
+  text-align:center;
 }
 
+div.mission-container {
+  margin-bottom:10px;
+}
 
-span.mission-title {
+div.mission {
+  margin-bottom:15px;
+}
+
+div.mission-completed {
+  margin-bottom:15px;
+}
+
+/* glyphicon-unchecked */
+div.mission:before {
+  color:gray;
+  font-size:40px;
+  content: "\e157";
+  margin-bottom:5px;
+}
+
+/* glyphicon-checked */
+div.mission-completed:before {
+  color:white;
+  font-size:40px;  
+  content: "\e067";
+  margin-bottom:5px;
+}
+
+div.mission-label {
   text-transform:uppercase;
+  width:50px;
+  margin-top:5px;
+  font-family:"Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 div.mission-completed {
   color:white;
 }
 
+/* Info-top styles */
+#info-top {
+  background:rgba(255, 255, 255, 0.2);
+  width:200px;
+  position:absolute;
+  right:0px;
+  top:0px;
+  padding:10px;
+  font-size:14px;
+  font-weight:200;
+  color:white;
+}
+
+#info-top table {
+  width:100%;
+}
+
+td.td-label {
+  border-bottom:1px solid white;
+  cellmargin-left:5px;
+  text-transform:uppercase;
+}
+
+td.td-val {
+  border-bottom:1px solid white;
+  text-align:right;
+}

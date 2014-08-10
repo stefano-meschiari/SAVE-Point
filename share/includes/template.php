@@ -20,9 +20,12 @@ function write_js_requires($cfg) {
   echo $cfg['js-requires'];
 }
 
+/* Finish */
 function write_missions($cfg) {
+  $i = 0;
   foreach ($cfg['missions'] as $mission) {
-    echo "<>";
+      echo '<div class="mission"><div class="mission-symbol"></div><div class="mission-label">' . $mission['title'] . '</div></div>';
+    $i++;
   }
 }
 
@@ -30,6 +33,9 @@ function write_missions($cfg) {
 function init() {
   $cfg = spyc_load_file("./app.yaml");
   $libs = spyc_load_file(ROOT . "apps/share/libraries.yaml");
+  $cfg['aliases'] = spyc_load_file(ROOT . "apps/share/aliases.yaml");
+
+  
   $cfg['css-requires'] = array();
   $cfg['js-requires'] = array();
   
