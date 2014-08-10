@@ -1,0 +1,140 @@
+@import (reference) "apps/share/less/colors";
+@import (reference) "apps/share/font-awesome/less/font-awesome";
+
+html, body {
+  margin:0px;
+  padding:0px;
+  min-height:100%;
+  font-family:Raleway, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#canvas-container {
+  background-color:black;
+  background:url('../img/bg.png');
+}
+
+
+#sidebar {
+  background:rgba(255, 255, 255, 0.2);
+  width:70px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  height:100%;
+  padding:10px;
+}
+
+#sidebar-expanded {
+  width:200px;
+}
+
+#menu {
+  width:50px;
+  height:50px;
+  font-size:30px;
+  color:white;
+  border:1px solid white;
+  text-align:center;
+  background-color:black;
+}
+
+
+@mission-color: @base04;
+@mission-active-color:@base08;
+@mission-completed-color:@base07;
+
+#missions {
+  margin-top:30px;
+  font-size:10px;
+  text-align:center;
+}
+
+#missions {
+  margin-bottom:10px;
+}
+
+.mission {
+  margin-bottom:15px;
+  color:@mission-color;
+}
+
+.mission-active {
+  .mission;
+  color:@mission-active-color;
+}
+
+.mission-completed {
+  .mission;
+  color:@mission-completed-color;
+}
+
+.mission-symbol {
+  font-size:40px;
+}
+
+.mission .mission-symbol {
+  .fa;
+  &:before {
+    content: @fa-var-circle-o;
+  }
+}
+
+.mission-active .mission-symbol {
+  .fa;
+  .fa-spin;
+  &:before {
+    content: @fa-var-circle-o-notch;
+  }
+}
+
+.mission-completed .mission-symbol {
+  .fa;
+  &:before {
+    content: @fa-var-check-circle;
+  }
+
+}
+
+.mission-label {
+  text-transform:uppercase;
+  width:50px;
+  margin-top:5px;
+  font-family:"Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#sidebar .mission-label {
+  display:none;
+}
+
+.mission-active .mission-label {
+  .mission-label;
+}
+
+/* Info-top styles */
+#info-top {
+  background:rgba(255, 255, 255, 0.2);
+  width:200px;
+  position:absolute;
+  right:0px;
+  top:0px;
+  padding:10px;
+  font-size:14px;
+  font-weight:200;
+  color:white;
+}
+
+#info-top table {
+  width:100%;
+}
+
+td.td-label {
+  border-bottom:1px solid white;
+  cellmargin-left:5px;
+  text-transform:uppercase;
+}
+
+td.td-val {
+  border-bottom:1px solid white;
+  text-align:right;
+}
+

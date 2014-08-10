@@ -1,0 +1,8 @@
+{
+    "name":"jrs-edu",
+    "devDependencies": {
+        "bower":"x",
+        "wach": "x",
+        "less": "x"
+    }
+}

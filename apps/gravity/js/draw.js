@@ -19,7 +19,7 @@ var planet = new Path.Circle({
 
 planet.fillColor = {
     gradient: {
-        stops:[['blue', 0.5],['black', 1]],
+        stops:[[PLANET_COLORS[0], 0.5],['black', 1]],
         radial:true
     },
     origin: planet.bounds.leftCenter,

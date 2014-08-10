@@ -11,7 +11,6 @@ function write_header($cfg) {
 
 // Renders the footer using the given hash.
 function write_footer($cfg) {
-  
   $m = new Mustache_Engine;
   echo $m->render(file_get_contents(ROOT . "share/skeleton/footer.html"), $cfg);
 };

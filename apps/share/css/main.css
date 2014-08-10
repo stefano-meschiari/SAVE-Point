@@ -1,108 +1,154 @@
-html, body {
-  margin:0px;
-  padding:0px;
-  min-height:100%;
-  font-family:Raleway, "Helvetica Neue", Helvetica, Arial, sans-serif;
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  min-height: 100%;
+  font-family: Raleway, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-
 #canvas-container {
-  background-color:black;
-  /* background: -webkit-radial-gradient(center, circle cover, #444444 0%, black 100%); */
-  /* background: radial-gradient(circle at center, #444444 0%, black 100%); */
-  background:url('../img/bg.png');
+  background-color: black;
+  background: url('../img/bg.png');
 }
-
-
 #sidebar {
-  background:rgba(255, 255, 255, 0.2);
-  width:70px;
-  position:absolute;
-  left:0px;
-  top:0px;
-  height:100%;
-  padding:10px;
+  background: rgba(255, 255, 255, 0.2);
+  width: 70px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  padding: 10px;
 }
-
+#sidebar-expanded {
+  width: 200px;
+}
 #menu {
-  width:50px;
-  height:50px;
-  font-size:30px;
-  color:white;
-  border:1px solid white;
-  text-align:center;
-  background-color:black;
+  width: 50px;
+  height: 50px;
+  font-size: 30px;
+  color: white;
+  border: 1px solid white;
+  text-align: center;
+  background-color: black;
 }
-
 #missions {
-  margin-top:30px;
-  font-size:10px;
-  color:gray;
-  text-align:center;
+  margin-top: 30px;
+  font-size: 10px;
+  text-align: center;
 }
-
-div.mission-container {
-  margin-bottom:10px;
+#missions {
+  margin-bottom: 10px;
 }
-
-div.mission {
-  margin-bottom:15px;
+.mission {
+  margin-bottom: 15px;
+  color: #7f8c8d;
 }
-
-div.mission-completed {
-  margin-bottom:15px;
+.mission-active {
+  margin-bottom: 15px;
+  color: #7f8c8d;
+  color: #e74c3c;
 }
-
-/* glyphicon-unchecked */
-div.mission:before {
-  color:gray;
-  font-size:40px;
-  content: "\e157";
-  margin-bottom:5px;
+.mission-completed {
+  margin-bottom: 15px;
+  color: #7f8c8d;
+  color: #ecf0f1;
 }
-
-/* glyphicon-checked */
-div.mission-completed:before {
-  color:white;
-  font-size:40px;  
-  content: "\e067";
-  margin-bottom:5px;
+.mission-symbol {
+  font-size: 40px;
 }
-
-div.mission-label {
-  text-transform:uppercase;
-  width:50px;
-  margin-top:5px;
-  font-family:"Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+.mission .mission-symbol {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
-
-div.mission-completed {
-  color:white;
+.mission .mission-symbol.pull-left {
+  margin-right: .3em;
 }
-
+.mission .mission-symbol.pull-right {
+  margin-left: .3em;
+}
+.mission .mission-symbol:before {
+  content: "\f10c";
+}
+.mission-active .mission-symbol {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-animation: spin 2s infinite linear;
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
+.mission-active .mission-symbol.pull-left {
+  margin-right: .3em;
+}
+.mission-active .mission-symbol.pull-right {
+  margin-left: .3em;
+}
+.mission-active .mission-symbol:before {
+  content: "\f1ce";
+}
+.mission-completed .mission-symbol {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.mission-completed .mission-symbol.pull-left {
+  margin-right: .3em;
+}
+.mission-completed .mission-symbol.pull-right {
+  margin-left: .3em;
+}
+.mission-completed .mission-symbol:before {
+  content: "\f058";
+}
+.mission-label {
+  text-transform: uppercase;
+  width: 50px;
+  margin-top: 5px;
+  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+#sidebar .mission-label {
+  display: none;
+}
+.mission-active .mission-label {
+  text-transform: uppercase;
+  width: 50px;
+  margin-top: 5px;
+  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 /* Info-top styles */
 #info-top {
-  background:rgba(255, 255, 255, 0.2);
-  width:200px;
-  position:absolute;
-  right:0px;
-  top:0px;
-  padding:10px;
-  font-size:14px;
-  font-weight:200;
-  color:white;
+  background: rgba(255, 255, 255, 0.2);
+  width: 200px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 200;
+  color: white;
 }
-
 #info-top table {
-  width:100%;
+  width: 100%;
 }
-
 td.td-label {
-  border-bottom:1px solid white;
-  cellmargin-left:5px;
-  text-transform:uppercase;
+  border-bottom: 1px solid white;
+  cellmargin-left: 5px;
+  text-transform: uppercase;
 }
-
 td.td-val {
-  border-bottom:1px solid white;
-  text-align:right;
+  border-bottom: 1px solid white;
+  text-align: right;
 }

@@ -10,7 +10,32 @@ write_header($cfg);
 <div id="sidebar">
   <div id="menu">&#9776;</div>
   <div id="missions">
-    <?php write_missions($cfg); ?>
+      <div class="mission-completed">
+        <div class="mission-symbol"></div>
+        <div class="mission-label">Circular</div>
+      </div>
+      <div class="mission-completed">
+        <div class="mission-symbol"></div>
+        <div class="mission-label">Hello!</div>
+      </div>
+      <div class="mission-completed">
+        <div class="mission-symbol"></div>
+        <div class="mission-label">Hello!</div>
+      </div>
+      <div class="mission-active">
+        <div class="mission-symbol"></div>
+        <div class="mission-label">Hello!</div>
+      </div>
+      <div class="mission">
+        <div class="mission-symbol"></div>
+        <div class="mission-label">Hello!</div>
+      </div>
+      <div class="mission">
+        <span class="mission-symbol">
+        </span>
+        <span class="mission-label">Hello!</div>
+      </div>
+    </div>
   </div>
 </div>
 <div id="canvas-container">
