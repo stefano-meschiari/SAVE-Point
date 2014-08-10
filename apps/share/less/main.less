@@ -2,12 +2,14 @@
 @import (reference) "apps/share/font-awesome/less/font-awesome";
 @import (reference) "apps/share/less/elements";
 
-html, body {
+@font: "Dosis";
+
+body {
   margin:0px;
   padding:0px;
   min-height:100%;
   color:white;
-  font-family:Raleway, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family:@font, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .clear-left {
@@ -163,7 +165,6 @@ html, body {
   width:0px;
   font-size:20px;
   margin-left:-100px;
-  font-family:"Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 #sidebar.expanded .mission-label {
@@ -179,6 +180,24 @@ html, body {
   .mission-label;
 }
 
+.mission-description {
+  text-align:left;
+  .rounded(4px);
+  visibility:hidden;
+  font-size:12px;
+  height:0px;
+}
+
+#sidebar.expanded .mission-description {
+  margin-top:10px;
+  visibility:visible;
+  width:auto;
+  height:auto;
+  padding:5px;
+  .transition(0.5s, ease-in);
+  
+}
+
 /* Info-top styles */
 #info-top {
   background:@glass-color;
@@ -187,7 +206,7 @@ html, body {
   right:0px;
   top:0px;
   padding:10px;
-  font-size:14px;
+  font-size:18px;
   font-weight:200;
   color:white;
 }

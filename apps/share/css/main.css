@@ -1,10 +1,9 @@
-html,
 body {
   margin: 0px;
   padding: 0px;
   min-height: 100%;
   color: white;
-  font-family: Raleway, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Dosis", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .clear-left {
   clear: left;
@@ -182,7 +181,6 @@ body {
   width: 0px;
   font-size: 20px;
   margin-left: -100px;
-  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 #sidebar.expanded .mission-label {
   -webkit-transition: all 0.5s ease-in;
@@ -202,7 +200,26 @@ body {
   width: 0px;
   font-size: 20px;
   margin-left: -100px;
-  font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.mission-description {
+  text-align: left;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  visibility: hidden;
+  font-size: 12px;
+  height: 0px;
+}
+#sidebar.expanded .mission-description {
+  margin-top: 10px;
+  visibility: visible;
+  width: auto;
+  height: auto;
+  padding: 5px;
+  -webkit-transition: all 0.5s ease-in;
+  -moz-transition: all 0.5s ease-in;
+  -o-transition: all 0.5s ease-in;
+  transition: all 0.5s ease-in;
 }
 /* Info-top styles */
 #info-top {
@@ -212,7 +229,7 @@ body {
   right: 0px;
   top: 0px;
   padding: 10px;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 200;
   color: white;
 }

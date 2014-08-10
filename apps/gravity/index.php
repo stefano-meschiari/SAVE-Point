@@ -28,8 +28,11 @@ write_header($cfg);
     </div>
     <div class="mission-active">
       <div class="mission-symbol"></div>
-      <div class="mission-label">Hello!</div>
-      <div class="clear"></div>        
+      <div class="mission-label">Hello!
+      <div class="mission-description">
+        Hello!
+      </div></div>
+      <div class="clear"></div>
     </div>
     <div class="mission">
       <div class="mission-symbol"></div>

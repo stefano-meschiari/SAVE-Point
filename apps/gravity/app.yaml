@@ -3,6 +3,7 @@ description: A game of gravity
 title: Gravity
 requires:
   - jquery
+  - backbone
   - bootstrap
   - paper
 
