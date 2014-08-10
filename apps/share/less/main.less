@@ -1,11 +1,25 @@
 @import (reference) "apps/share/less/colors";
 @import (reference) "apps/share/font-awesome/less/font-awesome";
+@import (reference) "apps/share/less/elements";
 
 html, body {
   margin:0px;
   padding:0px;
   min-height:100%;
+  color:white;
   font-family:Raleway, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.clear-left {
+  clear:left;
+}
+
+.clear-right {
+  clear:right;
+}
+
+.clear {
+  clear:both;
 }
 
 #canvas-container {
@@ -13,29 +27,71 @@ html, body {
   background:url('../img/bg.png');
 }
 
+@glass-color: rgba(255, 255, 255, 0.15);
 
 #sidebar {
-  background:rgba(255, 255, 255, 0.2);
   width:70px;
   position:absolute;
   left:0px;
   top:0px;
   height:100%;
   padding:10px;
+  .user-select(none);
+  .transition(0.5s, ease-in);
 }
 
-#sidebar-expanded {
+#sidebar.expanded {
   width:200px;
+  background-color:@glass-color;
+  .transition(0.5s, ease-in);
 }
 
-#menu {
-  width:50px;
-  height:50px;
+@dark-base08: darken(@base08, 20%);
+
+.btn-jrs {
+  border:0px;
+  color:black;
+  padding-left:10px;
+  padding-right:10px;
+  padding-top:5px;
+  padding-bottom:5px;
+  text-transform:uppercase;
+  font-weight:500;
+  .drop-shadow(1, 1px, 4px, 0.5);
+  background:white;
+}
+
+.btn-jrs:hover {
+  background-color:@base07
+}
+
+.btn-jrs-ico {
   font-size:30px;
+  padding:12px;
   color:white;
-  border:1px solid white;
   text-align:center;
   background-color:black;
+  cursor:pointer;
+}
+
+.btn-jrs-ico:hover {
+  background-color:white;
+  color:black;
+}
+
+.sidebar-section {
+  opacity:0;
+  font-weight:200;
+  margin-top:20px;
+  margin-bottom:10px;
+  border-bottom:1px solid rgba(0, 0, 0, 0);
+}
+
+#sidebar.expanded .sidebar-section {
+  opacity:1;
+  border-bottom:1px solid white;
+  color:white;
+  .transition(0.5s, ease-in);  
 }
 
 
@@ -44,8 +100,6 @@ html, body {
 @mission-completed-color:@base07;
 
 #missions {
-  margin-top:30px;
-  font-size:10px;
   text-align:center;
 }
 
@@ -69,6 +123,8 @@ html, body {
 }
 
 .mission-symbol {
+  float:left;
+  margin-left:10px;
   font-size:40px;
 }
 
@@ -82,6 +138,7 @@ html, body {
 .mission-active .mission-symbol {
   .fa;
   .fa-spin;
+  font-size:35px;
   &:before {
     content: @fa-var-circle-o-notch;
   }
@@ -95,15 +152,27 @@ html, body {
 
 }
 
+#sidebar.expanded .mission-symbol {
+  float:left;
+}
+
 .mission-label {
+  visibility:hidden;
+  opacity:0;
   text-transform:uppercase;
-  width:50px;
-  margin-top:5px;
+  width:0px;
+  font-size:20px;
+  margin-left:-100px;
   font-family:"Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-#sidebar .mission-label {
-  display:none;
+#sidebar.expanded .mission-label {
+  .transition(0.5s, ease-in);  
+  float:left;
+  visibility:visible;
+  opacity:1;
+  margin-left:10px;
+  font-weight:200;
 }
 
 .mission-active .mission-label {
@@ -112,7 +181,7 @@ html, body {
 
 /* Info-top styles */
 #info-top {
-  background:rgba(255, 255, 255, 0.2);
+  background:@glass-color;
   width:200px;
   position:absolute;
   right:0px;
@@ -138,3 +207,41 @@ td.td-val {
   text-align:right;
 }
 
+#help {
+  position:fixed;
+  bottom:5px;
+  right:5px;
+}
+
+#help-bottom {
+  background:none;
+  width:60%;
+  left:20%;
+  position:absolute;
+  bottom:0px;
+  height:0px;
+  padding:10px;
+  font-size:14px;
+  font-weight:200;
+  color:black;
+  visibility:hidden;
+  .transition(0.5s, ease-in);
+}
+
+#help-bottom.expanded {
+  opacity:1;
+  color:white;
+  height:80px;  
+  visibility:visible;
+  background:@glass-color;
+}
+
+#help-bottom .btn-help {
+  opacity:0;
+  .transition(0.5s, ease-in);  
+}
+
+#help-bottom.expanded .btn-help {
+  opacity:1;
+  .transition(0.5s, ease-in);  
+}

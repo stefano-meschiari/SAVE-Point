@@ -8,36 +8,38 @@ write_header($cfg);
 <?php write_js_requires($cfg); ?>
 
 <div id="sidebar">
-  <div id="menu">&#9776;</div>
+  <div id="menu" class="btn-jrs-ico fa fa-bars"></div>
+  <div class="sidebar-section">Missions</div>
   <div id="missions">
-      <div class="mission-completed">
-        <div class="mission-symbol"></div>
-        <div class="mission-label">Circular</div>
-      </div>
-      <div class="mission-completed">
-        <div class="mission-symbol"></div>
-        <div class="mission-label">Hello!</div>
-      </div>
-      <div class="mission-completed">
-        <div class="mission-symbol"></div>
-        <div class="mission-label">Hello!</div>
-      </div>
-      <div class="mission-active">
-        <div class="mission-symbol"></div>
-        <div class="mission-label">Hello!</div>
-      </div>
-      <div class="mission">
-        <div class="mission-symbol"></div>
-        <div class="mission-label">Hello!</div>
-      </div>
-      <div class="mission">
-        <span class="mission-symbol">
-        </span>
-        <span class="mission-label">Hello!</div>
-      </div>
+    <div class="mission-completed">
+      <div class="mission-symbol"></div>
+      <div class="mission-label">Circular</div>
+      <div class="clear"></div>
+    </div>
+    <div class="mission-completed">
+      <div class="mission-symbol"></div>
+      <div class="mission-label">Elliptical</div>
+      <div class="clear"></div>        
+    </div>
+    <div class="mission-completed">
+      <div class="mission-symbol"></div>
+      <div class="mission-label">Hello!</div>
+      <div class="clear"></div>        
+    </div>
+    <div class="mission-active">
+      <div class="mission-symbol"></div>
+      <div class="mission-label">Hello!</div>
+      <div class="clear"></div>        
+    </div>
+    <div class="mission">
+      <div class="mission-symbol"></div>
+      <div class="mission-label">Hello!</div>
+      <div class="clear"></div>        
     </div>
   </div>
+  
 </div>
+
 <div id="canvas-container">
   <canvas id="canvas" resize></canvas>
 </div>
@@ -54,7 +56,14 @@ write_header($cfg);
   </table>  
 </div>
 
-<script type="text/paperscript" canvas="canvas" src="js/draw.js"></script>
-<script type="text/javascript" src="js/ui.js"></script>
+<div id="help-bottom">
+  This will be where help resides.
+  <button class="btn-jrs pull-right">Next</button>
+</div>
+
+<div class="btn-jrs-ico fa fa-question-circle" id="help"></div>
+
+<script type="text/paperscript" canvas="canvas" src="./js/draw.js"></script>
+<script type="text/javascript" src="./js/ui.js"></script>
 
 <?php write_footer($cfg); ?>
