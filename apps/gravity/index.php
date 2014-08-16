@@ -47,6 +47,7 @@ write_header($cfg);
     <canvas id="canvas" resize hidpi="false"></canvas>
   </div>
   <div id="info-top">
+    <div id="info-table-container">
     <table cols="2">
       <tr>
         <td class="td-label">Distance</td>
@@ -61,12 +62,15 @@ write_header($cfg);
         <td class="td-val" id="time"></td>
       </tr>
     </table>
+    </div>
+    <div id="info-help">
+    </div>
   </div>
 </div>
 
-<div id="help-bottom">
-  This will be where help resides.
-  <button class="btn-jrs pull-right">Next</button>
+<div id="help-bottom" class="expanded">
+  <div id="help-text">
+  </div>
 </div>
 
 <div class="btn-jrs-ico fa fa-question-circle" id="help"></div>

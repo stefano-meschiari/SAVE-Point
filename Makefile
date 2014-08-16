@@ -11,3 +11,7 @@ colors:
 
 watch:
 	./node_modules/.bin/wach -o apps/share/less/*,apps/gravity/*.yaml, make 
+
+devserver: 
+	cd apps; php -S localhost:8000 &
+	open http://localhost:8000

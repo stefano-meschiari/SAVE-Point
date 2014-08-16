@@ -28,7 +28,7 @@ body {
   background-color:black;
 }
 
-@glass-color: rgba(255, 255, 255, 0.15);
+@glass-color: rgba(180, 180, 180, 0.25);
 
 #sidebar {
   width:70px;
@@ -199,11 +199,16 @@ body {
 
 /* Info-top styles */
 #info-top {
-  background:@glass-color;
   width:200px;
   position:absolute;
   right:0px;
   top:0px;
+  font-size:18px;
+  font-weight:200;
+}
+
+#info-table-container {
+  background:@glass-color;
   padding:10px;
   font-size:18px;
   font-weight:200;
@@ -212,6 +217,10 @@ body {
 
 #info-top table {
   width:100%;
+}
+
+#info-help {
+  padding:10px;
 }
 
 td.td-label {
@@ -237,21 +246,21 @@ td.td-val {
   left:20%;
   position:absolute;
   bottom:0px;
-  height:0px;
   padding:10px;
-  font-size:14px;
+  font-size:18px;
   font-weight:200;
   color:black;
   visibility:hidden;
   .transition(0.5s, ease-in);
+  opacity:0;
+  text-align:center;
 }
+
 
 #help-bottom.expanded {
   opacity:1;
-  color:white;
-  height:80px;  
   visibility:visible;
-  background:@glass-color;
+  .transition(0.5s, ease-in);
 }
 
 #help-bottom .btn-help {
@@ -262,4 +271,50 @@ td.td-val {
 #help-bottom.expanded .btn-help {
   opacity:1;
   .transition(0.5s, ease-in);  
+}
+
+#help-text {
+  border-radius:20px;
+  padding:8px;
+  padding-left:14px;
+  padding-right:14px;
+  background-color:@glass-color;
+  display:inline-block;
+  color:white;
+}
+
+.icon-tap {
+  .fa;
+  &:before {
+    content: @fa-var-hand-o-up;
+  }
+}
+
+.icon-drag {
+  .fa;
+  &:before {
+    content: @fa-var-arrows;
+  }
+}
+
+.icon-vector {
+  .fa;
+  &:before {
+    content: @fa-var-arrow-right;
+    transform: rotate(45deg);
+  }
+}
+
+.icon-star {
+  .fa;
+  &:before {
+    content: @fa-var-circle-o;
+    background: radial-gradient(ellipse at center, rgba(255,255,136,1) 0%,rgba(255,255,136,0) 90%); 
+  }
+}
+
+.separator {
+  height:1px;
+  background: linear-gradient(to right, rgba(186,186,186,0) 0%,rgba(186,186,186,1) 20%,rgba(186,186,186,1) 50%,rgba(186,186,186,1) 80%,rgba(186,186,186,0) 100%);
+  margin:5px;
 }

@@ -7,29 +7,35 @@ requires:
   - backbone
   - bootstrap
   - paper
-  - physics
+  - physics  
+
+      
   
 missions:
   - title: Sandbox
-    rule: .next
-    enabled: true;
+    rule: nplanets >= 0 && ecc[0] < 1
+    enabled: true
     text: >-
-      Try it out.
-    
+      Your first mission: just add one planet and make it orbit around the star!
+      <div class="separator"></div>
+      <span class="icon-tap"></span> Tap anywhere to add a planet, then <span class="icon-drag"></span>
+      drag the planet and its velocity vector. <br>
+      <span class="icon-star"></span> Tap on the star to let the planet orbit.
+      
   - title: Circular orbit
-    rule: ecc < 0.02
+    rule: ecc[0] < 0.02
     enabled: true
     text: >-
       Get a circular orbit.
 
   - title: Eccentric orbit
-    rule: ecc > 0.02
+    rule: ecc[0] > 0.02
     enabled: true
     text: >-
       Get an eccentric orbit.
 
   - title: Hyperbolic orbit
-    rule: ecc > 1
+    rule: ecc[0] > 1
     enabled: true
     text: >-
       Get a hyperbolic orbit.

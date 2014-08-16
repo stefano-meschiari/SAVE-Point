@@ -6,12 +6,14 @@ PIXELS_PER_AUPDAY = 100;
 ARROW_SIZE = 10;
 // Size of central star
 STAR_SIZE = 200;
+// Number of stars
+STARS = 100;
 
 var Draw = Backbone.View.extend({
     backgroundStars:[],
 
     createBackgroundStars: function() {
-        for (var i = 0; i < 50; i++) {
+        for (var i = 0; i < STARS; i++) {
             var x = view.bounds.width*Math.random();
             var y = view.bounds.height*Math.random();
             var z = Math.random();
@@ -80,7 +82,7 @@ var Draw = Backbone.View.extend({
                         c = [event.point.x - that.star.position.x, event.point.y - that.star.position.y, 0];
                         c[0] /= PIXELS_PER_AU;
                         c[1] /= PIXELS_PER_AU;
-                        app.setPlanetCoords(body.planetIndex, c);                        
+                        app.setCoords(body.planetIndex, c);                        
                     };
                     body.dragFunction = dragFunction;
                     body.on("mousedrag", body.dragFunction);

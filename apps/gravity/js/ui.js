@@ -4,10 +4,11 @@ var AppState = Backbone.Model.extend({
     defaults: {
         currentMission: 0,
         currentText:0,
-        state:RUNNING,
+        state:PAUSED,
         nplanets: 0,
         time:0,
-        deltat: 1
+        deltat: 1,
+        maxPlanets: 1
     },
 
     toggleState: function() {
@@ -20,10 +21,11 @@ var AppState = Backbone.Model.extend({
     },
 
     addPlanet: function(coords) {
+        if (this.get('nplanets') == this.get('maxPlanets'))
+            return;
         this.ctx.x.push(coords[0], coords[1], 0);
         this.ctx.v.push(0.5, 0, 0);
         this.ctx.M.push(0);
-        console.log('Added planet');
         this.set('nplanets', this.get('nplanets')+1);
     },
 
@@ -31,14 +33,22 @@ var AppState = Backbone.Model.extend({
         return this.ctx.x;
     },
 
-    setPlanetCoords: function(i, coords) {
+    setCoords: function(i, coords) {
         this.ctx.x[(i+1)*NPHYS+X] = coords[0];
         this.ctx.x[(i+1)*NPHYS+Y] = coords[1];
-        this.ctx.x[(i+1)*NPHYS+Z] = coords[2];        
+        this.ctx.x[(i+1)*NPHYS+Z] = coords[2];
+        this.trigger("change:coords");
     },
 
     vels: function() {
         return this.ctx.v;
+    },
+
+    setVels: function(i, vels) {
+        this.ctx.v[(i+1)*NPHYS+X] = vels[0];
+        this.ctx.v[(i+1)*NPHYS+Y] = vels[1];
+        this.ctx.v[(i+1)*NPHYS+Z] = vels[2];
+        this.trigger("change:vels");        
     },
     
     tick: function() {
@@ -70,7 +80,13 @@ var AppView = Backbone.View.extend({
         self.listenTo(self.model, 'change:currentMission', self.renderMissions);
         self.listenTo(self.model, 'change:missions', self.renderMissions);
         self.listenTo(self.model, 'change:time', _.throttle(self.renderInfo, 500));
+        self.listenTo(self.model, 'change:coords', _.throttle(self.renderInfo, 500));
+        self.listenTo(self.model, 'change:vels', _.throttle(self.renderInfo, 500));
+
         self.model.fetch();
+        self.renderInfo();
+        
+        
     },
 
     MISSION_COMPLETED: "mission-completed",
@@ -89,12 +105,22 @@ var AppView = Backbone.View.extend({
         }
 
         $("#missions").replaceWith($div);
+
+        $("#help-text").html(missions[current].text);
     },
 
     renderInfo: function() {
         $("#time").text(this.model.get('time'));
+        if (app.get('nplanets') > 0) {
+            var coords = app.coords();
+
+            var r = Math.sqrt((coords[X]-coords[NPHYS+X])*(coords[X]-coords[NPHYS+X]) +
+                              (coords[Y]-coords[NPHYS+Y])*(coords[Y]-coords[NPHYS+Y]) +
+                              (coords[Z]-coords[NPHYS+Z])*(coords[Z]-coords[NPHYS+Z]));
+            $("#distance").text((r * Units.RUNIT / (1e13)).toFixed(2));
+        }
     },
-    
+
     toggleState: function() {
         
     },
