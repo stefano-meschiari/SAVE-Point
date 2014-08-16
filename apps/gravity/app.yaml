@@ -3,11 +3,19 @@ description: A game of gravity
 title: Gravity
 requires:
   - jquery
+  - underscore
   - backbone
   - bootstrap
   - paper
-
+  - physics
+  
 missions:
+  - title: Sandbox
+    rule: .next
+    enabled: true;
+    text: >-
+      Try it out.
+    
   - title: Circular orbit
     rule: ecc < 0.02
     enabled: true
@@ -21,7 +29,7 @@ missions:
       Get an eccentric orbit.
 
   - title: Hyperbolic orbit
-    rule: ecc < -0.02
+    rule: ecc > 1
     enabled: true
     text: >-
       Get a hyperbolic orbit.

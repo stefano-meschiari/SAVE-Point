@@ -10,4 +10,15 @@ bootstrap:
   - share/bootstrap/dist/css/bootstrap.min.css
   - share/bootstrap/dist/css/bootstrap-theme.min.css
   - share/bootstrap/dist/js/bootstrap.min.js
-  
+
+backbone:
+  - share/backbone/backbone.js
+
+underscore:
+  - share/underscore/underscore.js
+
+physics:
+  - share/js/math.js
+  - share/js/units.js
+  - share/js/defines.js
+  - share/js/physics.js

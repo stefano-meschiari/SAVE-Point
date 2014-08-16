@@ -16,7 +16,6 @@ body {
 }
 #canvas-container {
   background-color: black;
-  background: url('../img/bg.png');
 }
 #sidebar {
   width: 70px;
@@ -179,7 +178,7 @@ body {
   opacity: 0;
   text-transform: uppercase;
   width: 0px;
-  font-size: 20px;
+  font-size: 0px;
   margin-left: -100px;
 }
 #sidebar.expanded .mission-label {
@@ -191,6 +190,7 @@ body {
   visibility: visible;
   opacity: 1;
   margin-left: 10px;
+  font-size: 20px;
   font-weight: 200;
 }
 .mission-active .mission-label {
@@ -198,14 +198,11 @@ body {
   opacity: 0;
   text-transform: uppercase;
   width: 0px;
-  font-size: 20px;
+  font-size: 0px;
   margin-left: -100px;
 }
 .mission-description {
   text-align: left;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
   visibility: hidden;
   font-size: 12px;
   height: 0px;
@@ -220,6 +217,7 @@ body {
   -moz-transition: all 0.5s ease-in;
   -o-transition: all 0.5s ease-in;
   transition: all 0.5s ease-in;
+  border-left: 4px solid #e74c3c;
 }
 /* Info-top styles */
 #info-top {

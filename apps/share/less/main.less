@@ -26,7 +26,6 @@ body {
 
 #canvas-container {
   background-color:black;
-  background:url('../img/bg.png');
 }
 
 @glass-color: rgba(255, 255, 255, 0.15);
@@ -163,7 +162,7 @@ body {
   opacity:0;
   text-transform:uppercase;
   width:0px;
-  font-size:20px;
+  font-size:0px;
   margin-left:-100px;
 }
 
@@ -173,6 +172,7 @@ body {
   visibility:visible;
   opacity:1;
   margin-left:10px;
+  font-size:20px;
   font-weight:200;
 }
 
@@ -182,7 +182,6 @@ body {
 
 .mission-description {
   text-align:left;
-  .rounded(4px);
   visibility:hidden;
   font-size:12px;
   height:0px;
@@ -195,7 +194,7 @@ body {
   height:auto;
   padding:5px;
   .transition(0.5s, ease-in);
-  
+  border-left:4px solid @mission-active-color;
 }
 
 /* Info-top styles */
