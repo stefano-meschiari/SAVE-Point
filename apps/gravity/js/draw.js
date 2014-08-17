@@ -8,8 +8,11 @@ ARROW_SIZE = 10;
 STAR_SIZE = 40;
 // Star halo size
 STAR_HALO_SIZE = 150;
+// Size of planets
+PLANET_SIZE = 10;
+
 // Number of stars
-STARS = 10;
+STARS = 0;
 
 var Draw = Backbone.View.extend({
     backgroundStars:[],
@@ -82,7 +85,7 @@ var Draw = Backbone.View.extend({
                 for (i = planets.length; i < nplanets; i++) {
                     var body = new Path.Circle({
                         center: view.center,
-                        radius:10
+                        radius:PLANET_SIZE
                     });
                     body.fillColor = {
                         gradient: {
@@ -100,10 +103,20 @@ var Draw = Backbone.View.extend({
                         c = [event.point.x - that.star.position.x, event.point.y - that.star.position.y, 0];
                         c[0] /= PIXELS_PER_AU;
                         c[1] /= PIXELS_PER_AU;
-                        app.setCoords(body.planetIndex, c);                        
+                        app.setCoords(body.planetIndex, c);
                     };
                     body.dragFunction = dragFunction;
                     body.on("mousedrag", body.dragFunction);
+                    body.on("mousedown", function() {
+                        var center = body.bounds.center;
+                        body.bounds.size = new Size(4*PLANET_SIZE, 4*PLANET_SIZE);
+                        body.bounds.center = center;
+                    });
+                    body.on("mouseup", function() {
+                        var center = body.bounds.center;                        
+                        body.bounds.size = new Size(2*PLANET_SIZE, 2*PLANET_SIZE);
+                        body.bounds.center = center;                        
+                    });
  
                 }
                 
@@ -124,10 +137,11 @@ var Draw = Backbone.View.extend({
             var dy = planet.position.y - star.position.y;
 
             var angle = Math.atan2(dy, dx);
-            planet.fillColor.origin = new Point(planet.position.x - 10*Math.cos(angle),
-                                                planet.position.y - 10*Math.sin(angle));
-            planet.fillColor.destination = new Point(planet.position.x + 10*Math.cos(angle),
-                                                     planet.position.y + 10*Math.sin(angle));
+            var w = planet.bounds.width;
+            planet.fillColor.origin = new Point(planet.position.x - w*Math.cos(angle),
+                                                planet.position.y - w*Math.sin(angle));
+            planet.fillColor.destination = new Point(planet.position.x + w*Math.cos(angle),
+                                                     planet.position.y + w*Math.sin(angle));
             
         }
     },
@@ -153,7 +167,7 @@ var Draw = Backbone.View.extend({
                 var body = this.planets[i];
                 var halo = new Path.Circle({
                     center: body.position,
-                    radius: 15
+                    radius: 1.5 * PLANET_SIZE
                 });
                 halo.fillColor = COLOR_OUTLINE;
                 halo.on("mousedrag", body.dragFunction);
@@ -223,6 +237,23 @@ var Draw = Backbone.View.extend({
             return true;
         });
     },
+
+    bobStar: function() {
+        var i = 0;
+        var fr = 20;
+        var star = this.star;
+        
+        this.animations.push(function() {
+            if (i == fr)
+                return false;
+
+            star.bounds.width = STAR_SIZE * (2 + 0.2 * Math.sin(Math.PI*i/fr));
+            star.bounds.height = STAR_SIZE * (2 + 0.2 * Math.sin(Math.PI*i/fr));
+            star.position = view.center;
+            i++;
+            return true;
+        });
+    },
     
     update: function() {
         this.animationsTick();
@@ -246,8 +277,11 @@ var Draw = Backbone.View.extend({
     },
 
     toggleState: function(event) {
-        if (app.get('state') == RUNNING)
+        if (app.get('state') == RUNNING) {
             this.destroyHandles();
+        }
+        this.bobStar();
+        
     },
     
     initialize: function() {
