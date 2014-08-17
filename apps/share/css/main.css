@@ -15,7 +15,7 @@ body {
   clear: both;
 }
 #canvas-container {
-  background-color: black;
+  background: url('../img/bg.jpg');
 }
 #sidebar {
   width: 70px;

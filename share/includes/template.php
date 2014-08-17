@@ -19,23 +19,41 @@ function write_js_requires($cfg) {
   echo $cfg['js-requires'];
 }
 
-/* Finish */
-function write_missions($cfg) {
-  /*
-  $i = 0;
-  foreach ($cfg['missions'] as $mission) {
-      echo '<div class="mission"><div class="mission-symbol"></div><div class="mission-label">' . $mission['title'] . '</div></div>';
-    $i++;
-  }*/
+function write_cfg_json($cfg) {  
+  echo '<script type="text/javascript">';  
+  echo "\nAPP_CFG = " . json_encode($cfg['app-cfg']) . ";\n";
+  echo "\n</script>\n";
+}
+
+// TODO: This function needs to sanitize its input.
+function write_mission_rules($cfg) {
+  $missions = $cfg["missions"];
+  $args = $cfg["args"];
+  
+  echo '<script type="text/javascript">';  
+  echo "\nRULES_FN = {};\n";
+
+  $idx = 0;
+  
+  foreach ($missions as $val) {
+    echo "RULES_FN[$idx] = function() {\n";
+    foreach ($args as $arg)
+      echo "var $arg = app.get('$arg');\n";
+    echo "return (" . $val['rule'] . ");";
+    echo "\n};\n";
+    echo "APP_CFG.missions[$idx].rule = $idx;\n";
+    $idx++;
+  }
+
+  echo "\n</script>\n";
 }
 
 // Loads the package configuration, and the required libraries.
 function init() {
   $cfg = spyc_load_file("./app.yaml");
   $libs = spyc_load_file(ROOT . "apps/share/libraries.yaml");
-  $cfg['aliases'] = spyc_load_file(ROOT . "apps/share/aliases.yaml");
 
-  
+  $cfg['app-cfg'] = $cfg;
   $cfg['css-requires'] = array();
   $cfg['js-requires'] = array();
   

@@ -1,5 +1,9 @@
 "use strict";
 
+function clone(obj) {
+    return JSON.parse(JSON.stringify(obj));
+}
+
 var AppState = Backbone.Model.extend({
     defaults: {
         currentMission: 0,
@@ -24,9 +28,10 @@ var AppState = Backbone.Model.extend({
         if (this.get('nplanets') == this.get('maxPlanets'))
             return;
         this.ctx.x.push(coords[0], coords[1], 0);
-        this.ctx.v.push(0.5, 0, 0);
+        this.ctx.v.push(Math.sqrt(K2), 0, 0);
         this.ctx.M.push(0);
         this.set('nplanets', this.get('nplanets')+1);
+
     },
 
     coords: function() {
@@ -54,14 +59,15 @@ var AppState = Backbone.Model.extend({
     tick: function() {
         var t = this.get('time');
         var deltat = this.get('deltat');
-        this.ctx.t = t;
+        this.ctx.t = t;        
         Physics.leapfrog(t+deltat, this.ctx);
-        
         this.set('time', t+deltat);
+        this.trigger("change:coords");
+        this.trigger("change:vels");
     },
 
     initialize: function() {
-        this.ctx = {M:[1], x:[0, 0, 0], v:[0, 0, 0]};
+        this.ctx = {M:[1], x:[0, 0, 0], v:[0, 0, 0], dt: 0.25};
     }
 });
 
@@ -71,7 +77,8 @@ var AppView = Backbone.View.extend({
     el: $("#app"),
     
     events: {
-        "click #menu": function(e) { $("#sidebar").toggleClass("expanded"); }
+        "click #menu": function() { $("#sidebar").toggleClass("expanded"); },
+        "click #help": function() { $("#help-bottom").toggleClass("expanded"); }
     },
 
     initialize: function() {
@@ -79,14 +86,11 @@ var AppView = Backbone.View.extend({
         self.listenTo(self.model, 'change:state', self.toggleState);
         self.listenTo(self.model, 'change:currentMission', self.renderMissions);
         self.listenTo(self.model, 'change:missions', self.renderMissions);
-        self.listenTo(self.model, 'change:time', _.throttle(self.renderInfo, 500));
-        self.listenTo(self.model, 'change:coords', _.throttle(self.renderInfo, 500));
-        self.listenTo(self.model, 'change:vels', _.throttle(self.renderInfo, 500));
-
-        self.model.fetch();
+        self.listenTo(self.model, 'change:nplanets change:time change:coords change:vels', _.throttle(self.renderInfo, 500));
+        self.model.set(APP_CFG);
         self.renderInfo();
-        
-        
+
+        self.validateTimer = setInterval(_.bind(self.validate, self), 1000);
     },
 
     MISSION_COMPLETED: "mission-completed",
@@ -110,14 +114,21 @@ var AppView = Backbone.View.extend({
     },
 
     renderInfo: function() {
-        $("#time").text(this.model.get('time'));
+        $("#time").text(this.model.get('time') + " days");
         if (app.get('nplanets') > 0) {
             var coords = app.coords();
-
+            var vels = app.vels();
+            
             var r = Math.sqrt((coords[X]-coords[NPHYS+X])*(coords[X]-coords[NPHYS+X]) +
                               (coords[Y]-coords[NPHYS+Y])*(coords[Y]-coords[NPHYS+Y]) +
                               (coords[Z]-coords[NPHYS+Z])*(coords[Z]-coords[NPHYS+Z]));
-            $("#distance").text((r * Units.RUNIT / (1e13)).toFixed(2));
+
+            var v = Math.sqrt((vels[X]-vels[NPHYS+X])*(vels[X]-vels[NPHYS+X]) +
+                              (vels[Y]-vels[NPHYS+Y])*(vels[Y]-vels[NPHYS+Y]) +
+                              (vels[Z]-vels[NPHYS+Z])*(vels[Z]-vels[NPHYS+Z]));
+            
+            $("#distance").html((r * Units.RUNIT / (1e13)).toFixed(2) + " x 10<sup>8</sup> km");
+            $("#speed").text((v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(2) + " km/s");
         }
     },
 
@@ -131,6 +142,13 @@ var AppView = Backbone.View.extend({
         } else {
             app.addPlanet(e.coords);
         }
+    },
+
+    validate: function() {
+        if (app.get('state') != RUNNING)
+            return;
+
+        var f = RULES_FN[app.get('currentMission')];
     }
 });
 

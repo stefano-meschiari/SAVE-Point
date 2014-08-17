@@ -5,6 +5,7 @@ css:
 
 yaml:
 	./node_modules/.bin/yaml2json apps/gravity/app.yaml >apps/gravity/app.json
+	./bin
 
 colors:
 	sed -n -e 's/@//' -e 's/:/ =/' -e 's/[#]/"#/' -e 's/;/";/p' apps/share/less/colors.less >apps/share/js/colors.js

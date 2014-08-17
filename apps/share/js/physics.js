@@ -48,40 +48,47 @@ Physics.leapfrog = function(tnew, ctx) {
     var v1 = ctx.v1;
     var M = ctx.M;
     var h = Units.RSUN;
+
+    var N = x.length;
     
+
     var i, j;
     var step = 0;
     while (Math.abs(t - tnew) > 0) {
         var dt = Math.min(Math.abs(tnew-t), ctx.dt);
-        
-        
+
         t+=dt;
-        for (i = 0; i < x.length; i+=NPHYS) {
+        for (i = 0; i < N; i+=NPHYS) {
             x1[i+X] = x[i+X] + 0.5 * v[i+X] * dt;
             x1[i+Y] = x[i+Y] + 0.5 * v[i+Y] * dt;
             x1[i+Z] = x[i+Z] + 0.5 * v[i+Z] * dt;
             f[i+X] = f[i+Y] = f[i+Z] = 0;
         }
 
-        for (i = 0; i < x.length; i+= NPHYS)
+        for (i = 0; i < N; i+= NPHYS)
             for (j = 0; j < i; j+= NPHYS) {
+                var ii = i/NPHYS;
+                var jj = j/NPHYS;
+                
                 var d = Math.sqrt((x1[i+X]-x1[j+X])*(x1[i+X]-x1[j+X]) + 
-                                  (x1[i+X]-x1[j+X])*(x1[i+X]-x1[j+X]) +
-                                  (x1[i+X]-x1[j+X])*(x1[i+X]-x1[j+X]));
+                                  (x1[i+Y]-x1[j+Y])*(x1[i+Y]-x1[j+Y]) +
+                                  (x1[i+Z]-x1[j+Z])*(x1[i+Z]-x1[j+Z]));
                 var d3 = d*d*d;
                 var fx = -K2 * (x1[i+X] - x1[j+X])/d3;
                 var fy = -K2 * (x1[i+Y] - x1[j+Y])/d3;
                 var fz = -K2 * (x1[i+Z] - x1[j+Z])/d3;
 
-                f[i+X] += fx * M[j];
-                f[j+X] -= fx * M[i];
-                f[i+Y] += fy * M[j];
-                f[j+Y] -= fy * M[i];
-                f[i+Z] += fz * M[j];
-                f[j+Z] -= fz * M[i];
+                f[i+X] += fx * M[jj];
+                f[j+X] -= fx * M[ii];
+                
+                f[i+Y] += fy * M[jj];
+                f[j+Y] -= fy * M[ii];
+                
+                f[i+Z] += fz * M[jj];
+                f[j+Z] -= fz * M[ii];
             }
         
-        for (i = 0; i < x.length; i+= NPHYS) {
+        for (i = 0; i < N; i+= NPHYS) {
             x[i+X] += 0.5 * (2*v[i+X] + f[i+X] * dt) * dt;
             x[i+Y] += 0.5 * (2*v[i+Y] + f[i+Y] * dt) * dt;
             x[i+Z] += 0.5 * (2*v[i+Z] + f[i+Z] * dt) * dt;

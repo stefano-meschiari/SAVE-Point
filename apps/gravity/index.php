@@ -3,6 +3,8 @@ require('../../share/startup.php');
 
 $cfg = init();
 write_header($cfg);
+write_cfg_json($cfg);
+write_mission_rules($cfg);
 ?>
 
 <?php write_js_requires($cfg); ?>
@@ -66,8 +68,7 @@ write_header($cfg);
     <div id="info-help">
     </div>
   </div>
-</div>
-
+  
 <div id="help-bottom" class="expanded">
   <div id="help-text">
   </div>
@@ -75,6 +76,8 @@ write_header($cfg);
 
 <div class="btn-jrs-ico fa fa-question-circle" id="help"></div>
 </div>
+</div>
+
 <script type="text/paperscript" canvas="canvas" src="./js/draw.js"></script>
 <script type="text/javascript" src="./js/ui.js"></script>
 

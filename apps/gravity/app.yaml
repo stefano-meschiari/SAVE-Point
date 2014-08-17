@@ -9,13 +9,15 @@ requires:
   - paper
   - physics  
 
-      
+args:
+  - nplanets
+  - ecc
   
 missions:
   - title: Sandbox
-    rule: nplanets >= 0 && ecc[0] < 1
+    rule: nplanets >= 0
     enabled: true
-    text: >-
+    text: >
       Your first mission: just add one planet and make it orbit around the star!
       <div class="separator"></div>
       <span class="icon-tap"></span> Tap anywhere to add a planet, then <span class="icon-drag"></span>
@@ -25,17 +27,17 @@ missions:
   - title: Circular orbit
     rule: ecc[0] < 0.02
     enabled: true
-    text: >-
+    text: >
       Get a circular orbit.
 
   - title: Eccentric orbit
     rule: ecc[0] > 0.02
     enabled: true
-    text: >-
+    text: >
       Get an eccentric orbit.
 
   - title: Hyperbolic orbit
     rule: ecc[0] > 1
     enabled: true
-    text: >-
+    text: >
       Get a hyperbolic orbit.
