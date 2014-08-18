@@ -35,9 +35,9 @@ Physics.leapfrog = function(tnew, ctx) {
     ctx.v = ctx.v || [0, 0, 0];
     
     ctx.t = ctx.t || 0.;
-    ctx.f = ctx.f || _m.zeros(ctx.x.length);
-    ctx.x1 = ctx.x1 || _m.zeros(ctx.x.length);
-    ctx.v1 = ctx.v1 || _m.zeros(ctx.x.length);
+    ctx.f = (ctx.f && ctx.f.length == ctx.x.length ? ctx.f  : _m.zeros(ctx.x.length));
+    ctx.x1 = (ctx.x1 && ctx.x1.length == ctx.x.length ? ctx.x1  : _m.zeros(ctx.x.length));
+    ctx.v1 = (ctx.v1 && ctx.v1.length == ctx.x.length ? ctx.v1  : _m.zeros(ctx.x.length));
     ctx.dt = ctx.dt || 1e-1;
     
     var t = ctx.t;
