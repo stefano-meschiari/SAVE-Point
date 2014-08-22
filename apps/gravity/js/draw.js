@@ -14,34 +14,87 @@ STAR_HALO_SIZE = 150;
 PLANET_SIZE = 10;
 PLANET_HALO_SIZE = 1.5*PLANET_SIZE;
 // Segment length
-SEGMENTS_LENGTH = 200;
+SEGMENTS_LENGTH = 100;
 
 // Number of stars
-STARS = 0;
+STARS = 30;
+
+var easing = function(x) {
+    return Math.pow(x, 5)/5-Math.pow(x, 4)/2+Math.pow(x, 3)/3;
+};
 
 var Draw = Backbone.View.extend({
     backgroundStars:[],
-
+    nonInteractive:false,
+    
     createBackgroundStars: function() {
-        var c = 'rgba(255, 255, 255, 0.8)';
-        var path = new Path.Circle(new Point(x, y), 3);
-        path.fillColor = {
-                gradient: {
-                    stops:[c, 'black'],
-                    radial:true
-                },
-                origin: path.position,
-                destination: path.bounds.rightCenter
-        };
+        var path = new Path.Circle(new Point(x, y), 2);
+        path.fillColor = 'rgba(255, 255, 255, 0.5)';
 
         var symbol = new Symbol(path);
-        
-        for (var i = 0; i < STARS; i++) {
-            var x = view.bounds.width*Math.random();
+
+        for (var i = 0; i < 2*STARS; i++) {
+            var x = 2*view.bounds.width*Math.random();
             var y = view.bounds.height*Math.random();
-            symbol.place(new Point(x, y));
+            var z = Math.random();
+            var s = symbol.place(new Point(x, y));
+            s.z = z;
+            this.backgroundStars.push(s);
         }
-        
+    },
+
+    animateTravel: function() {
+        var self = this;
+        this.nonInteractive = true;
+        app.set('state', PAUSED);
+
+        var frame = 0;
+        var frames = 300;
+        var dx = 2*view.bounds.width / frames;
+        var scale = Math.pow(0.1, 4./(frames));
+        var scaleStar = true;
+
+               
+        this.animations.push(function() {
+            if (frame == frames) {
+                self.nonInteractive = false;
+                self.star.center = view.center;
+                _.delay(_.bind(self.animateStar, self), 1000);
+                return false;
+            }
+            if (frame == (0.75*frames)|0) {
+                self.star.bounds.width = 5;
+                self.star.bounds.height = 5;
+                scaleStar = false;
+                self.star.position.x = view.bounds.width;
+                self.star.position.y = view.center.y;
+            }
+
+            
+            
+            self.destroyHandles();
+            self.star.position.x -= dx;
+            self.star.halo.position.x -= dx;
+            if (scaleStar) {
+                self.star.scale(scale);
+                self.star.halo.scale(scale);
+            }
+            
+            var i;
+            for (i = 0; i < self.planets.length; i++) {
+                self.planets[i].position.x -= dx;
+                self.planets[i].scale(scale);
+            }
+            for (i = 0; i < self.backgroundStars.length; i++) { 
+                self.backgroundStars[i].position.x -= dx * self.backgroundStars[i].z * self.backgroundStars[i].z;
+                if (self.backgroundStars[i].position.x < 0)
+                    self.backgroundStars[i].position = 2.*view.bounds.width;
+            }
+            
+            
+            frame++;
+            return true;
+        });
     },
     
     createArrow: function(from, to) {
@@ -77,6 +130,9 @@ var Draw = Backbone.View.extend({
     },
     
     planetsUpdate: function() {
+        if (this.nonInteractive)
+            return;
+        
         var self = this;
         
         var position = app.get('position');
@@ -174,6 +230,9 @@ var Draw = Backbone.View.extend({
     },
 
     handlesUpdate: function() {
+        if (this.nonInteractive)
+            return;
+        
         if (app.get('state') == RUNNING) {
             if (this.handles.length != 0)
                 this.destroyHandles();
@@ -248,6 +307,13 @@ var Draw = Backbone.View.extend({
         handles.length = 0;
     },
 
+    destroyPlanets: function() {
+        var planets = this.planets;
+        for (var i = 0; i < planets.length; i++)
+            planets[i].remove();
+        planets.length = 0;
+    },
+
     animationsTick: function() {
         for (var i = this.animations.length-1; i >= 0; i--) {
             if (!this.animations[i]())
@@ -256,7 +322,7 @@ var Draw = Backbone.View.extend({
     },
 
     animateStar: function() {
-        var start = 0;
+        var start = 5;
         var N = 100;
         var dx = (2*STAR_SIZE-start)/N;
         var i = 1;
@@ -264,10 +330,10 @@ var Draw = Backbone.View.extend({
         this.animations.push(function() {
             if (i == N)
                 return false;
-            star.bounds.width = i*dx;
-            star.bounds.height = i*dx;
-            star.halo.bounds.width = i*dx * STAR_HALO_SIZE/STAR_SIZE;
-            star.halo.bounds.height = i*dx * STAR_HALO_SIZE/STAR_SIZE;
+            star.bounds.width = i*dx + start;
+            star.bounds.height = i*dx + start;
+            star.halo.bounds.width = (i*dx+start) * STAR_HALO_SIZE/STAR_SIZE;
+            star.halo.bounds.height = (i*dx+start) * STAR_HALO_SIZE/STAR_SIZE;
             
             star.position = view.center;
             i++;
@@ -294,11 +360,18 @@ var Draw = Backbone.View.extend({
     
     update: function() {
         this.animationsTick();
+
+        if (this.nonInteractive)
+            return;
+        
         var position = app.get('position');
         this.starUpdate(position);
     },
 
     resize: function() {
+        if (this.nonInteractive)
+            return;
+        
         this.update();
         for (var i = 0; i < this.planets.length; i++) {
             this.planets[i].trail.removeSegments();
@@ -312,6 +385,9 @@ var Draw = Backbone.View.extend({
     // Mouse-down event on canvas. Forward message to appView.
     // Astrocentric coordinates are stored in events.position.
     onMouseDown: function(event) {
+        if (this.nonInteractive)
+            return;
+        
         var p = project.hitTest(event.point);
         if (p != null && p.item == this.star) {
             app.toggleState();

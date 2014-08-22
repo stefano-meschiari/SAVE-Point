@@ -17,8 +17,9 @@ open-source libraries that are used by the code.
 - *share/* contains the PHP backend.
     - *share/skeleton* contains templates for the "header" part of the
     HTML page (e.g. doctype, head, etc.) and "footer" (closing tags).
-- *apps/* is where the apps are housed, and represents the document root of the website.
--
+- *apps/* is where the apps are housed, and represents the document
+root of the website.
+
 
 ## HTML5/JavaScript apps # Requirements
 - Backbone.js

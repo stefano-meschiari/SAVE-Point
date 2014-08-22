@@ -46,7 +46,7 @@ write_mission_rules($cfg);
   </div>
 
   <div id="canvas-container">
-    <canvas id="canvas" resize></canvas>
+    <canvas id="canvas" resize keepalive="true"></canvas>
   </div>
   <div id="info-top">
     <div id="info-table-container">
