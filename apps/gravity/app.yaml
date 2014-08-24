@@ -70,7 +70,8 @@ missions:
             
       - on: change:nplanets
         message: >-
-          The eccentricity of the planet is @eccentricity.
+          The eccentricity of the planet is @eccentricity. This is where it ends! The rest is
+          not done yet :(
             
   - title: Eccentric orbit
     rule: ecc[0] > 0.02
