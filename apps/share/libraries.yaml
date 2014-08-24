@@ -22,3 +22,6 @@ physics:
   - share/js/units.js
   - share/js/defines.js
   - share/js/physics.js
+
+underscore.string:
+  - share/underscore.string/dist/underscore.string.min.js

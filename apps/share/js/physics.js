@@ -3,6 +3,9 @@
 var Physics = {};
 var K2 = Units.K2;
 
+Math.sign = Math.sign || function(x) {
+    return (x > 0 ? 1 : (x < 0 ? -1 : 0));
+};
 
 Physics.keplerEquation = function(M, e, options) {
     var tol = (options && options.tol) || 1e-3;
@@ -104,9 +107,32 @@ Physics.leapfrog = function(tnew, ctx) {
     ctx.t = t;
 };
 
+/*
+ * This should be refactored
+ */
+Physics.x2ecc = function(s, M, x, y, z, u, v, w) {
+    var GMm = K2 * (s.Mstar + M);
+    var R = Math.sqrt(x*x + y*y + z*z);
+    var V = Math.sqrt(u*u + v*v + w*w);
+    var Rs = Math.sign(x*u + y*v + z*w);
+    
+    var Rd = Rs * Math.sqrt(V*V - h*h/(R*R));
+    
+    var h_Z = x*v - y*u;
+    var h_X = y*w - z*v;
+    var h_Y = z*u - x*w;
+    var h = Math.sqrt(h_X*h_X + h_Y*h_Y + h_Z*h_Z);
+    var hs = Math.sign(h_Z);
+
+    
+    var a = 1./(2./R - V*V/GMm);
+    var e = Math.sqrt(1 - (h*h)/(GMm*a));
+
+    return {a:a, e:e};
+};
+
 Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
     els = els || {};
-    var GMm = K2 * (s.Mstar + M);
     
     var R = Math.sqrt(x*x + y*y + z*z);
     var V = Math.sqrt(u*u + v*v + w*w);

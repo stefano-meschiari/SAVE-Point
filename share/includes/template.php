@@ -38,7 +38,7 @@ function write_mission_rules($cfg) {
   foreach ($missions as $val) {
     echo "RULES_FN[$idx] = function() {\n";
     foreach ($args as $arg)
-      echo "var $arg = app.get('$arg');\n";
+      echo "var $arg = app.get('$arg'); if ($arg === undefined) $arg = app.$arg(); \n";
     echo "return (" . $val['rule'] . ");";
     echo "\n};\n";
     echo "APP_CFG.missions[$idx].rule = $idx;\n";

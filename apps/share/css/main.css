@@ -35,28 +35,48 @@ body {
 }
 #sidebar.expanded {
   width: 200px;
-  background-color: rgba(180, 180, 180, 0.25);
+  background-color: rgba(180, 180, 180, 0.3);
   -webkit-transition: all 0.5s ease-in;
   -moz-transition: all 0.5s ease-in;
   -o-transition: all 0.5s ease-in;
   transition: all 0.5s ease-in;
 }
+.throb-shadow from {
+  box-shadow: 0px 0px 0px silver;
+}
+.throb-shadow to {
+  box-shadow: 0px 0px 20px silver;
+}
+@-webkit-keyframes throbshadow {
+  from {
+    box-shadow: 0px 0px 0px silver;
+  }
+  to {
+    box-shadow: 0px 0px 20px silver;
+  }
+}
+@keyframes throbshadow {
+  from {
+    box-shadow: 0px 0px 0px silver;
+  }
+  to {
+    box-shadow: 0px 0px 20px silver;
+  }
+}
 .btn-jrs {
   border: 0px;
   color: black;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
   text-transform: uppercase;
   font-weight: 500;
-  -webkit-box-shadow: 1 1px 4px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 1 1px 4px rgba(0, 0, 0, 0.5);
-  box-shadow: 1 1px 4px rgba(0, 0, 0, 0.5);
   background: white;
+  border-radius: 0px;
 }
 .btn-jrs:hover {
   background-color: #ecf0f1;
+  -webkit-animation: throbshadow 1s infinite;
+  -webkit-animation-direction: alternate;
+  animation: throbshadow 1s infinite;
+  animation-direction: alternate;
 }
 .btn-jrs-ico {
   font-size: 30px;
@@ -69,22 +89,43 @@ body {
 .btn-jrs-ico:hover {
   background-color: white;
   color: black;
+  -webkit-animation: throbshadow 1s infinite;
+  -webkit-animation-direction: alternate;
+  animation: throbshadow 1s infinite;
+  animation-direction: alternate;
 }
 .sidebar-section {
   opacity: 0;
   font-weight: 200;
   margin-top: 20px;
   margin-bottom: 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0);
 }
 #sidebar.expanded .sidebar-section {
   opacity: 1;
-  border-bottom: 1px solid white;
+  margin-right: 0px;
   color: white;
   -webkit-transition: all 0.5s ease-in;
   -moz-transition: all 0.5s ease-in;
   -o-transition: all 0.5s ease-in;
   transition: all 0.5s ease-in;
+}
+#sidebar .sidebar-expandable {
+  opacity: 0;
+  margin-left: -200px;
+  -webkit-transition: all 0.5s ease-in;
+  -moz-transition: all 0.5s ease-in;
+  -o-transition: all 0.5s ease-in;
+  transition: all 0.5s ease-in;
+  right: 0px;
+}
+#sidebar.expanded .sidebar-expandable {
+  opacity: 1;
+  margin-left: 0px;
+  -webkit-transition: all 0.5s ease-in;
+  -moz-transition: all 0.5s ease-in;
+  -o-transition: all 0.5s ease-in;
+  transition: all 0.5s ease-in;
+  width: auto;
 }
 #missions {
   text-align: center;
@@ -221,15 +262,15 @@ body {
 }
 /* Info-top styles */
 #info-top {
-  width: 200px;
   position: absolute;
+  min-width: 200px;
   right: 0px;
   top: 0px;
   font-size: 18px;
   font-weight: 200;
 }
 #info-table-container {
-  background: rgba(180, 180, 180, 0.25);
+  background: rgba(180, 180, 180, 0.3);
   padding: 10px;
   font-size: 18px;
   font-weight: 200;
@@ -245,64 +286,65 @@ td.td-label {
   border-bottom: 1px solid white;
   cellmargin-left: 5px;
   text-transform: uppercase;
+  padding-right: 10px;
 }
 td.td-val {
   border-bottom: 1px solid white;
   text-align: right;
+  font-weight: bold;
 }
 #help {
   position: fixed;
   bottom: 5px;
   right: 5px;
 }
-#help-bottom {
-  background: none;
-  width: 60%;
-  left: 20%;
+#help-text {
+  width: 40%;
+  left: 30%;
   position: absolute;
-  bottom: 0px;
-  padding: 10px;
-  font-size: 18px;
+  bottom: 30px;
+  opacity: 0;
+  font-size: 20px;
   font-weight: 200;
-  color: black;
-  visibility: hidden;
+  display: block;
+  text-shadow: 0px 0px 2px black;
+  border-radius: 20px;
+  padding: 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: rgba(180, 180, 180, 0.3);
+  text-align: left;
+  color: white;
+}
+#help-text.animated {
   -webkit-transition: all 0.5s ease-in;
   -moz-transition: all 0.5s ease-in;
   -o-transition: all 0.5s ease-in;
   transition: all 0.5s ease-in;
-  opacity: 0;
-  text-align: center;
 }
-#help-bottom.expanded {
+#help-text.expanded {
   opacity: 1;
   visibility: visible;
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
 }
-#help-bottom .btn-help {
+#help-text.right {
+  left: -80%;
   opacity: 0;
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
 }
-#help-bottom.expanded .btn-help {
-  opacity: 1;
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
+#help-text.left {
+  left: 80%;
+  opacity: 0;
 }
-#help-text {
-  border-radius: 20px;
-  padding: 8px;
-  padding-left: 14px;
-  padding-right: 14px;
-  background-color: rgba(180, 180, 180, 0.25);
-  display: inline-block;
-  color: white;
+#help-text h1 {
+  line-height: 1;
+  margin: 0 0;
+}
+#help-nav {
+  display: table-cell;
+  padding-left: 30px;
+}
+.help-toolbar {
+  text-align: right;
+  padding-top: 5px;
 }
 .icon-tap {
   display: inline-block;
@@ -321,6 +363,24 @@ td.td-val {
 }
 .icon-tap:before {
   content: "\f0a6";
+}
+.icon-menu {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-menu.pull-left {
+  margin-right: .3em;
+}
+.icon-menu.pull-right {
+  margin-left: .3em;
+}
+.icon-menu:before {
+  content: "\f0c9";
 }
 .icon-drag {
   display: inline-block;
@@ -378,8 +438,27 @@ td.td-val {
   content: "\f10c";
   background: radial-gradient(ellipse at center, #ffff88 0%, rgba(255, 255, 136, 0) 90%);
 }
+.icon-win {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-win.pull-left {
+  margin-right: .3em;
+}
+.icon-win.pull-right {
+  margin-left: .3em;
+}
+.icon-win:before {
+  content: "\f091";
+}
 .separator {
   height: 1px;
-  background: linear-gradient(to right, rgba(186, 186, 186, 0) 0%, #bababa 20%, #bababa 50%, #bababa 80%, rgba(186, 186, 186, 0) 100%);
-  margin: 5px;
+  background: linear-gradient(to right, #bababa 0%, #bababa 40%, rgba(186, 186, 186, 0) 80%);
+  margin-top: 5px;
+  margin-bottom: 5px;
 }

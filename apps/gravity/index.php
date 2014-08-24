@@ -12,8 +12,7 @@ write_mission_rules($cfg);
 <div id="app">
   <div id="sidebar">
     <div id="menu" class="btn-jrs-ico fa fa-bars"></div>
-    <div class="sidebar-section">Missions</div>
-    
+    <div class="sidebar-section">Missions<div class="separator"></div></div>
     <div id="missions">
       <div class="mission-completed">
         <div class="mission-symbol"></div>
@@ -42,7 +41,10 @@ write_mission_rules($cfg);
         <div class="clear"></div>        
       </div>
     </div>
-    
+    <div class="sidebar-section">Tools<div class="separator"></div></div>
+    <div class="sidebar-expandable">
+      <button class="btn btn-lg btn-jrs " onClick="app.reset()">Restart mission</button>
+    </div>
   </div>
 
   <div id="canvas-container">
@@ -69,16 +71,17 @@ write_mission_rules($cfg);
     </div>
   </div>
   
-<div id="help-bottom" class="expanded">
-  <div id="help-text">
+
+  <div id="help-text" class="expanded animated">
+    <div id="help-body">
+    </div>
   </div>
+
+  <div class="btn-jrs-ico fa fa-question-circle" id="help"></div>
 </div>
 
-<div class="btn-jrs-ico fa fa-question-circle" id="help"></div>
-</div>
-</div>
-
+<script type="text/javascript" src="../share/js/init.js"></script>
+<script type="text/javascript" src="./js/app.js"></script>
 <script type="text/paperscript" canvas="canvas" src="./js/draw.js"></script>
-<script type="text/javascript" src="./js/ui.js"></script>
 
 <?php write_footer($cfg); ?>

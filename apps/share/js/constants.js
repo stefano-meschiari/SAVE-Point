@@ -14,5 +14,14 @@ var COLOR_SUN_HALO_OUTER = 'rgba(200,200,0,0.)';
 
 var PLANET_COLORS = [base0c, base08, base0b, base0d];
 var COLOR_OUTLINE = 'rgba(255, 255, 255, 1)';
+var COLOR_MESSAGE = base0a;
+
+// Paper.js font styles
+
+var FONT_MESSAGE = {
+    fontFamily: "Dosis",
+    fontSize: "40px",
+    fontWeight: 'bold'
+};
 
 // Templates
