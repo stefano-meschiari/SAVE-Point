@@ -517,7 +517,7 @@ var Draw = Backbone.View.extend({
         });
 
         this.listenTo(this.model, "change:currentMission", this.animateTravel);
-        this.listenTo(this.model, "change:elements", this.trailsUpdate);
+        this.listenTo(this.model, "change:state change:elements", this.trailsUpdate);
     }
 });
 

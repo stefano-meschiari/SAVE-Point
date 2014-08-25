@@ -202,7 +202,7 @@ var AppState = Backbone.Model.extend({
             state: defaults.state,
             currentHelp: defaults.currentHelp
         });
-        this._elements = [];
+        this._elements = null;
         this.trigger('reset');
     },
 
