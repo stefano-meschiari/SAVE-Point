@@ -224,10 +224,6 @@ var Draw = Backbone.View.extend({
                         body.dragging = false;
                     });
 
-                    body.trail = new Path();
-                    body.trail.insertBelow(body);
-                    body.trail.strokeColor = PLANET_COLORS[i];
-                    body.trailCounter = 0;
                 }
                 
             } else {
@@ -253,20 +249,6 @@ var Draw = Backbone.View.extend({
                                                 planet.position.y - w*Math.sin(angle));
             planet.fillColor.destination = new Point(planet.position.x + w*Math.cos(angle),
                                                      planet.position.y + w*Math.sin(angle));
-
-            if (app.get('state') == RUNNING) {
-                planet.trailCounter++;
-
-                if (planet.trailCounter % 5 == 0)
-                    planet.trail.add(planet.position);
-                
-                if (planet.trail.segments.length > SEGMENTS_LENGTH) {
-                    planet.trail.removeSegment(0);                
-                }
-            } else {
-                if (planet.trail.segments.length > 0)
-                    planet.trail.removeSegments();
-            }
         }
     },
 
@@ -350,11 +332,39 @@ var Draw = Backbone.View.extend({
         handles.length = 0;
     },
 
-    destroyTrails: function() {
-        for (var i = 0; i < this.planets.length; i++) {
-            this.planets[i].trail.removeSegments();
-        }
+    trailsUpdate: function() {
+        this.destroyTrails();
+        var els = this.model.elements();
+        var np = this.model.get('nplanets');
+        
+        for (var i = 0; i < np; i++) {
+            var a = els.sma[i];
+            var e = els.eccentricity[i];
+            var lop = els.longPeri[i];
 
+            var p = (e < 1 ? 1 : -1) * a * (1-e*e);
+            var path = new Path();
+            
+            for (var t = 0; t <= 2*Math.PI; t += 2*Math.PI/40) {
+                var r = p/(1+e*Math.cos(t - lop));
+
+                path.addSegment(new Point(r * Math.cos(t) * PIXELS_PER_AU + view.center.x, r * Math.sin(t) * PIXELS_PER_AU + view.center.y));
+            }
+
+            if (e < 1) {
+                path.smooth();
+                path.closed = true;
+            }
+            path.strokeColor = ORBIT_COLORS[i];
+            path.sendToBack();
+            this.trails[i] = path;
+        }
+    },
+    
+    destroyTrails: function() {
+        for (var i = 0; i < this.trails.length; i++) 
+            this.trails[i].remove();
+        this.trails = [];
     },
     
     destroyPlanets: function() {
@@ -494,8 +504,10 @@ var Draw = Backbone.View.extend({
         this.star = star;
         this.planets = [];
         this.handles = [];
+        this.trails = [];
+        
         this.animations = [];
-
+        
         this.animateStar();
 
         this.listenTo(this.model, "change:state", this.toggleState);
@@ -504,7 +516,8 @@ var Draw = Backbone.View.extend({
             self.handlesUpdate();
         });
 
-        this.listenTo(this.model, "change:currentMission", this.animateTravel);        
+        this.listenTo(this.model, "change:currentMission", this.animateTravel);
+        this.listenTo(this.model, "change:elements", this.trailsUpdate);
     }
 });
 

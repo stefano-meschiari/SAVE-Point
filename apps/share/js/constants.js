@@ -1,5 +1,6 @@
 "use strict";
 
+
 // UI constants
 var RUNNING = 0;
 var PAUSED = 1;
@@ -13,6 +14,8 @@ var COLOR_SUN_HALO_INNER = 'rgba(200,200,0,0.3)';
 var COLOR_SUN_HALO_OUTER = 'rgba(200,200,0,0.)';
 
 var PLANET_COLORS = [base0c, base08, base0b, base0d];
+var ORBIT_COLORS = ['rgba(26, 188, 156, 0.5)'];
+
 var COLOR_OUTLINE = 'rgba(255, 255, 255, 1)';
 var COLOR_MESSAGE = base0a;
 

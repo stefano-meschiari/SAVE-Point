@@ -128,7 +128,11 @@ var AppState = Backbone.Model.extend({
         this.trigger("change:velocity");
     },
     
-    elements: function() {
+    elements: function(update) {
+        if (this._elements && !update) {
+            return this._elements;
+        }
+        
         var x = this.get('position');
         var v = this.get('velocity');
         var M = this.get('masses');
@@ -137,11 +141,16 @@ var AppState = Backbone.Model.extend({
         this.Mstar = M[0];
         this.twoD = true;
 
-        var ecc = this.eccentricity || [];
-        var a = this.sma || [];
+        var els = this._elements || {};
+        var eccentricity = els.eccentricity || [];
+        var sma = els.sma || [];
+        var longPeri = els.longPeri || [];
         
-        ecc.length = np;
-
+        var els_i = {};
+        eccentricity.length = np;
+        sma.length = np;
+        longPeri.length = np;
+        
         for (var i = 1; i <= np; i++) {
             var dx = x[i*NPHYS+X]-x[X];
             var dy = x[i*NPHYS+Y]-x[Y];
@@ -149,15 +158,19 @@ var AppState = Backbone.Model.extend({
             var du = v[i*NPHYS+X]-v[X];
             var dv = v[i*NPHYS+Y]-v[Y];
             var dw = v[i*NPHYS+Z]-v[Z];
-            var els = Physics.x2ecc(this, M[i], dx, dy, dz, du, dv, dw);
-            ecc[i-1] = els.e;
-            a[i-1] = els.a;
+
+            els_i = Physics.x2el(this, 0, M[i], dx, dy, dz, du, dv, dw, els_i);
+            eccentricity[i-1] = els_i.e;
+            sma[i-1] = els_i.a;
+            longPeri[i-1] = els_i.lop;
         }
 
-        this.eccentricity = ecc;
-        this.sma = a;
-
-        return { sma: a, eccentricity: ecc};
+        els.sma = sma;
+        els.eccentricity = eccentricity;
+        els.longPeri = longPeri;
+        this._elements = els;
+        this.trigger('change:elements');
+        return els;
     },
 
     /*
@@ -199,6 +212,7 @@ var AppState = Backbone.Model.extend({
      */
     initialize: function() {
         this.ctx = {M:this.get('masses'), x: this.get('position'), v:this.get('velocity'), dt: 0.25 };
+        this.listenTo(this, "planet:drag planet:dragvelocity", function() { this.elements(true); });
     }
 });
 
@@ -227,7 +241,7 @@ var AppView = Backbone.View.extend({
         var self = this;
         
         self.listenTo(self.model, 'change:state', self.toggleState);
-        self.listenTo(self.model, 'change:nplanets change:time change:position change:velocity', _.throttle(self.renderInfo, 500));
+        self.listenTo(self.model, 'change:nplanets change:time change:position change:velocity change:elements', _.throttle(self.renderInfo, 500));
         self.listenTo(self.model, 'change:currentMission change:missions', self.renderMissions);
         
         // Renders the information table on the top-right corner.
@@ -487,6 +501,7 @@ var MissionHelpView = Backbone.View.extend({
             $("#help-next-mission").on("click", function() { self.model.nextMission(); } );
             
             $("#help-text").addClass("expanded");
+            appView.renderInfo();
         }, 500);
     }
 });

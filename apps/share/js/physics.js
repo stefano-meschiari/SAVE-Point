@@ -17,7 +17,6 @@ Physics.keplerEquation = function(M, e, options) {
         f_E = E - e*Math.sin(E) - M;
         E = E - f_E / (1 - e*Math.cos(E));
         step++;
-        console.log(step, f_E);
     } while (Math.abs(f_E) > tol && step < max_steps);
 
     return E;
@@ -133,23 +132,24 @@ Physics.x2ecc = function(s, M, x, y, z, u, v, w) {
 
 Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
     els = els || {};
-    
+
+    var GMm = K2 * (s.Mstar + M);
+
     var R = Math.sqrt(x*x + y*y + z*z);
     var V = Math.sqrt(u*u + v*v + w*w);
-    var Rs = Math.sign(x*u + y*v + z*w);
-    
-    var Rd = Rs * Math.sqrt(V*V - h*h/(R*R));
     
     var h_Z = x*v - y*u;
     var h_X = y*w - z*v;
     var h_Y = z*u - x*w;
     var h = Math.sqrt(h_X*h_X + h_Y*h_Y + h_Z*h_Z);
     var hs = Math.sign(h_Z);
+    var Rs = Math.sign(x*u + y*v + z*w);
+    var Rd = Rs * Math.sqrt(V*V - h*h/(R*R));
     
     var a = 1./(2./R - V*V/GMm);
     var e = Math.sqrt(1 - (h*h)/(GMm*a));
     var f = Math.atan2(a*(1-e*e)/(h*e) * Rd, 1/e*(a*(1-e*e)/R -1));
-    
+
     var i, O, E, lop, sini;
 
     if (s.twoD) {
@@ -163,6 +163,7 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
         var cosO = -hs*h_Y/(h * sini);
         O = Math.atan2(sinO, cosO);
     }
+
     
     if (e > 1e-6) {
         var cosE = (1-R/a)/e;
