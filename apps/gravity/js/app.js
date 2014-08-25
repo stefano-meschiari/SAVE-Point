@@ -351,12 +351,8 @@ var MissionHelpModel = Backbone.Model.extend({
     },
                     
     proceed: function() {
-        if (this.won) {
-            this.get('model').nextMission();
-        } else {
-            this.set('currentHelp', this.get('currentHelp') + 1);
-            this.trigger('proceed');
-        }
+        this.set('currentHelp', this.get('currentHelp') + 1);
+        this.trigger('proceed');
     },
 
     setup: function() {
@@ -369,7 +365,7 @@ var MissionHelpModel = Backbone.Model.extend({
         }
 
         this.listenTo(model, 'win', function() {
-            this.won = true;
+            this.stopListening();
         });
         
         var h = mission.help;
@@ -425,7 +421,7 @@ var MissionHelpView = Backbone.View.extend({
         "\\*(.+?)\\*": "<strong>$1</strong>",
         "^(#)\\s*(.+)": "<h1>$2</h1>",
         "^\s*$": "<br>",
-        "@proceed-win": '<div class="help-toolbar"><button id="help-next" class="btn btn-lg btn-jrs"><span class="fa fa-thumbs-up"></span>  Next mission</button></div>',
+        "@proceed-win": '<div class="help-toolbar"><button id="help-next-mission" class="btn btn-lg btn-jrs"><span class="fa fa-thumbs-up"></span>  Next mission</button></div>',
         "@proceed": '<div class="help-toolbar"><button id="help-next" class="btn btn-lg btn-jrs"><span class="fa fa-chevron-right"></span>  Next</button></div>',
         "@eccentricity": '<span id="eccentricity"></span>',
         
@@ -488,6 +484,8 @@ var MissionHelpView = Backbone.View.extend({
         _.delay(function() {
             self.$el.html(helpText);
             $("#help-next").on("click", function() { self.listener.proceed(); } );
+            $("#help-next-mission").on("click", function() { self.model.nextMission(); } );
+            
             $("#help-text").addClass("expanded");
         }, 500);
     }
