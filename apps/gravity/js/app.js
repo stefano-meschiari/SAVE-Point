@@ -219,7 +219,7 @@ var AppView = Backbone.View.extend({
     // Events table mapping button to UI updates.
     events: {
         "click #menu": function() { $("#sidebar").toggleClass("expanded"); },
-        "click #help": function() { $("#help-bottom").toggleClass("expanded"); }
+        "click #help": function() { alert("Not implemented yet."); }
     },
 
     // Binds functions to change events in the model.
