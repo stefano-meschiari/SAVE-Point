@@ -7,6 +7,18 @@ Math.sign = Math.sign || function(x) {
     return (x > 0 ? 1 : (x < 0 ? -1 : 0));
 };
 
+Math.radRange = function(x) {
+    while (x < 0)
+        x += 2.*Math.PI;
+    if (x > 2.*Math.PI)
+        x = x % (2.*Math.PI);
+    return x;
+};
+
+Math.rad2deg = function(x) {
+    return x*180/Math.PI;
+};
+
 Physics.keplerEquation = function(M, e, options) {
     var tol = (options && options.tol) || 1e-3;
     var max_steps = (options && max_step) || 10;
@@ -122,7 +134,7 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
     var hs = Math.sign(h_Z);
     var Rs = Math.sign(x*u + y*v + z*w);
     var Rd = Rs * Math.sqrt(V*V - h*h/(R*R));
-    
+    console.log(hs, h_Z);
     var a = 1./(2./R - V*V/GMm);
     var e = Math.sqrt(1 - (h*h)/(GMm*a));
     var f = Math.atan2(a*(1-e*e)/(h*e) * Rd, 1/e*(a*(1-e*e)/R -1));
@@ -157,7 +169,7 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
             var o = Math.atan2(sinof, cosof) - f;
             lop = O + o;
         } else {
-            var theta = Math.atan2(y, x);
+            var theta = Math.atan2(y/R, x/R);
             lop = theta - f;
         }
         
@@ -170,7 +182,7 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
     els.a = a;
     els.e = e;
     els.i = i;
-    els.lop = lop;
+    els.lop = Math.radRange(lop);
     els.node = O;
     els.P = 2*Math.PI * Math.sqrt(a*a*a/GMm);
     els.t = t;
