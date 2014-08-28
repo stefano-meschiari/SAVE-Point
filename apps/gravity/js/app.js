@@ -271,7 +271,7 @@ var AppView = Backbone.View.extend({
         var current = this.model.get('currentMission');
         var missions = this.model.get('missions');
         
-        $("#text-top").html('<h1><span class="fa fa-rocket"></span> ' + missions[current].title + "</h1>");
+        $("#text-top").html('<span class="fa fa-rocket"></span> ' + missions[current].title);
         $("#text-top").addClass("expanded");
 
         _.delay(function() {
