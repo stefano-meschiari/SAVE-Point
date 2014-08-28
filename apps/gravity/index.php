@@ -10,9 +10,23 @@ write_mission_rules($cfg);
 <?php write_js_requires($cfg); ?>
 
 <div id="app">
+
+  
+  <div id="text-top" class="animated">
+    Welcome!
+  </div>
+  
   <div id="sidebar">
-    <div id="menu" class="btn-jrs-ico fa fa-bars"></div>
-    <div class="sidebar-section">Missions<div class="separator"></div></div>
+    <div class="sidebar-item">
+      <div id="menu" class="btn-jrs-ico fa fa-bars"></div>
+      <div class="sidebar-title">Menu</div>
+    </div>
+    <div class="sidebar-item">
+      <div id="zoom" class="btn-jrs-ico fa fa-eye"></div>
+      <div class="sidebar-title">Toggle physical size</div>
+    </div>
+    
+    <!--<div class="sidebar-section">Missions<div class="separator"></div></div>
     <div id="missions">
       <div class="mission-completed">
         <div class="mission-symbol"></div>
@@ -40,7 +54,7 @@ write_mission_rules($cfg);
         <div class="mission-label">Hello!</div>
         <div class="clear"></div>        
       </div>
-    </div>
+    </div>-->
     <div class="sidebar-section">Tools<div class="separator"></div></div>
     <div class="sidebar-expandable">
       <button class="btn btn-lg btn-jrs " onClick="app.reset()">Restart mission</button>

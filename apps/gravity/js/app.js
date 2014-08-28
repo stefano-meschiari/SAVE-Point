@@ -141,15 +141,8 @@ var AppState = Backbone.Model.extend({
         this.Mstar = M[0];
         this.twoD = true;
 
-        var els = this._elements || {};
-        var eccentricity = els.eccentricity || [];
-        var sma = els.sma || [];
-        var longPeri = els.longPeri || [];
-        
-        var els_i = {};
-        eccentricity.length = np;
-        sma.length = np;
-        longPeri.length = np;
+        if (! this._elements || this._elements.length != np)
+            this._elements = [];
         
         for (var i = 1; i <= np; i++) {
             var dx = x[i*NPHYS+X]-x[X];
@@ -158,19 +151,11 @@ var AppState = Backbone.Model.extend({
             var du = v[i*NPHYS+X]-v[X];
             var dv = v[i*NPHYS+Y]-v[Y];
             var dw = v[i*NPHYS+Z]-v[Z];
-
-            els_i = Physics.x2el(this, 0, M[i], dx, dy, dz, du, dv, dw, els_i);
-            eccentricity[i-1] = els_i.e;
-            sma[i-1] = els_i.a;
-            longPeri[i-1] = els_i.lop;
+            this._elements[i-1] = Physics.x2el(this, 0, M[i], dx, dy, dz, du, dv, dw, this._elements[i-1]);
         }
 
-        els.sma = sma;
-        els.eccentricity = eccentricity;
-        els.longPeri = longPeri;
-        this._elements = els;
         this.trigger('change:elements');
-        return els;
+        return this._elements;
     },
 
     /*
@@ -272,7 +257,7 @@ var AppView = Backbone.View.extend({
      * and icons of the missions.
      */
     renderMissions: function() {
-        var current = this.model.get('currentMission');
+        /*        var current = this.model.get('currentMission');
         var missions = this.model.get('missions');
         var $div = $('<div id="missions"></div>');
         
@@ -281,7 +266,17 @@ var AppView = Backbone.View.extend({
             $div.append(this.MISSION_TEMPLATE({ type: type, label: missions[i].title }));
         }
 
-        $("#missions").replaceWith($div);
+         $("#missions").replaceWith($div);*/
+
+        var current = this.model.get('currentMission');
+        var missions = this.model.get('missions');
+        
+        $("#text-top").html('<h1><span class="fa fa-rocket"></span> ' + missions[current].title + "</h1>");
+        $("#text-top").addClass("expanded");
+
+        _.delay(function() {
+            $("#text-top").removeClass("expanded");
+        }, 5000);
     },
 
     /*
@@ -313,8 +308,8 @@ var AppView = Backbone.View.extend({
             
             $("#distance").html((r * Units.RUNIT / (1e11)).toFixed(2) + " x 10<sup>6</sup> km");
             $("#speed").text((v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(2) + " km/s");
-            
-            $("#eccentricity").text(els.eccentricity[0].toFixed(2));
+           
+            $("#eccentricity").text(els[0].eccentricity.toFixed(2));
             
         } else {
             $("#distance").text("");
@@ -350,7 +345,7 @@ var AppView = Backbone.View.extend({
         if (app.get('state') != RUNNING)
             return;
 
-        var f = RULES_FN[app.get('currentMission')];
+        var f = RULES_FN[app.get('currentMission')]();
         if (f) {
             this.model.win();
             clearInterval(this.validateTimer);

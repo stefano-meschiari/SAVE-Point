@@ -85,6 +85,7 @@ body {
   text-align: center;
   background-color: black;
   cursor: pointer;
+  width: 50px;
 }
 .btn-jrs-ico:hover {
   background-color: white;
@@ -259,6 +260,34 @@ body {
   -o-transition: all 0.5s ease-in;
   transition: all 0.5s ease-in;
   border-left: 4px solid #e74c3c;
+}
+.sidebar-item {
+  text-align: center;
+  margin-bottom: 5px;
+}
+.sidebar-title {
+  -webkit-transition: all 0.5s ease-in;
+  -moz-transition: all 0.5s ease-in;
+  -o-transition: all 0.5s ease-in;
+  transition: all 0.5s ease-in;
+  opacity: 0;
+  visibility: hidden;
+  font-size: 0px;
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+}
+#sidebar.expanded .sidebar-title {
+  visibility: visible;
+  -webkit-transition: all 0.5s ease-in;
+  -moz-transition: all 0.5s ease-in;
+  -o-transition: all 0.5s ease-in;
+  transition: all 0.5s ease-in;
+  font-size: 16px;
+  height: auto;
+  width: auto;
+  overflow: hidden;
+  opacity: 1;
 }
 /* Info-top styles */
 #info-top {
@@ -461,4 +490,26 @@ td.td-val {
   background: linear-gradient(to right, #bababa 0%, #bababa 40%, rgba(186, 186, 186, 0) 80%);
   margin-top: 5px;
   margin-bottom: 5px;
+}
+#text-top {
+  width: 40%;
+  left: 30%;
+  position: absolute;
+  text-align: center;
+  margin-top: -50px;
+  opacity: 0;
+  visible: hidden;
+  -webkit-transition: all 0.5s ease-in;
+  -moz-transition: all 0.5s ease-in;
+  -o-transition: all 0.5s ease-in;
+  transition: all 0.5s ease-in;
+}
+#text-top.expanded {
+  opacity: 1;
+  visible: visible;
+  margin-top: 40px;
+  -webkit-transition: all 0.5s ease-in;
+  -moz-transition: all 0.5s ease-in;
+  -o-transition: all 0.5s ease-in;
+  transition: all 0.5s ease-in;
 }

@@ -338,20 +338,21 @@ var Draw = Backbone.View.extend({
         var np = this.model.get('nplanets');
         
         for (var i = 0; i < np; i++) {
-            var a = els.sma[i];
-            var e = els.eccentricity[i];
-            var lop = els.longPeri[i];
+            var a = els[i].sma;
+            var e = els[i].eccentricity;
+            var lop = els[i].longPeri;
 
-            var p = (e < 1 ? 1 : -1) * a * (1-e*e);
+            var p = (e < 1 ? 1 : 1) * a * (1-e*e);
             var path = new Path();
             
-            for (var t = 0; t <= 2*Math.PI; t += 2*Math.PI/40) {
+            for (var t = 0; t <= 2*Math.PI; t += 2*Math.PI/100) {
                 var r = p/(1+e*Math.cos(t - lop));
-
+                if (r < 0)
+                    continue;
                 path.addSegment(new Point(r * Math.cos(t) * PIXELS_PER_AU + view.center.x, r * Math.sin(t) * PIXELS_PER_AU + view.center.y));
             }
 
-            if (e < 1) {
+            if (e < 0.99) {
                 path.smooth();
                 path.closed = true;
             }

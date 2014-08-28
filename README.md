@@ -20,6 +20,6 @@ open-source libraries that are used by the code.
 - *apps/* is where the apps are housed, and represents the document
 root of the website.
 
-
-## HTML5/JavaScript apps # Requirements
+# Requirements
+## HTML5/JavaScript apps 
 - Backbone.js

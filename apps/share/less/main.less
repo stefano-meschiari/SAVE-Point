@@ -87,6 +87,7 @@ body {
   text-align:center;
   background-color:black;
   cursor:pointer;
+  width:50px;
 }
 
 .btn-jrs-ico:hover {
@@ -97,6 +98,7 @@ body {
   animation: throbshadow 1s infinite;
   animation-direction: alternate;  
 }
+
 
 .sidebar-section {
   opacity:0;
@@ -226,6 +228,31 @@ body {
   padding:5px;
   .transition(0.5s, ease-in);
   border-left:4px solid @mission-active-color;
+}
+
+.sidebar-item {
+  text-align:center;
+  margin-bottom:5px;
+}
+
+.sidebar-title {
+  .transition(0.5s, ease-in);
+  opacity:0;
+  visibility:hidden;
+  font-size:0px;
+  width:0px;
+  height:0px;
+  overflow:hidden;
+}
+
+#sidebar.expanded .sidebar-title {
+  visibility:visible;
+  .transition(0.5s, ease-in);
+  font-size:16px;
+  height:auto;
+  width:auto;
+  overflow:hidden;
+  opacity:1;
 }
 
 /* Info-top styles */
@@ -383,3 +410,20 @@ td.td-val {
   
 }
 
+#text-top {
+  width:40%;
+  left:30%;
+  position:absolute;
+  text-align:center;
+  margin-top:-50px;
+  opacity:0;
+  visible:hidden;
+  .transition(0.5s, ease-in);
+}
+
+#text-top.expanded {
+  opacity:1;
+  visible:visible;
+  margin-top:40px;
+  .transition(0.5s, ease-in);
+}

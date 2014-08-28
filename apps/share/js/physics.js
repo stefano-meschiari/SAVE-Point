@@ -137,7 +137,7 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
     console.log(hs, h_Z);
     var a = 1./(2./R - V*V/GMm);
     var e = Math.sqrt(1 - (h*h)/(GMm*a));
-    var f = Math.atan2(a*(1-e*e)/(h*e) * Rd, 1/e*(a*(1-e*e)/R -1));
+    var f = Math.atan2(a*(1-e*e)/(h*e) * Rd, 1/e*(a*(1-e*e)/R -1)) * Math.sign(h_Z);
 
     var i, O, E, lop, sini;
 
@@ -179,16 +179,18 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
     }
     
     els.M = M;
-    els.a = a;
-    els.e = e;
-    els.i = i;
-    els.lop = Math.radRange(lop);
+    els.sma = a;
+    els.eccentricity = e;
+    els.inclination = i;
+    els.longPeri = lop;
     els.node = O;
-    els.P = 2*Math.PI * Math.sqrt(a*a*a/GMm);
-    els.t = t;
+    els.period = 2*Math.PI * Math.sqrt(a*a*a/GMm);
+    els.time = t;
     
     return els;
 };
+
+//Physics.orbit = 
 
 
 if (typeof(exports) !== 'undefined')
