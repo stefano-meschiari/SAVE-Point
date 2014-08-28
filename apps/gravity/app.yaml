@@ -16,6 +16,7 @@ args:
 
 missions:
   - title: Sandbox
+    subtitle: Create your first planet.
     rule: nplanets > 0
     enabled: true
     text: Just play around!
@@ -59,15 +60,4 @@ missions:
   - title: Circular orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.1 && elements[0].eccentricity > -0.001
     enabled: true
-    text: Get a circular orbit.
-    help:
-      - message: >
-            @h1 @icon-rocket Circular orbit @/h1
-            @separator
-            Now, let's try to place a planet in a circular orbit. First, add a new planet.
-            
-      - on: change:nplanets
-        message: >-
-          The eccentricity of the planet is @eccentricity. This is where it ends! The rest is
-          not done yet :(
-            
+    subtitle: Add a planet in a circular orbit.

@@ -48,7 +48,18 @@ var AppState = Backbone.Model.extend({
         };
     },
 
-
+    /*
+     * Enable computed, read-only properties
+     */
+    get: function(attr) {
+        if (this.attributes[attr] !== undefined)
+            return this.attributes[attr];
+        else if (this[attr])
+            return this[attr]();
+        else
+            return undefined;
+    },
+    
     /*
      * Toggles the state of the application between RUNNING and PAUSED.
      */
@@ -271,7 +282,7 @@ var AppView = Backbone.View.extend({
         var current = this.model.get('currentMission');
         var missions = this.model.get('missions');
         
-        $("#text-top").html('<span class="fa fa-rocket"></span> ' + missions[current].title);
+        $("#text-top").html('<div class="title"><span class="fa fa-rocket"></span> ' + missions[current].title + '</div><div class="subtitle">' + missions[current].subtitle + "</div>");
         $("#text-top").addClass("expanded");
 
         _.delay(function() {
@@ -487,10 +498,18 @@ var MissionHelpView = Backbone.View.extend({
 
     render: function(helpText) {
         var self = this;
-        $("#help-text").removeClass("expanded");
+        console.log(helpText);
+        
         $("#help-text").removeClass("expanded");
         
+        if (!helpText) {
+            console.log($("#help-text"));
+            console.log('Returning.');
+            return;
+        }
+        
         _.delay(function() {
+            console.log(helpText);
             self.$el.html(helpText);
             $("#help-next").on("click", function() { self.listener.proceed(); } );
             $("#help-next-mission").on("click", function() { self.model.nextMission(); } );

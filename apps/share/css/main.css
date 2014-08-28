@@ -492,7 +492,6 @@ td.td-val {
   margin-bottom: 5px;
 }
 #text-top {
-  font-size: 50px;
   width: 40%;
   left: 30%;
   position: absolute;
@@ -504,6 +503,13 @@ td.td-val {
   -moz-transition: all 0.5s ease-in;
   -o-transition: all 0.5s ease-in;
   transition: all 0.5s ease-in;
+}
+#text-top .title {
+  font-size: 50px;
+}
+#text-top .subtitle {
+  font-size: 25px;
+  color: silver;
 }
 #text-top.expanded {
   opacity: 1;

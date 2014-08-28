@@ -23,7 +23,7 @@ var Draw = Backbone.View.extend({
         // Size of central star
         STAR_SIZE = 40 * Units.RSUN / Units.AU * PIXELS_PER_AU;
         // Star halo size
-        STAR_HALO_SIZE = 1.5*STAR_SIZE;
+        STAR_HALO_SIZE = 3*STAR_SIZE;
         // Size of planets
         PLANET_SIZE = 2*STAR_SIZE * Units.RJUP/Units.RSUN;
         PLANET_HALO_SIZE = 1.5*PLANET_SIZE;
