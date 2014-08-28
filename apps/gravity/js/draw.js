@@ -1,21 +1,5 @@
 
 
-// Number of pixels corresponding to 1 length unit (1 AU)
-PIXELS_PER_AU = 200;
-// Number of pixels corresponding to 1 speed unit (1 AU/day)
-PIXELS_PER_AUPDAY = 100 / Math.sqrt(K2);
-// Size of arrow
-ARROW_SIZE = 10;
-// Size of central star
-STAR_SIZE = 40;
-// Star halo size
-STAR_HALO_SIZE = 150;
-// Size of planets
-PLANET_SIZE = 10;
-PLANET_HALO_SIZE = 1.5*PLANET_SIZE;
-// Segment length
-SEGMENTS_LENGTH = 10;
-
 // Number of stars
 STARS = 20;
 
@@ -27,6 +11,23 @@ var Draw = Backbone.View.extend({
     backgroundStars:[],
     nonInteractive:false,
     animating:false,
+    inflated: true,
+
+    recalculateSizes: function() {
+        // Number of pixels corresponding to 1 length unit (1 AU)
+        PIXELS_PER_AU = 200;
+        // Number of pixels corresponding to 1 speed unit (1 AU/day)
+        PIXELS_PER_AUPDAY = 100 / Math.sqrt(K2);
+        // Size of arrow
+        ARROW_SIZE = 10;
+        // Size of central star
+        STAR_SIZE = 40 * Units.RSUN / Units.AU * PIXELS_PER_AU;
+        // Star halo size
+        STAR_HALO_SIZE = 1.5*STAR_SIZE;
+        // Size of planets
+        PLANET_SIZE = 2*STAR_SIZE * Units.RJUP/Units.RSUN;
+        PLANET_HALO_SIZE = 1.5*PLANET_SIZE;
+    },
     
     createBackgroundStars: function() {
         var path = new Path.Circle(new Point(x, y), 2);
@@ -182,7 +183,7 @@ var Draw = Backbone.View.extend({
                 for (i = planets.length; i < nplanets; i++) {
                     var body = new Path.Circle({
                         center: view.center,
-                        radius:PLANET_SIZE
+                        radius:PLANET_SIZE 
                     });
                     body.fillColor = {
                         gradient: {
@@ -208,14 +209,14 @@ var Draw = Backbone.View.extend({
                     body.on("mousedrag", body.dragFunction);
                     body.on("mousedown", function() {
                         var center = body.bounds.center;
-                        body.bounds.size = new Size(4*PLANET_SIZE, 4*PLANET_SIZE);
+                        body.bounds.size = new Size(4*PLANET_SIZE , 4*PLANET_SIZE );
                         body.bounds.center = center;
                         self.handles[body.planetIndex].halo.bounds.size = new Size(4*PLANET_HALO_SIZE, 4*PLANET_HALO_SIZE);
                         self.handles[body.planetIndex].halo.bounds.center = center;
                     });
                     body.on("mouseup", function() {
                         var center = body.bounds.center;                        
-                        body.bounds.size = new Size(2*PLANET_SIZE, 2*PLANET_SIZE);
+                        body.bounds.size = new Size(2*PLANET_SIZE , 2*PLANET_SIZE);
                         body.bounds.center = center;
                         self.handles[body.planetIndex].halo.bounds.size = new Size(2*PLANET_HALO_SIZE, 2*PLANET_HALO_SIZE);
                         self.handles[body.planetIndex].halo.bounds.center = center;
@@ -414,8 +415,8 @@ var Draw = Backbone.View.extend({
             if (i == fr)
                 return false;
 
-            star.bounds.width = STAR_SIZE * (2 + 0.2 * Math.sin(Math.PI*i/fr));
-            star.bounds.height = STAR_SIZE * (2 + 0.2 * Math.sin(Math.PI*i/fr));
+            star.bounds.width = STAR_SIZE  * (2 + 0.2 * Math.sin(Math.PI*i/fr));
+            star.bounds.height = STAR_SIZE  * (2 + 0.2 * Math.sin(Math.PI*i/fr));
             star.position = view.center;
             i++;
             return true;
@@ -471,11 +472,12 @@ var Draw = Backbone.View.extend({
     
     initialize: function() {
         var self = this;
+        this.recalculateSizes();
         this.createBackgroundStars();
         
         var star = new Path.Circle({
             center: view.center,
-            radius:STAR_SIZE
+            radius:STAR_SIZE 
         });
 
         star.fillColor = {
@@ -489,7 +491,7 @@ var Draw = Backbone.View.extend({
 
         star.halo = new Path.Circle({
             center:view.center,
-            radius:STAR_HALO_SIZE
+            radius:STAR_HALO_SIZE 
         });
 
         star.halo.fillColor = {
