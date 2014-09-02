@@ -1,6 +1,6 @@
 @import (reference) "apps/share/less/colors";
 @import (reference) "apps/share/font-awesome/less/font-awesome";
-@import (reference) "apps/share/less/elements";
+@import (reference) "apps/share/less/lesshat";
 
 @font: "Dosis";
 
@@ -24,6 +24,26 @@ html, body {
 
 .clear {
   clear:both;
+}
+
+#app-menu {
+  position:absolute;
+  top:0;
+  left:100%;
+  width:100%;
+  height:100%;
+  background-color:@glass-color;
+  visibility:hidden;
+  opacity: 0;
+  padding:15px;
+  text-align:center;
+  .background-image(linear-gradient(to bottom, #16222A, #3A6073));
+}
+
+#app-menu.expanded {
+  visibility:visible;
+  opacity:1;
+  left:0;
 }
 
 #canvas-container {
@@ -328,7 +348,7 @@ td.td-val {
   color:white;
 }
 
-#help-text.animated {
+.animated {
     .transition(0.5s, ease-in);
 }
 
@@ -429,13 +449,16 @@ td.td-val {
   .transition(0.5s, ease-in);
 }
 
-#text-top .title {
+.title {
   font-size:50px;
+  color:white;
+  .drop-shadow(1px 1px 1px black);
 }
 
-#text-top .subtitle {
+.subtitle {
   font-size:25px;
   color:silver;
+  .drop-shadow(1px 1px 4px black);  
 }
 
 #text-top.expanded {

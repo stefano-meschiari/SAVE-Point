@@ -91,6 +91,12 @@ write_mission_rules($cfg);
 
   <div class="btn-jrs-ico fa fa-question-circle" id="help"></div>
 </div>
+<div id="app-menu" class="animated">
+  <div id="app-menu-message" class="title"><span class="icon-win"></span> Mission cleared!</div>
+  <div id="app-menu-missions">
+  </div>
+  
+</div>
 
 <script type="text/javascript" src="../share/js/init.js"></script>
 <script type="text/javascript" src="./js/app.js"></script>

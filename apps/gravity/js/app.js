@@ -375,17 +375,24 @@ var MissionHelpModel = Backbone.Model.extend({
         this.trigger('proceed');
     },
 
+    destroy: function() {
+        console.log("Destroyed");
+        this.stopListening();
+    },
+    
     setup: function() {
-        var model = this.get('model');
         
-        var mission = model.get('missions')[model.get('currentMission')];
+        var model = this.get('model');
+        var currentMission = model.get('currentMission');
+        
+        var mission = model.get('missions')[currentMission];
         if (!mission.help) {
             this.trigger('help', null);
             return;
         }
 
         this.listenTo(model, 'win', function() {
-            this.stopListening();
+            this.destroy();
         });
         
         var h = mission.help;
@@ -401,7 +408,7 @@ var MissionHelpModel = Backbone.Model.extend({
             if (on == 'proceed') {
                 this.listenTo(this, on, (function(j) {
                     return function() {
-                        console.log(j, self.get('currentHelp'));
+                        console.log(j, currentMission, self.get('currentHelp'));
                         if (self.get('currentHelp') == j)
                             self.trigger('help', h[j].message);
                     };
@@ -409,13 +416,14 @@ var MissionHelpModel = Backbone.Model.extend({
             } else {
                 this.listenTo(model, on, (function(j) {
                     return function() {
+                        console.log(j, currentMission, self.get('currentHelp'));                        
                         self.trigger('help', h[j].message);
-                        
                     };
                 })(i));
             }
         }
 
+        console.log(currentMission, mission.help[0].message);
         this.trigger('help', mission.help[0].message);
     },
     
@@ -459,9 +467,12 @@ var MissionHelpView = Backbone.View.extend({
             this.templater['@/' + safeTags[i]] = "</" + safeTags[i] + ">";
         }
         
-        this.listenToOnce(this.model, "change:missions", this.setupTemplates);
-        this.listenTo(this.model, "change:missions change:currentMission reset", this.setupMessages);
-
+        this.listenToOnce(this.model, "change:missions", function() {
+            this.setupTemplates();
+            this.setupMessages();
+        });
+        this.listenTo(this.model, "change:currentMission", this.setupMessages);
+        this.listenTo(this.model, "win", function() { self.render(null); });
         var self = this;
         $("#help-next").on("click", function() { self.model.proceed(); });
     },
@@ -487,9 +498,10 @@ var MissionHelpView = Backbone.View.extend({
 
     setupMessages: function() {
         if (this.listener) {
-            this.listener.stopListening();
             this.stopListening(this.listener);
+            this.listener.destroy();
         }
+        console.log(this.model.get('currentMission'));
         
         this.listener = new MissionHelpModel({ model:this.model });
         this.listenTo(this.listener, 'help', this.render);
@@ -503,8 +515,6 @@ var MissionHelpView = Backbone.View.extend({
         $("#help-text").removeClass("expanded");
         
         if (!helpText) {
-            console.log($("#help-text"));
-            console.log('Returning.');
             return;
         }
         
@@ -515,20 +525,14 @@ var MissionHelpView = Backbone.View.extend({
             $("#help-next-mission").on("click", function() { self.model.nextMission(); } );
             
             $("#help-text").addClass("expanded");
-            appView.renderInfo();
+            app.mainView.renderInfo();
         }, 500);
     }
 });
 
-
-
-// Singleton view objects
-var appView;
-var missionHelpView;
-
 $(document).ready(function() {
-    appView = new AppView({ model: app });
-    missionHelpView = new MissionHelpView({ model: app });
+    app.mainView = new AppView({ model: app });
+    app.helpView = new MissionHelpView({ model: app });
     
     // APP_CFG is an object created statically by the backend and inserted in
     // a top-level <script> tag. This is done so that the model does not have to

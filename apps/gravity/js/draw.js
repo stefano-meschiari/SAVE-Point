@@ -459,7 +459,7 @@ var Draw = Backbone.View.extend({
         event.position = [event.point.x - this.star.position.x, event.point.y - this.star.position.y];
         event.position[0] /= PIXELS_PER_AU;
         event.position[1] /= PIXELS_PER_AU;
-        appView.canvasMouseDown(event);
+        app.mainView.canvasMouseDown(event);
     },
 
     toggleState: function(event) {

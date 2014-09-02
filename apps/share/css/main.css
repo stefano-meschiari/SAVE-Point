@@ -17,6 +17,28 @@ body {
 .clear {
   clear: both;
 }
+#app-menu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(180, 180, 180, 0.3);
+  visibility: hidden;
+  opacity: 0;
+  padding: 15px;
+  text-align: center;
+  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMSAxIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48bGluZWFyR3JhZGllbnQgaWQ9Imxlc3NoYXQtZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMxNjIyMmEiIHN0b3Atb3BhY2l0eT0iMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzNhNjA3MyIgc3RvcC1vcGFjaXR5PSIxIi8+PC9saW5lYXJHcmFkaWVudD48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2xlc3NoYXQtZ2VuZXJhdGVkKSIgLz48L3N2Zz4=);
+  background-image: -webkit-linear-gradient(top, #16222a, #3a6073);
+  background-image: -moz-linear-gradient(top, #16222a, #3a6073);
+  background-image: -o-linear-gradient(top, #16222a, #3a6073);
+  background-image: linear-gradient(to bottom, #16222a, #3a6073);
+}
+#app-menu.expanded {
+  visibility: visible;
+  opacity: 1;
+  left: 0;
+}
 #canvas-container {
   background: url('../img/bg.jpg');
 }
@@ -36,18 +58,18 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
+  -webkit-transition: 0.5s ease-in;
+  -moz-transition: 0.5s ease-in;
+  -o-transition: 0.5s ease-in;
+  transition: 0.5s ease-in;
 }
 #sidebar.expanded {
   width: 200px;
   background-color: rgba(180, 180, 180, 0.3);
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
+  -webkit-transition: 0.5s ease-in;
+  -moz-transition: 0.5s ease-in;
+  -o-transition: 0.5s ease-in;
+  transition: 0.5s ease-in;
 }
 .throb-shadow from {
   box-shadow: 0px 0px 0px silver;
@@ -113,27 +135,27 @@ body {
   opacity: 1;
   margin-right: 0px;
   color: white;
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
+  -webkit-transition: 0.5s ease-in;
+  -moz-transition: 0.5s ease-in;
+  -o-transition: 0.5s ease-in;
+  transition: 0.5s ease-in;
 }
 #sidebar .sidebar-expandable {
   opacity: 0;
   margin-left: -200px;
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
+  -webkit-transition: 0.5s ease-in;
+  -moz-transition: 0.5s ease-in;
+  -o-transition: 0.5s ease-in;
+  transition: 0.5s ease-in;
   right: 0px;
 }
 #sidebar.expanded .sidebar-expandable {
   opacity: 1;
   margin-left: 0px;
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
+  -webkit-transition: 0.5s ease-in;
+  -moz-transition: 0.5s ease-in;
+  -o-transition: 0.5s ease-in;
+  transition: 0.5s ease-in;
   width: auto;
 }
 #missions {
@@ -232,10 +254,10 @@ body {
   margin-left: -100px;
 }
 #sidebar.expanded .mission-label {
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
+  -webkit-transition: 0.5s ease-in;
+  -moz-transition: 0.5s ease-in;
+  -o-transition: 0.5s ease-in;
+  transition: 0.5s ease-in;
   float: left;
   visibility: visible;
   opacity: 1;
@@ -263,10 +285,10 @@ body {
   width: auto;
   height: auto;
   padding: 5px;
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
+  -webkit-transition: 0.5s ease-in;
+  -moz-transition: 0.5s ease-in;
+  -o-transition: 0.5s ease-in;
+  transition: 0.5s ease-in;
   border-left: 4px solid #e74c3c;
 }
 .sidebar-item {
@@ -274,10 +296,10 @@ body {
   margin-bottom: 5px;
 }
 .sidebar-title {
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
+  -webkit-transition: 0.5s ease-in;
+  -moz-transition: 0.5s ease-in;
+  -o-transition: 0.5s ease-in;
+  transition: 0.5s ease-in;
   opacity: 0;
   visibility: hidden;
   font-size: 0px;
@@ -287,10 +309,10 @@ body {
 }
 #sidebar.expanded .sidebar-title {
   visibility: visible;
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
+  -webkit-transition: 0.5s ease-in;
+  -moz-transition: 0.5s ease-in;
+  -o-transition: 0.5s ease-in;
+  transition: 0.5s ease-in;
   font-size: 16px;
   height: auto;
   width: auto;
@@ -353,11 +375,11 @@ td.td-val {
   text-align: left;
   color: white;
 }
-#help-text.animated {
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
+.animated {
+  -webkit-transition: 0.5s ease-in;
+  -moz-transition: 0.5s ease-in;
+  -o-transition: 0.5s ease-in;
+  transition: 0.5s ease-in;
 }
 #help-text.expanded {
   opacity: 1;
@@ -507,24 +529,33 @@ td.td-val {
   margin-top: -50px;
   opacity: 0;
   visible: hidden;
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
+  -webkit-transition: 0.5s ease-in;
+  -moz-transition: 0.5s ease-in;
+  -o-transition: 0.5s ease-in;
+  transition: 0.5s ease-in;
 }
-#text-top .title {
+.title {
   font-size: 50px;
+  color: white;
+  -webkit-filter: drop-shadow(1px 1px 1px #000000);
+  -moz-filter: drop-shadow(1px 1px 1px #000000);
+  -ms-filter: drop-shadow(1px 1px 1px #000000);
+  filter: drop-shadow(1px 1px 1px #000000);
 }
-#text-top .subtitle {
+.subtitle {
   font-size: 25px;
   color: silver;
+  -webkit-filter: drop-shadow(1px 1px 4px #000000);
+  -moz-filter: drop-shadow(1px 1px 4px #000000);
+  -ms-filter: drop-shadow(1px 1px 4px #000000);
+  filter: drop-shadow(1px 1px 4px #000000);
 }
 #text-top.expanded {
   opacity: 1;
   visible: visible;
   margin-top: 40px;
-  -webkit-transition: all 0.5s ease-in;
-  -moz-transition: all 0.5s ease-in;
-  -o-transition: all 0.5s ease-in;
-  transition: all 0.5s ease-in;
+  -webkit-transition: 0.5s ease-in;
+  -moz-transition: 0.5s ease-in;
+  -o-transition: 0.5s ease-in;
+  transition: 0.5s ease-in;
 }

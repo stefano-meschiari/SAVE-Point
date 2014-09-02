@@ -17,9 +17,9 @@ args:
 missions:
   - title: Sandbox
     subtitle: Create your first planet.
+    win: Whoohoo! Look at that planet go!
     rule: nplanets > 0
     enabled: true
-    text: Just play around!
     help:      
       - on: start
         message: |
@@ -42,20 +42,12 @@ missions:
           and direction of the planet.
 
       - on: planet:dragvelocity
-        message: |
+        message: >          
           Now *tap on the @icon-star star* to let the planet orbit;
           tap on the @icon-star star again to pause.
-
           
           (You can also tap on the @icon-menu menu
           button to see more options.)
-
-      - on: win
-        message: >
-           @h1 @icon-win Mission accomplished! @/h1
-           @separator
-           Whoohoo! Look at that planet go! When you're ready, proceed to the next mission.
-           @proceed-win
                   
   - title: Circular orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.1 && elements[0].eccentricity > -0.001
