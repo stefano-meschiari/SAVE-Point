@@ -9,13 +9,14 @@ write_mission_rules($cfg);
 
 <?php write_js_requires($cfg); ?>
 
-<div id="app">
-
-  
+<div id="app" class="full-size">
   <div id="text-top" class="animated">
     Welcome!
   </div>
-  
+    <div id="canvas-container" class="full-size">
+    <canvas id="canvas" resize keepalive="true"></canvas>
+  </div>
+
   <div id="sidebar">
     <div class="sidebar-item">
       <div id="menu" class="btn-jrs-ico fa fa-bars"></div>
@@ -61,9 +62,6 @@ write_mission_rules($cfg);
     </div>
   </div>
 
-  <div id="canvas-container">
-    <canvas id="canvas" resize keepalive="true"></canvas>
-  </div>
   <div id="info-top">
     <div id="info-table-container">
     <table cols="2">

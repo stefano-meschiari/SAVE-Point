@@ -4,12 +4,14 @@
 
 @font: "Dosis";
 
-body {
+html, body {
   margin:0px;
   padding:0px;
-  min-height:100%;
   color:white;
+  height:100%;
+  min-height:100%;
   font-family:@font, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  overflow:hidden;
 }
 
 .clear-left {
@@ -26,6 +28,12 @@ body {
 
 #canvas-container {
   background:url('../img/bg.jpg')
+}
+
+.full-size {
+  width:100%;
+  height:100%;
+  min-height:100%;
 }
 
 @glass-color: rgba(180, 180, 180, 0.3);
@@ -436,3 +444,4 @@ td.td-val {
   margin-top:40px;
   .transition(0.5s, ease-in);
 }
+
