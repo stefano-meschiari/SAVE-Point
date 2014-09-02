@@ -20,24 +20,30 @@ body {
 #app-menu {
   position: absolute;
   top: 0;
-  left: 100%;
+  left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(180, 180, 180, 0.3);
   visibility: hidden;
   opacity: 0;
-  padding: 15px;
-  text-align: center;
-  background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMSAxIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48bGluZWFyR3JhZGllbnQgaWQ9Imxlc3NoYXQtZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMxNjIyMmEiIHN0b3Atb3BhY2l0eT0iMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzNhNjA3MyIgc3RvcC1vcGFjaXR5PSIxIi8+PC9saW5lYXJHcmFkaWVudD48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2xlc3NoYXQtZ2VuZXJhdGVkKSIgLz48L3N2Zz4=);
-  background-image: -webkit-linear-gradient(top, #16222a, #3a6073);
-  background-image: -moz-linear-gradient(top, #16222a, #3a6073);
-  background-image: -o-linear-gradient(top, #16222a, #3a6073);
-  background-image: linear-gradient(to bottom, #16222a, #3a6073);
 }
 #app-menu.expanded {
   visibility: visible;
   opacity: 1;
-  left: 0;
+}
+#app-menu-container {
+  position: absolute;
+  top: 0;
+  left: 20%;
+  width: 60%;
+  height: 100%;
+  padding: 15px;
+  text-align: center;
+  background-color: black;
+}
+#app-menu-stars {
+  background-color: rgba(0, 0, 0, 0.5);
+  font-size: 35px;
 }
 #canvas-container {
   background: url('../img/bg.jpg');
@@ -514,6 +520,42 @@ td.td-val {
 }
 .icon-win:before {
   content: "\f091";
+}
+.icon-win-star {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-win-star.pull-left {
+  margin-right: .3em;
+}
+.icon-win-star.pull-right {
+  margin-left: .3em;
+}
+.icon-win-star:before {
+  content: "\f005";
+}
+.icon-win-star-o {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-win-star-o.pull-left {
+  margin-right: .3em;
+}
+.icon-win-star-o.pull-right {
+  margin-left: .3em;
+}
+.icon-win-star-o:before {
+  content: "\f006";
 }
 .separator {
   height: 1px;

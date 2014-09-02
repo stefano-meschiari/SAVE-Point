@@ -25,8 +25,12 @@ var Draw = Backbone.View.extend({
         // Star halo size
         STAR_HALO_SIZE = 3*STAR_SIZE;
         // Size of planets
-        PLANET_SIZE = 2*STAR_SIZE * Units.RJUP/Units.RSUN;
-        PLANET_HALO_SIZE = 1.5*PLANET_SIZE;
+        PLANET_SIZE = 2*STAR_SIZE * 1.5 * Units.RJUP/Units.RSUN;
+        PLANET_HALO_SIZE = Math.max(22, 2*PLANET_SIZE);
+        // Size of planet when dragging
+        PLANET_DRAG_SIZE = Math.max(22, 2*PLANET_SIZE);
+        PLANET_HALO_DRAG_SIZE = 1.1*PLANET_DRAG_SIZE;
+        
     },
     
     createBackgroundStars: function() {
@@ -197,24 +201,23 @@ var Draw = Backbone.View.extend({
                     
                     body.planetIndex = i;
 
-                    var dragFunction = function(event) {
+                    var drag = function(event) {
                         c = [event.point.x - self.star.position.x, event.point.y - self.star.position.y, 0];
                         c[0] /= PIXELS_PER_AU;
                         c[1] /= PIXELS_PER_AU;
                         app.setPositionForBody(body.planetIndex, c);
                         body.dragging = true;
                     };
-                    
-                    body.dragFunction = dragFunction;
-                    body.on("mousedrag", body.dragFunction);
-                    body.on("mousedown", function() {
+
+                    var mouseDown = function() {
                         var center = body.bounds.center;
-                        body.bounds.size = new Size(4*PLANET_SIZE , 4*PLANET_SIZE );
+                        body.bounds.size = new Size(2*PLANET_DRAG_SIZE, 2*PLANET_DRAG_SIZE );
                         body.bounds.center = center;
-                        self.handles[body.planetIndex].halo.bounds.size = new Size(4*PLANET_HALO_SIZE, 4*PLANET_HALO_SIZE);
+                        self.handles[body.planetIndex].halo.bounds.size = new Size(2*PLANET_HALO_DRAG_SIZE, 2*PLANET_HALO_DRAG_SIZE);
                         self.handles[body.planetIndex].halo.bounds.center = center;
-                    });
-                    body.on("mouseup", function() {
+                    };
+
+                    var mouseUp = function() {
                         var center = body.bounds.center;                        
                         body.bounds.size = new Size(2*PLANET_SIZE , 2*PLANET_SIZE);
                         body.bounds.center = center;
@@ -223,8 +226,15 @@ var Draw = Backbone.View.extend({
                         if (body.dragging)
                             app.trigger("planet:drag");
                         body.dragging = false;
-                    });
-
+                    };
+                    
+                    body.drag = drag;
+                    body.mouseDown = mouseDown;
+                    body.mouseUp = mouseUp;
+                    
+                    body.on("mousedrag", body.drag);
+                    body.on("mousedown", body.mouseDown);
+                    body.on("mouseup", body.mouseUp);                  
                 }
                 
             } else {
@@ -279,8 +289,21 @@ var Draw = Backbone.View.extend({
                     center: body.position,
                     radius: PLANET_HALO_SIZE
                 });
-                halo.fillColor = COLOR_OUTLINE;
-                halo.on("mousedrag", body.dragFunction);
+                
+                halo.fillColor =  {
+                    gradient: {
+                        stops:[['white', 0.6], ['rgb(0, 0, 0, 0)', 1]],
+                        radial:true
+                    },
+                    origin: body.position,
+                    destination: halo.bounds.rightCenter
+                };
+        
+
+                halo.on("mousedrag", body.drag);
+                halo.on("mouseDown", body.mouseDown);
+                halo.on("mouseUp", body.mouseUp);
+                
                 halo.insertBelow(body);
 
                 var dv = new Point(velocity[NPHYS*(i+1)+X], velocity[NPHYS*(i+1)+Y]);

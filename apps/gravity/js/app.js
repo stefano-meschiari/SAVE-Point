@@ -22,7 +22,7 @@ var AppState = Backbone.Model.extend({
             currentMission: 0,
             // last mission beaten
             missionBeaten: -1,
-            // start off in a PAUSED state (can either be PAUSED or RUNNING); when PAUSED,
+            // start off in a PAUSED state (can either be PAUSED, RUNNING or MENU); when PAUSED,
             // the user can add planets, drag them, and change their velocity vector.
             // When RUNNING, time is flowing and the planet orbits the central star.
             state:PAUSED,
@@ -64,7 +64,13 @@ var AppState = Backbone.Model.extend({
      * Toggles the state of the application between RUNNING and PAUSED.
      */
     toggleState: function() {
-        this.set('state', (this.get('state') == RUNNING ? PAUSED : RUNNING));
+        var state = this.get('state');
+        if (state == RUNNING)
+            this.set('state', PAUSED);
+        else if (state == PAUSED)
+            this.set('state', RUNNING);
+        else
+            console.warn("app.toggleState() used when state is ", state);
     },
 
     /*
@@ -95,6 +101,7 @@ var AppState = Backbone.Model.extend({
         position.push(x[0], x[1], 0);
         velocity.push(Math.sqrt(K2), 0, 0);
         masses.push(0);
+        this._elements = null;
         this.set('nplanets', this.get('nplanets')+1);
         this.trigger("change:position change:velocity change:masses");
     },
@@ -185,6 +192,14 @@ var AppState = Backbone.Model.extend({
     },
 
     /*
+     * Change the current state to MENU. This should trigger an update in the view, where
+     * the app-menu div is brought to the forefront and UI elements are hidden.
+     */
+    menu: function() {
+        this.set('state', MENU);
+    },
+    
+    /*
      * Reset the state.
      */
     reset: function() {
@@ -235,10 +250,12 @@ var AppView = Backbone.View.extend({
     // Binds functions to change events in the model.
     initialize: function() {
         var self = this;
-        
-        self.listenTo(self.model, 'change:state', self.toggleState);
+
+        // Update information when planetary parameters change
         self.listenTo(self.model, 'change:nplanets change:time change:position change:velocity change:elements', _.throttle(self.renderInfo, 500));
+        
         self.listenTo(self.model, 'change:currentMission change:missions', self.renderMissions);
+        self.listenTo(self.model, 'change:state', self.setVisibility);
         
         // Renders the information table on the top-right corner.
         self.renderInfo();
@@ -329,7 +346,22 @@ var AppView = Backbone.View.extend({
         }
     },
 
-    toggleState: function() {
+    /*
+     * When the user is shown the mission menu, fade away all the UI elements that could be distracting.
+     */
+    setVisibility: function() {
+        console.log(state);
+        var state = app.get('state');
+
+        if (state == MENU) {
+            $("#sidebar").hide();
+            $("#help-text").hide();
+            $("#info-top").hide();
+        } else {
+            $("#sidebar").show();
+            $("#help-text").show();
+            $("#info-top").show();
+        }
         
     },
 
@@ -473,6 +505,7 @@ var MissionHelpView = Backbone.View.extend({
         });
         this.listenTo(this.model, "change:currentMission", this.setupMessages);
         this.listenTo(this.model, "win", function() { self.render(null); });
+        
         var self = this;
         $("#help-next").on("click", function() { self.model.proceed(); });
     },
@@ -530,9 +563,25 @@ var MissionHelpView = Backbone.View.extend({
     }
 });
 
+var AppMenuView = Backbone.View.extend({
+    // Top-level container
+    el: $("#app-menu-container"),
+
+    // Events table mapping button to UI updates.
+    events: {
+        "click #menu": function() { $("#sidebar").toggleClass("expanded"); },
+        "click #help": function() { alert("Not implemented yet."); }
+    },
+
+    initialize: function() {
+        
+    }
+});
+
 $(document).ready(function() {
     app.mainView = new AppView({ model: app });
     app.helpView = new MissionHelpView({ model: app });
+    app.menuView = new AppMenuView({model: app});
     
     // APP_CFG is an object created statically by the backend and inserted in
     // a top-level <script> tag. This is done so that the model does not have to
