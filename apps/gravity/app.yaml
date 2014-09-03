@@ -18,6 +18,7 @@ missions:
   - title: Sandbox
     subtitle: Create your first planet.
     win: Whoohoo! Look at that planet go!
+    lose: You should never see this.
     rule: nplanets > 0
     enabled: true
     help:      
@@ -43,13 +44,12 @@ missions:
 
       - on: planet:dragvelocity
         message: >          
-          Now *tap on the @icon-star star* to let the planet orbit;
-          tap on the @icon-star star again to pause.
+          Now *tap on the @icon-star star* to let the planet orbit.
           
-          (You can also tap on the @icon-menu menu
-          button to see more options.)
                   
   - title: Circular orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.1 && elements[0].eccentricity > -0.001
     enabled: true
     subtitle: Add a planet in a circular orbit.
+    win: Hot damn! That's pretty circular!
+    lose: That orbit is not circular! Try again.

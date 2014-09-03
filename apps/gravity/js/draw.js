@@ -267,7 +267,7 @@ var Draw = Backbone.View.extend({
         if (this.nonInteractive)
             return;
         
-        if (app.get('state') == RUNNING) {
+        if (app.get('state') != PAUSED) {
             if (this.handles.length != 0)
                 this.destroyHandles();
             return;
@@ -474,8 +474,8 @@ var Draw = Backbone.View.extend({
             return;
         
         var p = project.hitTest(event.point);
-        if (p != null && p.item == this.star) {
-            app.toggleState();
+        if (p != null && p.item == this.star && app.get('state') == PAUSED) {
+            app.set('state', RUNNING);
             return;
         } else if (p != null && p.item != this.star.halo)
             return;
@@ -486,7 +486,7 @@ var Draw = Backbone.View.extend({
     },
 
     toggleState: function(event) {
-        if (app.get('state') == RUNNING) {
+        if (app.get('state') != PAUSED) {
             this.destroyHandles();
         }
         this.bobStar();
@@ -556,7 +556,7 @@ function onResize(event) {
 
 function onFrame(event) {
     
-    if (app.get('state') == RUNNING) {
+    if (app.get('state') != PAUSED) {
         app.tick();
     }
 

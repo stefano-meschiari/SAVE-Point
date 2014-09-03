@@ -5,6 +5,7 @@
 var RUNNING = 0;
 var PAUSED = 1;
 var MENU = 2;
+var NONINTERACTIVE = 3;
 
 // Colors
 var COLOR_SUN_INNER = 'white';

@@ -70,16 +70,14 @@ var AppState = Backbone.Model.extend({
         else if (state == PAUSED)
             this.set('state', RUNNING);
         else
-            console.warn("app.toggleState() used when state is ", state);
+            console.warn("app.toggleState() was used when state is ", state);
     },
 
     /*
      * Syncs the state of the model with the server. Not implemented.
      */     
     sync: function(method, model, options) {
-        throw new Error("TODO: Sync method for AppState model.");
-        // options.dataType = "json";
-        // return $.ajax("app.json", options);
+        throw new Error("TODO: Sync method for AppState model.");        
     },
 
     /*
@@ -145,7 +143,10 @@ var AppState = Backbone.Model.extend({
         this.trigger("change:position");
         this.trigger("change:velocity");
     },
-    
+
+    /*
+     * Returns a list of orbital elements for each planet.
+     */
     elements: function(update) {
         if (this._elements && !update) {
             return this._elements;
@@ -256,6 +257,7 @@ var AppView = Backbone.View.extend({
         
         self.listenTo(self.model, 'change:currentMission change:missions', self.renderMissions);
         self.listenTo(self.model, 'change:state', self.setVisibility);
+        self.listenTo(self.model, 'win', self.renderWin);
         
         // Renders the information table on the top-right corner.
         self.renderInfo();
@@ -270,12 +272,6 @@ var AppView = Backbone.View.extend({
         });
     },
 
-    MISSION_COMPLETED: "mission-completed",
-    MISSION: "mission",
-    MISSION_ACTIVE: "mission-active",
-    
-    MISSION_TEMPLATE: _.template('<div class="<%= type %>"><div class="mission-symbol"></div><div class="mission-label"><%= label %></div><div class="clear"></div></div>'),
-
     /*
      * Renders the mission list in the left sidebar. There are three states for the missions:
      * "MISSION" (a mission that has not been completed yet), "MISSION_ACTIVE" (the current mission),
@@ -284,6 +280,11 @@ var AppView = Backbone.View.extend({
      * Each one corresponds to a different CSS class. The #missions div is filled with the titles
      * and icons of the missions.
      */
+
+    
+    missionTemplate: _.template('<div class="title"><span class="fa fa-rocket"></span> <%= title %></div><div class="subtitle"><%= subtitle %></div>'),
+    missionDelay: 6000,
+    
     renderMissions: function() {
         /*        var current = this.model.get('currentMission');
         var missions = this.model.get('missions');
@@ -299,12 +300,12 @@ var AppView = Backbone.View.extend({
         var current = this.model.get('currentMission');
         var missions = this.model.get('missions');
         
-        $("#text-top").html('<div class="title"><span class="fa fa-rocket"></span> ' + missions[current].title + '</div><div class="subtitle">' + missions[current].subtitle + "</div>");
+        $("#text-top").html(this.missionTemplate(missions[current]));
         $("#text-top").addClass("expanded");
 
         _.delay(function() {
             $("#text-top").removeClass("expanded");
-        }, 5000);
+        }, this.missionDelay);
     },
 
     /*
@@ -393,7 +394,27 @@ var AppView = Backbone.View.extend({
             this.model.win();
             clearInterval(this.validateTimer);
         }
+    },
+
+    /*
+     * Render win.
+     */
+
+    winTemplate: _.template('<div class="subtitle"><%= win %></div>'),
+    winWait: 5000,
+    
+    renderWin: function() {
+        var mission = app.get('missions')[app.get('currentMission')];
+        
+        $("#text-top").html(this.winTemplate(mission));
+        $("#text-top").addClass("expanded");
+
+        _.delay(function() {
+            $("#text-top").removeClass("expanded");
+            app.menu();
+        }, this.winWait);
     }
+    
 });
 
 var MissionHelpModel = Backbone.Model.extend({
@@ -565,16 +586,24 @@ var MissionHelpView = Backbone.View.extend({
 
 var AppMenuView = Backbone.View.extend({
     // Top-level container
-    el: $("#app-menu-container"),
-
-    // Events table mapping button to UI updates.
-    events: {
-        "click #menu": function() { $("#sidebar").toggleClass("expanded"); },
-        "click #help": function() { alert("Not implemented yet."); }
-    },
+    el: $("#app-menu"),
+    star: '<span class="icon-win-star"></span>',
+    star_o: '<span class="icon-win-star-o"></span>',
+    
 
     initialize: function() {
+        this.listenTo(this.model, "change:state", this.render);
+    },
+
+    render: function() {
+        var state = this.model.get('state');
+        var $el = this.$el;
         
+        if (state === MENU) {
+            $el.addClass("expanded");
+        } else {
+            $el.removeClass("expanded");
+        }
     }
 });
 
@@ -582,7 +611,6 @@ $(document).ready(function() {
     app.mainView = new AppView({ model: app });
     app.helpView = new MissionHelpView({ model: app });
     app.menuView = new AppMenuView({model: app});
-    
     // APP_CFG is an object created statically by the backend and inserted in
     // a top-level <script> tag. This is done so that the model does not have to
     // fetch it asynchronously from a .json file.

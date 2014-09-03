@@ -50,15 +50,14 @@ html, body {
 }
 
 #app-menu-container {
-  position:absolute;
   top:0;
-  left:20%;
-  width:60%;
+  margin:0 auto;
+  width:500px;
   height:100%;
   padding:15px;
   text-align:center;
   //  .background-image(linear-gradient(to bottom, rgba(22, 34, 42, 0), #3A6073));
-  background-color:black;
+  background-color:rgba(0, 0, 0, 0.5);
 }
 
 #app-menu-stars {
@@ -68,6 +67,11 @@ html, body {
 
 #canvas-container {
   background:url('../img/bg.jpg')
+}
+
+#canvas {
+  position:absolute;
+  z-index:0;
 }
 
 .full-size {
@@ -177,62 +181,6 @@ html, body {
   width:auto;
 }
 
-@mission-color: @base04;
-@mission-active-color:@base08;
-@mission-completed-color:@base07;
-
-#missions {
-  text-align:center;
-}
-
-#missions {
-  margin-bottom:10px;
-}
-
-.mission {
-  margin-bottom:15px;
-  color:@mission-color;
-}
-
-.mission-active {
-  .mission;
-  color:@mission-active-color;
-}
-
-.mission-completed {
-  .mission;
-  color:@mission-completed-color;
-}
-
-.mission-symbol {
-  float:left;
-  margin-left:10px;
-  font-size:40px;
-}
-
-.mission .mission-symbol {
-  .fa;
-  &:before {
-    content: @fa-var-circle-o;
-  }
-}
-
-.mission-active .mission-symbol {
-  .fa;
-  .fa-spin;
-  font-size:35px;
-  &:before {
-    content: @fa-var-circle-o-notch;
-  }
-}
-
-.mission-completed .mission-symbol {
-  .fa;
-  &:before {
-    content: @fa-var-check-circle;
-  }
-
-}
 
 #sidebar.expanded .mission-symbol {
   float:left;
@@ -480,7 +428,7 @@ td.td-val {
   text-align:center;
   margin-top:-50px;
   opacity:0;
-  visible:hidden;
+  visibility:hidden;
   .transition(0.5s, ease-in);
 }
 
@@ -498,7 +446,7 @@ td.td-val {
 
 #text-top.expanded {
   opacity:1;
-  visible:visible;
+  visibility:visible;
   margin-top:40px;
   .transition(0.5s, ease-in);
 }
