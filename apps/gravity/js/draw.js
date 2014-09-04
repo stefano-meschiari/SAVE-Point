@@ -1,7 +1,7 @@
 
 
 // Number of stars
-STARS = 20;
+STARS = 50;
 
 var easing = function(x) {
     return Math.pow(x, 5)/5-Math.pow(x, 4)/2+Math.pow(x, 3)/3;

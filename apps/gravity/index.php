@@ -10,10 +10,10 @@ write_mission_rules($cfg);
 <?php write_js_requires($cfg); ?>
 
 <div id="app" class="full-size">
-  <div id="canvas-container" class="full-size">
     <div id="text-top" class="animated">
       Welcome!
     </div>
+  <div id="canvas-container" class="full-size">
     <canvas id="canvas" resize keepalive="true"></canvas>
   </div>
 

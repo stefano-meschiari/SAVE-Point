@@ -185,6 +185,13 @@ var AppState = Backbone.Model.extend({
     },
 
     /*
+     * Lose the current mission.
+     */
+    lose: function() {
+        this.trigger('lose');
+    },
+
+    /*
      * Move to next mission
      */
     nextMission: function() {
@@ -258,6 +265,7 @@ var AppView = Backbone.View.extend({
         self.listenTo(self.model, 'change:currentMission change:missions', self.renderMissions);
         self.listenTo(self.model, 'change:state', self.setVisibility);
         self.listenTo(self.model, 'win', self.renderWin);
+        self.listenTo(self.model, 'lose', self.renderLose);
         
         // Renders the information table on the top-right corner.
         self.renderInfo();
@@ -392,6 +400,8 @@ var AppView = Backbone.View.extend({
         if (f) {
             this.model.win();
             clearInterval(this.validateTimer);
+        } else {
+            this.model.lose();
         }
     },
 
@@ -412,8 +422,17 @@ var AppView = Backbone.View.extend({
             $("#text-top").removeClass("expanded");
             app.menu();
         }, this.winWait);
-    }
+    },
+
+    loseTemplate: _.template('<div class="subtitle"><%= lose %></div><div><button class="btn-jrs" onClick="app.reset();">Retry mission</button></div>'),
     
+    renderLose: function() {
+        var mission = app.get('missions')[app.get('currentMission')];
+        
+        $("#text-top").html(this.loseTemplate(mission));
+        $("#text-top").addClass("expanded");
+    }
+
 });
 
 var MissionHelpModel = Backbone.Model.extend({
@@ -519,7 +538,7 @@ var MissionHelpView = Backbone.View.extend({
             this.setupMessages();
         });
         this.listenTo(this.model, "change:currentMission", this.setupMessages);
-        this.listenTo(this.model, "win", function() { self.render(null); });
+        this.listenTo(this.model, "win lose", function() { self.render(null); });
         
         var self = this;
         $("#help-next").on("click", function() { self.model.proceed(); });

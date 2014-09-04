@@ -50,8 +50,7 @@ body {
   background: url('../img/bg.jpg');
 }
 #canvas {
-  position: absolute;
-  z-index: 0;
+  /*  z-index:0; */
 }
 .full-size {
   width: 100%;
@@ -501,6 +500,7 @@ td.td-val {
 .subtitle {
   font-size: 25px;
   color: silver;
+  margin-bottom: 5px;
   -webkit-filter: drop-shadow(1px 1px 4px #000000);
   -moz-filter: drop-shadow(1px 1px 4px #000000);
   -ms-filter: drop-shadow(1px 1px 4px #000000);
