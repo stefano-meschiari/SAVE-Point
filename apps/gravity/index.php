@@ -95,7 +95,9 @@ write_mission_rules($cfg);
 <div id="app-menu" class="animated">
   <div id="app-menu-container">
     <div id="app-menu-message" class="title"><span class="icon-win"></span> Mission cleared!</div>
+    <div class="separator-center"></div>
     <div id="app-menu-stars"><span class="icon-win-star"></span><span class="icon-win-star"></span><span class="icon-win-star-o"></span></div>
+    <div class="separator-center"></div>
     <div id="app-menu-missions">
     </div>
   </div>

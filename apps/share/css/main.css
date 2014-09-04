@@ -41,9 +41,10 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 #app-menu-stars {
-  background-color: rgba(0, 0, 0, 0.5);
   font-size: 35px;
-  margin-bottom: 30px;
+}
+#app-menu-missions {
+  margin-top: 20px;
 }
 #canvas-container {
   background: url('../img/bg.jpg');
@@ -467,6 +468,12 @@ td.td-val {
 .separator {
   height: 1px;
   background: linear-gradient(to right, #bababa 0%, #bababa 40%, rgba(186, 186, 186, 0) 80%);
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.separator-center {
+  height: 1px;
+  background: linear-gradient(to right, rgba(186, 186, 186, 0) 0%, #bababa 30%, #bababa 70%, rgba(186, 186, 186, 0) 100%);
   margin-top: 5px;
   margin-bottom: 5px;
 }
