@@ -53,3 +53,39 @@ missions:
     subtitle: Add a planet in a circular orbit.
     win: Hot damn! That's pretty circular!
     lose: That orbit is not circular! Try again.
+
+  - title: Eccentric orbit
+    rule: nplanets > 0 && elements[0].eccentricity > 0.1
+    enabled: true
+    subtitle: Add a planet in an eccentric orbit.
+    win: So elliptical!
+    lose: That orbit is not eccentric...
+
+  - title: Ejected (hyperbolic)
+    rule: nplanets > 0 && elements[0].eccentricity > 1
+    enabled: true
+    subtitle: Add a planet in a hyperbolic orbit.
+    win: So elliptical!
+    lose: That orbit is not eccentric...
+
+  - title: Crash & burn
+    rule: nplanets > 0 && elements[0].eccentricity > 1
+    enabled: true
+    subtitle: Make your planet collide with the star.
+    win: So elliptical!
+    lose: That orbit is not eccentric...
+
+  - title: Speed vs. radius (circular)
+    rule: nplanets > 0 && elements[0].eccentricity > 1
+    enabled: true
+    subtitle: TBD
+    win: So elliptical!
+    lose: That orbit is not eccentric...
+
+  - title: Speed vs. radius (elliptical)
+    rule: nplanets > 0 && elements[0].eccentricity > 1
+    enabled: true
+    subtitle: TBD
+    win: So elliptical!
+    lose: That orbit is not eccentric...
+

@@ -63,6 +63,7 @@ html, body {
 #app-menu-stars {
   background-color: rgba(0, 0, 0, 0.5);
   font-size:@font-l;
+  margin-bottom:30px;
 }
 
 #canvas-container {
@@ -181,50 +182,6 @@ html, body {
   width:auto;
 }
 
-
-#sidebar.expanded .mission-symbol {
-  float:left;
-}
-
-.mission-label {
-  visibility:hidden;
-  opacity:0;
-  text-transform:uppercase;
-  width:0px;
-  font-size:0px;
-  margin-left:-100px;
-}
-
-#sidebar.expanded .mission-label {
-  .transition(0.5s, ease-in);  
-  float:left;
-  visibility:visible;
-  opacity:1;
-  margin-left:10px;
-  font-size:20px;
-  font-weight:200;
-}
-
-.mission-active .mission-label {
-  .mission-label;
-}
-
-.mission-description {
-  text-align:left;
-  visibility:hidden;
-  font-size:12px;
-  height:0px;
-}
-
-#sidebar.expanded .mission-description {
-  margin-top:10px;
-  visibility:visible;
-  width:auto;
-  height:auto;
-  padding:5px;
-  .transition(0.5s, ease-in);
-  border-left:4px solid @mission-active-color;
-}
 
 .sidebar-item {
   text-align:center;
@@ -354,6 +311,20 @@ td.td-val {
   padding-top:5px;
 }
 
+.icon-mission-next {
+  .fa;
+  &:before {
+    content: @fa-var-chevron-right;
+  }
+}
+
+.icon-mission-locked {
+  .fa;
+  &:before {
+    content: @fa-var-lock;
+  }
+}
+
 .icon-tap {
   .fa;
   &:before {
@@ -451,3 +422,41 @@ td.td-val {
   .transition(0.5s, ease-in);
 }
 
+.mission {
+  width:100px;
+  margin: 0 auto;
+  display: inline-block;
+  min-height:100px;
+  margin:5px;
+  vertical-align:top;
+}
+
+.mission-thumb {
+  width:100px;
+  height:100px;
+  border: 1px solid silver;
+  border-radius:10px;
+  margin-bottom: 5px;
+  font-size:50px;
+  text-align:center;
+  line-height:100px;
+}
+
+.keyframes(~'bob, 0%{transform: scale(0.9); background-color:silver; } 100%{transform:scale(1.05)}');
+
+.mission-thumb-next {
+  background-color:white;
+  color:black;
+  cursor:pointer;
+  .animation(bob 0.75s ease alternate infinite);
+}
+
+.mission-title {
+  font-weight:bold;
+  color:white;
+  .drop-shadow(0px 0px 10px black);  
+}
+
+.mission-subtitle {
+  .drop-shadow(0px 0px 10px black);    
+}

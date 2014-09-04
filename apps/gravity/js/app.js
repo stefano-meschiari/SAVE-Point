@@ -351,7 +351,6 @@ var AppView = Backbone.View.extend({
      * When the user is shown the mission menu, fade away all the UI elements that could be distracting.
      */
     setVisibility: function() {
-        console.log(state);
         var state = app.get('state');
 
         if (state == MENU) {
@@ -429,7 +428,6 @@ var MissionHelpModel = Backbone.Model.extend({
     },
 
     destroy: function() {
-        console.log("Destroyed");
         this.stopListening();
     },
     
@@ -454,14 +452,12 @@ var MissionHelpModel = Backbone.Model.extend({
         for (var i = 0; i < h.length; i++) {
             var on = h[i].on;
             if (! on) {
-                console.log('Help message #' + i + " does not have an 'on' event.");
                 continue;
             }
 
             if (on == 'proceed') {
                 this.listenTo(this, on, (function(j) {
                     return function() {
-                        console.log(j, currentMission, self.get('currentHelp'));
                         if (self.get('currentHelp') == j)
                             self.trigger('help', h[j].message);
                     };
@@ -469,14 +465,12 @@ var MissionHelpModel = Backbone.Model.extend({
             } else {
                 this.listenTo(model, on, (function(j) {
                     return function() {
-                        console.log(j, currentMission, self.get('currentHelp'));                        
                         self.trigger('help', h[j].message);
                     };
                 })(i));
             }
         }
 
-        console.log(currentMission, mission.help[0].message);
         this.trigger('help', mission.help[0].message);
     },
     
@@ -555,7 +549,6 @@ var MissionHelpView = Backbone.View.extend({
             this.stopListening(this.listener);
             this.listener.destroy();
         }
-        console.log(this.model.get('currentMission'));
         
         this.listener = new MissionHelpModel({ model:this.model });
         this.listenTo(this.listener, 'help', this.render);
@@ -564,7 +557,6 @@ var MissionHelpView = Backbone.View.extend({
 
     render: function(helpText) {
         var self = this;
-        console.log(helpText);
         
         $("#help-text").removeClass("expanded");
         
@@ -573,7 +565,6 @@ var MissionHelpView = Backbone.View.extend({
         }
         
         _.delay(function() {
-            console.log(helpText);
             self.$el.html(helpText);
             $("#help-next").on("click", function() { self.listener.proceed(); } );
             $("#help-next-mission").on("click", function() { self.model.nextMission(); } );
@@ -587,9 +578,9 @@ var MissionHelpView = Backbone.View.extend({
 var AppMenuView = Backbone.View.extend({
     // Top-level container
     el: $("#app-menu"),
+    
     star: '<span class="icon-win-star"></span>',
     star_o: '<span class="icon-win-star-o"></span>',
-    
 
     initialize: function() {
         this.listenTo(this.model, "change:state", this.render);
@@ -601,9 +592,50 @@ var AppMenuView = Backbone.View.extend({
         
         if (state === MENU) {
             $el.addClass("expanded");
+            this.renderMissions();
         } else {
             $el.removeClass("expanded");
         }
+    },
+
+    missionContainer: '<div class="mission"></div>',
+    clear: '<div class="clear"></div>',
+    missionThumb: '<div class="mission-thumb"></div>',
+
+    missionThumbNext: '<span class="icon-mission-next"></span>',
+    missionThumbLocked: '<span class="icon-mission-locked"></span>',
+    
+    missionTitleTemplate: _.template('<div class="mission-title"><%= title %></div><div class="mission-subtitle"><%= subtitle %></div>'),
+    
+    renderMissions: function() {
+        var $missions = $("#app-menu-missions");
+        $missions.empty();
+        var missions = app.get('missions');
+        var currentMission = app.get('currentMission');
+        
+        for (var i = 0; i < missions.length; i++) {
+            var $div = $(this.missionContainer);
+
+            var $thumb = $(this.missionThumb);
+            if (i == currentMission + 1) {
+                $thumb.addClass("mission-thumb-next");
+                $thumb.append(this.missionThumbNext);
+                $thumb.on("click", function() {
+                    app.nextMission(); 
+                });
+            } else if (i > currentMission + 1) {
+                $thumb.append(this.missionThumbLocked);
+            }
+            
+            $div.append($thumb);
+            $div.append(this.missionTitleTemplate(missions[i]));
+            $missions.append($div);
+        }
+
+        $missions.append(this.clear);
+    },
+
+    renderOrbit: function(ctx) {
     }
 });
 
