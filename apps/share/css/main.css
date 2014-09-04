@@ -344,6 +344,24 @@ td.td-val {
 .icon-tap:before {
   content: "\f0a6";
 }
+.icon-help {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-help.pull-left {
+  margin-right: .3em;
+}
+.icon-help.pull-right {
+  margin-left: .3em;
+}
+.icon-help:before {
+  content: "\f059";
+}
 .icon-menu {
   display: inline-block;
   font-family: FontAwesome;

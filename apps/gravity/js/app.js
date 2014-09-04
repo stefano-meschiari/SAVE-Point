@@ -30,6 +30,7 @@ var AppState = Backbone.Model.extend({
             showOrbit:false,
             // start time, used to calculate elapsed time
             userStartTime:new Date(),
+            userEndTime:null,
             // start with no planets
             nplanets: 0,
             // start at t = 0 days
@@ -185,6 +186,7 @@ var AppState = Backbone.Model.extend({
      * Win the current mission.
      */
     win: function() {
+        this.set('userEndTime', new Date());
         this.trigger('win');
     },
 
@@ -192,6 +194,7 @@ var AppState = Backbone.Model.extend({
      * Lose the current mission.
      */
     lose: function() {
+        this.set('userEndTime', new Date());
         this.trigger('lose');
     },
 
@@ -214,9 +217,13 @@ var AppState = Backbone.Model.extend({
     /*
      * Calculates elapsed time as a human-readable string.
      */
-    elapsedTime: function() {
-        var seconds = Math.round((new Date().getTime() - this.get('userStartTime').getTime()) / 1000);
-        console.log(seconds);
+    elapsedTime: function(secondsOnly) {        
+        var endTime = this.get('userEndTime') || new Date();
+        var seconds = Math.round((endTime.getTime() - this.get('userStartTime').getTime()) / 1000);
+
+        if (secondsOnly)
+            return seconds;
+        
         var minutes = Math.floor(seconds/60);
         seconds = seconds % 60;
         return minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
@@ -235,7 +242,8 @@ var AppState = Backbone.Model.extend({
             time: defaults.time,
             state: defaults.state,
             currentHelp: defaults.currentHelp,
-            userStartTime: new Date()
+            userStartTime: new Date(),
+            userEndTime: null
         });
         this._elements = null;
         this.trigger('reset');
@@ -380,6 +388,7 @@ var AppView = Backbone.View.extend({
             $("#distance").text("");
             $("#speed").text("");
             $("#eccentricity").text("");
+            $("#time").text("");
         }
     },
 
@@ -540,6 +549,7 @@ var MissionHelpView = Backbone.View.extend({
         "@icon-rocket": '<span class="fa fa-rocket"></span>',
         "@icon-win": '<span class="icon-win"></span>',
         "@icon-menu": '<span class="icon-menu"></span>',
+        "@icon-help": '<span class="icon-help"></span>',
         "\\*(.+?)\\*": "<strong>$1</strong>",
         "^(#)\\s*(.+)": "<h1>$2</h1>",
         "^\s*$": "<br>",

@@ -27,24 +27,34 @@ missions:
           Your very first mission: just add one planet and make it orbit around the star!
           Click "Next" to learn how.
           @proceed
-        
+
       - on: proceed
-        message: |
-          First, @icon-tap tap anywhere to add a new planet. 
+        message: |          
+          Your goal is to complete your mission in as little time as possible. Your current
+          elapsed time is shown in the top right corner.
+
+          
+          To review your current mission, click on the @icon-help Help button.
+          @proceed
+          
+      - on: proceed
+        message: >          
+          First, *@icon-tap tap anywhere* to add a new planet. 
            
       - on: change:nplanets
         message: >
-          That's your first planet! Now try to @icon-drag *drag* the planet
+          That's your first planet! Now try to *@icon-drag drag the planet*
           to change its position.
 
       - on: planet:drag
         message: >
-          Awesome! Now  @icon-drag *drag* the tip of the arrow to change the speed
+          Awesome! Now  @icon-drag *drag the tip of the arrow* to change the speed
           and direction of the planet. 
 
       - on: planet:dragvelocity
-        message: >          
+        message: |          
           As you change the position and speed of the planet, its orbital path will change.
+
           
           Now *tap on the @icon-star star* to let the planet orbit!
           
