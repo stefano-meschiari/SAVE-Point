@@ -5,7 +5,7 @@
 @font: "Dosis";
 @font-xl: 50px;
 @font-l: 35px;
-@font-m: 25px;
+@font-m: 20px;
 
 @border-radius: 20px;
 
@@ -18,6 +18,18 @@ html, body {
   min-height:100%;
   font-family:@font, "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow:hidden;
+}
+
+.font-xl {
+  font-size: @font-xl;
+}
+
+.font-l {
+  font-size: @font-l;
+}
+
+.font-m {
+  font-size: @font-m;
 }
 
 .clear-left {
@@ -266,7 +278,7 @@ td.td-val {
   position:absolute;
   bottom:30px;
   opacity:0;
-  font-size:20px;
+  font-size:@font-m;
   font-weight:200;
   display:block;
   text-shadow:0px 0px 2px black;
@@ -322,6 +334,13 @@ td.td-val {
   .fa;
   &:before {
     content: @fa-var-chevron-right;
+  }
+}
+
+.icon-thumbs-up {
+  .fa;
+  &:before {
+    content: @fa-var-thumbs-up;
   }
 }
 
@@ -429,14 +448,14 @@ td.td-val {
 .title {
   font-size:@font-xl;
   color:white;
-  .drop-shadow(1px 1px 1px black);
+  text-shadow:0px 0px 2px black;
 }
 
 .subtitle {
   font-size:@font-m;
   color:silver;
   margin-bottom:5px;
-  .drop-shadow(1px 1px 4px black);  
+  text-shadow:0px 0px 4px black;
 }
 
 #text-top.expanded {
@@ -478,9 +497,9 @@ td.td-val {
 .mission-title {
   font-weight:bold;
   color:white;
-  .drop-shadow(0px 0px 10px black);  
+  text-shadow:0px 0px 5px black;
 }
 
 .mission-subtitle {
-  .drop-shadow(0px 0px 10px black);    
+  text-shadow:0px 0px 5px black;
 }

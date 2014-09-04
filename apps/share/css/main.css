@@ -8,6 +8,15 @@ body {
   font-family: "Dosis", "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow: hidden;
 }
+.font-xl {
+  font-size: 50px;
+}
+.font-l {
+  font-size: 35px;
+}
+.font-m {
+  font-size: 20px;
+}
 .clear-left {
   clear: left;
 }
@@ -308,6 +317,24 @@ td.td-val {
 .icon-mission-next:before {
   content: "\f054";
 }
+.icon-thumbs-up {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-thumbs-up.pull-left {
+  margin-right: .3em;
+}
+.icon-thumbs-up.pull-right {
+  margin-left: .3em;
+}
+.icon-thumbs-up:before {
+  content: "\f164";
+}
 .icon-mission-locked {
   display: inline-block;
   font-family: FontAwesome;
@@ -522,19 +549,13 @@ td.td-val {
 .title {
   font-size: 50px;
   color: white;
-  -webkit-filter: drop-shadow(1px 1px 1px #000000);
-  -moz-filter: drop-shadow(1px 1px 1px #000000);
-  -ms-filter: drop-shadow(1px 1px 1px #000000);
-  filter: drop-shadow(1px 1px 1px #000000);
+  text-shadow: 0px 0px 2px black;
 }
 .subtitle {
-  font-size: 25px;
+  font-size: 20px;
   color: silver;
   margin-bottom: 5px;
-  -webkit-filter: drop-shadow(1px 1px 4px #000000);
-  -moz-filter: drop-shadow(1px 1px 4px #000000);
-  -ms-filter: drop-shadow(1px 1px 4px #000000);
-  filter: drop-shadow(1px 1px 4px #000000);
+  text-shadow: 0px 0px 4px black;
 }
 #text-top.expanded {
   opacity: 1;
@@ -582,14 +603,8 @@ lesshat-selector {
 .mission-title {
   font-weight: bold;
   color: white;
-  -webkit-filter: drop-shadow(0px 0px 10px #000000);
-  -moz-filter: drop-shadow(0px 0px 10px #000000);
-  -ms-filter: drop-shadow(0px 0px 10px #000000);
-  filter: drop-shadow(0px 0px 10px #000000);
+  text-shadow: 0px 0px 5px black;
 }
 .mission-subtitle {
-  -webkit-filter: drop-shadow(0px 0px 10px #000000);
-  -moz-filter: drop-shadow(0px 0px 10px #000000);
-  -ms-filter: drop-shadow(0px 0px 10px #000000);
-  filter: drop-shadow(0px 0px 10px #000000);
+  text-shadow: 0px 0px 5px black;
 }

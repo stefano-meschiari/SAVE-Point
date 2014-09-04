@@ -287,7 +287,7 @@ var AppView = Backbone.View.extend({
         // Update information when planetary parameters change
         self.listenTo(self.model, 'change:nplanets change:time change:position change:velocity change:elements', _.throttle(self.renderInfo, 500));
         
-        self.listenTo(self.model, 'change:currentMission change:missions', self.renderMissions);
+        self.listenTo(self.model, 'change:currentMission change:missions', self.renderMission);
         self.listenTo(self.model, 'change:state', self.setVisibility);
         self.listenTo(self.model, 'win', self.renderWin);
         self.listenTo(self.model, 'lose', self.renderLose);
@@ -323,7 +323,7 @@ var AppView = Backbone.View.extend({
     missionTemplate: _.template('<div class="title"><span class="fa fa-rocket"></span> <%= title %></div><div class="subtitle"><%= subtitle %></div>'),
     missionDelay: 6000,
     
-    renderMissions: function() {
+    renderMission: function() {
         /*        var current = this.model.get('currentMission');
         var missions = this.model.get('missions');
         var $div = $('<div id="missions"></div>');
@@ -415,9 +415,7 @@ var AppView = Backbone.View.extend({
      * then tapping anywhere will pause the app. Otherwise, add a new planet.
      */
     canvasMouseDown: function(e) {
-        if (app.get('state') == RUNNING) {
-            app.toggleState();
-        } else {
+        if (app.get('state') == PAUSED) {
             app.addPlanet(e.position);
         }
     },
@@ -461,7 +459,7 @@ var AppView = Backbone.View.extend({
         }, this.winWait);
     },
 
-    loseTemplate: _.template('<div class="subtitle"><%= lose %></div><div><button class="btn-jrs" onClick="app.reset();">Retry mission</button></div>'),
+    loseTemplate: _.template('<div class="subtitle"><%= lose %></div><div><button class="btn-jrs font-m" onClick="app.reset(); app.mainView.renderMission(); "><span class="icon-thumbs-up"></span> No worries! Retry mission</button></div>'),
     
     renderLose: function() {
         var mission = app.get('missions')[app.get('currentMission')];
