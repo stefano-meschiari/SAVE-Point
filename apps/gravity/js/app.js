@@ -476,7 +476,7 @@ var AppView = Backbone.View.extend({
      * Render win.
      */
 
-    winTemplate: _.template('<div class="subtitle"><%= win %></div>'),
+    winTemplate: _.template('<div class="font-l"><%= win %></div>'),
     winDelay: 6000,
     
     renderWin: function() {
@@ -534,6 +534,7 @@ var MissionHelpModel = Backbone.Model.extend({
         
         var h = mission.get('help');
         var self = this;
+        var shown = [];
         
         for (var i = 0; i < h.length; i++) {
             var on = h[i].on;
@@ -551,7 +552,10 @@ var MissionHelpModel = Backbone.Model.extend({
             } else {
                 this.listenTo(model, on, (function(j) {
                     return function() {
-                        self.trigger('help', h[j].message);
+                        if (! shown[j]) {
+                            self.trigger('help', h[j].message);
+                            shown[j] = true;
+                        }
                     };
                 })(i));
             }
@@ -650,6 +654,9 @@ var MissionHelpView = Backbone.View.extend({
 
     render: function(helpText) {
         var self = this;
+        if (self.lastHelp == helpText)
+            return;
+        self.lastHelp = helpText;
         app.set('interactive', true);
         
         $("#help-text").removeClass("expanded");

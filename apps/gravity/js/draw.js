@@ -90,7 +90,7 @@ var Draw = Backbone.View.extend({
             var dx = frame * (frames-frame) * a;
             
             if (frame == frames) {
-                app.set('interactive', false);
+                app.set('interactive', true);
                 self.animating = false;
                 self.star.center = view.center;
                 _.delay(_.bind(self.animateStar, self), 1000);
@@ -196,7 +196,7 @@ var Draw = Backbone.View.extend({
                     });
                     body.fillColor = {
                         gradient: {
-                            stops:[[PLANET_COLORS[colorIndex],0.], ['black', 0.9]],
+                            stops:[[PLANET_COLORS[colorIndex],0.], ['black', 0.75]],
                             radial:true
                         },
                         origin: body.position,
