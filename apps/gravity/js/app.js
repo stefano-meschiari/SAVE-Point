@@ -26,6 +26,10 @@ var AppState = Backbone.Model.extend({
             // the user can add planets, drag them, and change their velocity vector.
             // When RUNNING, time is flowing and the planet orbits the central star.
             state:PAUSED,
+            // show orbit?
+            showOrbit:false,
+            // start time, used to calculate elapsed time
+            userStartTime:new Date(),
             // start with no planets
             nplanets: 0,
             // start at t = 0 days
@@ -206,6 +210,17 @@ var AppState = Backbone.Model.extend({
     menu: function() {
         this.set('state', MENU);
     },
+
+    /*
+     * Calculates elapsed time as a human-readable string.
+     */
+    elapsedTime: function() {
+        var seconds = Math.round((new Date().getTime() - this.get('userStartTime').getTime()) / 1000);
+        console.log(seconds);
+        var minutes = Math.floor(seconds/60);
+        seconds = seconds % 60;
+        return minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
+    },
     
     /*
      * Reset the state.
@@ -219,7 +234,8 @@ var AppState = Backbone.Model.extend({
             nplanets: defaults.nplanets,
             time: defaults.time,
             state: defaults.state,
-            currentHelp: defaults.currentHelp
+            currentHelp: defaults.currentHelp,
+            userStartTime: new Date()
         });
         this._elements = null;
         this.trigger('reset');
@@ -232,6 +248,7 @@ var AppState = Backbone.Model.extend({
     initialize: function() {
         this.ctx = {M:this.get('masses'), x: this.get('position'), v:this.get('velocity'), dt: 0.25 };
         this.listenTo(this, "planet:drag planet:dragvelocity", function() { this.elements(true); });
+        
     }
 });
 
@@ -277,6 +294,11 @@ var AppView = Backbone.View.extend({
                 clearInterval(self.validateTimer);
             
             self.validateTimer = setInterval(_.bind(self.validate, self), 1000);
+
+            if (self.elapsedTimer)
+                 clearInterval(self.elapsedTimer);
+
+            self.elapsedTimer = setInterval(_.bind(self.renderElapsed, self), 1000);            
         });
     },
 
@@ -326,10 +348,16 @@ var AppView = Backbone.View.extend({
 
     els: {},
     system: { twoD:true, Mstar: 1},
+
+    renderElapsed: function() {
+        $("#elapsed").text(this.model.elapsedTime());            
+    },
     
     renderInfo: function() {
-        $("#time").text(this.model.get('time') + " days");
+        
         if (app.get('nplanets') > 0) {
+            $("#time").text(this.model.get('time') + " days");
+
             var els = app.elements();
             var position = app.get('position');
             var velocity = app.get('velocity');

@@ -204,6 +204,10 @@ body {
   top: 0px;
   font-size: 18px;
   font-weight: 200;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 #info-table-container {
   background: rgba(180, 180, 180, 0.3);
@@ -251,6 +255,10 @@ td.td-val {
   background-color: rgba(180, 180, 180, 0.3);
   text-align: left;
   color: white;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .animated {
   -webkit-transition: 0.5s ease-in;
@@ -488,6 +496,10 @@ td.td-val {
   -moz-transition: 0.5s ease-in;
   -o-transition: 0.5s ease-in;
   transition: 0.5s ease-in;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .title {
   font-size: 50px;

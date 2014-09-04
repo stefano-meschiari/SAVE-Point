@@ -121,8 +121,10 @@ var Draw = Backbone.View.extend({
             }
             for (i = 0; i < self.backgroundStars.length; i++) { 
                 self.backgroundStars[i].position.x -= dx * self.backgroundStars[i].z * self.backgroundStars[i].z;
-                if (self.backgroundStars[i].position.x < 0)
+                if (self.backgroundStars[i].position.x < 0) {
                     self.backgroundStars[i].position.x = 2.*view.bounds.width;
+                    self.backgroundStars[i].position.y = Math.floor(Math.random() * view.bounds.height);
+                }
             }
             
             

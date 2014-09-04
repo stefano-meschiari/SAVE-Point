@@ -77,6 +77,10 @@ write_mission_rules($cfg);
           <td class="td-label">Time</td>
           <td class="td-val" id="time"></td>
         </tr>
+        <tr>
+          <td class="td-label">Elapsed</td>
+          <td class="td-val" id="elapsed"></td>
+        </tr>
       </table>
     </div>
     <div id="info-help">

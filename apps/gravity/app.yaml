@@ -40,18 +40,20 @@ missions:
       - on: planet:drag
         message: >
           Awesome! Now  @icon-drag *drag* the tip of the arrow to change the speed
-          and direction of the planet.
+          and direction of the planet. 
 
       - on: planet:dragvelocity
         message: >          
-          Now *tap on the @icon-star star* to let the planet orbit.
+          As you change the position and speed of the planet, its orbital path will change.
+          
+          Now *tap on the @icon-star star* to let the planet orbit!
           
                   
   - title: Circular orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.1 && elements[0].eccentricity > -0.001
     enabled: true
     subtitle: Add a planet in a circular orbit.
-    win: Hot damn! That's pretty circular!
+    win: Hot damn! That's... pretty circular!
     lose: That orbit is not very circular.
 
   - title: Eccentric orbit
@@ -65,8 +67,8 @@ missions:
     rule: nplanets > 0 && elements[0].eccentricity > 1
     enabled: true
     subtitle: Add a planet in a hyperbolic orbit.
-    win: So elliptical!
-    lose: That orbit is not eccentric...
+    win: Bye bye planet!
+    lose: That orbit is not quite hyperbolic.
 
   - title: Crash & burn
     rule: nplanets > 0 && elements[0].eccentricity > 1
