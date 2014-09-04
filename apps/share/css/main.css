@@ -208,7 +208,7 @@ body {
 /* Info-top styles */
 #info-top {
   position: absolute;
-  min-width: 200px;
+  min-width: 250px;
   right: 0px;
   top: 0px;
   font-size: 18px;
@@ -583,6 +583,7 @@ td.td-val {
   font-size: 50px;
   text-align: center;
   line-height: 100px;
+  cursor: not-allowed;
 }
 lesshat-selector {
   -lh-property: 0; } 
@@ -599,6 +600,11 @@ lesshat-selector {
   -moz-animation: bob 0.75s ease alternate infinite;
   -o-animation: bob 0.75s ease alternate infinite;
   animation: bob 0.75s ease alternate infinite;
+}
+.mission-thumb-completed {
+  background-color: white;
+  color: black;
+  cursor: pointer;
 }
 .mission-title {
   font-weight: bold;

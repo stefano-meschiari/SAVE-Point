@@ -11,17 +11,33 @@
 "use strict";
 
 /*
+ * The mission model. 
+ */
+var Mission = Backbone.Model.extend({
+    defaults: {
+        completed: false,
+        elapsed: -1,
+        elements: null        
+    }
+});
+
+/*
+ * A collection of missions. This object takes care of synchronizing with the server.
+ */
+var MissionCollection = Backbone.Collection.extend({
+    model: Mission
+});
+
+/*
  * The app state model. The properties of the model defined in defaults are augmented
  * by the properties in app.yaml, and inserted into the APP_CFG dictionary by the backend.
  *
  */
-var AppState = Backbone.Model.extend({
+var App = Backbone.Model.extend({
     defaults: function() {
         return {
             // start with the first mission
             currentMission: 0,
-            // last mission beaten
-            missionBeaten: -1,
             // start off in a PAUSED state (can either be PAUSED, RUNNING or MENU); when PAUSED,
             // the user can add planets, drag them, and change their velocity vector.
             // When RUNNING, time is flowing and the planet orbits the central star.
@@ -49,7 +65,9 @@ var AppState = Backbone.Model.extend({
             velocity: [0, 0, 0],
             // initial mass of the star (MSUN). The vector contains the masses of
             // all the bodies in the system.
-            masses: [1]
+            masses: [1],
+            // mission collection
+            missions: null
         };
     },
 
@@ -59,10 +77,10 @@ var AppState = Backbone.Model.extend({
     get: function(attr) {
         if (this.attributes[attr] !== undefined)
             return this.attributes[attr];
-        else if (this[attr])
+        else if (_.isFunction(this[attr]))
             return this[attr]();
-        else
-            return undefined;
+        else 
+            return this[attr];
     },
     
     /*
@@ -82,7 +100,7 @@ var AppState = Backbone.Model.extend({
      * Syncs the state of the model with the server. Not implemented.
      */     
     sync: function(method, model, options) {
-        throw new Error("TODO: Sync method for AppState model.");        
+        throw new Error("TODO: Sync method for App model.");        
     },
 
     /*
@@ -187,7 +205,11 @@ var AppState = Backbone.Model.extend({
      */
     win: function() {
         this.set('userEndTime', new Date());
-        this.trigger('win');
+        var mission = this.get('missions').at(this.get('currentMission'));
+        mission.set('completed', true);
+        mission.set('elapsed', this.elapsedTime(true));
+        
+        this.trigger('win');        
     },
 
     /*
@@ -201,9 +223,11 @@ var AppState = Backbone.Model.extend({
     /*
      * Move to next mission
      */
-    nextMission: function() {
+    setMission: function(mission) {
+        if (mission === undefined)
+            mission = this.get('currentMission')+1;
         this.reset();
-        this.set({ currentMission: this.get('currentMission') + 1});
+        this.set({ currentMission: mission });
     },
 
     /*
@@ -249,6 +273,24 @@ var AppState = Backbone.Model.extend({
         this.trigger('reset');
     },
 
+
+    /*
+     * Read in properties from app.yaml
+     */
+    importConfig: function(dict) {
+        var missions = dict.missions;
+        var coll = new MissionCollection();
+        
+        _.each(missions, function(mission) {
+            var m = new Mission(mission);
+            coll.add(m);
+        });
+
+        delete dict.missions;
+        this.set(dict);
+        this.set('missions', coll);
+    },
+
     /*
      * Initializes the model, by creating a "context" object. The context
      * object is used by the leapfrog function.
@@ -256,12 +298,11 @@ var AppState = Backbone.Model.extend({
     initialize: function() {
         this.ctx = {M:this.get('masses'), x: this.get('position'), v:this.get('velocity'), dt: 0.25 };
         this.listenTo(this, "planet:drag planet:dragvelocity", function() { this.elements(true); });
-        
     }
 });
 
 // Creates the global singleton object that contains the application state.
-var app = new AppState();
+var app = new App();
 
 
 
@@ -287,7 +328,7 @@ var AppView = Backbone.View.extend({
         // Update information when planetary parameters change
         self.listenTo(self.model, 'change:nplanets change:time change:position change:velocity change:elements', _.throttle(self.renderInfo, 500));
         
-        self.listenTo(self.model, 'change:currentMission change:missions', self.renderMission);
+        self.listenTo(self.model, 'change:currentMission change:missions reset', self.renderMission);
         self.listenTo(self.model, 'change:state', self.setVisibility);
         self.listenTo(self.model, 'win', self.renderWin);
         self.listenTo(self.model, 'lose', self.renderLose);
@@ -297,7 +338,7 @@ var AppView = Backbone.View.extend({
 
         // A timer that checks whether a mission has been completed, by running the
         // validate function.
-        self.listenTo(self.model, 'change:currentMission change:missions', function() {
+        self.listenTo(self.model, 'change:currentMission change:missions reset', function() {
             if (self.validateTimer)
                 clearInterval(self.validateTimer);
             
@@ -324,21 +365,10 @@ var AppView = Backbone.View.extend({
     missionDelay: 6000,
     
     renderMission: function() {
-        /*        var current = this.model.get('currentMission');
-        var missions = this.model.get('missions');
-        var $div = $('<div id="missions"></div>');
-        
-        for (var i = 0; i < missions.length; i++) {
-            var type = (current == i ? this.MISSION_ACTIVE : (i < current ? this.MISSION_COMPLETED : this.MISSION));
-            $div.append(this.MISSION_TEMPLATE({ type: type, label: missions[i].title }));
-        }
-
-         $("#missions").replaceWith($div);*/
-
         var current = this.model.get('currentMission');
-        var missions = this.model.get('missions');
+        var mission = this.model.get('missions').at(current);
         
-        $("#text-top").html(this.missionTemplate(missions[current]));
+        $("#text-top").html(this.missionTemplate(mission.attributes));
         $("#text-top").addClass("expanded");
 
         _.delay(function() {
@@ -445,26 +475,26 @@ var AppView = Backbone.View.extend({
      */
 
     winTemplate: _.template('<div class="subtitle"><%= win %></div>'),
-    winWait: 5000,
+    winDelay: 6000,
     
     renderWin: function() {
-        var mission = app.get('missions')[app.get('currentMission')];
+        var mission = app.get('missions').at(app.get('currentMission'));
         
-        $("#text-top").html(this.winTemplate(mission));
+        $("#text-top").html(this.winTemplate(mission.attributes));
         $("#text-top").addClass("expanded");
 
         _.delay(function() {
             $("#text-top").removeClass("expanded");
             app.menu();
-        }, this.winWait);
+        }, this.winDelay);
     },
 
     loseTemplate: _.template('<div class="subtitle"><%= lose %></div><div><button class="btn-jrs font-m" onClick="app.reset(); app.mainView.renderMission(); "><span class="icon-thumbs-up"></span> No worries! Retry mission</button></div>'),
     
     renderLose: function() {
-        var mission = app.get('missions')[app.get('currentMission')];
+        var mission = app.get('missions').at(app.get('currentMission'));
         
-        $("#text-top").html(this.loseTemplate(mission));
+        $("#text-top").html(this.loseTemplate(mission.attributes));
         $("#text-top").addClass("expanded");
     }
 
@@ -490,8 +520,8 @@ var MissionHelpModel = Backbone.Model.extend({
         var model = this.get('model');
         var currentMission = model.get('currentMission');
         
-        var mission = model.get('missions')[currentMission];
-        if (!mission.help) {
+        var mission = model.get('missions').at(currentMission);
+        if (!mission.get('help')) {
             this.trigger('help', null);
             return;
         }
@@ -500,7 +530,7 @@ var MissionHelpModel = Backbone.Model.extend({
             this.destroy();
         });
         
-        var h = mission.help;
+        var h = mission.get('help');
         var self = this;
         
         for (var i = 0; i < h.length; i++) {
@@ -525,7 +555,7 @@ var MissionHelpModel = Backbone.Model.extend({
             }
         }
 
-        this.trigger('help', mission.help[0].message);
+        this.trigger('help', mission.get('help')[0].message);
     },
     
     initialize: function() {
@@ -585,17 +615,22 @@ var MissionHelpView = Backbone.View.extend({
         var templater = this.templater;
 
         for (var i = 0; i < missions.length; i++) {
-            var m = missions[i];
-            if (!m.help)
+            var m = missions.at(i);
+            var help = m.get('help');
+            if (!help)
                 continue;
-
-            for (var j = 0; j < m.help.length; j++) {
-                m.help[j].message = _.escapeHTML(m.help[j].message);
+            
+                       
+            for (var j = 0; j < help.length; j++) {
+                help[j].message = _.escapeHTML(help[j].message);
                 
-                m.help[j].message = _.reduce( _.keys(templater), function(transformed, tag) {
+                help[j].message = _.reduce( _.keys(templater), function(transformed, tag) {
                     return transformed.replace(new RegExp(tag, 'gm'), templater[tag]);
-                }, m.help[j].message);
+                }, help[j].message);
+                
             };
+            m.set('help', help);
+            
         }
     },
 
@@ -647,7 +682,7 @@ var AppMenuView = Backbone.View.extend({
         
         if (state === MENU) {
             $el.addClass("expanded");
-            this.renderMissions();
+            this.renderMissionMenu();
         } else {
             $el.removeClass("expanded");
         }
@@ -658,36 +693,45 @@ var AppMenuView = Backbone.View.extend({
     missionThumb: '<div class="mission-thumb"></div>',
 
     missionThumbNext: '<span class="icon-mission-next"></span>',
+    missionThumbCompleted: '<span class="icon-mission-completed"></span>',
     missionThumbLocked: '<span class="icon-mission-locked"></span>',
     
     missionTitleTemplate: _.template('<div class="mission-title"><%= title %></div><div class="mission-subtitle"><%= subtitle %></div>'),
+    $missions: $("#app-menu-missions"),
     
-    renderMissions: function() {
-        var $missions = $("#app-menu-missions");
-        $missions.empty();
+    renderMissionMenu: function() {
+        this.$missions.empty();
         var missions = app.get('missions');
         var currentMission = app.get('currentMission');
         
         for (var i = 0; i < missions.length; i++) {
+            var mission = missions.at(i);
+            
             var $div = $(this.missionContainer);
 
             var $thumb = $(this.missionThumb);
-            if (i == currentMission + 1) {
+
+            if (mission.get('completed')) {
+                $thumb.addClass("mission-thumb-completed");
+                $thumb.on("click", _.partial(function(i) {
+                    app.setMission(i);
+                }, i));
+            } else if (missions.at(i-1).get('completed')) {
                 $thumb.addClass("mission-thumb-next");
                 $thumb.append(this.missionThumbNext);
-                $thumb.on("click", function() {
-                    app.nextMission(); 
-                });
-            } else if (i > currentMission + 1) {
+                $thumb.on("click", _.partial(function(i) {
+                    app.setMission(i);
+                }, i));                    
+            } else {
                 $thumb.append(this.missionThumbLocked);
             }
-            
+                        
             $div.append($thumb);
-            $div.append(this.missionTitleTemplate(missions[i]));
-            $missions.append($div);
+            $div.append(this.missionTitleTemplate(missions.at(i).attributes));
+            this.$missions.append($div);
         }
 
-        $missions.append(this.clear);
+        this.$missions.append(this.clear);
     },
 
     renderOrbit: function(ctx) {
@@ -703,7 +747,7 @@ $(document).ready(function() {
     // fetch it asynchronously from a .json file.
     // APP_CFG replicates the configuration options contained in app.yaml: e.g.,
     // mission text and objectives.
-    app.set(APP_CFG);
+    app.importConfig(APP_CFG);
     APP_CFG = null;
 });
 

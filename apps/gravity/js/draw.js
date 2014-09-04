@@ -71,11 +71,13 @@ var Draw = Backbone.View.extend({
         this.nonInteractive = true;
         this.animating = true;
 
+        var direction = (app.previous('currentMission') < app.get('currentMission') ? 1 : -1);
+        
         app.set('state', PAUSED);
 
         var frame = 0;
         var frames = 300;
-        var Dx = 2*view.bounds.width;
+        var Dx = 2*view.bounds.width * direction;
 
         // function: dx = x * (x-frames) * 6 * Dx / frames^3
         var a = 6*Dx / (frames*frames*frames);
@@ -100,6 +102,7 @@ var Draw = Backbone.View.extend({
                 scaleStar = false;
                 self.star.position.x = 1.5*view.bounds.width;
                 self.star.position.y = view.center.y;
+
             } else if (frame > (0.5*frames)|0) {
                 if (self.star.position.x < view.center.x)
                     self.star.position.x = view.center.x;
@@ -122,7 +125,7 @@ var Draw = Backbone.View.extend({
             for (i = 0; i < self.backgroundStars.length; i++) { 
                 self.backgroundStars[i].position.x -= dx * self.backgroundStars[i].z * self.backgroundStars[i].z;
                 if (self.backgroundStars[i].position.x < 0) {
-                    self.backgroundStars[i].position.x = 2.*view.bounds.width;
+                    self.backgroundStars[i].position.x = view.bounds.width;
                     self.backgroundStars[i].position.y = Math.floor(Math.random() * view.bounds.height);
                 }
             }
@@ -173,6 +176,7 @@ var Draw = Backbone.View.extend({
         if (this.nonInteractive)
             return;
         
+        var colorIndex = app.get('currentMission');
         var self = this;
         
         var position = app.get('position');
@@ -193,7 +197,7 @@ var Draw = Backbone.View.extend({
                     });
                     body.fillColor = {
                         gradient: {
-                            stops:[[PLANET_COLORS[i],0.], ['black', 1]],
+                            stops:[[PLANET_COLORS[colorIndex],0.], ['black', 0.9]],
                             radial:true
                         },
                         origin: body.position,

@@ -228,7 +228,7 @@ html, body {
 /* Info-top styles */
 #info-top {
   position:absolute;
-  min-width:200px;
+  min-width:250px;
   right:0px;
   top:0px;
   font-size:18px;
@@ -242,6 +242,7 @@ html, body {
   font-size:18px;
   font-weight:200;
   color:white;
+  
 }
 
 #info-top table {
@@ -483,6 +484,7 @@ td.td-val {
   font-size:50px;
   text-align:center;
   line-height:100px;
+  cursor:not-allowed;
 }
 
 .keyframes(~'bob, 0%{transform: scale(0.9); background-color:silver; } 100%{transform:scale(1.05)}');
@@ -492,6 +494,12 @@ td.td-val {
   color:black;
   cursor:pointer;
   .animation(bob 0.75s ease alternate infinite);
+}
+
+.mission-thumb-completed {
+  background-color:white;
+  color:black;
+  cursor:pointer;
 }
 
 .mission-title {
