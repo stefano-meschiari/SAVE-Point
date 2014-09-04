@@ -367,6 +367,8 @@ var AppView = Backbone.View.extend({
     missionDelay: 6000,
     
     renderMission: function() {
+        // Check if the top banner is already expanded; if it is, hide it
+        // temporarily and show it again.
         var current = this.model.get('currentMission');
         var mission = this.model.get('missions').at(current);
         
@@ -477,7 +479,7 @@ var AppView = Backbone.View.extend({
      */
 
     winTemplate: _.template('<div class="font-l"><%= win %></div>'),
-    winDelay: 6000,
+    winDelay: 10000,
     
     renderWin: function() {
         var mission = app.get('missions').at(app.get('currentMission'));
@@ -727,7 +729,7 @@ var AppMenuView = Backbone.View.extend({
                 $thumb.on("click", _.partial(function(i) {
                     app.setMission(i);
                 }, i));
-            } else if (missions.at(i-1).get('completed')) {
+            } else if (i > 0 && missions.at(i-1).get('completed')) {
                 $thumb.addClass("mission-thumb-next");
                 $thumb.append(this.missionThumbNext);
                 $thumb.on("click", _.partial(function(i) {

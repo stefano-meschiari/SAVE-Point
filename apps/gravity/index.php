@@ -60,6 +60,13 @@ write_mission_rules($cfg);
     <div class="sidebar-expandable">
       <button class="btn btn-lg btn-jrs " onClick="app.reset()">Restart mission</button>
     </div>
+
+    <div class="sidebar-section">DEBUG TOOLS :-><div class="separator"></div></div>    
+    <div class="sidebar-expandable">
+      <a href="#" onClick="app.setMission()">Skip to next mission</a><br>
+      <a href="#" onClick="app.win()">Win</a><br>
+      <a href="#" onClick="app.lose()">Lose</a> <br>
+    </div>
   </div>
 
   <div id="info-top">
