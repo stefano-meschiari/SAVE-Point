@@ -25,3 +25,10 @@ physics:
 
 underscore.string:
   - share/underscore.string/dist/underscore.string.min.js
+
+color:
+  - share/harthur-color/color-0.7.1.min.js
+
+constants:
+  - share/js/colors.js
+  - share/js/constants.js

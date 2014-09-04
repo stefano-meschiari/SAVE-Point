@@ -9,7 +9,6 @@ var easing = function(x) {
 
 var Draw = Backbone.View.extend({
     backgroundStars:[],
-    nonInteractive:false,
     animating:false,
     inflated: true,
 
@@ -68,7 +67,7 @@ var Draw = Backbone.View.extend({
 
     animateTravel: function() {
         var self = this;
-        this.nonInteractive = true;
+        app.set('interactive', false);
         this.animating = true;
 
         var direction = (app.previous('currentMission') < app.get('currentMission') ? 1 : -1);
@@ -91,7 +90,7 @@ var Draw = Backbone.View.extend({
             var dx = frame * (frames-frame) * a;
             
             if (frame == frames) {
-                self.nonInteractive = false;
+                app.set('interactive', false);
                 self.animating = false;
                 self.star.center = view.center;
                 _.delay(_.bind(self.animateStar, self), 1000);
@@ -173,7 +172,7 @@ var Draw = Backbone.View.extend({
     },
     
     planetsUpdate: function() {
-        if (this.nonInteractive)
+        if (!app.get('interactive'))
             return;
         
         var colorIndex = app.get('currentMission');
@@ -270,7 +269,7 @@ var Draw = Backbone.View.extend({
     },
 
     handlesUpdate: function() {
-        if (this.nonInteractive)
+        if (!app.get('interactive'))
             return;
         
         if (app.get('state') != PAUSED) {
@@ -386,7 +385,7 @@ var Draw = Backbone.View.extend({
                 path.smooth();
                 path.closed = true;
             }
-            path.strokeColor = ORBIT_COLORS[i];
+            path.strokeColor = ORBIT_COLORS[app.get('currentMission')];
             path.sendToBack();
             this.trails[i] = path;
         }
@@ -476,7 +475,7 @@ var Draw = Backbone.View.extend({
     // Mouse-down event on canvas. Forward message to appView.
     // Astrocentric coordinates are stored in events.position.
     onMouseDown: function(event) {
-        if (this.nonInteractive)
+        if (!app.get('interactive'))
             return;
         
         var p = project.hitTest(event.point);

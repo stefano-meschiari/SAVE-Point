@@ -2,13 +2,15 @@
 description: A game of gravity
 title: Gravity
 requires:
+  - color
   - jquery
   - underscore
   - underscore.string
   - backbone
   - bootstrap
   - paper
-  - physics  
+  - physics
+  - constants
 
 args:
   - nplanets
@@ -23,18 +25,27 @@ missions:
     enabled: true
     help:      
       - on: start
-        message: |
+        message: |          
+          @noninteractive
           Your very first mission: just add one planet and make it orbit around the star!
-          Click "Next" to learn how.
+
+
+          *Click "Next" to learn how.*
           @proceed
 
       - on: proceed
-        message: |          
+        message: |
+          @noninteractive
           Your goal is to complete your mission in as little time as possible. Your current
           elapsed time is shown in the top right corner.
-
+          @proceed
           
-          To review your current mission, click on the @icon-help Help button!
+      - on: proceed
+        message: |          
+          @noninteractive
+          To review your current mission at any time, click on the @icon-help Help button!
+          
+          *Now, let's start playing!*
           @proceed
           
       - on: proceed

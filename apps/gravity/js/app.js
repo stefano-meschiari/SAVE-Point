@@ -67,7 +67,9 @@ var App = Backbone.Model.extend({
             // all the bodies in the system.
             masses: [1],
             // mission collection
-            missions: null
+            missions: null,
+            // interactive?
+            interactive: true
         };
     },
 
@@ -578,6 +580,7 @@ var MissionHelpView = Backbone.View.extend({
         "@icon-win": '<span class="icon-win"></span>',
         "@icon-menu": '<span class="icon-menu"></span>',
         "@icon-help": '<span class="icon-help"></span>',
+        "@noninteractive": '<script> app.set("interactive", false); </script>',
         "\\*(.+?)\\*": "<strong>$1</strong>",
         "^(#)\\s*(.+)": "<h1>$2</h1>",
         "^\s*$": "<br>",
@@ -647,6 +650,7 @@ var MissionHelpView = Backbone.View.extend({
 
     render: function(helpText) {
         var self = this;
+        app.set('interactive', true);
         
         $("#help-text").removeClass("expanded");
         
