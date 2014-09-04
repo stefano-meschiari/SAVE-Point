@@ -34,7 +34,7 @@ missions:
           elapsed time is shown in the top right corner.
 
           
-          To review your current mission, click on the @icon-help Help button.
+          To review your current mission, click on the @icon-help Help button!
           @proceed
           
       - on: proceed
