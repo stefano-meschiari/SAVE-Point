@@ -139,13 +139,14 @@ var Draw = Backbone.View.extend({
         
     },
     
-    createArrow: function(from, to) {
+    createArrow: function(from, to, color) {
+        color = color || COLOR_OUTLINE;
         var myPath = new Path.Line(from, to);
         var t = Math.atan2(to.y-from.y, to.x-from.x) * 180/Math.PI;
         var head = new Path.RegularPolygon(to, 3, ARROW_SIZE);
         
-        head.fillColor = COLOR_OUTLINE;
-        myPath.strokeColor = COLOR_OUTLINE;
+        head.fillColor = color;
+        myPath.strokeColor = color;
         myPath.strokeWidth = 3;
         head.rotate(t-30);
         var g = new Group([myPath, head]);
@@ -284,6 +285,8 @@ var Draw = Backbone.View.extend({
         var handles = this.handles;
         var self = this;
         var i = 0;
+        var colorIdx = app.get('currentMission');
+
         
         if (handles.length == 0 || handles.length != nplanets) {
             this.destroyHandles();
@@ -294,10 +297,12 @@ var Draw = Backbone.View.extend({
                     center: body.position,
                     radius: PLANET_HALO_SIZE
                 });
+
+                var haloColor = window.Color(PLANET_COLORS[colorIdx]).lighten(0.2).rgbString();
                 
                 halo.fillColor =  {
                     gradient: {
-                        stops:[['white', 0.6], ['rgb(0, 0, 0, 0)', 1]],
+                        stops:[[haloColor, 0.6], ['rgb(0, 0, 0, 0)', 1]],
                         radial:true
                     },
                     origin: body.position,
@@ -313,7 +318,8 @@ var Draw = Backbone.View.extend({
 
                 var dv = new Point(velocity[NPHYS*(i+1)+X], velocity[NPHYS*(i+1)+Y]);
                 
-                var vector = this.createArrow(body.position, body.position + dv * PIXELS_PER_AUPDAY);
+                var vector = this.createArrow(body.position, body.position + dv * PIXELS_PER_AUPDAY,
+                                             haloColor);
                 vector.insertBelow(body);
 
 
