@@ -19,7 +19,7 @@ args:
 missions:
   - title: Practice Mode
     subtitle: Create your first planet.
-    win: Whoohoo! Look at that planet go!
+    win: Woohoo! Look at that planet go!
     lose: Darn! You forgot to add the planet!
     rule: nplanets > 0
     enabled: true
