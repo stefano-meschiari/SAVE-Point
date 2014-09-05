@@ -17,7 +17,7 @@ args:
   - elements
 
 missions:
-  - title: Sandbox
+  - title: Practice Mode
     subtitle: Create your first planet.
     win: Whoohoo! Look at that planet go!
     lose: Darn! You forgot to add the planet!
@@ -37,7 +37,8 @@ missions:
         message: |
           @noninteractive
           Your goal is to complete your mission in as little time as possible. Your current
-          elapsed time is shown in the top right corner.
+          elapsed time is shown in the top right corner.  Other information about your planet 
+          is shown, such as its distance from the star, its speed, and the time it takes to orbit.
           @proceed
           
       - on: proceed
