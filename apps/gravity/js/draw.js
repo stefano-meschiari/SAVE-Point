@@ -197,7 +197,7 @@ var Draw = Backbone.View.extend({
                     });
                     body.fillColor = {
                         gradient: {
-                            stops:[['white', 0], [PLANET_COLORS[colorIndex], 0.3], ['black', 0.6]],
+                            stops:[['white', 0], [PLANET_COLORS[colorIndex], 0.3], ['black', 0.75]],
                             radial:true
                         },
                         origin: body.position,
