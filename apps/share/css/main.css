@@ -517,6 +517,95 @@ td.td-val {
 .icon-win-star-o:before {
   content: "\f006";
 }
+.icon-mission-badge {
+  background: url('../img/circular_icon.png') no-repeat center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  padding: 10px;
+  background-origin: content-box;
+}
+.icon-circular {
+  background: url('../img/circular_icon.png') no-repeat center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  padding: 10px;
+  background-origin: content-box;
+  background-image: url('../img/circular_icon.png');
+}
+.icon-circular-b {
+  background: url('../img/circular_icon.png') no-repeat center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  padding: 10px;
+  background-origin: content-box;
+  background-image: url('../img/circular_icon_b.png');
+}
+.icon-elliptical {
+  background: url('../img/circular_icon.png') no-repeat center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  padding: 10px;
+  background-origin: content-box;
+  background-image: url('../img/elliptical_icon.png');
+}
+.icon-elliptical-b {
+  background: url('../img/circular_icon.png') no-repeat center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  padding: 10px;
+  background-origin: content-box;
+  background-image: url('../img/elliptical_icon_b.png');
+}
+.icon-hyperbolic {
+  background: url('../img/circular_icon.png') no-repeat center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  padding: 10px;
+  background-origin: content-box;
+  background-image: url('../img/escape_icon.png');
+}
+.icon-hyperbolic-b {
+  background: url('../img/circular_icon.png') no-repeat center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  padding: 10px;
+  background-origin: content-box;
+  background-image: url('../img/escape_icon_b.png');
+}
+.icon-crash {
+  background: url('../img/circular_icon.png') no-repeat center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  padding: 10px;
+  background-origin: content-box;
+  background-image: url('../img/crash_icon.png');
+}
+.icon-crash-b {
+  background: url('../img/circular_icon.png') no-repeat center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  padding: 10px;
+  background-origin: content-box;
+  background-image: url('../img/crash_icon_b.png');
+}
 .separator {
   height: 1px;
   background: linear-gradient(to right, #bababa 0%, #bababa 40%, rgba(186, 186, 186, 0) 80%);

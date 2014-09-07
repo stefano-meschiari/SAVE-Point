@@ -66,6 +66,7 @@ write_mission_rules($cfg);
       <a href="#" onClick="app.setMission()">Skip to next mission</a><br>
       <a href="#" onClick="app.win()">Win</a><br>
       <a href="#" onClick="app.lose()">Lose</a> <br>
+      <a href="#" onClick="app.menu()">Menu</a> <br>
     </div>
   </div>
 

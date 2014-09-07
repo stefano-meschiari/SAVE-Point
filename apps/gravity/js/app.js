@@ -705,9 +705,11 @@ var AppMenuView = Backbone.View.extend({
     clear: '<div class="clear"></div>',
     missionThumb: '<div class="mission-thumb"></div>',
 
-    missionThumbNext: '<span class="icon-mission-next"></span>',
-    missionThumbCompleted: '<span class="icon-mission-completed"></span>',
-    missionThumbLocked: '<span class="icon-mission-locked"></span>',
+    missionThumbIcon: _.template('<div class="<%= containerClass %>"></div>'),
+
+    defaultIconNext: 'icon-mission-next',
+    defaultIconLocked: 'icon-mission-locked',
+    defaultIconCompleted: 'icon-mission-completed',
     
     missionTitleTemplate: _.template('<div class="mission-title"><%= title %></div><div class="mission-subtitle"><%= subtitle %></div>'),
     $missions: $("#app-menu-missions"),
@@ -719,6 +721,7 @@ var AppMenuView = Backbone.View.extend({
         
         for (var i = 0; i < missions.length; i++) {
             var mission = missions.at(i);
+            var icon = mission.get('icon');
             
             var $div = $(this.missionContainer);
 
@@ -726,17 +729,22 @@ var AppMenuView = Backbone.View.extend({
 
             if (mission.get('completed')) {
                 $thumb.addClass("mission-thumb-completed");
+                if (icon)
+                    $thumb.addClass(icon+"-b");
+                
                 $thumb.on("click", _.partial(function(i) {
                     app.setMission(i);
                 }, i));
             } else if (i > 0 && missions.at(i-1).get('completed')) {
                 $thumb.addClass("mission-thumb-next");
+
+                $thumb.addClass(icon ? icon + "-b" : this.defaultIconNext);
                 $thumb.append(this.missionThumbNext);
                 $thumb.on("click", _.partial(function(i) {
                     app.setMission(i);
                 }, i));                    
             } else {
-                $thumb.append(this.missionThumbLocked);
+                $thumb.addClass(icon ? icon : this.defaultIconLocked);
             }
                         
             $div.append($thumb);
