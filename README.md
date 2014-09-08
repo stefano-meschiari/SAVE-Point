@@ -6,6 +6,9 @@ a small backend component written in PHP.
 The directory structure houses the custom code and several free &
 open-source libraries that are used by the code.
 
+A frequently-updated live version of the in-development apps is going
+to be hosted at http://jrs-edu.herokuapp.com.
+
 ## Dependencies
 
 
