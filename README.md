@@ -1,13 +1,11 @@
 # jrs
-This is project will house a set of educational web apps. Each
+This project will house a set of educational web apps. Each
 web app is a single-page application written in HTML5/JavaScript, with
-a small backend component written in PHP.
+a small backend component written in PHP (possibly changing in the
+near future).
 
 The directory structure houses the custom code and several free &
 open-source libraries that are used by the code.
-
-## Dependencies
-
 
 ## Directory structure
 - *Makefile* a Makefile that is used to run pre-processing jobs on the
