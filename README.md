@@ -7,6 +7,9 @@ near future).
 The directory structure houses the custom code and several free &
 open-source libraries that are used by the code.
 
+A frequently-updated live version of the in-development apps is going
+to be hosted at http://jrs-edu.herokuapp.com.
+
 ## Directory structure
 - *Makefile* a Makefile that is used to run pre-processing jobs on the
   code (e.g. convert .less files into .css). Use "make watch" to
