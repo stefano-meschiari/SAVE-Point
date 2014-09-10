@@ -37,10 +37,9 @@ missions:
         message: |
           @noninteractive
           Your goal is to complete your mission in as little time as possible. Your current
-          elapsed time is shown in the top right corner.  Other information about your planet 
-          is shown, such as its distance from the star, its speed, and the time it takes to orbit.
+          elapsed time is shown in the top right corner.  
           @proceed
-          
+      
       - on: proceed
         message: |          
           @noninteractive
@@ -59,9 +58,16 @@ missions:
           to change its position.
 
       - on: planet:drag
+        message: |
+          @noninteractive
+          Awesome!  Lot of useful information about your planet is shown in the upper right, 
+          such as its distance from the star, its speed, and the time it takes to orbit the star.  
+          @proceed
+          
+      - on: proceed
         message: >
-          Awesome! Now  @icon-drag *drag the tip of the arrow* to change the speed
-          and direction of the planet. 
+          Try it out!  @icon-drag *Drag the tip of the arrow* to change the speed
+          and direction of the planet, and see its speed change in the upper right. 
 
       - on: planet:dragvelocity
         message: |          
@@ -75,14 +81,14 @@ missions:
     rule: nplanets > 0 && elements[0].eccentricity < 0.1 && elements[0].eccentricity > -0.001
     enabled: true
     subtitle: Add a planet in a circular orbit.
-    win: Hot damn! That's... pretty circular!
+    win: Sweet! That's... pretty circular!
     lose: That orbit is not very circular.
     icon: icon-circular
 
   - title: Elliptical orbit
     rule: nplanets > 0 && elements[0].eccentricity > 0.1 && elements[0].eccentricity < 0.99
     enabled: true
-    subtitle: Add a planet in an eccentric orbit.
+    subtitle: Add a planet in an elliptical (oval) orbit.
     win: So elliptical!
     lose: That orbit is not elliptical...
     icon: icon-elliptical
@@ -90,17 +96,17 @@ missions:
   - title: Ejected (hyperbolic)
     rule: nplanets > 0 && elements[0].eccentricity > 1
     enabled: true
-    subtitle: Add a planet in a hyperbolic orbit.
+    subtitle: Add a planet that escapes the pull of its star.
     win: Bye bye planet!
-    lose: That orbit is not quite hyperbolic.
+    lose: Oh no!  You're caught by the pull of gravity!
     icon: icon-hyperbolic
 
   - title: Crash & burn
     rule: nplanets > 0 && elements[0].eccentricity > 1
     enabled: true
     subtitle: Make your planet collide with the star.
-    win: So elliptical!
-    lose: That orbit is not eccentric...
+    win: Those were impressive fireworks!
+    lose: You avoided crashing into the star.
     icon: icon-crash
 
   - title: Speed vs. radius (circular)
