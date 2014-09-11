@@ -118,7 +118,8 @@ body {
   text-transform: uppercase;
   font-weight: 500;
   background: white;
-  border-radius: 0px;
+  background: linear-gradient(to bottom, #ffffff 0%, #b4b4b4 100%);
+  border-radius: 3px;
 }
 .btn-jrs:hover {
   background-color: #ecf0f1;

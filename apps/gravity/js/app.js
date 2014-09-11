@@ -124,7 +124,7 @@ var App = Backbone.Model.extend({
         position.push(x[0], x[1], 0);
         velocity.push(Math.sqrt(K2), 0, 0);
         masses.push(0);
-        this._elements = null;
+        this.ctx.elements = null;
         this.set('nplanets', this.get('nplanets')+1);
         this.trigger("change:position change:velocity change:masses");
     },
@@ -164,6 +164,7 @@ var App = Backbone.Model.extend({
         this.ctx.M = this.get('masses');
         
         Physics.leapfrog(t+deltat, this.ctx);
+        
         this.set('time', t+deltat);
         this.trigger("change:position");
         this.trigger("change:velocity");
@@ -173,8 +174,8 @@ var App = Backbone.Model.extend({
      * Returns a list of orbital elements for each planet.
      */
     elements: function(update) {
-        if (this._elements && !update) {
-            return this._elements;
+        if (this.ctx.elements && !update) {
+            return this.ctx.elements;
         }
         
         var x = this.get('position');
@@ -182,11 +183,11 @@ var App = Backbone.Model.extend({
         var M = this.get('masses');
         var np = this.get('nplanets');
         
-        this.Mstar = M[0];
-        this.twoD = true;
+        this.ctx.Mstar = M[0];
+        this.ctx.twoD = true;
 
-        if (! this._elements || this._elements.length != np)
-            this._elements = [];
+        if (! this.ctx.elements || this.ctx.elements.length != np)
+            this.ctx.elements = [];
         
         for (var i = 1; i <= np; i++) {
             var dx = x[i*NPHYS+X]-x[X];
@@ -195,11 +196,11 @@ var App = Backbone.Model.extend({
             var du = v[i*NPHYS+X]-v[X];
             var dv = v[i*NPHYS+Y]-v[Y];
             var dw = v[i*NPHYS+Z]-v[Z];
-            this._elements[i-1] = Physics.x2el(this, 0, M[i], dx, dy, dz, du, dv, dw, this._elements[i-1]);
+            this.ctx.elements[i-1] = Physics.x2el(this.ctx, 0, M[i], dx, dy, dz, du, dv, dw, this.ctx.elements[i-1]);
         }
 
         this.trigger('change:elements');
-        return this._elements;
+        return this.ctx.elements;
     },
 
     /*
@@ -271,7 +272,7 @@ var App = Backbone.Model.extend({
             userStartTime: new Date(),
             userEndTime: null
         });
-        this._elements = null;
+        this.ctx.elements = null;
         this.trigger('reset');
     },
 
@@ -389,7 +390,6 @@ var AppView = Backbone.View.extend({
      */
 
     els: {},
-    system: { twoD:true, Mstar: 1},
 
     renderElapsed: function() {
         $("#elapsed").text(this.model.elapsedTime());            
