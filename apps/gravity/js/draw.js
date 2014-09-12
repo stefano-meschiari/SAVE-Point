@@ -241,7 +241,7 @@ var Draw = Backbone.View.extend({
                     });
                     body.fillColor = {
                         gradient: {
-                            stops:[['white', 0], [PLANET_COLORS[colorIndex], 0.3], ['black', 0.75]],
+                            stops:[[PLANET_COLORS[colorIndex], 0.], ['black', 0.85]],
                             radial:true
                         },
                         origin: body.position,
@@ -305,10 +305,10 @@ var Draw = Backbone.View.extend({
 
             var angle = Math.atan2(dy, dx);
             var w = planet.bounds.width;
-            planet.fillColor.origin = new Point(planet.position.x - w*Math.cos(angle),
-                                                planet.position.y - w*Math.sin(angle));
-            planet.fillColor.destination = new Point(planet.position.x + w*Math.cos(angle),
-                                                     planet.position.y + w*Math.sin(angle));
+            planet.fillColor.origin = new Point(planet.position.x - 0.5*w*Math.cos(angle),
+                                                planet.position.y - 0.5*w*Math.sin(angle));
+            planet.fillColor.destination = new Point(planet.position.x + 0.5*w*Math.cos(angle),
+                                                     planet.position.y + 0.5*w*Math.sin(angle));
         }
     },
 

@@ -77,7 +77,7 @@ missions:
           
                   
   - title: Circular orbit
-    rule: nplanets > 0 && elements[0].eccentricity < 0.1 && elements[0].eccentricity > -0.001
+    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
     enabled: true
     subtitle: Add a planet in a circular orbit.
     win: Sweet! That's... pretty circular!
@@ -85,7 +85,7 @@ missions:
     icon: icon-circular
 
   - title: Elliptical orbit
-    rule: nplanets > 0 && elements[0].eccentricity > 0.1 && elements[0].eccentricity < 0.99
+    rule: nplanets > 0 && elements[0].eccentricity > 0.3 && elements[0].eccentricity < 0.99
     enabled: true
     subtitle: Add a planet in an elliptical (oval) orbit.
     win: So elliptical!
