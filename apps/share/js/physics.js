@@ -53,6 +53,27 @@ Physics.keplerEquation = function(M, e, options) {
     return E;
 };
 
+/*
+ * Advances the mean anomaly of all the planets according to deltat, then converts the orbital
+ * elements to cartesian coordinates.
+ */
+Physics.advanceKepler = function(sys, deltat) {
+    if (!sys.twoD) {
+        throw new Error("Should convert into 3D coords at the end.");
+    }
+    
+    var els = sys.elements;
+
+    for (var i = 0; i < els.length; i++) {
+        var n = 2*Math.PI/els[i].period;
+        var E0 = els[i].E0;
+        els[i].M += 2*Math.PI/els[i].period * deltat;
+        var E = Physics.keplerEquation(els[i].M, els[i].e, sys);
+        
+        
+    }
+    
+};
 
 /*
  * Converts cartesian coordinates into osculating astrocentric orbital elements. Assumes
@@ -118,6 +139,8 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
     }
     
     els.M = M;
+    els.t0 = t;
+    els.E0 = Physics.keplerEquation(M, e, s);
     els.sma = a;
     els.eccentricity = e;
     els.inclination = i;
@@ -125,7 +148,8 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
     els.node = O;
     els.period = 2*Math.PI * Math.sqrt(a*a*a/GMm);
     els.time = t;
-    
+    els.r0 = [x, y, z];
+    els.v0 = [u, v, w];
     return els;
 };
 
