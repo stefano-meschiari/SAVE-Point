@@ -2,6 +2,7 @@
 
 // Number of stars
 STARS = 50;
+TRAIL_SEGMENTS = 50;
 
 var easing = function(x) {
     return Math.pow(x, 5)/5-Math.pow(x, 4)/2+Math.pow(x, 3)/3;
@@ -409,6 +410,55 @@ var Draw = Backbone.View.extend({
         handles.length = 0;
     },
 
+    tick: 0,
+    
+    trailsUpdate: function() {
+        if (!(app.get('state') == RUNNING || app.get('state') == MENU))
+            return;
+        
+        var planets = this.planets;
+        if (planets.length == 0)
+            return;
+        this.tick ++;
+        if (this.tick % 5 != 0)
+            return;
+        var colorIdx = app.get('currentMission');
+        var haloColor = window.Color(PLANET_COLORS[colorIdx]).lighten(0.2).rgbString();
+
+        var trail = this.trails;
+        if (trail.length > TRAIL_SEGMENTS) {
+            trail[trail.length-1].remove();
+            trail.pop();
+        }
+            
+        var pos = planets[0].position;
+        var lastPos;
+        if (trail.length > 0)
+            lastPos = trail[0].lastSegment.point;
+        else
+            lastPos = pos;
+
+        var path = new Path.Line(lastPos, pos);
+        path.strokeColor = haloColor;
+        path.strokeWidth = 3;
+        path.strokeCap = 'butt';
+        path.insertBelow(planets[0]);
+        
+        trail.unshift(path);
+        
+        for (var j = 0; j < trail.length; j++) {
+            trail[j].opacity = (trail.length - j)/trail.length;
+        }
+    },
+
+    destroyTrails: function() {
+        for (var i = 0; i < this.trails.length; i++) 
+            this.trails[i].remove();
+        this.trails = [];
+    },
+
+    
+    /*
     trailsUpdate: function() {
         this.destroyTrails();
         var els = this.model.elements();
@@ -437,13 +487,8 @@ var Draw = Backbone.View.extend({
             path.sendToBack();
             this.trails[i] = path;
         }
-    },
+    },*/
     
-    destroyTrails: function() {
-        for (var i = 0; i < this.trails.length; i++) 
-            this.trails[i].remove();
-        this.trails = [];
-    },
     
     destroyPlanets: function() {
         this.destroyTrails();
@@ -593,10 +638,11 @@ var Draw = Backbone.View.extend({
         this.listenTo(this.model, "change:nplanets change:position change:velocity change:state", function() {
             self.planetsUpdate();
             self.handlesUpdate();
+            self.trailsUpdate();
         });
 
         this.listenTo(this.model, "change:currentMission", this.animateTravel);
-        this.listenTo(this.model, "change:state change:elements", this.trailsUpdate);
+        //        this.listenTo(this.model, "change:state change:elements", this.trailsUpdate);
         this.listenTo(this.model, "collision", this.animateCollision);
     }
 });
