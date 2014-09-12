@@ -69,7 +69,12 @@ var App = Backbone.Model.extend({
             // mission collection
             missions: null,
             // interactive?
-            interactive: true
+            interactive: true,
+            // invalid?
+            invalid:false,
+            
+            minAU: 0.3,
+            maxAU: 1.5
         };
     },
 
@@ -150,12 +155,15 @@ var App = Backbone.Model.extend({
         velocity[(i+1)*NPHYS+Z] = v[2];
         this.trigger("change:velocity");        
     },
-
+    
     /*
      * Makes the system advance by deltat, updating the position and velocities
      * of all bodies.
      */
     tick: function() {
+        if (this.get('invalid'))
+            return;
+        
         var t = this.get('time');
         var deltat = this.get('deltat');
         this.ctx.t = t;
@@ -168,6 +176,15 @@ var App = Backbone.Model.extend({
         this.set('time', t+deltat);
         this.trigger("change:position");
         this.trigger("change:velocity");
+
+        
+        if (Math.sqrt(this.ctx.x[NPHYS+X] * this.ctx.x[NPHYS+X] +
+                      this.ctx.x[NPHYS+Y] * this.ctx.x[NPHYS+Y]) < this.get('minAU')) {
+            this.trigger('collision', { x: this.ctx.x[NPHYS+X],
+                                        y: this.ctx.x[NPHYS+Y]});
+            this.set('invalid', true);
+        }
+        
     },
 
     /*
@@ -270,7 +287,8 @@ var App = Backbone.Model.extend({
             state: defaults.state,
             currentHelp: defaults.currentHelp,
             userStartTime: new Date(),
-            userEndTime: null
+            userEndTime: null,
+            invalid: defaults.invalid
         });
         this.ctx.elements = null;
         this.trigger('reset');

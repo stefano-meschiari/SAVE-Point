@@ -7,6 +7,8 @@ var easing = function(x) {
     return Math.pow(x, 5)/5-Math.pow(x, 4)/2+Math.pow(x, 3)/3;
 };
 
+
+
 var Draw = Backbone.View.extend({
     backgroundStars:[],
     animating:false,
@@ -29,7 +31,9 @@ var Draw = Backbone.View.extend({
         // Size of planet when dragging
         PLANET_DRAG_SIZE = Math.max(22, 2*PLANET_SIZE);
         PLANET_HALO_DRAG_SIZE = 1.1*PLANET_DRAG_SIZE;
-        
+
+        // By default, minimum distance is the "cartoon" size of the star.
+        app.set('minAU', STAR_SIZE / PIXELS_PER_AU);        
     },
     
     createBackgroundStars: function() {
@@ -65,6 +69,45 @@ var Draw = Backbone.View.extend({
         textItem.content = text;
     },
 
+    animateCollision: function(info) {
+        var colorIndex = app.get('currentMission');
+        var smokeColor = PLANET_COLORS[colorIndex];
+        var self = this;
+
+        this.planets[0].visible = false;
+        
+        var frame = 0;
+        var frames = 60;
+        var explosionSize = 100;
+
+        var x = info.x * PIXELS_PER_AU + this.star.position.x;
+        var y = info.y * PIXELS_PER_AU + this.star.position.y;
+
+        var pos = new Point(x, y);
+        var smoke = new Path.Circle(pos, 1);
+        smoke.fillColor = smokeColor;
+        smoke.opacity = 1;
+
+        this.bobStar();
+        this.animations.push(function() {
+
+            smoke.opacity = Math.pow((frames-frame)/frames, 1);
+            var size = Math.floor(explosionSize*Math.pow((frame)/frames, 1)+1);
+            
+            smoke.bounds.width = size;
+            smoke.bounds.height = size;
+            smoke.position = pos;
+            
+            frame++;
+            if (frame > frames) {
+                smoke.remove();
+                return false;
+            }
+            else
+                return true;
+        });
+    },
+    
     animateTravel: function() {
         var self = this;
         app.set('interactive', false);
@@ -245,8 +288,7 @@ var Draw = Backbone.View.extend({
                 
             } else {
                 for (i = nplanets; i < planets.length; i++) {
-                    planets[i].visible = false;
-                    
+                    planets[i].visible = false;                    
                 }
             }
         }
@@ -555,6 +597,7 @@ var Draw = Backbone.View.extend({
 
         this.listenTo(this.model, "change:currentMission", this.animateTravel);
         this.listenTo(this.model, "change:state change:elements", this.trailsUpdate);
+        this.listenTo(this.model, "collision", this.animateCollision);
     }
 });
 

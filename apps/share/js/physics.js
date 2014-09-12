@@ -40,10 +40,13 @@ Physics.keplerEquation = function(M, e, options) {
     var tol = (options && options.keplerTol) || 1e-3;
     var max_steps = (options && options.keplerMaxStep) || 10;
 
-    
-    var E = (e < 0.8 ? M : Math.PI);
+    M = Math.radRange(M);
+    var k = 0.85;
+    var E = M + Math.sign(Math.sin(M)) * k * e;
     var f_E = Number.MAX_VALUE;
     var step = 0;
+
+    
     do {
         f_E = E - e*Math.sin(E) - M;
         E = E - f_E / (1 - e*Math.cos(E));
@@ -153,9 +156,6 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
     return els;
 };
 
-
-
-
 /*
  * A simple leapfrog integrator. Only use for testing.
  */
@@ -168,7 +168,7 @@ Physics.leapfrog = function(tnew, ctx) {
     ctx.f = (ctx.f && ctx.f.length == ctx.x.length ? ctx.f  : _m.zeros(ctx.x.length));
     ctx.x1 = (ctx.x1 && ctx.x1.length == ctx.x.length ? ctx.x1  : _m.zeros(ctx.x.length));
     ctx.v1 = (ctx.v1 && ctx.v1.length == ctx.x.length ? ctx.v1  : _m.zeros(ctx.x.length));
-    ctx.dt = ctx.dt || 1e-1;
+    ctx.dt = ctx.dt || 1e-2;
     
     var t = ctx.t;
     var f = ctx.f;
