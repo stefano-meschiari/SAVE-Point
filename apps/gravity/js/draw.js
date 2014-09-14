@@ -2,12 +2,7 @@
 
 // Number of stars
 STARS = 50;
-TRAIL_SEGMENTS = 50;
-
-var easing = function(x) {
-    return Math.pow(x, 5)/5-Math.pow(x, 4)/2+Math.pow(x, 3)/3;
-};
-
+CANVAS_ID = 'id';
 
 
 var Draw = Backbone.View.extend({
@@ -252,6 +247,7 @@ var Draw = Backbone.View.extend({
                     body.planetIndex = i;
 
                     var drag = function(event) {
+                        
                         c = [event.point.x - self.star.position.x, event.point.y - self.star.position.y, 0];
                         c[0] /= PIXELS_PER_AU;
                         c[1] /= PIXELS_PER_AU;
@@ -411,50 +407,59 @@ var Draw = Backbone.View.extend({
     },
 
     tick: 0,
-    
+
     trailsUpdate: function() {
         if (!(app.get('state') == RUNNING || app.get('state') == MENU))
             return;
-        
+
         var planets = this.planets;
         if (planets.length == 0)
             return;
-        this.tick ++;
-        if (this.tick % 5 != 0)
+        if (this.trailThetaTotal > 2.*Math.PI)
             return;
-        var colorIdx = app.get('currentMission');
-        var haloColor = window.Color(PLANET_COLORS[colorIdx]).lighten(0.2).rgbString();
-
-        var trail = this.trails;
-        if (trail.length > TRAIL_SEGMENTS) {
-            trail[trail.length-1].remove();
-            trail.pop();
-        }
-            
-        var pos = planets[0].position;
+        
+        var planet = planets[0];
+        var star = this.star;
+        var tc = this.trailSegments;
         var lastPos;
-        if (trail.length > 0)
-            lastPos = trail[0].lastSegment.point;
-        else
-            lastPos = pos;
-
-        var path = new Path.Line(lastPos, pos);
-        path.strokeColor = haloColor;
-        path.strokeWidth = 3;
-        path.strokeCap = 'butt';
-        path.insertBelow(planets[0]);
+        var position = app.get('position');
+        var theta = Math.atan2(position[NPHYS+Y], position[NPHYS+X]);
         
-        trail.unshift(path);
-        
-        for (var j = 0; j < trail.length; j++) {
-            trail[j].opacity = (trail.length - j)/trail.length;
+        if (tc.length == 0) {
+            lastPos = planet.position;
+            var colorIdx = app.get('currentMission');
+            this.trailColor = window.Color(PLANET_COLORS[colorIdx]).lighten(0.2).rgbString();
+            this.trailLastTheta = theta;
+            this.trailThetaTotal = 0;
         }
+        else
+            lastPos = tc[tc.length-1].lastSegment;
+
+        var dt = Math.abs(this.trailLastTheta - theta);
+        if (2 * Math.PI - dt < dt)
+            dt = 2 * Math.PI - dt;
+        this.trailLastTheta = theta;
+        this.trailThetaTotal += dt;
+        
+        var els = this.model.get('elements');
+
+        var a = els[0].sma;
+        var e = els[0].eccentricity;
+        var r = position[NPHYS+X]*position[NPHYS+X] + position[NPHYS+Y]*position[NPHYS+Y];
+        
+        var path = new Path(lastPos, planet.position);
+        path.strokeWidth = 3;
+        path.strokeColor = this.trailColor;
+        path.opacity = (a * a * (1-e) * (1-e))/r;
+        path.insertBelow(planets[0]);
+        tc.push(path);
     },
 
     destroyTrails: function() {
-        for (var i = 0; i < this.trails.length; i++) 
-            this.trails[i].remove();
-        this.trails = [];
+        for (var i = 0; i < this.trailSegments.length; i++) 
+            this.trailSegments[i].remove();
+        this.trailSegments = [];
+        this.trailThetaTotal = 0;
     },
 
     
@@ -505,6 +510,7 @@ var Draw = Backbone.View.extend({
                 this.animations.splice(i, 1);
         }
     },
+
 
     animateStar: function() {
         var start = 5;
@@ -628,7 +634,8 @@ var Draw = Backbone.View.extend({
         this.star = star;
         this.planets = [];
         this.handles = [];
-        this.trails = [];
+        this.trailSegments = [];
+        this.trailCoordinates = [];
         
         this.animations = [];
         
@@ -636,6 +643,7 @@ var Draw = Backbone.View.extend({
 
         this.listenTo(this.model, "change:state", this.toggleState);
         this.listenTo(this.model, "change:nplanets change:position change:velocity change:state", function() {
+            self.validatePlanet();
             self.planetsUpdate();
             self.handlesUpdate();
             self.trailsUpdate();

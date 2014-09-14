@@ -184,6 +184,8 @@ var App = Backbone.Model.extend({
                                         y: this.ctx.x[NPHYS+Y]});
             this.set('invalid', true);
         }
+
+        this.trigger("tick");
         
     },
 
