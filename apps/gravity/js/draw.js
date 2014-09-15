@@ -188,6 +188,8 @@ var Draw = Backbone.View.extend({
             
                 body.bounds.size = new Size(2*PLANET_SIZE , 2*PLANET_SIZE);
                 body.bounds.center = center;
+            }
+            if (this.handles.length > i && !body.dragging) {
                 this.handles[body.planetIndex].halo.bounds.size = new Size(2*PLANET_HALO_SIZE, 2*PLANET_HALO_SIZE);
                 this.handles[body.planetIndex].halo.bounds.center = center;
             }

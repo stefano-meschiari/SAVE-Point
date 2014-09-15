@@ -501,10 +501,14 @@ var AppView = Backbone.View.extend({
      */
 
     winTemplate: _.template('<div class="font-l"><%= win %></div>'),
-    winDelay: 10000,
+    winDelayMax: 10000,
+    approxFrameRate: 1/60.,
     
     renderWin: function() {
         var mission = app.get('missions').at(app.get('currentMission'));
+        var els = app.get('elements');
+        
+        var winDelay = Math.min(this.winDelayMax, els[0].period / app.get('deltat') * this.approxFrameRate * 1000);
         
         $("#text-top").html(this.winTemplate(mission.attributes));
         $("#text-top").addClass("expanded");
@@ -515,7 +519,7 @@ var AppView = Backbone.View.extend({
             $("#text-top").removeClass("in-front");
         
             app.menu();
-        }, this.winDelay);
+        }, winDelay);
     },
 
     loseTemplate: _.template('<div class="subtitle"><%= lose %></div><div><button class="btn-jrs font-m" onClick="app.reset(); app.mainView.renderMission(); "><span class="icon-thumbs-up"></span> No worries! Retry mission</button></div>'),
