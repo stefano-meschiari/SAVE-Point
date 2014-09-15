@@ -52,7 +52,7 @@ var App = Backbone.Model.extend({
             // start at t = 0 days
             time:0,
             // each frame corresponds to these many days
-            deltat: 1,
+            deltat: 1.5,
             // maximum number of planets for the current mission
             maxPlanets: 1,
             // initial position of the star (AU/day). The vector contains the 3
@@ -72,6 +72,8 @@ var App = Backbone.Model.extend({
             interactive: true,
             // invalid?
             invalid:false,
+            // has a collision happened?
+            collided:false,
             
             minAU: 0.3,
             maxAU: 1.5
@@ -182,6 +184,7 @@ var App = Backbone.Model.extend({
                       this.ctx.x[NPHYS+Y] * this.ctx.x[NPHYS+Y]) < this.get('minAU')) {
             this.trigger('collision', { x: this.ctx.x[NPHYS+X],
                                         y: this.ctx.x[NPHYS+Y]});
+            this.set('collided', true);
             this.set('invalid', true);
         }
 
@@ -290,7 +293,8 @@ var App = Backbone.Model.extend({
             currentHelp: defaults.currentHelp,
             userStartTime: new Date(),
             userEndTime: null,
-            invalid: defaults.invalid
+            invalid: defaults.invalid,
+            collided: defaults.collided
         });
         this.ctx.elements = null;
         this.trigger('reset');
@@ -509,6 +513,7 @@ var AppView = Backbone.View.extend({
         var els = app.get('elements');
         
         var winDelay = Math.min(this.winDelayMax, els[0].period / app.get('deltat') * this.approxFrameRate * 1000);
+        winDelay = Math.max(3000, winDelay);
         
         $("#text-top").html(this.winTemplate(mission.attributes));
         $("#text-top").addClass("expanded");

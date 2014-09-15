@@ -15,6 +15,7 @@ requires:
 args:
   - nplanets
   - elements
+  - collided
 
 missions:
   - title: Practice Mode
@@ -85,7 +86,7 @@ missions:
     icon: icon-circular
 
   - title: Elliptical orbit
-    rule: nplanets > 0 && elements[0].eccentricity > 0.3 && elements[0].eccentricity < 0.99
+    rule: nplanets > 0 && elements[0].eccentricity > 0.2 && elements[0].eccentricity < 0.99 && !collided
     enabled: true
     subtitle: Add a planet in an elliptical (oval) orbit.
     win: So elliptical!
@@ -101,7 +102,7 @@ missions:
     icon: icon-hyperbolic
 
   - title: Crash & burn
-    rule: nplanets > 0 && elements[0].eccentricity > 1
+    rule: nplanets > 0 && collided
     enabled: true
     subtitle: Make your planet collide with the star.
     win: Those were impressive fireworks!

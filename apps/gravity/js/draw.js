@@ -224,8 +224,11 @@ var Draw = Backbone.View.extend({
             if (t != g.last) {
                 head.rotate(-(g.last-30));
                 head.rotate(t-30);
+                head.position = to;           
+            } else {
+                head.position = to;
             }
-            head.position = to;
+            
             g.last = t;
         };
         return g;
