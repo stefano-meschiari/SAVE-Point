@@ -33,8 +33,7 @@ write_mission_rules($cfg);
           <td class="td-val" id="time"></td>
         </tr>
         <tr>
-          <td class="td-label">Elapsed</td>
-          <td class="td-val" id="elapsed"></td>
+          <td class="td-stars" id="stars" colspan="2"></td>
         </tr>
       </table>
     </div>
@@ -109,10 +108,15 @@ write_mission_rules($cfg);
 
 <div id="app-menu" class="animated">
   <div id="app-menu-container">
-    <div id="app-menu-message" class="title"><span class="icon-win"></span> Mission cleared!</div>
+    <div id="app-menu-message" class="title">Mission cleared!</div>
     <div class="separator-center"></div>
-    <div id="app-menu-stars"><span class="icon-win-star"></span><span class="icon-win-star"></span><span class="icon-win-star-o"></span></div>
-    <div class="separator-center"></div>
+    <div id="app-menu-stats">
+      <div id="app-menu-stars">
+      </div>
+      <div id="app-menu-totals">
+      </div>
+    </div>
+    <div class="separator-center clear"></div>
     <div id="app-menu-missions">
     </div>
   </div>

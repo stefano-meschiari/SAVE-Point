@@ -495,7 +495,7 @@ var Draw = Backbone.View.extend({
         var path = new Path(lastPos, planet.position);
         path.strokeWidth = 3;
         path.strokeColor = this.trailColor;
-        path.opacity = Math.max((a * a * (1-e) * (1-e))/r, 0.25);
+        path.opacity = Math.max((a * a * (1-e) * (1-e))/r, 0.4);
         path.insertBelow(planets[0]);
         tc.push(path);
     },

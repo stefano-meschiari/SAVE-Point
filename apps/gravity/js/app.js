@@ -10,14 +10,51 @@
 
 "use strict";
 
+/* Read-only computed properties. */
+Backbone.ROComputedModel = Backbone.Model.extend({
+    /*
+     * Enable computed, read-only properties
+     */
+    get: function(attr) {
+        if (this.attributes[attr] !== undefined)
+            return this.attributes[attr];
+        else if (_.isFunction(this[attr]))
+            return this[attr]();
+        else 
+            return this[attr];
+    }    
+});
+
+
+/*
+ * Templates.
+ */
+
+var Templates = {
+    fullStar: '<span class="icon-win-star"></span> ',
+    emptyStar: '<span class="icon-win-star-o"></span> '  
+};
+
+
 /*
  * The mission model. 
  */
-var Mission = Backbone.Model.extend({
+var Mission = Backbone.ROComputedModel.extend({
     defaults: {
         completed: false,
         elapsed: -1,
-        elements: null        
+        elements: null,
+        stars: 0
+    },
+
+    starsRepr: function() {
+        var repr = "";
+        var stars = this.get('stars');
+        for (var i = 0; i < stars; i++)
+            repr += Templates.fullStar;
+        for (i = stars; i < 3; i++)
+            repr += Templates.emptyStar;
+        return repr;
     }
 });
 
@@ -33,7 +70,7 @@ var MissionCollection = Backbone.Collection.extend({
  * by the properties in app.yaml, and inserted into the APP_CFG dictionary by the backend.
  *
  */
-var App = Backbone.Model.extend({
+var App = Backbone.ROComputedModel.extend({
     defaults: function() {
         return {
             // start with the first mission
@@ -74,23 +111,14 @@ var App = Backbone.Model.extend({
             invalid:false,
             // has a collision happened?
             collided:false,
+            // number of stars gained so far
+            starsEarned:[],
             
             minAU: 0.3,
             maxAU: 1.5
         };
     },
 
-    /*
-     * Enable computed, read-only properties
-     */
-    get: function(attr) {
-        if (this.attributes[attr] !== undefined)
-            return this.attributes[attr];
-        else if (_.isFunction(this[attr]))
-            return this[attr]();
-        else 
-            return this[attr];
-    },
     
     /*
      * Toggles the state of the application between RUNNING and PAUSED.
@@ -233,8 +261,8 @@ var App = Backbone.Model.extend({
         var mission = this.get('missions').at(this.get('currentMission'));
         mission.set('completed', true);
         mission.set('elapsed', this.elapsedTime(true));
-        
-        this.trigger('win');        
+        mission.set('stars', Math.max(mission.get('stars'), this.stars()));
+        this.trigger('win'); 
     },
 
     /*
@@ -277,6 +305,28 @@ var App = Backbone.Model.extend({
         seconds = seconds % 60;
         return minutes + ":" + (seconds < 10 ? "0" + seconds : seconds);
     },
+
+    /*
+     * Calculate stars for the current mission.
+     */
+    stars: function() {
+        var seconds = this.elapsedTime(true);
+        if (seconds < 60)
+            return 3;
+        else if (seconds < 120)
+            return 2;
+        else
+            return 1;
+    },
+
+    /*
+     * The total number of stars earned.
+     */
+    starsEarnedTotal: function() {
+        return app.get('missions').reduce(function(memo, mission) {
+            return memo + mission.get('stars');
+        }, 0);
+    },
     
     /*
      * Reset the state.
@@ -302,7 +352,7 @@ var App = Backbone.Model.extend({
 
 
     /*
-     * Read in properties from app.yaml
+     * Read in properties from app.yaml.
      */
     importConfig: function(dict) {
         var missions = dict.missions;
@@ -374,7 +424,7 @@ var AppView = Backbone.View.extend({
             if (self.elapsedTimer)
                  clearInterval(self.elapsedTimer);
 
-            self.elapsedTimer = setInterval(_.bind(self.renderElapsed, self), 1000);            
+            self.elapsedTimer = setInterval(_.bind(self.renderStars, self), 1000);            
         });
     },
 
@@ -408,20 +458,39 @@ var AppView = Backbone.View.extend({
         }, this.missionDelay);
     },
 
+
+    els: {},
+    lastStars: 3,
+    
+    /*
+     * Render the current number of stars.
+     */
+    renderStars: function() {
+        var stars = app.stars();
+        var str = "";
+        var i;
+        
+        for (i = 0; i < stars; i++)
+            str += Templates.fullStar;
+        for (i = stars; i < 3; i++)
+            str += Templates.emptyStar;
+
+        $("#stars").html(str);
+        if (this.lastStars != stars) {
+            $("#stars").removeClass("flash-red");
+            $("#stars").addClass("flash-red");            
+        }
+        this.lastStars = stars;
+    },
+
+    
     /*
      * Fills the table on the top-right hand side with the relevant information. renderInfo is
      * throttled so it is only updated once per second (or so).
      *
      * For now, it displays time (in days), the distance from the central star (in 10^8 km),
      * and the speed (in km/s).
-     */
-
-    els: {},
-
-    renderElapsed: function() {
-        $("#elapsed").text(this.model.elapsedTime());            
-    },
-    
+     */    
     renderInfo: function() {
         
         if (app.get('nplanets') > 0) {
@@ -511,8 +580,9 @@ var AppView = Backbone.View.extend({
     renderWin: function() {
         var mission = app.get('missions').at(app.get('currentMission'));
         var els = app.get('elements');
-        
-        var winDelay = Math.min(this.winDelayMax, els[0].period / app.get('deltat') * this.approxFrameRate * 1000);
+        var winDelay = 0;
+        if (els.length > 0)
+            winDelay = Math.min(this.winDelayMax, els[0].period / app.get('deltat') * this.approxFrameRate * 1000);
         winDelay = Math.max(3000, winDelay);
         
         $("#text-top").html(this.winTemplate(mission.attributes));
@@ -746,7 +816,8 @@ var AppMenuView = Backbone.View.extend({
     defaultIconLocked: 'icon-mission-locked',
     defaultIconCompleted: 'icon-mission-completed',
     
-    missionTitleTemplate: _.template('<div class="mission-title"><%= title %></div><div class="mission-subtitle"><%= subtitle %></div>'),
+    missionTitleTemplate: _.template('<div class="mission-stars"><%= stars %></div><div class="mission-title"><%= title %></div><div class="mission-subtitle"><%= subtitle %></div>'),
+    missionTotalsTemplate: _.template('<%= starsEarned %> / <%= starsBounty %> stars earned.'),
     $missions: $("#app-menu-missions"),
     
     renderMissionMenu: function() {
@@ -777,17 +848,35 @@ var AppMenuView = Backbone.View.extend({
                 $thumb.append(this.missionThumbNext);
                 $thumb.on("click", _.partial(function(i) {
                     app.setMission(i);
-                }, i));                    
+                }, i));
             } else {
                 $thumb.addClass(icon ? icon : this.defaultIconLocked);
             }
                         
             $div.append($thumb);
-            $div.append(this.missionTitleTemplate(missions.at(i).attributes));
+            $div.append(this.missionTitleTemplate({
+                stars: mission.get('starsRepr'),
+                title: mission.get('title'),
+                subtitle: mission.get('subtitle')
+            }));
+            
             this.$missions.append($div);
         }
 
         this.$missions.append(this.clear);
+
+        stars = missions.at(currentMission).get('stars');
+        var text = "";
+        for (i = 0; i < stars; i++)
+            text += Templates.fullStar;
+        for (i = stars; i < 3; i++)
+            text += Templates.emptyStar;
+        $("#app-menu-stars").html(text);
+
+        var starsEarned = app.get('starsEarnedTotal');
+        var starsBounty = app.get('starsBounty');
+        $("#app-menu-totals").html(this.missionTotalsTemplate({ starsEarned: starsEarned, starsBounty: starsBounty  }));
+        
     },
 
     renderOrbit: function(ctx) {

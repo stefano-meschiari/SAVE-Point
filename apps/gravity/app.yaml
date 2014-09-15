@@ -17,6 +17,7 @@ args:
   - elements
   - collided
 
+starsBounty: 21  
 missions:
   - title: Practice Mode
     subtitle: Create your first planet.
@@ -90,7 +91,7 @@ missions:
     enabled: true
     subtitle: Add a planet in an elliptical (oval) orbit.
     win: So elliptical!
-    lose: That orbit is not elliptical...
+    lose: That orbit could be more elliptical...
     icon: icon-elliptical
 
   - title: Ejected (hyperbolic)

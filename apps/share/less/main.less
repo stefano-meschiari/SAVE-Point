@@ -44,6 +44,14 @@ html, body {
   clear:both;
 }
 
+.float-left {
+  float:left;
+}
+
+.float-right {
+  float:right;
+}
+
 #app-menu {
   position:absolute;
   top:0;
@@ -71,6 +79,7 @@ html, body {
   text-align:center;
   //  .background-image(linear-gradient(to bottom, rgba(22, 34, 42, 0), #3A6073));
   background-color:rgba(0, 0, 0, 0.5);
+  overflow-y:scroll;
 }
 
 #app-menu-stars {
@@ -564,4 +573,27 @@ td.td-val {
 
 .mission-subtitle {
   text-shadow:0px 0px 5px black;
+}
+
+
+#stars {
+  font-size: @font-l;
+  text-align: center;
+}
+
+.flash-red-mixin {
+  from { color:white; }
+  50% { color:red; }
+  to { color:white; }
+}
+
+@-webkit-keyframes flash-red-keyframes {
+  .flash-red-mixin;
+}
+@keyframes flash-red-keyframes {
+  .flash-red-mixin;
+}
+  
+.flash-red {
+  .animation(flash-red-keyframes 2s ease)
 }
