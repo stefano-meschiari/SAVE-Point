@@ -2,7 +2,7 @@
 
 // Number of stars
 STARS = 50;
-CANVAS_ID = 'id';
+CANVAS_ID = 'canvas';
 
 
 var Draw = Backbone.View.extend({
@@ -16,7 +16,8 @@ var Draw = Backbone.View.extend({
         // Number of pixels corresponding to 1 speed unit (1 AU/day)
         PIXELS_PER_AUPDAY = 100 / Math.sqrt(K2);
         // Size of arrow
-        ARROW_SIZE = 10;
+        ARROW_SIZE = 15;
+        ARROW_DRAG_SIZE = 50;
         // Size of central star
         STAR_SIZE = 40 * Units.RSUN / Units.AU * PIXELS_PER_AU;
         // Star halo size
@@ -177,6 +178,28 @@ var Draw = Backbone.View.extend({
     animateTap: function() {
         
     },
+
+
+    restoreSizes: function() {
+        for (var i = 0; i < this.planets.length; i++) {
+            var body = this.planets[i];
+            if (!body.dragging) {
+                var center = body.bounds.center;
+            
+                body.bounds.size = new Size(2*PLANET_SIZE , 2*PLANET_SIZE);
+                body.bounds.center = center;
+                this.handles[body.planetIndex].halo.bounds.size = new Size(2*PLANET_HALO_SIZE, 2*PLANET_HALO_SIZE);
+                this.handles[body.planetIndex].halo.bounds.center = center;
+            }
+            
+            if (this.handles.length > i && !this.handles[i].vector.dragging) {
+                var vector = this.handles[i].vector;
+                center = vector.head.bounds.center;
+                vector.head.bounds.size = new Size(2*ARROW_SIZE, 2*ARROW_SIZE);
+                vector.head.bounds.center = center;
+            }
+        }
+    },
     
     createArrow: function(from, to, color) {
         color = color || COLOR_OUTLINE;
@@ -216,6 +239,7 @@ var Draw = Backbone.View.extend({
             return;
         
         var colorIndex = app.get('currentMission');
+        var color = new window.Color(PLANET_COLORS[colorIndex]);
         var self = this;
         
         var position = app.get('position');
@@ -247,12 +271,29 @@ var Draw = Backbone.View.extend({
                     body.planetIndex = i;
 
                     var drag = function(event) {
+                        var point = event.point;
+                        var bsize = body.bounds.width;
+                        if (point.x - bsize < 0 ||
+                            point.y - bsize < 0 ||
+                            point.x + bsize > view.bounds.width ||
+                            point.y + bsize > view.bounds.height ||
+                            document.elementFromPoint(point.x-bsize, point.y-bsize).id !== CANVAS_ID ||
+                            document.elementFromPoint(point.x+bsize, point.y+bsize).id !== CANVAS_ID ||
+                            document.elementFromPoint(point.x, point.y).id !== CANVAS_ID)
+                        {
+                            body.dragging = false;
+                            return;
+                        }
+
+                        if (!body.dragging)
+                            body.mouseDown();
                         
-                        c = [event.point.x - self.star.position.x, event.point.y - self.star.position.y, 0];
+                        body.dragging = true;
+
+                        var c = [point.x - self.star.position.x, point.y - self.star.position.y, 0];
                         c[0] /= PIXELS_PER_AU;
                         c[1] /= PIXELS_PER_AU;
                         app.setPositionForBody(body.planetIndex, c);
-                        body.dragging = true;
                     };
 
                     var mouseDown = function() {
@@ -261,17 +302,14 @@ var Draw = Backbone.View.extend({
                         body.bounds.center = center;
                         self.handles[body.planetIndex].halo.bounds.size = new Size(2*PLANET_HALO_DRAG_SIZE, 2*PLANET_HALO_DRAG_SIZE);
                         self.handles[body.planetIndex].halo.bounds.center = center;
+
                     };
 
                     var mouseUp = function() {
-                        var center = body.bounds.center;                        
-                        body.bounds.size = new Size(2*PLANET_SIZE , 2*PLANET_SIZE);
-                        body.bounds.center = center;
-                        self.handles[body.planetIndex].halo.bounds.size = new Size(2*PLANET_HALO_SIZE, 2*PLANET_HALO_SIZE);
-                        self.handles[body.planetIndex].halo.bounds.center = center;
                         if (body.dragging)
                             app.trigger("planet:drag");
                         body.dragging = false;
+                        self.restoreSizes();                        
                     };
                     
                     body.drag = drag;
@@ -301,6 +339,9 @@ var Draw = Backbone.View.extend({
 
             var angle = Math.atan2(dy, dx);
             var w = planet.bounds.width;
+//            var lightFactor = Math.max(2*(dx*dx + dy*dy)/(view.bounds.width * view.bounds.width), 0.1);
+//            planet.fillColor.components[0].stops[0].color = color.darken(lightFactor).rgbString();
+            
             planet.fillColor.origin = new Point(planet.position.x - 0.5*w*Math.cos(angle),
                                                 planet.position.y - 0.5*w*Math.sin(angle));
             planet.fillColor.destination = new Point(planet.position.x + 0.5*w*Math.cos(angle),
@@ -363,7 +404,7 @@ var Draw = Backbone.View.extend({
 
 
                 var dragFunction = function(event) {
-                    
+                    vector.dragging = true;
                     c = [event.point.x - body.position.x, event.point.y - body.position.y, 0];
                     c[0] /= PIXELS_PER_AUPDAY;
                     c[1] /= PIXELS_PER_AUPDAY;
@@ -372,14 +413,13 @@ var Draw = Backbone.View.extend({
                 vector.on("mousedrag", dragFunction);
                 vector.on("mousedown", function(event) {
                     var center = vector.head.bounds.center;
-                    vector.head.bounds.size = new Size(4*ARROW_SIZE, 4*ARROW_SIZE);
+                    vector.head.bounds.size = new Size(ARROW_DRAG_SIZE, ARROW_DRAG_SIZE);
                     vector.head.bounds.center = center;
                 });
                 vector.on("mouseup", function(event) {
-                    var center = vector.head.bounds.center;
-                    vector.head.bounds.size = new Size(2*ARROW_SIZE, 2*ARROW_SIZE);
-                    vector.head.bounds.center = center;
                     app.trigger("planet:dragvelocity");
+                    vector.dragging = false;
+                    self.restoreSizes();                    
                 });
                 
                 handles.push({halo:halo, vector:vector});
@@ -450,7 +490,7 @@ var Draw = Backbone.View.extend({
         var path = new Path(lastPos, planet.position);
         path.strokeWidth = 3;
         path.strokeColor = this.trailColor;
-        path.opacity = (a * a * (1-e) * (1-e))/r;
+        path.opacity = Math.max((a * a * (1-e) * (1-e))/r, 0.25);
         path.insertBelow(planets[0]);
         tc.push(path);
     },
@@ -504,6 +544,11 @@ var Draw = Backbone.View.extend({
         planets.length = 0;
     },
 
+    
+    validatePlanet: function() {
+        
+    },
+
     animationsTick: function() {
         for (var i = this.animations.length-1; i >= 0; i--) {
             if (!this.animations[i]())
@@ -532,6 +577,7 @@ var Draw = Backbone.View.extend({
             return true;
         });
     },
+
 
     bobStar: function() {
         var i = 0;
@@ -589,6 +635,14 @@ var Draw = Backbone.View.extend({
         app.mainView.canvasMouseDown(event);
     },
 
+    onMouseMove: function(event) {
+        if (!app.get('interactive'))
+            return;
+        if (!app.get('state') == PAUSED)
+            return;
+        this.restoreSizes();
+    },
+    
     toggleState: function(event) {
         if (app.get('state') != PAUSED) {
             this.destroyHandles();
@@ -672,3 +726,4 @@ function onFrame(event) {
 }
 
 onMouseDown = _.bind(draw.onMouseDown, draw);
+onMouseMove = _.bind(draw.onMouseMove, draw);

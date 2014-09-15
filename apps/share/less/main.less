@@ -282,7 +282,7 @@ td.td-val {
   opacity:0;
   font-size:@font-m;
   font-weight:200;
-  display:block;
+  visibility:none;
   text-shadow:0px 0px 2px black;
   border-radius:@border-radius;
   padding:12px;
@@ -296,6 +296,10 @@ td.td-val {
 
 .animated {
     .transition(0.5s, ease-in);
+}
+
+.in-front {
+  z-index:10;
 }
 
 #help-text.expanded {

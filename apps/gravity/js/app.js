@@ -395,9 +395,12 @@ var AppView = Backbone.View.extend({
         
         $("#text-top").html(this.missionTemplate(mission.attributes));
         $("#text-top").addClass("expanded");
-
+        $("#text-top").removeClass("in-front");
+        
         _.delay(function() {
             $("#text-top").removeClass("expanded");
+            $("#text-top").removeClass("in-front");
+        
         }, this.missionDelay);
     },
 
@@ -458,7 +461,6 @@ var AppView = Backbone.View.extend({
             $("#info-top").hide();
         } else {
             $("#sidebar").show();
-            $("#help-text").show();
             $("#info-top").show();
         }
         
@@ -506,9 +508,12 @@ var AppView = Backbone.View.extend({
         
         $("#text-top").html(this.winTemplate(mission.attributes));
         $("#text-top").addClass("expanded");
-
+        $("#text-top").removeClass("in-front");
+        
         _.delay(function() {
             $("#text-top").removeClass("expanded");
+            $("#text-top").removeClass("in-front");
+        
             app.menu();
         }, this.winDelay);
     },
@@ -520,6 +525,7 @@ var AppView = Backbone.View.extend({
         
         $("#text-top").html(this.loseTemplate(mission.attributes));
         $("#text-top").addClass("expanded");
+        $("#text-top").addClass("in-front");
     }
 
 });

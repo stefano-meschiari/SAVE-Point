@@ -13,8 +13,35 @@ write_mission_rules($cfg);
     <div id="text-top" class="animated">
       Welcome!
     </div>
-  <div id="canvas-container" class="full-size">
-    <canvas id="canvas" resize keepalive="true"></canvas>
+    
+    
+    <div id="canvas-container" class="full-size">
+      
+  <div id="info-top">
+    <div id="info-table-container">
+      <table cols="2">
+        <tr>
+          <td class="td-label">Distance</td>
+          <td class="td-val" id="distance"></td>
+        </tr>
+        <tr>
+          <td class="td-label">Speed</td>
+          <td class="td-val" id="speed"></td>
+        </tr>
+        <tr>
+          <td class="td-label">Time</td>
+          <td class="td-val" id="time"></td>
+        </tr>
+        <tr>
+          <td class="td-label">Elapsed</td>
+          <td class="td-val" id="elapsed"></td>
+        </tr>
+      </table>
+    </div>
+    <div id="info-help">
+    </div>
+  </div>
+    <canvas id="canvas" resize keepalive="true" style="position:absolute"></canvas>
   </div>
 
   <div id="sidebar">
@@ -70,30 +97,6 @@ write_mission_rules($cfg);
     </div>
   </div>
 
-  <div id="info-top">
-    <div id="info-table-container">
-      <table cols="2">
-        <tr>
-          <td class="td-label">Distance</td>
-          <td class="td-val" id="distance"></td>
-        </tr>
-        <tr>
-          <td class="td-label">Speed</td>
-          <td class="td-val" id="speed"></td>
-        </tr>
-        <tr>
-          <td class="td-label">Time</td>
-          <td class="td-val" id="time"></td>
-        </tr>
-        <tr>
-          <td class="td-label">Elapsed</td>
-          <td class="td-val" id="elapsed"></td>
-        </tr>
-      </table>
-    </div>
-    <div id="info-help">
-    </div>
-  </div>
   
 
   <div id="help-text" class="animated">

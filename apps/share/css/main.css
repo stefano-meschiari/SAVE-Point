@@ -256,7 +256,7 @@ td.td-val {
   opacity: 0;
   font-size: 20px;
   font-weight: 200;
-  display: block;
+  visibility: none;
   text-shadow: 0px 0px 2px black;
   border-radius: 20px;
   padding: 12px;
@@ -275,6 +275,9 @@ td.td-val {
   -moz-transition: 0.5s ease-in;
   -o-transition: 0.5s ease-in;
   transition: 0.5s ease-in;
+}
+.in-front {
+  z-index: 10;
 }
 #help-text.expanded {
   opacity: 1;
