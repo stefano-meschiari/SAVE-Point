@@ -21,6 +21,16 @@ to be hosted at http://jrs-edu.herokuapp.com.
 - *apps/* is where the apps are housed, and represents the document
 root of the website.
 
+continue...
+
 # Requirements
 ## HTML5/JavaScript apps 
 - Backbone.js
+- Paper.js
+
+continue...
+
+## Backend
+- Postgres configuration on Heroku:
+https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-node-js
+- Postgres connection in PHP: http://mattstauffer.co/blog/laravel-on-heroku-using-a-postgresql-database
