@@ -3,7 +3,7 @@
 // Number of stars
 STARS = 50;
 CANVAS_ID = 'canvas';
-
+MAX_SEGMENTS = 250;
 
 var Draw = Backbone.View.extend({
     backgroundStars:[],
@@ -466,6 +466,12 @@ var Draw = Backbone.View.extend({
         var planet = planets[0];
         var star = this.star;
         var tc = this.trailSegments;
+
+        this.tick ++;
+        
+        if (tc.length > MAX_SEGMENTS || this.tick % 5 != 0)
+            return;
+        
         var lastPos;
         var position = app.get('position');
         var theta = Math.atan2(position[NPHYS+Y], position[NPHYS+X]);
