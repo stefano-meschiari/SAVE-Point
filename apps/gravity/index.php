@@ -33,7 +33,10 @@ write_mission_rules($cfg);
           <td class="td-val" id="time"></td>
         </tr>
         <tr>
-          <td class="td-stars" id="stars" colspan="2"></td>
+          <td class="td-stars" colspan="2">
+            <div id="stars">
+            </div>
+          </td>
         </tr>
       </table>
     </div>

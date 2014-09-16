@@ -157,7 +157,10 @@ var App = Backbone.ROComputedModel.extend({
         var masses = this.get('masses');
         
         position.push(x[0], x[1], 0);
-        velocity.push(Math.sqrt(K2), 0, 0);
+
+        
+        var v = Math.sqrt(K2);
+        velocity.push(v, 0, 0);
         masses.push(0);
         this.ctx.elements = null;
         this.set('nplanets', this.get('nplanets')+1);
@@ -311,12 +314,25 @@ var App = Backbone.ROComputedModel.extend({
      */
     stars: function() {
         var seconds = this.elapsedTime(true);
+        
         if (seconds < 60)
             return 3;
         else if (seconds < 120)
             return 2;
         else
             return 1;
+    },
+
+    /*
+     * Returns a *fractional* star value -- useful, for instance, to show a partially filled
+     * star.
+     */
+    fractionalStars: function() {
+        var seconds = this.elapsedTime(true);
+        if (seconds > 120)
+            return 1;
+        else
+            return (3 - 2*seconds/120);
     },
 
     /*
@@ -463,20 +479,27 @@ var AppView = Backbone.View.extend({
     lastStars: 3,
     
     /*
-     * Render the current number of stars.
+     * Render the current number of stars in the top left corner.
      */
     renderStars: function() {
         var stars = app.stars();
+        var frac = app.fractionalStars();
+        frac -= Math.floor(frac);
+        if (frac == 0.) frac = 1;
+        
         var str = "";
         var i;
         
-        for (i = 0; i < stars; i++)
+        for (i = 0; i < stars - 1; i++)
             str += Templates.fullStar;
+
+        str += '<span style="opacity:' + frac.toFixed(2) +  '">' + Templates.fullStar + "</span>";
+        
         for (i = stars; i < 3; i++)
             str += Templates.emptyStar;
 
         $("#stars").html(str);
-        if (this.lastStars != stars) {
+        if (this.lastStars > stars) {
             $("#stars").removeClass("flash-red");
             $("#stars").addClass("flash-red");            
         }
@@ -865,12 +888,13 @@ var AppMenuView = Backbone.View.extend({
 
         this.$missions.append(this.clear);
 
-        stars = missions.at(currentMission).get('stars');
+        var stars = missions.at(currentMission).get('stars');
         var text = "";
         for (i = 0; i < stars; i++)
             text += Templates.fullStar;
         for (i = stars; i < 3; i++)
             text += Templates.emptyStar;
+        
         $("#app-menu-stars").html(text);
 
         var starsEarned = app.get('starsEarnedTotal');
