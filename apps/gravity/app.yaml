@@ -78,7 +78,7 @@ missions:
           Now *tap on the @icon-star star* to let the planet orbit!
           
                   
-  - title: Elliptical orbit
+  - title: Elliptical Orbit
     rule: nplanets > 0 && elements[0].eccentricity > 0.2 && elements[0].eccentricity < 0.99 && !collided
     enabled: true
     subtitle: Add a planet in an elliptical (oval) orbit.
@@ -86,7 +86,7 @@ missions:
     lose: That orbit could be more elliptical...
     icon: icon-elliptical
 
-  - title: Circular orbit
+  - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
     enabled: true
     subtitle: Add a planet in a circular orbit.
@@ -94,7 +94,7 @@ missions:
     lose: That orbit is not very circular.
     icon: icon-circular
 
-  - title: Ejected (hyperbolic)
+  - title: Ejected! (Hyperbolic Orbit)
     rule: nplanets > 0 && elements[0].eccentricity > 1
     enabled: true
     subtitle: Add a planet that escapes the pull of its star.
@@ -102,7 +102,7 @@ missions:
     lose: Oh no!  You're caught by the pull of gravity!
     icon: icon-hyperbolic
 
-  - title: Crash & burn
+  - title: Crash & Burn
     rule: nplanets > 0 && collided
     enabled: true
     subtitle: Make your planet collide with the star.
