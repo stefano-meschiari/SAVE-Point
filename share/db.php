@@ -12,7 +12,7 @@ $dbconn = pg_pconnect($urls);
 
 if ($dbconn === FALSE) {
   error_log('Cannot connect to database.');
-  error_log(pg_last_error);
+  error_log(pg_last_error());
   db_generic_error();
   
   die();
