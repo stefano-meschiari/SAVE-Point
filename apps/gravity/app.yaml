@@ -78,14 +78,6 @@ missions:
           Now *tap on the @icon-star star* to let the planet orbit!
           
                   
-  - title: Circular orbit
-    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
-    enabled: true
-    subtitle: Add a planet in a circular orbit.
-    win: Sweet! That's... pretty circular!
-    lose: That orbit is not very circular.
-    icon: icon-circular
-
   - title: Elliptical orbit
     rule: nplanets > 0 && elements[0].eccentricity > 0.2 && elements[0].eccentricity < 0.99 && !collided
     enabled: true
@@ -93,6 +85,14 @@ missions:
     win: So elliptical!
     lose: That orbit could be more elliptical...
     icon: icon-elliptical
+
+  - title: Circular orbit
+    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
+    enabled: true
+    subtitle: Add a planet in a circular orbit.
+    win: Sweet! That's... pretty circular!
+    lose: That orbit is not very circular.
+    icon: icon-circular
 
   - title: Ejected (hyperbolic)
     rule: nplanets > 0 && elements[0].eccentricity > 1
