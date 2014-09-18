@@ -6,6 +6,8 @@ body {
   height: 100%;
   min-height: 100%;
   font-family: "Dosis", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.overflow-hidden {
   overflow: hidden;
 }
 .font-xl {
@@ -16,6 +18,9 @@ body {
 }
 .font-m {
   font-size: 20px;
+}
+.font-s {
+  font-size: 14px;
 }
 .clear-left {
   clear: left;
@@ -127,6 +132,7 @@ body {
   background: white;
   background: linear-gradient(to bottom, #ffffff 0%, #b4b4b4 100%);
   border-radius: 3px;
+  border: 1px solid #b4b4b4;
 }
 .btn-jrs:hover {
   background-color: #ecf0f1;
@@ -754,4 +760,53 @@ lesshat-selector {
   -moz-animation: flash-red-keyframes 2s ease;
   -o-animation: flash-red-keyframes 2s ease;
   animation: flash-red-keyframes 2s ease;
+}
+#app-screen {
+  background: linear-gradient(to bottom, #1d77ef 0%, #81f3fd 100%);
+  min-height: 100%;
+  padding: 40px;
+  font-size: 20px;
+}
+#app-user {
+  margin: 0 auto;
+  width: 500px;
+  padding: 20px;
+  color: black;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid silver;
+}
+#app-user .tab-content {
+  margin-top: 15px;
+}
+#app-user-name {
+  text-align: center;
+}
+#app-dashboard {
+  padding: 30px;
+  text-shadow: 1px 1px gray;
+}
+.app-icon-container {
+  width: 100px;
+}
+.app-icon {
+  border-radius: 10px;
+  border: 1px solid silver;
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  background-position: center center;
+  cursor: pointer;
+}
+.app-icon-gravity {
+  background-image: url(../img/gravity.png);
+}
+.app-icon-label {
+  text-align: center;
 }

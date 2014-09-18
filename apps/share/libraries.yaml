@@ -1,34 +1,34 @@
 # All paths referenced to the top-level document directory (apps).
 
 paper:
-  - share/paper/dist/paper-full.min.js
+  - /share/paper/dist/paper-full.min.js
 
 jquery:
-  - share/jquery/dist/jquery.min.js
+  - /share/jquery/dist/jquery.min.js
 
 bootstrap:
-  - share/bootstrap/dist/css/bootstrap.min.css
-  - share/bootstrap/dist/css/bootstrap-theme.min.css
-  - share/bootstrap/dist/js/bootstrap.min.js
+  - /share/bootstrap/dist/css/bootstrap.min.css
+  - /share/bootstrap/dist/css/bootstrap-theme.min.css
+  - /share/bootstrap/dist/js/bootstrap.min.js
 
 backbone:
-  - share/backbone/backbone.js
+  - /share/backbone/backbone.js
 
 underscore:
-  - share/underscore/underscore.js
+  - /share/underscore/underscore.js
 
 physics:
-  - share/js/math.js
-  - share/js/units.js
-  - share/js/defines.js
-  - share/js/physics.js
+  - /share/js/math.js
+  - /share/js/units.js
+  - /share/js/defines.js
+  - /share/js/physics.js
 
 underscore.string:
-  - share/underscore.string/dist/underscore.string.min.js
+  - /share/underscore.string/dist/underscore.string.min.js
 
 color:
-  - share/harthur-color/color-0.7.1.min.js
+  - /share/harthur-color/color-0.7.1.min.js
 
 constants:
-  - share/js/colors.js
-  - share/js/constants.js
+  - /share/js/colors.js
+  - /share/js/constants.js

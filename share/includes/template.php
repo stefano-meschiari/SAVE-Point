@@ -64,7 +64,6 @@ function init() {
         continue;
       } else {
         foreach ($libs[$req] as $file) {
-          $file = DOCUMENT_ROOT . $file;
           if (preg_match('/.js$/', $file)) {
             $cfg['js-requires'][] = "<script type=\"text/javascript\" src=\"$file\"></script>";
           } elseif (preg_match('/.css$/', $file)) {

@@ -1,5 +1,6 @@
 <?php
-require('../../share/startup.php');
+require($_SERVER['DOCUMENT_ROOT'] . '/../share/startup.php');
+require('db.php');
 
 $cfg = init();
 write_header($cfg);
@@ -8,6 +9,12 @@ write_mission_rules($cfg);
 ?>
 
 <?php write_js_requires($cfg); ?>
+
+<style>
+ body, html {
+   overflow:hidden;
+ }
+</style>
 
 <div id="app" class="full-size">
     <div id="text-top" class="animated">
@@ -126,7 +133,7 @@ write_mission_rules($cfg);
 </div>
 
 <script type="text/javascript" src="../share/js/init.js"></script>
-<script type="text/javascript" src="./js/app.js"></script>
-<script type="text/paperscript" canvas="canvas" src="./js/draw.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/paperscript" canvas="canvas" src="js/draw.js"></script>
 
 <?php write_footer($cfg); ?>

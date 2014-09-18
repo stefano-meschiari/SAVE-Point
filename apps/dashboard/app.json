@@ -1,0 +1,1 @@
+{"description":"User management.","title":"Users","requires":["jquery","underscore","underscore.string","bootstrap"]}

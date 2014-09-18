@@ -1,0 +1,9 @@
+---
+description: User management.
+title: Dashboard
+requires:
+  - jquery
+  - underscore
+  - underscore.string
+  - bootstrap
+
