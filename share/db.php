@@ -3,6 +3,8 @@
 
 // Get connection details from environment variable
 $urlp = parse_url($_ENV["DATABASE_URL"]);
+echo $_ENV['DATABASE_URL'];
+
 // Build connection string for Postgres
 $urls = "host={$urlp['host']} port={$urlp['port']} user={$urlp['user']} password={$urlp['password']}  dbname=" . substr($urlp['path'], 1);
 // Open connection
