@@ -6,16 +6,14 @@ $urlp = parse_url($_ENV["DATABASE_URL"]);
 
 // Build connection string for Postgres
 $urls = "host={$urlp['host']} port={$urlp['port']} user={$urlp['user']} password={$urlp['pass']}  dbname=" . substr($urlp['path'], 1);
+
 // Open connection
 $dbconn = pg_pconnect($urls);
-echo $urls . '\n';
 
 if ($dbconn === FALSE) {
-  echo pg_last_error();
   error_log(pg_last_error());
   error_log('Cannot connect to database.');
-  
-//  db_generic_error();
+  db_generic_error();
   
   die();
 };
