@@ -78,23 +78,15 @@ missions:
           Now *tap on the @icon-star star* to let the planet orbit!
           
                   
-  - title: Circular orbit
-    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
+  - title: Crash & Burn
+    rule: nplanets > 0 && collided
     enabled: true
-    subtitle: Add a planet in a circular orbit.
-    win: Sweet! That's... pretty circular!
-    lose: That orbit is not very circular.
-    icon: icon-circular
+    subtitle: Make your planet collide with the star.
+    win: Those were impressive fireworks!
+    lose: You avoided crashing into the star.
+    icon: icon-crash
 
-  - title: Elliptical orbit
-    rule: nplanets > 0 && elements[0].eccentricity > 0.2 && elements[0].eccentricity < 0.99 && !collided
-    enabled: true
-    subtitle: Add a planet in an elliptical (oval) orbit.
-    win: So elliptical!
-    lose: That orbit could be more elliptical...
-    icon: icon-elliptical
-
-  - title: Ejected (hyperbolic)
+  - title: Ejected! (Hyperbolic Orbit)
     rule: nplanets > 0 && elements[0].eccentricity > 1
     enabled: true
     subtitle: Add a planet that escapes the pull of its star.
@@ -102,13 +94,21 @@ missions:
     lose: Oh no!  You're caught by the pull of gravity!
     icon: icon-hyperbolic
 
-  - title: Crash & burn
-    rule: nplanets > 0 && collided
+  - title: Elliptical Orbit
+    rule: nplanets > 0 && elements[0].eccentricity > 0.2 && elements[0].eccentricity < 0.99 && !collided
     enabled: true
-    subtitle: Make your planet collide with the star.
-    win: Those were impressive fireworks!
-    lose: You avoided crashing into the star.
-    icon: icon-crash
+    subtitle: Add a planet in an elliptical (oval) orbit.
+    win: So elliptical!
+    lose: That orbit could be more elliptical...
+    icon: icon-elliptical
+
+  - title: Circular Orbit
+    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
+    enabled: true
+    subtitle: Add a planet in a circular orbit.
+    win: Sweet! That's... pretty circular!
+    lose: That orbit is not very circular.
+    icon: icon-circular
 
   - title: Speed vs. radius (circular)
     rule: nplanets > 0 && elements[0].eccentricity > 1
