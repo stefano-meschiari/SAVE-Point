@@ -47,7 +47,7 @@ function db_user_logged_in() {
 
 function db_ensure_logged_in() {
   if (db_user_logged_in() === FALSE) {
-    header('Location: users.php');
+    header('Location: /dashboard/users.php');
     
     die();
   }
