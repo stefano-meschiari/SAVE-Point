@@ -3,7 +3,7 @@
 // Number of stars
 STARS = 50;
 CANVAS_ID = 'canvas';
-MAX_SEGMENTS = 500;
+MAX_SEGMENTS = 700;
 
 var Draw = Backbone.View.extend({
     backgroundStars:[],
@@ -110,7 +110,7 @@ var Draw = Backbone.View.extend({
         app.set('interactive', false);
         this.animating = true;
 
-        var direction = (app.previous('currentMission') < app.get('currentMission') ? 1 : -1);
+        var direction = 1;//(app.previous('currentMission') < app.get('currentMission') ? 1 : -1);
         
         app.set('state', PAUSED);
 
@@ -469,7 +469,7 @@ var Draw = Backbone.View.extend({
 
         this.tick ++;
         
-        if (tc.length > MAX_SEGMENTS || this.tick % 3 != 0)
+        if (tc.length > MAX_SEGMENTS || this.tick % 2 != 0)
             return;
         
         var lastPos;
