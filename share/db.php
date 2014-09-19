@@ -1,4 +1,7 @@
 <?php
+
+/* FIXME: This entire file needs to burn in a fire and be rewritten. */
+
 //error_reporting(-1);
 
 // Get connection details from environment variable
@@ -59,6 +62,14 @@ function db_user_details($user) {
   }
 }
 
+
+function db_user_is_instructor($user) {
+  $user_info = db_user_details($user);
+  if ($user_info === FALSE) return FALSE;
+  $user_id = $user_info['id'];
+  
+}
+
 function db_user_register($user) {
   $user = array_merge(
     array(
@@ -96,6 +107,7 @@ function db_class_exists($class_name) {
     }
   return FALSE;
 }
+
 
 function db_get_game_data($game, $user) {
   $result = pg_query_params("SELECT mission_data FROM $1 WHERE user_id = $2", array($game, $user));

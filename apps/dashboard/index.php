@@ -12,10 +12,11 @@ write_header($cfg);
 ?>
 <?php write_js_requires($cfg); ?>
 <div id="app-screen">
-  <div id="app-user-name">
-    <div class="font-l">Welcome, <?= db_user(); ?>!</div>
-    <div class="font-m">Click on one of the icons to begin.</div>
+  <div>
+    <span class="font-l">Welcome, <?= db_user(); ?>!</span>
+    <a href="usermgmt.php?action=logout" class="border pull-right">Log out</a>
   </div>
+  <div class="clear">
   <div class="separator-center">
   </div>
 
@@ -30,7 +31,6 @@ write_header($cfg);
   </div>
   <div class="separator-center">
   </div>
-  <a href="usermgmt.php?action=logout" class="pull-right">Log out</a>
 </div>
 
 <?php
