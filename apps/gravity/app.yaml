@@ -25,11 +25,12 @@ missions:
     lose: Darn! You forgot to add the planet!
     rule: nplanets > 0
     enabled: true
+    icon: icon-practice
     help:      
       - on: start
         message: |          
           @noninteractive
-          Your very first mission: just add one planet and make it orbit around the star!
+          *@name*, it's your very first mission: just add one planet and make it orbit around the star!
 
 
           *Click "Next" to learn how.*

@@ -10,11 +10,19 @@ write_mission_rules($cfg);
 
 <?php write_js_requires($cfg); ?>
 
+<script>
+LOGGED_USER='<?= db_user(); ?>';
+</script>
 <style>
  body, html {
    overflow:hidden;
  }
 </style>
+
+<div id="app-modal" class="full-size" style="display:none">
+  Hello!
+</div>
+
 
 <div id="app" class="full-size">
     <div id="text-top" class="animated">
@@ -56,53 +64,32 @@ write_mission_rules($cfg);
   <div id="sidebar">
     <div class="sidebar-item">
       <div id="menu" class="btn-jrs-ico fa fa-bars"></div>
-      <div class="sidebar-title">Menu</div>
     </div>
+    <div class="separator-center"></div>
+
+    <div class="sidebar-item">
+      <div id="missions" class="btn-jrs-ico fa fa-th-large"></div>
+      <div class="sidebar-title">Mission list</div>
+    </div>
+    <div class="sidebar-item">
+      <div id="reset" class="btn-jrs-ico fa fa-undo"></div>
+      <div class="sidebar-title">Restart mission</div>
+    </div>
+    <div class="sidebar-item">
+      <div id="dashboard" class="btn-jrs-ico fa fa-backward"></div>
+      <div class="sidebar-title">Back to dashboard</div>
+    </div>
+    
+    <!-- 
+    <div class="separator-center"></div>
     <div class="sidebar-item">
       <div id="zoom" class="btn-jrs-ico fa fa-eye"></div>
       <div class="sidebar-title">Toggle physical size</div>
     </div>
-    
-    <!--<div class="sidebar-section">Missions<div class="separator"></div></div>
-    <div id="missions">
-    <div class="mission-completed">
-    <div class="mission-symbol"></div>
-    <div class="mission-label">Circular</div>
-    <div class="clear"></div>
-    </div>
-    <div class="mission-completed">
-    <div class="mission-symbol"></div>
-    <div class="mission-label">Elliptical</div>
-    <div class="clear"></div>        
-    </div>
-    <div class="mission-completed">
-    <div class="mission-symbol"></div>
-    <div class="mission-label">Mission #3</div>
-    <div class="clear"></div>        
-    </div>
-    <div class="mission-active">
-    <div class="mission-symbol"></div>
-    <div class="mission-label">Mission #4
-    </div>
-    <div class="clear"></div>
-    </div>
-    <div class="mission">
-    <div class="mission-symbol"></div>
-    <div class="mission-label">Hello!</div>
-    <div class="clear"></div>        
-    </div>
-    </div>-->
-    <div class="sidebar-section">Tools<div class="separator"></div></div>
-    <div class="sidebar-expandable">
-      <button class="btn btn-lg btn-jrs " onClick="app.reset()">Restart mission</button>
-    </div>
-
+    -->
     <div class="sidebar-section">DEBUG TOOLS :-><div class="separator"></div></div>    
     <div class="sidebar-expandable">
-      <a href="#" onClick="app.setMission()">Skip to next mission</a><br>
-      <a href="#" onClick="app.win()">Win</a><br>
-      <a href="#" onClick="app.lose()">Lose</a> <br>
-      <a href="#" onClick="app.menu()">Menu</a> <br>
+      <a href="#" onClick="app.resetMissionData()">Reset all mission data (stars, etc)</a> <br>
     </div>
   </div>
 
@@ -118,7 +105,7 @@ write_mission_rules($cfg);
 
 <div id="app-menu" class="animated">
   <div id="app-menu-container">
-    <div id="app-menu-message" class="title">Mission cleared!</div>
+    <div id="app-menu-message" class="title">Mission list</div>
     <div class="separator-center"></div>
     <div id="app-menu-stats">
       <div id="app-menu-stars">

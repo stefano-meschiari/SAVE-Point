@@ -97,4 +97,13 @@ function db_class_exists($class_name) {
   return FALSE;
 }
 
+function db_get_game_data($game, $user) {
+  $result = pg_query_params("SELECT mission_data FROM $1 WHERE user_id = $2", array($game, $user));
+  if ($result === FALSE)
+    return FALSE;
+  $arr = pg_fetch_all($result);
+  return $arr[0]['mission_data'];
+}
+
+
 ?>

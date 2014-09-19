@@ -3,7 +3,7 @@
 // Number of stars
 STARS = 50;
 CANVAS_ID = 'canvas';
-MAX_SEGMENTS = 250;
+MAX_SEGMENTS = 500;
 
 var Draw = Backbone.View.extend({
     backgroundStars:[],
@@ -469,7 +469,7 @@ var Draw = Backbone.View.extend({
 
         this.tick ++;
         
-        if (tc.length > MAX_SEGMENTS || this.tick % 5 != 0)
+        if (tc.length > MAX_SEGMENTS || this.tick % 3 != 0)
             return;
         
         var lastPos;

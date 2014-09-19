@@ -623,6 +623,16 @@ td.td-val {
   background-origin: content-box;
   background-image: url('../img/crash_icon_b.png');
 }
+.icon-practice-b {
+  background: url('../img/circular_icon.png') no-repeat center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  padding: 10px;
+  background-origin: content-box;
+  background-image: url('../img/practice_icon.png');
+}
 .separator {
   height: 1px;
   background: linear-gradient(to right, #bababa 0%, #bababa 40%, rgba(186, 186, 186, 0) 80%);
@@ -760,6 +770,13 @@ lesshat-selector {
   -moz-animation: flash-red-keyframes 2s ease;
   -o-animation: flash-red-keyframes 2s ease;
   animation: flash-red-keyframes 2s ease;
+}
+#app-modal {
+  background: linear-gradient(to bottom, #4a4a4a 0%, #2b2b2b 100%);
+  color: white;
+  font-size: 50px;
+  text-align: center;
+  padding: 40px;
 }
 #app-screen {
   background: linear-gradient(to bottom, #1d77ef 0%, #81f3fd 100%);
