@@ -843,7 +843,8 @@ var MissionHelpView = Backbone.View.extend({
 
     render: function(helpText) {
         var self = this;
-        if (helpText && self.lastHelp == helpText) {            
+        if (helpText && self.lastHelp == helpText) {
+            $("#help-text").addClass("expanded");        
             return;
         }
         self.lastHelp = helpText;
