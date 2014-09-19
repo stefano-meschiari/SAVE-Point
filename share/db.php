@@ -68,6 +68,43 @@ function db_user_is_instructor($user) {
   if ($user_info === FALSE) return FALSE;
   $user_id = $user_info['id'];
   
+  $result = pg_query_params('SELECT * FROM instructors WHERE user_id=$1', array($user_id));
+  return (pg_num_rows($result) > 0);
+}
+
+function db_instructor_classes($user) {
+  $user_info = db_user_details($user);
+  if ($user_info === FALSE) return FALSE;
+  $user_id = $user_info['id'];
+
+  $result = pg_query_params('SELECT * FROM instructors i JOIN classes c on i.class_id = c.id WHERE i.user_id=$1',
+                            array($user_id));
+  if ($result === FALSE)
+    return FALSE;
+  else
+    return pg_fetch_all($result);
+}
+
+function db_instructor_has_class($user, $class_id) {
+  $result = db_instructor_classes($user);
+  if ($result === FALSE)
+    return FALSE;
+  foreach ($result as $class) 
+    if ($class['class_id'] == $class_id)
+      return TRUE;
+  
+  return FALSE;
+}
+
+function db_instructor_report($game, $class_id) {
+  $game = pg_escape_identifier($game . '_data');
+  
+  $result = pg_query_params('SELECT u.username, u.email, u.real_name, g.* FROM users u INNER JOIN classes c ON u.class_id = c.id INNER JOIN ' . $game . ' g ON g.user_id = u.id WHERE c.id=$1', array($class_id));
+  echo pg_last_error();
+  if ($result === FALSE) 
+    return FALSE;
+  $data = pg_fetch_all($result);
+  return $data;
 }
 
 function db_user_register($user) {

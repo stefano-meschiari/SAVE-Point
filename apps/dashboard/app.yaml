@@ -7,3 +7,6 @@ requires:
   - underscore.string
   - bootstrap
 
+
+apps:
+  - gravity

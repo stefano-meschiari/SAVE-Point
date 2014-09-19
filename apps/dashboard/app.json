@@ -1,1 +1,1 @@
-{"description":"User management.","title":"Dashboard","requires":["jquery","underscore","underscore.string","bootstrap"]}
+{"description":"User management.","title":"Dashboard","requires":["jquery","underscore","underscore.string","bootstrap"],"apps":["gravity"]}

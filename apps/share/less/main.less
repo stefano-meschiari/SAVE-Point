@@ -14,10 +14,13 @@
 html, body {
   margin:0px;
   padding:0px;
-  color:white;
   height:100%;
   min-height:100%;
   font-family:@font, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#app {
+  color:white;
 }
 
 .overflow-hidden {
@@ -623,15 +626,25 @@ td.td-val {
 
 #app-screen {
   background: linear-gradient(to bottom, #1D77EF 0%, #81F3FD 100%);
+  color:white;
   min-height:100%;
   padding:40px;
   font-size:@font-m;
 }
 
+#app-screen.white {
+  background:white;
+  color:black;
+}
+
+#app-screen table {
+  color:black;
+}
+
 a.border {
   color:white;
   border:1px solid white;
-  border-radius:15px;
+  border-radius:10px;
   padding:6px;
 }
 
@@ -653,7 +666,7 @@ a.border {
   text-align:center;
 }
 
-#app-dashboard {
+.app-dashboard {
   padding:30px;
   text-shadow:1px 1px gray;
 

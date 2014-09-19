@@ -1,3 +1,4 @@
+
 all: css colors yaml
 
 css:
@@ -16,3 +17,7 @@ watch:
 devserver: 
 	cd apps; php -S localhost:8000 &
 	open http://localhost:8000
+
+download_db:
+	dropdb sm52286
+	heroku pg:pull DATABASE_URL sm52286

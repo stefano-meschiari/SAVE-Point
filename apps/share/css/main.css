@@ -2,10 +2,12 @@ html,
 body {
   margin: 0px;
   padding: 0px;
-  color: white;
   height: 100%;
   min-height: 100%;
   font-family: "Dosis", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+#app {
+  color: white;
 }
 .overflow-hidden {
   overflow: hidden;
@@ -780,14 +782,22 @@ lesshat-selector {
 }
 #app-screen {
   background: linear-gradient(to bottom, #1d77ef 0%, #81f3fd 100%);
+  color: white;
   min-height: 100%;
   padding: 40px;
   font-size: 20px;
 }
+#app-screen.white {
+  background: white;
+  color: black;
+}
+#app-screen table {
+  color: black;
+}
 a.border {
   color: white;
   border: 1px solid white;
-  border-radius: 15px;
+  border-radius: 10px;
   padding: 6px;
 }
 #app-user {
@@ -805,7 +815,7 @@ a.border {
 #app-user-name {
   text-align: center;
 }
-#app-dashboard {
+.app-dashboard {
   padding: 30px;
   text-shadow: 1px 1px gray;
 }
