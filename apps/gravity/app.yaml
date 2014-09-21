@@ -111,17 +111,37 @@ missions:
     lose: That orbit is not very circular.
     icon: icon-circular
 
-  - title: Speed vs. radius (circular)
-    rule: nplanets > 0 && elements[0].eccentricity > 1
+  - title: Speed vs. distance (40 km/s)
+    subtitle: Add a planet in a circular orbit at 40 km/s.
+    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
+    icon: icon-circ-rvs
+    constraints:
+      speed: 40
+      direction: perpendicular
     enabled: true
-    subtitle: TBD
-    win: So elliptical!
-    lose: That orbit is not eccentric...
+    help:
+      - on: start
+        message: |          
+          A new type of mission!
 
-  - title: Speed vs. radius (elliptical)
-    rule: nplanets > 0 && elements[0].eccentricity > 1
+
+          In this mission, your planet will have a *fixed speed (40 km/s)*
+          and a *fixed direction* (perpendicular to the line connecting the star and the planet).
+          @proceed
+      - on: proceed
+        message: |
+          To win this mission, you will have to place the planet at just the right distance to get
+          a circular orbit. 
+    win: So circular!
+    lose: The orbit was not quite circular... Try moving the planet to a different distance.
+
+  - title: Speed vs. distance (25 km/s)
+    subtitle: Add a planet in a circular orbit at 25 km/s.
+    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
+    icon: icon-circ-rvs    
+    constraints:
+      speed: 25
+      direction: perpendicular
     enabled: true
-    subtitle: TBD
-    win: So elliptical!
-    lose: That orbit is not eccentric...
-
+    win: So circular!
+    lose: The orbit was not quite circular... Try moving the planet to a different distance.

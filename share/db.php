@@ -99,7 +99,7 @@ function db_instructor_has_class($user, $class_id) {
 function db_instructor_report($game, $class_id) {
   $game = pg_escape_identifier($game . '_data');
   
-  $result = pg_query_params('SELECT u.username, u.email, u.real_name, g.* FROM users u INNER JOIN classes c ON u.class_id = c.id INNER JOIN ' . $game . ' g ON g.user_id = u.id WHERE c.id=$1', array($class_id));
+  $result = pg_query_params('SELECT u.username, u.email, u.real_name, g.* FROM users u JOIN classes c ON u.class_id = c.id  JOIN ' . $game . ' g ON g.user_id = u.id WHERE c.id=$1', array($class_id));
   echo pg_last_error();
   if ($result === FALSE) 
     return FALSE;

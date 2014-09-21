@@ -636,6 +636,16 @@ td.td-val {
   background-origin: content-box;
   background-image: url('../img/practice_icon.png');
 }
+.icon-circ-rvs-b {
+  background: url('../img/circular_icon.png') no-repeat center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  padding: 10px;
+  background-origin: content-box;
+  background-image: url('../img/circ_rvs_icon.png');
+}
 .separator {
   height: 1px;
   background: linear-gradient(to right, #bababa 0%, #bababa 40%, rgba(186, 186, 186, 0) 80%);

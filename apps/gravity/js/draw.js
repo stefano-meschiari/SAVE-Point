@@ -107,7 +107,6 @@ var Draw = Backbone.View.extend({
     
     animateTravel: function() {
         var self = this;
-        app.set('interactive', false);
         this.animating = true;
 
         var direction = 1;//(app.previous('currentMission') < app.get('currentMission') ? 1 : -1);
@@ -127,6 +126,8 @@ var Draw = Backbone.View.extend({
         this.destroyTrails();
                
         this.animations.push(function() {
+            app.set('interactive', false);
+            
             var dx = frame * (frames-frame) * a;
             
             if (frame == frames) {

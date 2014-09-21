@@ -169,6 +169,8 @@ var App = Backbone.ROComputedModel.extend({
         masses.push(0);
         this.ctx.elements = null;
         this.set('nplanets', this.get('nplanets')+1);
+        this.ensureConstraintsForBody(this.get('nplanets')-1);        
+        this.ctx.elements = null;
         this.trigger("change:position change:velocity change:masses");
     },
 
@@ -180,7 +182,48 @@ var App = Backbone.ROComputedModel.extend({
         position[(i+1)*NPHYS+X] = x[0];
         position[(i+1)*NPHYS+Y] = x[1];
         position[(i+1)*NPHYS+Z] = x[2];
+
+        if (this.ensureConstraintsForBody(i))
+            this.trigger('change:velocity');
+        
         this.trigger("change:position");
+    },
+
+
+    ensureConstraintsForBody: function(i) {
+        var constraints = app.mission().get('constraints');
+        if (!constraints)
+            return false;
+        
+        var changed = false;
+        var pos = this.get('position');
+        var x = [pos[(i+1)*NPHYS+X], pos[(i+1)*NPHYS+Y], pos[(i+1)*NPHYS+Z]];
+        var vel = this.get('velocity');
+        var v = [vel[(i+1)*NPHYS+X], vel[(i+1)*NPHYS+Y], vel[(i+1)*NPHYS+Z]];
+
+        if (constraints.direction == 'perpendicular') {
+
+            var vn = _m.norm(v);
+            var xn = _m.norm(x);
+            
+            v[0] = -x[1]/xn * vn;
+            v[1] = x[0]/xn * vn;
+            v[2] = v[2];
+
+            vel[(i+1) * NPHYS+X] = v[0];
+            vel[(i+1) * NPHYS+Y] = v[1];
+            vel[(i+1) * NPHYS+Z] = v[2];
+            changed = true;
+        };
+
+        if (constraints.speed) {
+            var speed = constraints.speed / (Units.RUNIT / Units.TUNIT / 1e5);            
+            vn = _m.norm(v);
+            vel[(i+1) * NPHYS+X] = v[0]/vn * speed;
+            vel[(i+1) * NPHYS+Y] = v[1]/vn * speed;
+            vel[(i+1) * NPHYS+Z] = v[2]/vn * speed;            
+        }
+        return changed;
     },
 
     /*
@@ -188,9 +231,13 @@ var App = Backbone.ROComputedModel.extend({
      */
     setVelocityForBody: function(i, v) {
         var velocity = this.get('velocity');
+
+
         velocity[(i+1)*NPHYS+X] = v[0];
         velocity[(i+1)*NPHYS+Y] = v[1];
         velocity[(i+1)*NPHYS+Z] = v[2];
+
+        this.ensureConstraintsForBody(i);
         this.trigger("change:velocity");        
     },
     
@@ -439,6 +486,14 @@ var App = Backbone.ROComputedModel.extend({
             location.reload();
         });
     },
+
+    /*
+     * Get a pointer to current mission.
+     */
+
+    mission: function() {
+        return app.get('missions').at(app.get('currentMission'));
+    },
     
     /*
      * Initializes the model, by creating a "context" object. The context
@@ -483,20 +538,25 @@ var AppView = Backbone.View.extend({
         self.listenTo(self.model, 'lose', self.renderLose);
         
         // Renders the information table on the top-right corner.
-        self.renderInfo();
+        this.renderInfo();
 
         // A timer that checks whether a mission has been completed, by running the
         // validate function.
         self.listenTo(self.model, 'start change:missions reset', function() {
-            if (self.validateTimer)
-                clearInterval(self.validateTimer);
-            
-            self.validateTimer = setInterval(_.bind(self.validate, self), 1000);
-
             if (self.elapsedTimer)
                  clearInterval(self.elapsedTimer);
 
             self.elapsedTimer = setInterval(_.bind(self.renderStars, self), 1000);            
+        });
+
+        self.listenTo(self.model, 'change:state', function() {
+            if (app.get('state') != RUNNING)
+                return;
+
+            if (self.validateTimer)
+                clearTimeout(self.validateTimer);
+            
+            self.validateTimer = _.delay(_.bind(self.validate, self), 5000);
         });
     },
 
@@ -512,6 +572,7 @@ var AppView = Backbone.View.extend({
     
     missionTemplate: _.template('<div class="title"><span class="fa fa-rocket"></span> <%= title %></div><div class="subtitle"><%= subtitle %></div>'),
     missionDelay: 6000,
+    missionTimer: null,
     
     renderMission: function() {
         // Check if the top banner is already expanded; if it is, hide it
@@ -522,8 +583,9 @@ var AppView = Backbone.View.extend({
         $("#text-top").html(this.missionTemplate(mission.attributes));
         $("#text-top").addClass("expanded");
         $("#text-top").removeClass("in-front");
-        
-        _.delay(function() {
+        if (this.missionTimer)
+            clearTimeout(this.missionTimer);
+        this.missionTimer = _.delay(function() {
             $("#text-top").removeClass("expanded");
             $("#text-top").removeClass("in-front");
         
@@ -611,10 +673,12 @@ var AppView = Backbone.View.extend({
             $("#sidebar").hide();
             $("#help-text").removeClass("expanded");
             $("#info-top").hide();
+            $("#help").hide();
             $("#text-top").removeClass("expanded");
         } else {
             $("#sidebar").show();
             $("#info-top").show();
+            $("#help").show();
         }        
     },
 
@@ -636,9 +700,6 @@ var AppView = Backbone.View.extend({
      * we *need* to make sure that rules are sanitized and cannot be used to run arbitrary JavaScript.
      */
     validate: function() {
-        if (app.get('state') != RUNNING)
-            return;
-
         var f = RULES_FN[app.get('currentMission')]();
         if (f) {
             this.model.win();
@@ -679,7 +740,7 @@ var AppView = Backbone.View.extend({
         }, winDelay);
     },
 
-    loseTemplate: _.template('<div class="subtitle"><%= lose %></div><div><button class="btn-jrs font-m" onClick="app.reset(); app.mainView.renderMission(); "><span class="icon-thumbs-up"></span> No worries! Retry mission</button></div>'),
+    loseTemplate: _.template('<div class="subtitle"><%= lose %></div><div><button class="btn-jrs font-m" onClick="app.reset(); app.menuView.renderMission(); "><span class="icon-thumbs-up"></span> No worries! Retry mission</button></div>'),
     
     renderLose: function() {
         var mission = app.get('missions').at(app.get('currentMission'));
@@ -734,8 +795,9 @@ var MissionHelpModel = Backbone.Model.extend({
             if (on == 'proceed') {
                 this.listenTo(this, on, (function(j) {
                     return function() {
-                        if (self.get('currentHelp') == j)
+                        if (self.get('currentHelp') == j) {
                             self.trigger('help', h[j].message);
+                        }
                     };
                 })(i));
             } else {
@@ -743,6 +805,7 @@ var MissionHelpModel = Backbone.Model.extend({
                     return function() {
                         if (! shown[j]) {
                             self.trigger('help', h[j].message);
+                            self.set('currentHelp', j);
                             shown[j] = true;
                         }
                     };
@@ -848,12 +911,13 @@ var MissionHelpView = Backbone.View.extend({
             return;
         }
         self.lastHelp = helpText;
-        app.set('interactive', true);
+        _.defer(function() {
+            app.set('interactive', true);
+        });
         $("#help-text").removeClass("expanded");
         
         if (!helpText) {
             $("#help-body").html("");
-
             return;
         }
         
