@@ -87,7 +87,7 @@ missions:
     lose: You avoided crashing into the star.
     icon: icon-crash
 
-  - title: Ejected! (Hyperbolic Orbit)
+  - title: Ejected!
     rule: nplanets > 0 && elements[0].eccentricity > 1
     enabled: true
     subtitle: Add a planet that escapes the pull of its star.
