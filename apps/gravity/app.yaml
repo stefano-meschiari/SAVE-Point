@@ -17,7 +17,7 @@ args:
   - elements
   - collided
 
-starsBounty: 21  
+starsBounty: 24
 missions:
   - title: Practice Mode
     subtitle: Create your first planet.
@@ -135,6 +135,17 @@ missions:
     win: So circular!
     lose: The orbit was not quite circular... Try moving the planet to a different distance.
 
+  - title: Speed vs. distance (30 km/s)
+    subtitle: Add a planet in a circular orbit at 30 km/s.
+    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
+    icon: icon-circ-rvs    
+    constraints:
+      speed: 30
+      direction: perpendicular
+    enabled: true
+    win: So circular!
+    lose: The orbit was not quite circular... Try moving the planet to a different distance.    
+    
   - title: Speed vs. distance (25 km/s)
     subtitle: Add a planet in a circular orbit at 25 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
