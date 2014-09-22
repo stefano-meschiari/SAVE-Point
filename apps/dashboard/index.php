@@ -25,7 +25,10 @@ write_header($cfg);
       <div class="app-icon app-icon-gravity" onClick="location.href='../gravity/'">
       </div>
       <div class="app-icon-label">
-        Gravity
+        Orbits
+      </div>
+      <div class="app-icon-subtitle">
+        A game of gravity.
       </div>
     </div>
   </div>

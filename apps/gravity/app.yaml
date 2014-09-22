@@ -1,6 +1,6 @@
 ---
 description: A game of gravity
-title: Gravity
+title: Orbits
 requires:
   - color
   - jquery

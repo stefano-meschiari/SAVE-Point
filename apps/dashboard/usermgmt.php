@@ -10,7 +10,7 @@ function redirect_alert($alert, $tab) {
 };
 
 function redirect_dashboard() {
-  header('Location: index.php');
+  header('Location: /dashboard/index.php');
   die();
 }
 

@@ -792,7 +792,7 @@ lesshat-selector {
   padding: 40px;
 }
 #app-screen {
-  background: linear-gradient(to bottom, #1d77ef 0%, #81f3fd 100%);
+  background: linear-gradient(to bottom, #83a4d4 0%, #b6fbff 100%);
   color: white;
   min-height: 100%;
   padding: 40px;
@@ -853,4 +853,9 @@ a.border {
 }
 .app-icon-label {
   text-align: center;
+}
+.app-icon-subtitle {
+  text-align: center;
+  font-size: 70%;
+  color: #e6e6e6;
 }

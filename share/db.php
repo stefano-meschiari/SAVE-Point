@@ -99,8 +99,7 @@ function db_instructor_has_class($user, $class_id) {
 function db_instructor_report($game, $class_id) {
   $game = pg_escape_identifier($game . '_data');
   
-  $result = pg_query_params('SELECT u.username, u.email, u.real_name, g.* FROM users u JOIN classes c ON u.class_id = c.id  JOIN ' . $game . ' g ON g.user_id = u.id WHERE c.id=$1', array($class_id));
-  echo pg_last_error();
+  $result = pg_query_params('SELECT u.username, u.email, u.real_name, g.* FROM users u FULL OUTER JOIN ' . $game . ' g ON g.user_id = u.id WHERE u.class_id=$1', array($class_id));
   if ($result === FALSE) 
     return FALSE;
   $data = pg_fetch_all($result);
@@ -112,8 +111,6 @@ function db_user_register($user) {
     array(
       'user_type' => 'user'
     ), $user);
-
-  echo $user['class_id'];
   
   return pg_query_params("INSERT INTO users (username, password, user_type, real_name, email, class_id) VALUES ($1, $2, $3, $4, $5, $6)", array(
     $user['username'],

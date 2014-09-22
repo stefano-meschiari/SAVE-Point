@@ -32,9 +32,12 @@ foreach ($apps as $app) {
     $row_a = array();
     $row_a[0] = $row['real_name'];
     $row_a[1] = $row['username'];
-    $row_a[2] = $row['earned_stars'];
+    if (isset($row['earned_stars']))
+      $row_a[2] = $row['earned_stars'];
+    else
+      $row_a[2] = 0;
+    
     $game_data = json_decode($row['mission_data'], true);
-
     
     foreach ($game_data as $mission) {
       $row_a[] = $mission['stars'];
