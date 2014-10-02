@@ -79,19 +79,7 @@ LOGGED_USER='<?= db_user(); ?>';
     <div class="sidebar-item">
       <div id="dashboard" class="btn-jrs-ico fa fa-backward"></div>
       <div class="sidebar-title">Back to dashboard</div>
-    </div>
-    
-    <!-- 
-    <div class="separator-center"></div>
-    <div class="sidebar-item">
-      <div id="zoom" class="btn-jrs-ico fa fa-eye"></div>
-      <div class="sidebar-title">Toggle physical size</div>
-    </div>
-    -->
-    <div class="sidebar-section">DEBUG TOOLS :-><div class="separator"></div></div>    
-    <div class="sidebar-expandable">
-      <a href="#" onClick="app.resetMissionData()">Reset all mission data (stars, etc)</a> <br>
-    </div>
+    </div>    
   </div>
 
   
