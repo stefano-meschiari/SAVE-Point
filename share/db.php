@@ -124,7 +124,7 @@ function db_user_register($user) {
 
 
 function db_get_classes() {
-  $result = pg_query('SELECT * FROM classes SORT BY class_name');
+  $result = pg_query('SELECT * FROM classes ORDER BY class_name');
   if ($result === FALSE)
     return FALSE;
   else
