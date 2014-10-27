@@ -59,7 +59,7 @@ LOGGED_USER='<?= db_user(); ?>';
     <div id="info-help">
     </div>
   </div>
-    <canvas id="canvas" resize keepalive="true" style="position:absolute"></canvas>
+    <canvas id="canvas" resize keepalive="false" style="position:absolute"></canvas>
   </div>
 
   <div id="sidebar">
@@ -67,7 +67,11 @@ LOGGED_USER='<?= db_user(); ?>';
       <div id="menu" class="btn-jrs-ico fa fa-bars"></div>
     </div>
     <div class="separator-center"></div>
-
+    <div class="sidebar-item">
+      <div id="sizes" class="btn-jrs-ico fa fa-arrows-alt"></div>
+      <div class="sidebar-title">Toggle physical size</div>
+    </div>
+    
     <div class="sidebar-item">
       <div id="missions" class="btn-jrs-ico fa fa-th-large"></div>
       <div class="sidebar-title">Mission list</div>
@@ -76,10 +80,17 @@ LOGGED_USER='<?= db_user(); ?>';
       <div id="reset" class="btn-jrs-ico fa fa-undo"></div>
       <div class="sidebar-title">Restart mission</div>
     </div>
+    <div class="separator-center"></div>
     <div class="sidebar-item">
       <div id="dashboard" class="btn-jrs-ico fa fa-backward"></div>
       <div class="sidebar-title">Back to dashboard</div>
-    </div>    
+    </div>
+    <div class="separator-center"></div>
+    <div class="sidebar-item">
+      <div id="help" class="btn-jrs-ico fa fa-question-circle"></div>
+      <div class="sidebar-title">Help</div>
+    </div>
+
   </div>
 
   
@@ -89,7 +100,6 @@ LOGGED_USER='<?= db_user(); ?>';
     </div>
   </div>
 
-  <div class="btn-jrs-ico fa fa-question-circle" id="help"></div>
 </div>
 
 <div id="app-menu" class="animated">
@@ -110,6 +120,7 @@ LOGGED_USER='<?= db_user(); ?>';
 
 <script type="text/javascript" src="../share/js/init.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/debug.js"></script>
 <script type="text/paperscript" canvas="canvas" src="js/draw.js"></script>
 
 <?php write_footer($cfg); ?>

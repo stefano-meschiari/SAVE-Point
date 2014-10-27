@@ -17,21 +17,32 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-      <div>
-        
-        <div id="spring">
+      <div>        
+        <div id="spring" class="spring">
           Hello! I am the spring.
         </div>
-        <div id="box">
+        <div id="box" class="box">
           Hello! I am a box attached to a spring.
-        </div>
+        </div>        
       </div>
 
       <div class="clear"></div>
+      
+      <div>        
+        <div id="spring2" class="spring">
+          Hello! I am the spring 2.
+        </div>
+        <div id="box2" class="box">
+          Hello! I am a box attached to a spring 2.
+        </div>        
+      </div>
+
+      <div class="clear"></div>
+      
       <button id="start-button">Start!</button>
       
       <style>
-       #box {
+       .box {
          width:100px;
          height:100px;
          background-color:yellow;
@@ -39,7 +50,7 @@
          float:left;
        }
 
-       #spring {
+       .spring {
          border:1px solid black;
          height:100px;
          width:500px;

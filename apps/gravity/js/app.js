@@ -46,7 +46,7 @@ var Mission = Backbone.ROComputedModel.extend({
         elements: null,
         stars: 0,
         lastPlayed: null
-    },
+    }, 
 
     starsRepr: function() {
         var repr = "";
@@ -95,6 +95,7 @@ var App = Backbone.ROComputedModel.extend({
             time:0,
             // each frame corresponds to these many days
             deltat: 1.5,
+            dt: 1.5,
             // maximum number of planets for the current mission
             maxPlanets: 1,
             // initial position of the star (AU/day). The vector contains the 3
@@ -116,14 +117,14 @@ var App = Backbone.ROComputedModel.extend({
             invalid:false,
             // has a collision happened?
             collided:false,
+            // physical vs cartoon sizes
+            physicalSizes:false,
             // number of stars gained so far
-            starsEarned:[],
-            
-            minAU: 0.3,
-            maxAU: 1.5
+            starsEarned:[],            
+            maxAU: 1.5,
+            minAU: 0.19
         };
     },
-
     
     /*
      * Toggles the state of the application between RUNNING and PAUSED.
@@ -251,20 +252,54 @@ var App = Backbone.ROComputedModel.extend({
         
         var t = this.get('time');
         var deltat = this.get('deltat');
+        var nplanets = this.get('nplanets');
+        
         this.ctx.t = t;
         this.ctx.x = this.get('position');
         this.ctx.v = this.get('velocity');
         this.ctx.M = this.get('masses');
+
+        var dt = deltat;
+        for (var i = 1; i <= app.get('nplanets'); i++) {
+            var r = Math.sqrt(this.ctx.x[i*NPHYS+X] * this.ctx.x[i*NPHYS+X] +
+                              this.ctx.x[i*NPHYS+Y] * this.ctx.x[i*NPHYS+Y]);
+            
+            dt = Math.min(dt, 0.05*Math.sqrt(r*r*r/K2));
+        }
+
+        var collided = false;
+        var minAU = this.get('minAU');
+        var steps = (deltat / dt) | 0;
+        var rem = deltat % dt;
+        console.log(rem);
         
-        Physics.leapfrog(t+deltat, this.ctx);
+        for (var j = 0; j <= steps; j++) {
+            if (j == steps && rem < 1e-8)
+                break;
+            else if (j == steps)
+                dt = rem;
+            
+            Physics.leapfrog(this.ctx.t+dt, this.ctx);
+
+            for (i = 1; i <= app.get('nplanets'); i++) {
+                r = Math.sqrt(this.ctx.x[i*NPHYS+X] * this.ctx.x[i*NPHYS+X] +
+                              this.ctx.x[i*NPHYS+Y] * this.ctx.x[i*NPHYS+Y]);
+                
+                if (r < minAU)
+                    collided = true;
+            }
+            
+            if (collided)
+                break;
+            console.log(j, dt, r);
+        }
         
         this.set('time', t+deltat);
         this.trigger("change:position");
         this.trigger("change:velocity");
 
         
-        if (Math.sqrt(this.ctx.x[NPHYS+X] * this.ctx.x[NPHYS+X] +
-                      this.ctx.x[NPHYS+Y] * this.ctx.x[NPHYS+Y]) < this.get('minAU')) {
+        if (collided) {
             this.trigger('collision', { x: this.ctx.x[NPHYS+X],
                                         y: this.ctx.x[NPHYS+Y]});
             this.set('collided', true);
@@ -522,7 +557,8 @@ var AppView = Backbone.View.extend({
         "click #help": function() { this.renderMission(); },
         "click #reset": function() { app.reset(); },
         "click #missions": function() { app.menu(); },
-        "click #dashboard": function() { location.href='../dashboard'; }
+        "click #dashboard": function() { location.href='../dashboard'; },
+        "click #sizes": function() { app.set('physicalSizes', !app.get('physicalSizes')); }
     },
 
     // Binds functions to change events in the model.

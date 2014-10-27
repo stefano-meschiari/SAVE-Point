@@ -259,11 +259,6 @@ td.td-val {
   text-align: right;
   font-weight: bold;
 }
-#help {
-  position: fixed;
-  bottom: 5px;
-  right: 5px;
-}
 #help-text {
   width: 40%;
   left: 30%;

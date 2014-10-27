@@ -1,5 +1,3 @@
-
-
 // Number of stars
 STARS = 50;
 CANVAS_ID = 'canvas';
@@ -8,7 +6,6 @@ MAX_SEGMENTS = 700;
 var Draw = Backbone.View.extend({
     backgroundStars:[],
     animating:false,
-    inflated: true,
 
     recalculateSizes: function() {
         // Number of pixels corresponding to 1 length unit (1 AU)
@@ -18,19 +15,33 @@ var Draw = Backbone.View.extend({
         // Size of arrow
         ARROW_SIZE = 15;
         ARROW_DRAG_SIZE = 50;
-        // Size of central star
-        STAR_SIZE = 40 * Units.RSUN / Units.AU * PIXELS_PER_AU;
-        // Star halo size
-        STAR_HALO_SIZE = 3*STAR_SIZE;
-        // Size of planets
-        PLANET_SIZE = 2*STAR_SIZE * 1.5 * Units.RJUP/Units.RSUN;
-        PLANET_HALO_SIZE = Math.max(22, 2*PLANET_SIZE);
-        // Size of planet when dragging
-        PLANET_DRAG_SIZE = Math.max(22, 2*PLANET_SIZE);
-        PLANET_HALO_DRAG_SIZE = 1.1*PLANET_DRAG_SIZE;
 
-        // By default, minimum distance is the "cartoon" size of the star.
-        app.set('minAU', STAR_SIZE / PIXELS_PER_AU);        
+        var physicalSizes = app.get('physicalSizes');
+
+        if (!physicalSizes) {
+        
+            // Size of central star
+            STAR_SIZE = 40 * Units.RSUN / Units.AU * PIXELS_PER_AU;
+            // Size of planets
+            PLANET_SIZE = 2*STAR_SIZE * 1.5 * Units.RJUP/Units.RSUN;
+            
+            // By default, minimum distance is the "cartoon" size of the star.
+            
+        } else {
+            STAR_SIZE = Math.max(2, Units.RSUN / Units.AU * PIXELS_PER_AU);
+            PLANET_SIZE = Math.max(2, Units.RJUP / Units.AU * PIXELS_PER_AU);
+            
+        }
+
+        app.set('minAU', STAR_SIZE / PIXELS_PER_AU);
+        // Star halo size
+        STAR_HALO_SIZE = Math.max(3*STAR_SIZE, 70);
+
+
+        PLANET_HALO_SIZE = Math.max(25, 2*PLANET_SIZE);
+        // Size of planet when dragging
+        PLANET_DRAG_SIZE = Math.max(25, 2*PLANET_SIZE);
+        PLANET_HALO_DRAG_SIZE = 1.1*PLANET_DRAG_SIZE;
     },
     
     createBackgroundStars: function() {
@@ -636,7 +647,7 @@ var Draw = Backbone.View.extend({
             return;
         
         var p = project.hitTest(event.point);
-        if (p != null && p.item == this.star && app.get('state') == PAUSED) {
+        if (p != null && (p.item == this.star || p.item == this.star.halo) && app.get('state') == PAUSED) {
             app.set('state', RUNNING);
             return;
         } else if (p != null && p.item != this.star.halo)
@@ -718,6 +729,18 @@ var Draw = Backbone.View.extend({
         this.listenTo(this.model, "change:currentMission", this.animateTravel);
         //        this.listenTo(this.model, "change:state change:elements", this.trailsUpdate);
         this.listenTo(this.model, "collision", this.animateCollision);
+        this.listenTo(this.model, "change:physicalSizes", function() {
+            this.recalculateSizes();
+            var star = this.star;
+            star.bounds.width = 2*STAR_SIZE;
+            star.bounds.height = 2*STAR_SIZE;
+            star.halo.bounds.width = 2*STAR_HALO_SIZE;
+            star.halo.bounds.height = 2*STAR_HALO_SIZE;
+            
+            star.position = view.center;
+            star.halo.position = view.center;
+            this.restoreSizes();
+        });
     }
 });
 
