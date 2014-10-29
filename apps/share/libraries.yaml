@@ -32,3 +32,6 @@ color:
 constants:
   - /share/js/colors.js
   - /share/js/constants.js
+
+utils:
+  - /share/js/utils.js

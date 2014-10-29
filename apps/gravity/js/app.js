@@ -96,8 +96,6 @@ var App = Backbone.ROComputedModel.extend({
             // each frame corresponds to these many days
             deltat: 1.5,
             dt: 1.5,
-            // maximum number of planets for the current mission
-            maxPlanets: 1,
             // initial position of the star (AU/day). The vector contains the 3
             // coordinates for each body, (x^0, y^0, z^0, x^1, y^1, z^1, ...),
             // so that the are 3*nplanets components.
@@ -153,7 +151,7 @@ var App = Backbone.ROComputedModel.extend({
      */
     addPlanet: function(x) {
         // Return if there are already more planets than allowed.
-        if (this.get('nplanets') == this.get('maxPlanets'))
+        if (! this.ensureConstraints())
             return;
 
         // Append position and default velocity & mass to the
@@ -191,6 +189,22 @@ var App = Backbone.ROComputedModel.extend({
     },
 
 
+    ensureConstraints:function() {
+        var constraints = app.mission().get('constraints');
+        if (!constraints)
+            return true;
+
+        if (!constraints.nplanets)
+            return true;
+
+        var nplanets = this.get('nplanets');
+        console.log(nplanets, constraints.nplanets);
+        var ready = true;
+        ready &= (nplanets < constraints.nplanets);
+
+        return ready;
+    },
+    
     ensureConstraintsForBody: function(i) {
         var constraints = app.mission().get('constraints');
         if (!constraints)
@@ -271,7 +285,6 @@ var App = Backbone.ROComputedModel.extend({
         var minAU = this.get('minAU');
         var steps = (deltat / dt) | 0;
         var rem = deltat % dt;
-        console.log(rem);
         
         for (var j = 0; j <= steps; j++) {
             if (j == steps && rem < 1e-8)
@@ -286,12 +299,11 @@ var App = Backbone.ROComputedModel.extend({
                               this.ctx.x[i*NPHYS+Y] * this.ctx.x[i*NPHYS+Y]);
                 
                 if (r < minAU)
-                    collided = true;
+                    collided = { x: this.ctx.x[i*NPHYS+X], y: this.ctx.x[i*NPHYS+Y], planet:i };
             }
             
             if (collided)
                 break;
-            console.log(j, dt, r);
         }
         
         this.set('time', t+deltat);
@@ -300,8 +312,7 @@ var App = Backbone.ROComputedModel.extend({
 
         
         if (collided) {
-            this.trigger('collision', { x: this.ctx.x[NPHYS+X],
-                                        y: this.ctx.x[NPHYS+Y]});
+            this.trigger('collision', collided);
             this.set('collided', true);
             this.set('invalid', true);
         }
@@ -482,7 +493,7 @@ var App = Backbone.ROComputedModel.extend({
      */
     loadMissionData: function() {
         app.trigger('loading');
-        _.delay(function() {
+        _.defer(function() {
             $.get('php/gamedata.php?action=load')
             .done(function(data) {
                 if (data.trim() != "") {
@@ -494,7 +505,7 @@ var App = Backbone.ROComputedModel.extend({
                 }
                 app.trigger('load');
             });
-        }, 1000);
+        });
     },
 
     /*
@@ -604,7 +615,6 @@ var AppView = Backbone.View.extend({
      * Each one corresponds to a different CSS class. The #missions div is filled with the titles
      * and icons of the missions.
      */
-
     
     missionTemplate: _.template('<div class="title"><span class="fa fa-rocket"></span> <%= title %></div><div class="subtitle"><%= subtitle %></div>'),
     missionDelay: 6000,
@@ -765,10 +775,8 @@ var AppView = Backbone.View.extend({
         $("#text-top").html(this.winTemplate(mission.attributes));
         $("#text-top").addClass("expanded");
         $("#text-top").removeClass("in-front");
-        console.log(winDelay);
         
         _.delay(function() {
-            console.log('Hiding.');
             $("#text-top").removeClass("expanded");
             $("#text-top").removeClass("in-front");
         
@@ -896,7 +904,7 @@ var MissionHelpView = Backbone.View.extend({
         
         this.listenToOnce(this.model, "change:missions", function() {
             this.setupTemplates();
-            this.setupMessages();
+//            this.setupMessages();
         });
         this.listenTo(this.model, "start", this.setupMessages);
         this.listenTo(this.model, "win lose", function() { self.render(null); });
@@ -1106,5 +1114,13 @@ $(document).ready(function() {
     app.loadConfig(APP_CFG);
     app.loadMissionData();
     APP_CFG = null;
+
+    app.once('load', function() {
+        console.log(_.parameter('mission'));
+        if (_.parameter('mission') != null) {
+            app.setMission(_.parameter('mission')|0);
+            console.error("Check if mission is kosher.");
+        }
+    });
 });
 

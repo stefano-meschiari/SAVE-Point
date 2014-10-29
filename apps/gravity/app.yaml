@@ -11,6 +11,7 @@ requires:
   - paper
   - physics
   - constants
+  - utils
 
 args:
   - nplanets
@@ -26,6 +27,8 @@ missions:
     rule: nplanets > 0
     enabled: true
     icon: icon-practice
+    constraints:
+      nplanets: 1
     help:      
       - on: start
         message: |          
@@ -86,6 +89,8 @@ missions:
     win: Those were impressive fireworks!
     lose: You avoided crashing into the star.
     icon: icon-crash
+    constraints:
+      nplanets: 1
 
   - title: Ejected!
     rule: nplanets > 0 && elements[0].eccentricity > 1
@@ -94,6 +99,8 @@ missions:
     win: Bye bye planet!
     lose: Oh no!  You're caught by the pull of gravity!
     icon: icon-hyperbolic
+    constraints:
+      nplanets: 1
 
   - title: Elliptical Orbit
     rule: nplanets > 0 && elements[0].eccentricity > 0.2 && elements[0].eccentricity < 0.99 && !collided
@@ -102,6 +109,8 @@ missions:
     win: So elliptical!
     lose: That orbit could be more elliptical...
     icon: icon-elliptical
+    constraints:
+      nplanets: 1
 
   - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
@@ -110,6 +119,8 @@ missions:
     win: Sweet! That's... pretty circular!
     lose: That orbit is not very circular.
     icon: icon-circular
+    constraints:
+      nplanets: 1
 
   - title: Speed vs. distance (40 km/s)
     subtitle: Add a planet in a circular orbit at 40 km/s.
@@ -118,6 +129,7 @@ missions:
     constraints:
       speed: 40
       direction: perpendicular
+      nplanets: 1
     enabled: true
     help:
       - on: start
@@ -142,6 +154,7 @@ missions:
     constraints:
       speed: 30
       direction: perpendicular
+      nplanets: 1
     enabled: true
     win: So circular!
     lose: The orbit was not quite circular... Try moving the planet to a different distance.    
@@ -153,6 +166,17 @@ missions:
     constraints:
       speed: 25
       direction: perpendicular
+      nplanets: 1
     enabled: true
     win: So circular!
     lose: The orbit was not quite circular... Try moving the planet to a different distance.
+
+  - title: Multi-planet test
+    subtitle: Work dammit!
+    rule: nplanets > 0 
+    icon: icon-circ-rvs
+    enabled: true
+    win: So circular!
+    lose: The orbit was not quite circular... Try moving the planet to a different distance.
+    constraints:
+      nplanets: 2
