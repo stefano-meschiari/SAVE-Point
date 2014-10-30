@@ -754,7 +754,7 @@ var Draw = Backbone.View.extend({
             else
                 this.dragDirection = 'y';
         }
-        var dx = event.delta.x;
+        var dx = -event.delta.x;
         var dy = -event.delta.y;
         
         if (this.dragDirection == 'y')
