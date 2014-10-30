@@ -72,7 +72,7 @@ body {
 }
 #canvas-container {
   background-color: black;
-  background: linear-gradient(to bottom, #000000 0%, #282828 100%);
+  background-image: -webkit-radial-gradient(80% 10%, circle, #320000, transparent), -webkit-radial-gradient(80% 50%, circle, #323200, transparent), -webkit-radial-gradient(40% 80%, circle, #000064, transparent), -webkit-radial-gradient(30% 30%, circle, #323232, transparent);
 }
 #canvas {
   /*  z-index:0; */
