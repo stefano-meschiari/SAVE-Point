@@ -71,7 +71,8 @@ body {
   margin-top: 20px;
 }
 #canvas-container {
-  background: url('../img/bg.jpg');
+  background-color: black;
+  background: linear-gradient(to bottom, #000000 0%, #282828 100%);
 }
 #canvas {
   /*  z-index:0; */
@@ -149,7 +150,7 @@ body {
   padding: 12px;
   color: white;
   text-align: center;
-  background-color: black;
+  background-color: none;
   cursor: pointer;
   width: 50px;
 }

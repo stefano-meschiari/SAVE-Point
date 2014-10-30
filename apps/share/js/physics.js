@@ -234,7 +234,59 @@ Physics.leapfrog = function(tnew, ctx) {
     ctx.t = t;
 };
 
+Physics.setRotation = function(transformation, I, O, W, stretch) {
+    if (!transformation)
+        transformation = {};
+    if (I != transformation.I) {
+        transformation.I = I;
+        transformation.cosI = Math.cos(I);
+        transformation.sinI = Math.sin(I);
+    }
+    if (W != transformation.W) {
+        transformation.W  = W;
+        transformation.cosW = Math.cos(W);
+        transformation.sinW = Math.sin(W);
+    }
+    if (O != transformation.O) {
+        transformation.O = O;
+        transformation.cosO = Math.cos(O);
+        transformation.sinO = Math.sin(O);        
+    }
 
+    transformation.stretch = stretch;
+    return transformation;
+};
+
+
+
+Physics.applyRotation = function(T, xin, Xout, neg) {
+    
+    var x = xin.x;
+    var y = xin.y;
+    var z = (xin.z ? xin.z : 0);
+
+    if (T.I == 0 && T.W == 0 && T.O == 0) {
+        Xout.x = x * T.stretch;
+        Xout.y = y * T.stretch;
+        Xout.z = z * T.stretch;
+        return;
+    }
+    if (neg) {
+        T.sinW *= -1;
+        T.sinI *= -1;
+        T.sinO *= -1;
+    }        
+
+    Xout.x = ((T.cosW * x - T.sinW * y) * T.cosO - (T.cosI * (T.cosW * y + T.sinW * x) - T.sinI * z)*T.sinO) * T.stretch;
+    Xout.y = ((T.cosW * x - T.sinW * y) * T.sinO + (T.cosI * (T.cosW * y + T.sinW * x) - T.sinI * z)*T.cosO) * T.stretch;
+    Xout.z = T.cosI * z + T.sinI * (T.cosW * y + T.sinW * x) * T.stretch;
+    
+    if (neg) {
+        T.sinW *= -1;
+        T.sinI *= -1;
+        T.sinO *= -1;
+    }
+};
 
 
 if (typeof(exports) !== 'undefined')

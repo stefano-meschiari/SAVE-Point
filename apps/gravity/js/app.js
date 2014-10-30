@@ -759,7 +759,7 @@ var AppView = Backbone.View.extend({
      * Render win.
      */
 
-    winTemplate: _.template('<div class="subtitle">Mission completed.</div><div class="font-l"><%= win %></div>'),
+    winTemplate: _.template('<div class="font-l"><%= win %></div><button class="btn-jrs font-m" onClick="app.menu()">Mission completed!</button>'),
     winDelayMax: 10000,
     approxFrameRate: 1/60.,
     
@@ -774,14 +774,10 @@ var AppView = Backbone.View.extend({
         
         $("#text-top").html(this.winTemplate(mission.attributes));
         $("#text-top").addClass("expanded");
-        $("#text-top").removeClass("in-front");
+        $("#text-top").addClass("in-front");
+
+        app.set('state', ROTATABLE);
         
-        _.delay(function() {
-            $("#text-top").removeClass("expanded");
-            $("#text-top").removeClass("in-front");
-        
-            app.menu();
-        }, winDelay);
     },
 
     loseTemplate: _.template('<div class="subtitle"><%= lose %></div><div><button class="btn-jrs font-m" onClick="app.reset(); app.menuView.renderMission(); "><span class="icon-thumbs-up"></span> No worries! Retry mission</button></div>'),
@@ -792,6 +788,7 @@ var AppView = Backbone.View.extend({
         $("#text-top").html(this.loseTemplate(mission.attributes));
         $("#text-top").addClass("expanded");
         $("#text-top").addClass("in-front");
+        app.set('state', ROTATABLE);
     }
 
 });
