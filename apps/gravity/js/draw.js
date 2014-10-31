@@ -1,5 +1,5 @@
 // Number of stars
-STARS = 400;
+STARS = 500;
 CANVAS_ID = 'canvas';
 MAX_SEGMENTS = 700;
 
@@ -47,19 +47,22 @@ var Draw = Backbone.View.extend({
     },
     
     createBackgroundStars: function() {
-        var side = 1.25 * Math.max(view.bounds.width, view.bounds.height);        
+        var R = 0.75*Math.max(view.bounds.width, view.bounds.height);        
         var symbols = [];
             
         
-        var path = new Path.Circle(new Point(0, 0), 2);
+        var path = new Path.Circle(new Point(0, 0), 1.5);
         path.fillColor = 'rgba(255, 255, 255, 0.5)';
             
         var symbol = new Symbol(path);
 
         for (var i = 0; i < STARS; i++) {
-            var x = 0.5*side*(1-2*Math.random());
-            var y = 0.5*side*(1-2*Math.random());
-            var z = 0.5*side*(1-2*Math.random());
+            var u = 1-2*Math.random();
+            var t = Math.random() * 2 * Math.PI;
+            
+            var x = R*Math.sqrt(1-u*u) * Math.cos(t);
+            var y = R*Math.sqrt(1-u*u) * Math.sin(t);
+            var z = R*u;
             
             var s = symbol.place(new Point(x, y) + view.center);
             s.coords = {x: x, y: y, z: z};
@@ -71,7 +74,17 @@ var Draw = Backbone.View.extend({
     },
 
     rotateBackgroundStars:function() {
+        var bg = this.backgroundStars;
+        var ret = {};
         
+        this.transformation.stretch = 1;
+        for (var i = 0; i < bg.length; i++) {
+            var s = bg[i];
+            Physics.applyRotation(this.transformation, s.coords, ret);
+            s.position = new Point(ret.x, ret.y) + view.center;
+            s.visible = ret.z > 0;
+        }
+        this.transformation.stretch = PIXELS_PER_AU;
     },
 
     displayMessage: function(text, options) {
@@ -254,6 +267,15 @@ var Draw = Backbone.View.extend({
 
 
     restoreSizes: function() {
+        var star = this.star;
+        star.bounds.width = 2*STAR_SIZE;
+        star.bounds.height = 2*STAR_SIZE;
+        star.halo.bounds.width = 2*STAR_HALO_SIZE;
+        star.halo.bounds.height = 2*STAR_HALO_SIZE;
+        
+        star.position = view.center;
+        star.halo.position = view.center;
+
         for (var i = 0; i < this.planets.length; i++) {
             var body = this.planets[i];
             if (!body.dragging) {
@@ -774,9 +796,9 @@ var Draw = Backbone.View.extend({
         Physics.setRotation(this.transformation,
                             this.transformation.I + dI,
                             0,
-                            this.transformation.W + dW,
-              
+                            this.transformation.W + dW,              
                             PIXELS_PER_AU);
+        this.rotateBackgroundStars();
         this.planetsUpdate();
         this.transformation.stretch = 1.;
         var ret = {};
@@ -891,14 +913,6 @@ var Draw = Backbone.View.extend({
         this.listenTo(this.model, "collision", this.animateCollision);
         this.listenTo(this.model, "change:physicalSizes", function() {
             this.recalculateSizes();
-            var star = this.star;
-            star.bounds.width = 2*STAR_SIZE;
-            star.bounds.height = 2*STAR_SIZE;
-            star.halo.bounds.width = 2*STAR_HALO_SIZE;
-            star.halo.bounds.height = 2*STAR_HALO_SIZE;
-            
-            star.position = view.center;
-            star.halo.position = view.center;
             this.restoreSizes();
         });
     }

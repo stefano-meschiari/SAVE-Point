@@ -279,7 +279,7 @@ Physics.applyRotation = function(T, xin, Xout, neg) {
 
     Xout.x = ((T.cosW * x - T.sinW * y) * T.cosO - (T.cosI * (T.cosW * y + T.sinW * x) - T.sinI * z)*T.sinO) * T.stretch;
     Xout.y = ((T.cosW * x - T.sinW * y) * T.sinO + (T.cosI * (T.cosW * y + T.sinW * x) - T.sinI * z)*T.cosO) * T.stretch;
-    Xout.z = T.cosI * z + T.sinI * (T.cosW * y + T.sinW * x) * T.stretch;
+    Xout.z = (T.cosI * z + T.sinI * (T.cosW * y + T.sinW * x)) * T.stretch;
     
     if (neg) {
         T.sinW *= -1;
