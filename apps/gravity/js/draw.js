@@ -2,18 +2,34 @@
 STARS = 500;
 CANVAS_ID = 'canvas';
 MAX_SEGMENTS = 700;
+// Number of pixels corresponding to 1 length unit (1 AU)
+PIXELS_PER_AU = 200;
+// Number of pixels corresponding to 1 speed unit (1 AU/day)
+PIXELS_PER_AUPDAY = 100 / Math.sqrt(K2);
+
+
+
 
 var Draw = Backbone.View.extend({
     backgroundStars:[],
     backgroundStarsCoords:[],
     
-    animating:false,    
+    animating:false,
+    zoom:1,
+    
+    setZoom: function(zoom) {
+        this.zoom = zoom;
+        PIXELS_PER_AU = 200 * zoom;
+        PIXELS_PER_AUPDAY = 100/Math.sqrt(K2) * zoom;
+        this.transformation.stretch = PIXELS_PER_AU;
+        this.recalculateSizes();
+        this.restoreSizes();
+        this.planetsUpdate();
+        this.handlesUpdate();
+        this.destroyTrails();
+    },
     
     recalculateSizes: function() {
-        // Number of pixels corresponding to 1 length unit (1 AU)
-        PIXELS_PER_AU = 200;
-        // Number of pixels corresponding to 1 speed unit (1 AU/day)
-        PIXELS_PER_AUPDAY = 100 / Math.sqrt(K2);
         // Size of arrow
         ARROW_SIZE = 15;
         ARROW_DRAG_SIZE = 50;
@@ -906,6 +922,7 @@ var Draw = Backbone.View.extend({
         this.listenTo(this.model, "reset start", function() {           
             this.resetView();
         });
+
         
 
         this.listenTo(this.model, "change:currentMission", this.animateTravel);

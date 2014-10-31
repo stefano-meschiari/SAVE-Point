@@ -71,6 +71,8 @@ LOGGED_USER='<?= db_user(); ?>';
       <div id="sizes" class="btn-jrs-ico fa fa-arrows-alt"></div>
       <div class="sidebar-title">Toggle physical size</div>
     </div>
+
+    <div class="separator-center"></div>
     
     <div class="sidebar-item">
       <div id="missions" class="btn-jrs-ico fa fa-th-large"></div>
@@ -80,7 +82,6 @@ LOGGED_USER='<?= db_user(); ?>';
       <div id="reset" class="btn-jrs-ico fa fa-undo"></div>
       <div class="sidebar-title">Restart mission</div>
     </div>
-    <div class="separator-center"></div>
     <div class="sidebar-item">
       <div id="dashboard" class="btn-jrs-ico fa fa-backward"></div>
       <div class="sidebar-title">Back to dashboard</div>

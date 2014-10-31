@@ -231,6 +231,19 @@ html, body {
   margin-bottom:5px;
 }
 
+.sidebar-hidden {
+  .transition(0.5s, ease-in);
+  visibility:hidden;
+  width:0px;
+  height:0px;
+  overflow:hidden;
+  opacity:0;
+}
+
+.sidebar-glass {
+  background-color:@glass-color;
+}
+
 .sidebar-title {
   .transition(0.5s, ease-in);
   opacity:0;
@@ -291,7 +304,6 @@ td.td-val {
   text-align:right;
   font-weight:bold;
 }
-
 
 
 #help-text {
