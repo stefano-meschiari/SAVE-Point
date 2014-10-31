@@ -1,13 +1,13 @@
 // Number of stars
-STARS = 100;
+STARS = 400;
 CANVAS_ID = 'canvas';
 MAX_SEGMENTS = 700;
 
 var Draw = Backbone.View.extend({
     backgroundStars:[],
-    animating:false,
+    backgroundStarsCoords:[],
     
-
+    animating:false,    
     
     recalculateSizes: function() {
         // Number of pixels corresponding to 1 length unit (1 AU)
@@ -47,24 +47,27 @@ var Draw = Backbone.View.extend({
     },
     
     createBackgroundStars: function() {
+        var side = 1.25 * Math.max(view.bounds.width, view.bounds.height);        
         var symbols = [];
             
         
-        for (var j = 2; j >= 1; j--) {            
-            var path = new Path.Circle(new Point(0, 0), j);
-            path.fillColor = 'rgba(255, 255, 255, 0.5)';
+        var path = new Path.Circle(new Point(0, 0), 2);
+        path.fillColor = 'rgba(255, 255, 255, 0.5)';
             
-            var symbol = new Symbol(path);
+        var symbol = new Symbol(path);
 
-            for (var i = 0; i < STARS; i++) {
-                var x = 2*view.bounds.width*Math.random();
-                var y = view.bounds.height*Math.random();
-                var z = 0.25 * (Math.random() + j);
-                var s = symbol.place(new Point(x, y));
-                s.z = z;
-                this.backgroundStars.push(s);
-            }
+        for (var i = 0; i < STARS; i++) {
+            var x = 0.5*side*(1-2*Math.random());
+            var y = 0.5*side*(1-2*Math.random());
+            var z = 0.5*side*(1-2*Math.random());
+            
+            var s = symbol.place(new Point(x, y) + view.center);
+            s.coords = {x: x, y: y, z: z};
+            if (z < 0)
+                s.visible = false;
+            this.backgroundStars.push(s);
         }
+    
     },
 
     rotateBackgroundStars:function() {
@@ -169,6 +172,7 @@ var Draw = Backbone.View.extend({
     },
     
     animateTravel: function() {
+        return;
         var self = this;
         this.animating = true;
 
