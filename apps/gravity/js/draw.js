@@ -8,8 +8,6 @@ PIXELS_PER_AU = 200;
 PIXELS_PER_AUPDAY = 100 / Math.sqrt(K2);
 
 
-
-
 var Draw = Backbone.View.extend({
     backgroundStars:[],
     backgroundStarsCoords:[],
@@ -582,8 +580,6 @@ var Draw = Backbone.View.extend({
         if (planets.length == 0)
             return;
         this.tick ++;
-        if (!this.trailCenter)
-            this.trailCenter = view.center.clone();
 
         for (var i = 0; i < planets.length; i++) {
             var star = this.star;
@@ -629,10 +625,9 @@ var Draw = Backbone.View.extend({
                     position[(i+1)*NPHYS+Y]*position[(i+1)*NPHYS+Y];
             
             var path = new Path(lastPos, planet.position);
-            tCoords.push([
-                {x: lastPos.x - this.trailCenter.x, y: lastPos.y-this.trailCenter.y, z: 0},
-                {x: planet.position.x-this.trailCenter.x, y: planet.position.y-this.trailCenter.y, z: 0}
-            ]);
+            tCoords.push(
+                { x: position[(i+1)*NPHYS+X], y: position[(i+1)*NPHYS+Y], z:position[(i+1)*NPHYS+Z]}
+            );
             
             path.strokeWidth = 3;
             path.strokeColor = this.trailColor;
@@ -761,7 +756,6 @@ var Draw = Backbone.View.extend({
         
         var p = project.hitTest(event.point);
         if (p != null && (p.item == this.star || (app.get('physicalSizes') && p.item == this.star.halo)) && app.get('state') == PAUSED) {
-            console.log(app.get('state'));
             app.set('state', RUNNING);
             return;
         } else if (p != null && p.item != this.star.halo)
@@ -804,7 +798,6 @@ var Draw = Backbone.View.extend({
         else
             dy = 0;
 
-        console.log(this.dragDirection, dx, dy);
         
         var dI = dy * Math.PI / view.bounds.height;
         var dW = dx * Math.PI / view.bounds.width;
@@ -816,7 +809,6 @@ var Draw = Backbone.View.extend({
                             PIXELS_PER_AU);
         this.rotateBackgroundStars();
         this.planetsUpdate();
-        this.transformation.stretch = 1.;
         var ret = {};
 
         for (j = 0; j < this.trailSegments.length; j++) {
@@ -825,13 +817,14 @@ var Draw = Backbone.View.extend({
             
             for (i = 0; i < tc.length; i++) {
                 var c = tc[i];
-                var C = tC[i];
+                var C0 = (i > 0 ? tC[i-1] : tC[i]);
+                var C1 = tC[i];
                 
-                Physics.applyRotation(this.transformation, C[0], ret);                
+                Physics.applyRotation(this.transformation, C0, ret);                
                 c.segments[0].point.x = ret.x + view.center.x;
                 c.segments[0].point.y = ret.y + view.center.y;
                 
-                Physics.applyRotation(this.transformation, C[1], ret);
+                Physics.applyRotation(this.transformation, C1, ret);
                 c.segments[1].point.x = ret.x + view.center.x;
                 c.segments[1].point.y = ret.y + view.center.y;
 
@@ -841,8 +834,6 @@ var Draw = Backbone.View.extend({
                     c.bringToFront();
                 }
                 
-                if (i == 0)
-                    console.log('seg', c.segments[0].point.x, c.segments[0].point.y);
                 
             }            
         }
