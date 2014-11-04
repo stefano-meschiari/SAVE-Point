@@ -35,3 +35,9 @@ constants:
 
 utils:
   - /share/js/utils.js
+
+animalese:
+  - /share/animalese/riffwave.js
+  - /share/animalese/Blob.js
+  - /share/animalese/animalese.js
+  
