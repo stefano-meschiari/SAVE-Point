@@ -75,6 +75,12 @@ var MissionCollection = Backbone.Collection.extend({
  * by the properties in app.yaml, and inserted into the APP_CFG dictionary by the backend.
  *
  */
+
+var TYPE_STAR = 0;
+var TYPE_PLANET = 1;
+var TYPE_STAR_FIXED = 2;
+var TYPE_PLANET_FIXED = 3;
+
 var App = Backbone.ROComputedModel.extend({
     defaults: function() {
         return {
@@ -96,6 +102,7 @@ var App = Backbone.ROComputedModel.extend({
             // each frame corresponds to these many days
             deltat: 1.5,
             dt: 1.5,
+            bodyTypes: [TYPE_STAR],
             // initial position of the star (AU/day). The vector contains the 3
             // coordinates for each body, (x^0, y^0, z^0, x^1, y^1, z^1, ...),
             // so that the are 3*nplanets components.
@@ -159,9 +166,10 @@ var App = Backbone.ROComputedModel.extend({
         var position = this.get('position');
         var velocity = this.get('velocity');
         var masses = this.get('masses');
+        var types = this.get('bodyTypes');
         
         position.push(x[0], x[1], 0);
-
+        types.push(TYPE_PLANET);
         
         var v = Math.sqrt(K2);
         velocity.push(v, 0, 0);
@@ -170,7 +178,7 @@ var App = Backbone.ROComputedModel.extend({
         this.set('nplanets', this.get('nplanets')+1);
         this.ensureConstraintsForBody(this.get('nplanets')-1);        
         this.ctx.elements = null;
-        this.trigger("change:position change:velocity change:masses");
+        this.trigger("change:position change:velocity change:masses addPlanet");
     },
 
     /*
@@ -379,7 +387,7 @@ var App = Backbone.ROComputedModel.extend({
     },
 
     /*
-     * Move to next mission
+     * Move to given mission
      */
     setMission: function(mission) {
         if (mission === undefined)
@@ -388,6 +396,14 @@ var App = Backbone.ROComputedModel.extend({
         this.reset();
         this.set({ currentMission: mission });
         this.trigger('start');
+
+        var missionObj = this.mission();
+        var bodies = missionObj.get('bodies');
+        if (bodies) {
+            _.each(bodies, function(body) {
+                console.log(body);
+            });
+        }
     },
 
     /*
@@ -457,7 +473,9 @@ var App = Backbone.ROComputedModel.extend({
             masses: defaults.masses,
             position: defaults.position,
             velocity: defaults.velocity,
+            types: defaults.types,
             nplanets: defaults.nplanets,
+            
             time: defaults.time,
             state: defaults.state,
             currentHelp: defaults.currentHelp,
@@ -802,6 +820,7 @@ var MissionHelpModel = Backbone.Model.extend({
     proceed: function() {
         this.set('currentHelp', this.get('currentHelp') + 1);
         this.trigger('proceed');
+        app.trigger('proceed');
     },
 
     destroy: function() {
@@ -964,6 +983,7 @@ var MissionHelpView = Backbone.View.extend({
         
         _.delay(function() {
             self.$el.html(helpText);
+            app.sounds.speak(self.$el.text());
             $("#help-next").on("click", function() { self.listener.proceed(); } );
             $("#help-next-mission").on("click", function() { self.model.nextMission(); } );
             
@@ -1029,6 +1049,7 @@ var AppMenuView = Backbone.View.extend({
                     $thumb.addClass(icon+"-b");
                 
                 $thumb.on("click", _.partial(function(i) {
+                    app.sounds.playEffect('clickety');
                     app.setMission(i);
                 }, i));
             } else if ((i > 0 && missions.at(i-1).get('completed')) || (i == 0 && !missions.at(0).get('completed'))) {
@@ -1037,6 +1058,7 @@ var AppMenuView = Backbone.View.extend({
                 $thumb.addClass(icon ? icon + "-b" : this.defaultIconNext);
                 $thumb.append(this.missionThumbNext);
                 $thumb.on("click", _.partial(function(i) {
+                    app.sounds.playEffect('clickety');
                     app.setMission(i);
                 }, i));
             } else {
