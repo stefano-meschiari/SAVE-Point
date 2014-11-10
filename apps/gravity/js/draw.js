@@ -131,6 +131,10 @@ var Draw = Backbone.View.extend({
         }
     },
 
+    animateExplosion: function() {
+        var 
+    },
+    
     animateActionFeedback: function(pos, size) {
         size = size || 50;
         var circle = new Path.Circle(pos, 1);
