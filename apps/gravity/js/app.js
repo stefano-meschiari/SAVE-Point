@@ -632,7 +632,9 @@ var AppView = Backbone.View.extend({
             if (self.elapsedTimer)
                  clearInterval(self.elapsedTimer);
 
-            self.elapsedTimer = setInterval(_.bind(self.renderStars, self), 1000);            
+            self.elapsedTimer = setInterval(_.bind(self.renderStars, self), 1000);
+            if (self.validateTimer)
+                clearTimeout(self.validateTimer);            
         });
 
         self.listenTo(self.model, 'change:state', function() {

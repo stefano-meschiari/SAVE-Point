@@ -36,7 +36,6 @@ missions:
           @noninteractive
           *@name*, it's your very first mission: just add one planet and make it orbit around the star!
 
-
           *Click "Next" to learn how.*
           @proceed
 
