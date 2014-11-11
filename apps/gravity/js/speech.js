@@ -2,10 +2,10 @@
 
 var SoundEngine = Backbone.ROComputedModel.extend({
     lettersPath: '/share/animalese/animalese.wav',
-    volume:0.2,
-    rate:2.5,
+    speechRate:2.5,
     speech:true,
     effects:true,
+    volume:0.2,
 
     library: {
         lose: '/share/sounds/lose.mp3',
@@ -47,16 +47,20 @@ var SoundEngine = Backbone.ROComputedModel.extend({
         }
 
         this.speechAudio = this.newAudio(this.synth.Animalese(text).dataURI);
-        this.speechAudio.playbackRate = this.rate;
+        this.speechAudio.playbackRate = this.speechRate;
         this.speechAudio.play();
     },
 
     playEffect: function(type) {
-        if (this[type]) {
-            this[type].currentTime = 0;
-            if (this[type].currentTime != 0)
-                this[type].load();
-            this[type].play();
+        try {
+            if (this[type]) {
+                this[type].currentTime = 0;
+                if (this[type].currentTime != 0)
+                    this[type].load();
+                this[type].play();
+            }
+        } catch(e) {
+            console.log(e);
         }
     }    
 });

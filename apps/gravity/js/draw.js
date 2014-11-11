@@ -595,7 +595,7 @@ var Draw = Backbone.View.extend({
             if (this.trailThetaTotal[i] > 2.*Math.PI)
                 continue;
             
-            if (tc.length > MAX_SEGMENTS || this.tick % 2 != 0)
+            if (tc.length > MAX_SEGMENTS || this.tick % 3 != 0)
                 continue;
             
             var lastPos;
