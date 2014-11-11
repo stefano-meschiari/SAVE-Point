@@ -361,6 +361,8 @@ var Draw = Backbone.View.extend({
         var self = this;
         
         var position = app.get('position');
+        
+        
         var planets = this.planets;
         var nplanets = app.get('nplanets');
         if (nplanets == 0) {

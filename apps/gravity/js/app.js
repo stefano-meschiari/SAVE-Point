@@ -114,6 +114,8 @@ var App = Backbone.ROComputedModel.extend({
             // initial mass of the star (MSUN). The vector contains the masses of
             // all the bodies in the system.
             masses: [1],
+            // default mass of new objects
+            defaultMass:0,
             // mission collection
             missions: null,
             // interactive?
@@ -173,12 +175,14 @@ var App = Backbone.ROComputedModel.extend({
         
         var v = Math.sqrt(K2);
         velocity.push(v, 0, 0);
-        masses.push(0);
+        masses.push(this.get('defaultMass'));
         this.ctx.elements = null;
         this.set('nplanets', this.get('nplanets')+1);
         this.ensureConstraintsForBody(this.get('nplanets')-1);        
         this.ctx.elements = null;
         this.trigger("change:position change:velocity change:masses addPlanet");
+        Physics.barycenter(this.ctx);
+
     },
 
     /*
@@ -194,6 +198,8 @@ var App = Backbone.ROComputedModel.extend({
             this.trigger('change:velocity');
         
         this.trigger("change:position");
+        Physics.barycenter(this.ctx);
+
     },
 
 
@@ -261,7 +267,17 @@ var App = Backbone.ROComputedModel.extend({
         velocity[(i+1)*NPHYS+Z] = v[2];
 
         this.ensureConstraintsForBody(i);
+        Physics.barycenter(this.ctx);
+
         this.trigger("change:velocity");        
+    },
+
+
+    /*
+     * Calculates the barycenter of the system.
+     */
+    barycenter:function() {
+        return this.ctx.bary;
     },
     
     /*
@@ -303,8 +319,11 @@ var App = Backbone.ROComputedModel.extend({
             Physics.leapfrog(this.ctx.t+dt, this.ctx);
 
             for (i = 1; i <= app.get('nplanets'); i++) {
-                r = Math.sqrt(this.ctx.x[i*NPHYS+X] * this.ctx.x[i*NPHYS+X] +
-                              this.ctx.x[i*NPHYS+Y] * this.ctx.x[i*NPHYS+Y]);
+                var dx = this.ctx.x[i*NPHYS+X] - this.ctx.x[X];
+                var dy = this.ctx.x[i*NPHYS+Y] - this.ctx.x[Y];
+                var dz = this.ctx.x[i*NPHYS+Z] - this.ctx.x[Z];
+                
+                r = Math.sqrt(dx*dx + dy*dy + dz*dz);
                 
                 if (r < minAU)
                     collided = { x: this.ctx.x[i*NPHYS+X], y: this.ctx.x[i*NPHYS+Y], planet:i };
@@ -325,8 +344,10 @@ var App = Backbone.ROComputedModel.extend({
             this.set('invalid', true);
         }
 
+
+        Physics.barycenter(this.ctx);
+
         this.trigger("tick");
-        
     },
 
     /*

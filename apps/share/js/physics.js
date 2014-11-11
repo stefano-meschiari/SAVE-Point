@@ -156,6 +156,31 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
     return els;
 };
 
+
+
+Physics.barycenter = function(ctx) {
+    var M = ctx.M;
+    var x = ctx.x;
+    var N = x.length;
+    var Mtot = M[0];
+    ctx.bary = ctx.bary || [0, 0, 0];
+    
+    ctx.bary[X] = M[0] * x[X];
+    ctx.bary[Y] = M[0] * x[Y];
+    ctx.bary[Z] = M[0] * x[Z];
+    
+    for (var i = NPHYS; i < N; i+= NPHYS) {
+        ctx.bary[X] += M[i] * x[i+X];
+        ctx.bary[Y] += M[i] * x[i+Y];
+        ctx.bary[Z] += M[i] * x[i+Z];
+        Mtot += M[i];
+    }
+
+    ctx.bary[X] /= Mtot;
+    ctx.bary[Y] /= Mtot;
+    ctx.bary[Z] /= Mtot;
+};
+
 /*
  * A simple leapfrog integrator. Only use for testing.
  */
@@ -230,7 +255,7 @@ Physics.leapfrog = function(tnew, ctx) {
 
         step++;
     }
-   
+    
     ctx.t = t;
 };
 
