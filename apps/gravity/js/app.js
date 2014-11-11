@@ -964,6 +964,10 @@ var MissionHelpView = Backbone.View.extend({
         this.listener.setup();
     },
 
+    plainText: function(txt) {
+        return txt.replace(/<script.+?<\/script>/, '').replace(/<button.+?<\/button>/, '').replace(/<.+?>/g, '');
+    },
+
     render: function(helpText) {
         var self = this;
         if (helpText && self.lastHelp == helpText) {
@@ -983,6 +987,8 @@ var MissionHelpView = Backbone.View.extend({
         
         _.delay(function() {
             self.$el.html(helpText);
+            var plainText = self.plainText(helpText);
+            console.log(plainText);
             app.sounds.speak(self.$el.text());
             $("#help-next").on("click", function() { self.listener.proceed(); } );
             $("#help-next-mission").on("click", function() { self.model.nextMission(); } );

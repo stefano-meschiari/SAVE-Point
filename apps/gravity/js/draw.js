@@ -132,7 +132,7 @@ var Draw = Backbone.View.extend({
     },
 
     animateExplosion: function() {
-        var 
+//        var 
     },
     
     animateActionFeedback: function(pos, size) {

@@ -11,8 +11,8 @@ var SoundEngine = Backbone.ROComputedModel.extend({
         lose: '/share/sounds/lose.mp3',
         win: '/share/sounds/win.mp3',
         collision: '/share/sounds/collision.mp3',
-        proceed: '/share/sounds/proceed.mp3',
-        clickety: '/share/sounds/proceed.mp3',
+        proceed: '/share/sounds/proceed.wav',
+        clickety: '/share/sounds/proceed.wav',
         addPlanet: '/share/sounds/add-planet.mp3',
         'planet:drag': '/share/sounds/drag.mp3'
     },
@@ -53,7 +53,9 @@ var SoundEngine = Backbone.ROComputedModel.extend({
 
     playEffect: function(type) {
         if (this[type]) {
-            this[type].load();
+            this[type].currentTime = 0;
+            if (this[type].currentTime != 0)
+                this[type].load();
             this[type].play();
         }
     }    
