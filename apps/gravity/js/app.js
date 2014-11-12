@@ -540,9 +540,13 @@ var App = Backbone.ROComputedModel.extend({
                     var missions = app.get('missions');
                     for (var i = 0; i < data.length; i++)
                         missions.at(i).set(data[i]);
-                    app.menu();
                 }
-                app.trigger('load');
+
+                // FIXME: Add a fixed delay to load assets -- this should be changed.
+                _.delay(function() {
+                    app.trigger('load');
+                    app.menu();
+                }, 3000);
             });
         });
     },
@@ -608,7 +612,12 @@ var AppView = Backbone.View.extend({
         "click #reset": function() { app.reset(); },
         "click #missions": function() { app.menu(); },
         "click #dashboard": function() { location.href='../dashboard'; },
-        "click #sizes": function() { app.set('physicalSizes', !app.get('physicalSizes')); }
+        "click #sizes": function() { app.set('physicalSizes', !app.get('physicalSizes')); },
+        "click #zoom-in": function() { draw.setZoom(draw.zoom*2); },
+        "click #zoom-out": function() { draw.setZoom(draw.zoom/2); },
+        "click #zoom": function() { $("#toolbar-zoom").addClass("expanded").removeClass("hidden"); },
+        "click #zoom-close": function() { $("#toolbar-zoom").removeClass("expanded").addClass("hidden"); }
+        
     },
 
     // Binds functions to change events in the model.
@@ -830,7 +839,12 @@ var AppView = Backbone.View.extend({
         $("#text-top").addClass("expanded");
         $("#text-top").addClass("in-front");
         app.set('state', ROTATABLE);
+    },
+    
+    auxToolbar: function(template) {
+        
     }
+    
 
 });
 
@@ -988,7 +1002,7 @@ var MissionHelpView = Backbone.View.extend({
     },
 
     plainText: function(txt) {
-        return txt.replace(/<script.+?<\/script>/, '').replace(/<button.+?<\/button>/, '').replace(/<.+?>/g, '');
+        return txt.replace(/<script.+?<\/script>/, '').replace(/<button.+?<\/button>/, '').replace(/<.+?>/g, '').replace(/&.+;/g, '');
     },
 
     render: function(helpText) {
@@ -1012,7 +1026,7 @@ var MissionHelpView = Backbone.View.extend({
             self.$el.html(helpText);
             var plainText = self.plainText(helpText);
             console.log(plainText);
-            app.sounds.speak(self.$el.text());
+            app.sounds.speak(plainText);
             $("#help-next").on("click", function() { self.listener.proceed(); } );
             $("#help-next-mission").on("click", function() { self.model.nextMission(); } );
             

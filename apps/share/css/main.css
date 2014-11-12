@@ -260,8 +260,22 @@ body {
 #info-top table {
   width: 100%;
 }
-#info-help {
+.hidden {
+  opacity: 0;
+  display: none;
+}
+.expanded {
+  opacity: 1;
+  display: block;
+}
+#toolbars .toolbar {
   padding: 10px;
+  margin-top: 15px;
+  position: relative;
+  background: rgba(180, 180, 180, 0.3);
+}
+.btn-borderless {
+  cursor: pointer;
 }
 td.td-label {
   border-bottom: 1px solid white;

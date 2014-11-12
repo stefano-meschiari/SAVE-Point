@@ -16,6 +16,11 @@ var Draw = Backbone.View.extend({
     zoom:1,
     
     setZoom: function(zoom) {
+        if (zoom < 0.1 || zoom > 10)
+            return;
+        
+        zoom = ((zoom * 100)|0)/100;
+        
         this.zoom = zoom;
         PIXELS_PER_AU = 200 * zoom;
         PIXELS_PER_AUPDAY = 100/Math.sqrt(K2) * zoom;
@@ -529,23 +534,23 @@ var Draw = Backbone.View.extend({
                 
                 var vector = this.createArrow(body.position, body.position + dv * PIXELS_PER_AUPDAY,
                                               haloColor);
-
+                
                 (function(body, vector) {
                     vector.insertBelow(body);
                     
-                    vector.on("mousedrag", function(event) {
+                    vector.head.on("mousedrag", function(event) {
                         vector.dragging = true;
                         c = [event.point.x - body.position.x, event.point.y - body.position.y, 0];
                         c[0] /= PIXELS_PER_AUPDAY;
                         c[1] /= PIXELS_PER_AUPDAY;
                         app.setVelocityForBody(body.planetIndex, c);
                     });
-                    vector.on("mousedown", function(event) {
+                    vector.head.on("mousedown", function(event) {
                         var center = vector.head.bounds.center;
                         vector.head.bounds.size = new Size(ARROW_DRAG_SIZE, ARROW_DRAG_SIZE);
                         vector.head.bounds.center = center;
                     });
-                    vector.on("mouseup", function(event) {
+                    vector.head.on("mouseup", function(event) {
                         app.trigger("planet:dragvelocity");
                         vector.dragging = false;
                         self.restoreSizes();
