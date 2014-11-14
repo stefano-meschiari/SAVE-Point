@@ -11,6 +11,8 @@ requires:
   - paper
   - physics
   - constants
+  - utils
+  - animalese
 
 args:
   - nplanets
@@ -26,12 +28,26 @@ missions:
     rule: nplanets > 0
     enabled: true
     icon: icon-practice
+    constraints:
+      nplanets: 1
     help:      
       - on: start
         message: |          
           @noninteractive
-          *@name*, it's your very first mission: just add one planet and make it orbit around the star!
+         "I quit!" Groknar, Lead Engineer of Nova Planetia and head of planetary development, 
+         threw the digipad on the Big Boss' desk.  "But we just got a huge contract to develop 
+         the Arcturus Nebular Cloud!" Big Boss Reaz-7 protested.  "We already brought 1000 
+         planets out of the Eridani drydocks and they're waiting to be deployed!"
+         
+         Groknar spat.  "Maybe next time you'll get us a breakroom espresso maker."  He slammed the door.
+         
+         Reaz-7 turned furiously.  "YOU!  You're hired.  Get in the spacedozer and start training!"
+         @proceed
 
+       - on: proceed
+         message: |          
+          @noninteractive
+          *@name*, it's your very first training mission: just add one planet and make it orbit around the star!
 
           *Click "Next" to learn how.*
           @proceed
@@ -39,8 +55,8 @@ missions:
       - on: proceed
         message: |
           @noninteractive
-          Your goal is to complete your mission in as little time as possible. Your current
-          elapsed time is shown in the top right corner.  
+          Your goal is to complete your mission in as little time as possible. As time passes, the number
+          of stars you can earn will decrease.
           @proceed
       
       - on: proceed
@@ -62,13 +78,13 @@ missions:
 
       - on: planet:drag
         message: |
-          Awesome!  Lot of useful information about your planet is shown in the upper right, 
+          Awesome!  Lots of useful information about your planet is shown in the upper right, 
           such as its distance from the star, its speed, and the time it takes to orbit the star.  
           @proceed
           
       - on: proceed
         message: >
-          Try it out!  @icon-drag *Drag the tip of the arrow* to change the speed
+          Try it out!  @icon-drag *Drag the head of the arrow* to change the speed
           and direction of the planet, and see its speed change in the upper right. 
 
       - on: planet:dragvelocity
@@ -78,6 +94,14 @@ missions:
           
           Now *tap on the @icon-star star* to let the planet orbit!
           
+       - on: win
+         message: |          
+          @noninteractive
+          Big Boss Reaz-7 says, "Good work, but we need you to train quickly!  We need to 
+          engineer all of the new star systems forming in the Arcturus Nebula, and our 
+          customers are very... picky."
+          @proceed
+
                   
   - title: Crash & Burn
     rule: nplanets > 0 && collided
@@ -86,6 +110,8 @@ missions:
     win: Those were impressive fireworks!
     lose: You avoided crashing into the star.
     icon: icon-crash
+    constraints:
+      nplanets: 1
 
   - title: Ejected!
     rule: nplanets > 0 && elements[0].eccentricity > 1
@@ -94,6 +120,8 @@ missions:
     win: Bye bye planet!
     lose: Oh no!  You're caught by the pull of gravity!
     icon: icon-hyperbolic
+    constraints:
+      nplanets: 1
 
   - title: Elliptical Orbit
     rule: nplanets > 0 && elements[0].eccentricity > 0.2 && elements[0].eccentricity < 0.99 && !collided
@@ -102,6 +130,8 @@ missions:
     win: So elliptical!
     lose: That orbit could be more elliptical...
     icon: icon-elliptical
+    constraints:
+      nplanets: 1
 
   - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
@@ -110,6 +140,8 @@ missions:
     win: Sweet! That's... pretty circular!
     lose: That orbit is not very circular.
     icon: icon-circular
+    constraints:
+      nplanets: 1
 
   - title: Speed vs. distance (40 km/s)
     subtitle: Add a planet in a circular orbit at 40 km/s.
@@ -118,6 +150,7 @@ missions:
     constraints:
       speed: 40
       direction: perpendicular
+      nplanets: 1
     enabled: true
     help:
       - on: start
@@ -142,6 +175,7 @@ missions:
     constraints:
       speed: 30
       direction: perpendicular
+      nplanets: 1
     enabled: true
     win: So circular!
     lose: The orbit was not quite circular... Try moving the planet to a different distance.    
@@ -153,6 +187,33 @@ missions:
     constraints:
       speed: 25
       direction: perpendicular
+      nplanets: 1
     enabled: true
     win: So circular!
     lose: The orbit was not quite circular... Try moving the planet to a different distance.
+
+  - title: Multi-planet test
+    subtitle: Work dammit!
+    rule: nplanets > 0 
+    icon: icon-circ-rvs
+    enabled: true
+    win: So circular!
+    lose: The orbit was not quite circular... Try moving the planet to a different distance.
+    constraints:
+      nplanets: 2
+
+  - title: Barycentric gravity
+    subtitle: Work dammit!
+    rule: nplanets > 0 
+    icon: icon-circ-rvs
+    enabled: true
+    win: So circular!
+    lose: The orbit was not quite circular... Try moving the planet to a different distance.
+    bodies:
+      - mass: 0.25
+        x: 1
+        y: 0
+        z: 0
+        u: 0
+        v: 0.017
+        z: 0

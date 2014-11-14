@@ -9,7 +9,7 @@ $urlp = parse_url($_ENV["DATABASE_URL"]);
 
 // Build connection string for Postgres
 $urls = "host={$urlp['host']} port={$urlp['port']} user={$urlp['user']} password={$urlp['pass']}  dbname=" . substr($urlp['path'], 1);
-
+error_log($urls);
 // Open connection
 $dbconn = pg_pconnect($urls);
 
@@ -124,7 +124,7 @@ function db_user_register($user) {
 
 
 function db_get_classes() {
-  $result = pg_query('SELECT * FROM classes');
+  $result = pg_query('SELECT * FROM classes ORDER BY class_name');
   if ($result === FALSE)
     return FALSE;
   else

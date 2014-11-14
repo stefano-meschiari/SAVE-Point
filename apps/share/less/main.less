@@ -103,7 +103,10 @@ html, body {
 }
 
 #canvas-container {
-  background:url('../img/bg.jpg')
+  //background:url('../img/bg.jpg')
+  background-color:black;
+  background-image:
+  -webkit-radial-gradient(80% 10%, circle, #320000, transparent), -webkit-radial-gradient(80% 50%, circle, #323200, transparent), -webkit-radial-gradient(40% 80%, circle, #000064, transparent), -webkit-radial-gradient(30% 30%, circle, #323232, transparent);
 }
 
 #canvas {
@@ -178,7 +181,7 @@ html, body {
   padding:12px;
   color:white;
   text-align:center;
-  background-color:black;
+  background-color:none;
   cursor:pointer;
   width:50px;
 }
@@ -228,6 +231,19 @@ html, body {
   margin-bottom:5px;
 }
 
+.sidebar-hidden {
+  .transition(0.5s, ease-in);
+  visibility:hidden;
+  width:0px;
+  height:0px;
+  overflow:hidden;
+  opacity:0;
+}
+
+.sidebar-glass {
+  background-color:@glass-color;
+}
+
 .sidebar-title {
   .transition(0.5s, ease-in);
   opacity:0;
@@ -272,8 +288,28 @@ html, body {
   width:100%;
 }
 
-#info-help {
+#toolbars {
+}
+
+.hidden {
+  opacity:0;
+  display:none;
+}
+
+.expanded {
+  opacity:1;
+  display:block;
+}
+
+#toolbars .toolbar {
   padding:10px;
+  margin-top:15px;
+  position:relative;
+  background: @glass-color;
+}
+
+.btn-borderless {
+  cursor:pointer;
 }
 
 td.td-label {
@@ -287,12 +323,6 @@ td.td-val {
   border-bottom:1px solid white;
   text-align:right;
   font-weight:bold;
-}
-
-#help {
-  position:fixed;
-  bottom:5px;
-  right:5px;
 }
 
 
@@ -627,6 +657,7 @@ td.td-val {
   font-size:@font-xl;
   text-align:center;
   padding:40px;
+ 
 }
 
 

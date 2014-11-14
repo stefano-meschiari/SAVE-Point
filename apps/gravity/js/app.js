@@ -46,7 +46,7 @@ var Mission = Backbone.ROComputedModel.extend({
         elements: null,
         stars: 0,
         lastPlayed: null
-    },
+    }, 
 
     starsRepr: function() {
         var repr = "";
@@ -75,6 +75,12 @@ var MissionCollection = Backbone.Collection.extend({
  * by the properties in app.yaml, and inserted into the APP_CFG dictionary by the backend.
  *
  */
+
+var TYPE_STAR = 0;
+var TYPE_PLANET = 1;
+var TYPE_STAR_FIXED = 2;
+var TYPE_PLANET_FIXED = 3;
+
 var App = Backbone.ROComputedModel.extend({
     defaults: function() {
         return {
@@ -95,8 +101,8 @@ var App = Backbone.ROComputedModel.extend({
             time:0,
             // each frame corresponds to these many days
             deltat: 1.5,
-            // maximum number of planets for the current mission
-            maxPlanets: 1,
+            dt: 1.5,
+            bodyTypes: [TYPE_STAR],
             // initial position of the star (AU/day). The vector contains the 3
             // coordinates for each body, (x^0, y^0, z^0, x^1, y^1, z^1, ...),
             // so that the are 3*nplanets components.
@@ -108,6 +114,8 @@ var App = Backbone.ROComputedModel.extend({
             // initial mass of the star (MSUN). The vector contains the masses of
             // all the bodies in the system.
             masses: [1],
+            // default mass of new objects
+            defaultMass:0,
             // mission collection
             missions: null,
             // interactive?
@@ -116,14 +124,14 @@ var App = Backbone.ROComputedModel.extend({
             invalid:false,
             // has a collision happened?
             collided:false,
+            // physical vs cartoon sizes
+            physicalSizes:false,
             // number of stars gained so far
-            starsEarned:[],
-            
-            minAU: 0.3,
-            maxAU: 1.5
+            starsEarned:[],            
+            maxAU: 1.5,
+            minAU: 0.19
         };
     },
-
     
     /*
      * Toggles the state of the application between RUNNING and PAUSED.
@@ -152,7 +160,7 @@ var App = Backbone.ROComputedModel.extend({
      */
     addPlanet: function(x) {
         // Return if there are already more planets than allowed.
-        if (this.get('nplanets') == this.get('maxPlanets'))
+        if (! this.ensureConstraints())
             return;
 
         // Append position and default velocity & mass to the
@@ -160,18 +168,21 @@ var App = Backbone.ROComputedModel.extend({
         var position = this.get('position');
         var velocity = this.get('velocity');
         var masses = this.get('masses');
+        var types = this.get('bodyTypes');
         
         position.push(x[0], x[1], 0);
-
+        types.push(TYPE_PLANET);
         
         var v = Math.sqrt(K2);
         velocity.push(v, 0, 0);
-        masses.push(0);
+        masses.push(this.get('defaultMass'));
         this.ctx.elements = null;
         this.set('nplanets', this.get('nplanets')+1);
         this.ensureConstraintsForBody(this.get('nplanets')-1);        
         this.ctx.elements = null;
-        this.trigger("change:position change:velocity change:masses");
+        this.trigger("change:position change:velocity change:masses addPlanet");
+        Physics.barycenter(this.ctx);
+
     },
 
     /*
@@ -187,9 +198,27 @@ var App = Backbone.ROComputedModel.extend({
             this.trigger('change:velocity');
         
         this.trigger("change:position");
+        Physics.barycenter(this.ctx);
+
     },
 
 
+    ensureConstraints:function() {
+        var constraints = app.mission().get('constraints');
+        if (!constraints)
+            return true;
+
+        if (!constraints.nplanets)
+            return true;
+
+        var nplanets = this.get('nplanets');
+        console.log(nplanets, constraints.nplanets);
+        var ready = true;
+        ready &= (nplanets < constraints.nplanets);
+
+        return ready;
+    },
+    
     ensureConstraintsForBody: function(i) {
         var constraints = app.mission().get('constraints');
         if (!constraints)
@@ -238,7 +267,17 @@ var App = Backbone.ROComputedModel.extend({
         velocity[(i+1)*NPHYS+Z] = v[2];
 
         this.ensureConstraintsForBody(i);
+        Physics.barycenter(this.ctx);
+
         this.trigger("change:velocity");        
+    },
+
+
+    /*
+     * Calculates the barycenter of the system.
+     */
+    barycenter:function() {
+        return this.ctx.bary;
     },
     
     /*
@@ -251,28 +290,64 @@ var App = Backbone.ROComputedModel.extend({
         
         var t = this.get('time');
         var deltat = this.get('deltat');
+        var nplanets = this.get('nplanets');
+        
         this.ctx.t = t;
         this.ctx.x = this.get('position');
         this.ctx.v = this.get('velocity');
         this.ctx.M = this.get('masses');
+
+        var dt = deltat;
+        for (var i = 1; i <= app.get('nplanets'); i++) {
+            var r = Math.sqrt(this.ctx.x[i*NPHYS+X] * this.ctx.x[i*NPHYS+X] +
+                              this.ctx.x[i*NPHYS+Y] * this.ctx.x[i*NPHYS+Y]);
+            
+            dt = Math.min(dt, 0.05*Math.sqrt(r*r*r/K2));
+        }
+
+        var collided = false;
+        var minAU = this.get('minAU');
+        var steps = (deltat / dt) | 0;
+        var rem = deltat % dt;
         
-        Physics.leapfrog(t+deltat, this.ctx);
+        for (var j = 0; j <= steps; j++) {
+            if (j == steps && rem < 1e-8)
+                break;
+            else if (j == steps)
+                dt = rem;
+            
+            Physics.leapfrog(this.ctx.t+dt, this.ctx);
+
+            for (i = 1; i <= app.get('nplanets'); i++) {
+                var dx = this.ctx.x[i*NPHYS+X] - this.ctx.x[X];
+                var dy = this.ctx.x[i*NPHYS+Y] - this.ctx.x[Y];
+                var dz = this.ctx.x[i*NPHYS+Z] - this.ctx.x[Z];
+                
+                r = Math.sqrt(dx*dx + dy*dy + dz*dz);
+                
+                if (r < minAU)
+                    collided = { x: this.ctx.x[i*NPHYS+X], y: this.ctx.x[i*NPHYS+Y], planet:i };
+            }
+            
+            if (collided)
+                break;
+        }
         
         this.set('time', t+deltat);
         this.trigger("change:position");
         this.trigger("change:velocity");
 
         
-        if (Math.sqrt(this.ctx.x[NPHYS+X] * this.ctx.x[NPHYS+X] +
-                      this.ctx.x[NPHYS+Y] * this.ctx.x[NPHYS+Y]) < this.get('minAU')) {
-            this.trigger('collision', { x: this.ctx.x[NPHYS+X],
-                                        y: this.ctx.x[NPHYS+Y]});
+        if (collided) {
+            this.trigger('collision', collided);
             this.set('collided', true);
             this.set('invalid', true);
         }
 
+
+        Physics.barycenter(this.ctx);
+
         this.trigger("tick");
-        
     },
 
     /*
@@ -333,7 +408,7 @@ var App = Backbone.ROComputedModel.extend({
     },
 
     /*
-     * Move to next mission
+     * Move to given mission
      */
     setMission: function(mission) {
         if (mission === undefined)
@@ -342,6 +417,14 @@ var App = Backbone.ROComputedModel.extend({
         this.reset();
         this.set({ currentMission: mission });
         this.trigger('start');
+
+        var missionObj = this.mission();
+        var bodies = missionObj.get('bodies');
+        if (bodies) {
+            _.each(bodies, function(body) {
+                console.log(body);
+            });
+        }
     },
 
     /*
@@ -411,7 +494,9 @@ var App = Backbone.ROComputedModel.extend({
             masses: defaults.masses,
             position: defaults.position,
             velocity: defaults.velocity,
+            types: defaults.types,
             nplanets: defaults.nplanets,
+            
             time: defaults.time,
             state: defaults.state,
             currentHelp: defaults.currentHelp,
@@ -447,7 +532,7 @@ var App = Backbone.ROComputedModel.extend({
      */
     loadMissionData: function() {
         app.trigger('loading');
-        _.delay(function() {
+        _.defer(function() {
             $.get('php/gamedata.php?action=load')
             .done(function(data) {
                 if (data.trim() != "") {
@@ -455,11 +540,15 @@ var App = Backbone.ROComputedModel.extend({
                     var missions = app.get('missions');
                     for (var i = 0; i < data.length; i++)
                         missions.at(i).set(data[i]);
-                    app.menu();
                 }
-                app.trigger('load');
+
+                // FIXME: Add a fixed delay to load assets -- this should be changed.
+                _.delay(function() {
+                    app.trigger('load');
+                    app.menu();
+                }, 5000);
             });
-        }, 1000);
+        });
     },
 
     /*
@@ -522,7 +611,13 @@ var AppView = Backbone.View.extend({
         "click #help": function() { this.renderMission(); },
         "click #reset": function() { app.reset(); },
         "click #missions": function() { app.menu(); },
-        "click #dashboard": function() { location.href='../dashboard'; }
+        "click #dashboard": function() { location.href='../dashboard'; },
+        "click #sizes": function() { app.set('physicalSizes', !app.get('physicalSizes')); },
+        "click #zoom-in": function() { draw.setZoom(draw.zoom*2); },
+        "click #zoom-out": function() { draw.setZoom(draw.zoom/2); },
+        "click #zoom": function() { $("#toolbar-zoom").addClass("expanded").removeClass("hidden"); },
+        "click #zoom-close": function() { $("#toolbar-zoom").removeClass("expanded").addClass("hidden"); }
+        
     },
 
     // Binds functions to change events in the model.
@@ -546,7 +641,9 @@ var AppView = Backbone.View.extend({
             if (self.elapsedTimer)
                  clearInterval(self.elapsedTimer);
 
-            self.elapsedTimer = setInterval(_.bind(self.renderStars, self), 1000);            
+            self.elapsedTimer = setInterval(_.bind(self.renderStars, self), 1000);
+            if (self.validateTimer)
+                clearTimeout(self.validateTimer);            
         });
 
         self.listenTo(self.model, 'change:state', function() {
@@ -568,7 +665,6 @@ var AppView = Backbone.View.extend({
      * Each one corresponds to a different CSS class. The #missions div is filled with the titles
      * and icons of the missions.
      */
-
     
     missionTemplate: _.template('<div class="title"><span class="fa fa-rocket"></span> <%= title %></div><div class="subtitle"><%= subtitle %></div>'),
     missionDelay: 6000,
@@ -713,7 +809,7 @@ var AppView = Backbone.View.extend({
      * Render win.
      */
 
-    winTemplate: _.template('<div class="subtitle">Mission completed.</div><div class="font-l"><%= win %></div>'),
+    winTemplate: _.template('<div class="font-l"><%= win %></div><button class="btn-jrs font-m" onClick="app.menu()"><span class="fa fa-graduation-cap"></span> Mission completed!</button>'),
     winDelayMax: 10000,
     approxFrameRate: 1/60.,
     
@@ -728,16 +824,10 @@ var AppView = Backbone.View.extend({
         
         $("#text-top").html(this.winTemplate(mission.attributes));
         $("#text-top").addClass("expanded");
-        $("#text-top").removeClass("in-front");
-        console.log(winDelay);
+        $("#text-top").addClass("in-front");
+
+        app.set('state', ROTATABLE);
         
-        _.delay(function() {
-            console.log('Hiding.');
-            $("#text-top").removeClass("expanded");
-            $("#text-top").removeClass("in-front");
-        
-            app.menu();
-        }, winDelay);
     },
 
     loseTemplate: _.template('<div class="subtitle"><%= lose %></div><div><button class="btn-jrs font-m" onClick="app.reset(); app.menuView.renderMission(); "><span class="icon-thumbs-up"></span> No worries! Retry mission</button></div>'),
@@ -748,7 +838,13 @@ var AppView = Backbone.View.extend({
         $("#text-top").html(this.loseTemplate(mission.attributes));
         $("#text-top").addClass("expanded");
         $("#text-top").addClass("in-front");
+        app.set('state', ROTATABLE);
+    },
+    
+    auxToolbar: function(template) {
+        
     }
+    
 
 });
 
@@ -761,6 +857,7 @@ var MissionHelpModel = Backbone.Model.extend({
     proceed: function() {
         this.set('currentHelp', this.get('currentHelp') + 1);
         this.trigger('proceed');
+        app.trigger('proceed');
     },
 
     destroy: function() {
@@ -860,7 +957,7 @@ var MissionHelpView = Backbone.View.extend({
         
         this.listenToOnce(this.model, "change:missions", function() {
             this.setupTemplates();
-            this.setupMessages();
+//            this.setupMessages();
         });
         this.listenTo(this.model, "start", this.setupMessages);
         this.listenTo(this.model, "win lose", function() { self.render(null); });
@@ -904,6 +1001,10 @@ var MissionHelpView = Backbone.View.extend({
         this.listener.setup();
     },
 
+    plainText: function(txt) {
+        return txt.replace(/<script.+?<\/script>/, '').replace(/<button.+?<\/button>/, '').replace(/<.+?>/g, '').replace(/&.+;/g, '');
+    },
+
     render: function(helpText) {
         var self = this;
         if (helpText && self.lastHelp == helpText) {
@@ -923,6 +1024,9 @@ var MissionHelpView = Backbone.View.extend({
         
         _.delay(function() {
             self.$el.html(helpText);
+            var plainText = self.plainText(helpText);
+            console.log(plainText);
+            app.sounds.speak(plainText);
             $("#help-next").on("click", function() { self.listener.proceed(); } );
             $("#help-next-mission").on("click", function() { self.model.nextMission(); } );
             
@@ -988,6 +1092,7 @@ var AppMenuView = Backbone.View.extend({
                     $thumb.addClass(icon+"-b");
                 
                 $thumb.on("click", _.partial(function(i) {
+                    app.sounds.playEffect('clickety');
                     app.setMission(i);
                 }, i));
             } else if ((i > 0 && missions.at(i-1).get('completed')) || (i == 0 && !missions.at(0).get('completed'))) {
@@ -996,6 +1101,7 @@ var AppMenuView = Backbone.View.extend({
                 $thumb.addClass(icon ? icon + "-b" : this.defaultIconNext);
                 $thumb.append(this.missionThumbNext);
                 $thumb.on("click", _.partial(function(i) {
+                    app.sounds.playEffect('clickety');
                     app.setMission(i);
                 }, i));
             } else {
@@ -1070,5 +1176,13 @@ $(document).ready(function() {
     app.loadConfig(APP_CFG);
     app.loadMissionData();
     APP_CFG = null;
+
+    app.once('load', function() {
+        console.log(_.parameter('mission'));
+        if (_.parameter('mission') != null) {
+            app.setMission(_.parameter('mission')|0);
+            console.error("Check if mission is kosher.");
+        }
+    });
 });
 

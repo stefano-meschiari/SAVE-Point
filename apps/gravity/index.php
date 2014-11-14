@@ -56,8 +56,19 @@ LOGGED_USER='<?= db_user(); ?>';
         </tr>
       </table>
     </div>
-    <div id="info-help">
+    <div id="toolbars">
+      <div class="toolbar in-front hidden" id="toolbar-zoom">
+        Zoom: <strong><span id="zoom-value">100</span>%</strong>
+        <span class="pull-right">
+        <span class="btn-group">
+          <button class="btn btn-sm btn-jrs in-front fa fa-plus" id="zoom-in"></button>
+          <button class="btn btn-sm btn-jrs in-front fa fa-minus" id="zoom-out"></button>
+        </span>
+        <span class="fa fa-minus-circle btn-borderless" id="zoom-close"></span>
+        </span>
+      </div>
     </div>
+  
   </div>
     <canvas id="canvas" resize keepalive="true" style="position:absolute"></canvas>
   </div>
@@ -67,7 +78,17 @@ LOGGED_USER='<?= db_user(); ?>';
       <div id="menu" class="btn-jrs-ico fa fa-bars"></div>
     </div>
     <div class="separator-center"></div>
+    <div class="sidebar-item">
+      <div id="sizes" class="btn-jrs-ico fa fa-arrows-alt"></div>
+      <div class="sidebar-title">Toggle physical size</div>
+    </div>
+    <div class="sidebar-item">
+      <div id="zoom" class="btn-jrs-ico fa fa-search"></div>
+      <div class="sidebar-title">Zoom</div>
+    </div>
 
+    <div class="separator-center"></div>
+    
     <div class="sidebar-item">
       <div id="missions" class="btn-jrs-ico fa fa-th-large"></div>
       <div class="sidebar-title">Mission list</div>
@@ -79,7 +100,13 @@ LOGGED_USER='<?= db_user(); ?>';
     <div class="sidebar-item">
       <div id="dashboard" class="btn-jrs-ico fa fa-backward"></div>
       <div class="sidebar-title">Back to dashboard</div>
-    </div>    
+    </div>
+    <div class="separator-center"></div>
+    <div class="sidebar-item">
+      <div id="help" class="btn-jrs-ico fa fa-question-circle"></div>
+      <div class="sidebar-title">Help</div>
+    </div>
+
   </div>
 
   
@@ -89,8 +116,18 @@ LOGGED_USER='<?= db_user(); ?>';
     </div>
   </div>
 
-  <div class="btn-jrs-ico fa fa-question-circle" id="help"></div>
+
 </div>
+
+<div id="app-message" style="display:none">
+  <div id="app-message-container">
+    <div id="app-message-body">
+    
+    </div>
+    <div id="app-message-close" class="btn-jrs-ico fa fa-close" onClick="$('#app-message').hide();"></div>
+  </div>
+</div>
+
 
 <div id="app-menu" class="animated">
   <div id="app-menu-container">
@@ -108,8 +145,13 @@ LOGGED_USER='<?= db_user(); ?>';
   </div>
 </div>
 
+
 <script type="text/javascript" src="../share/js/init.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/speech.js"></script>
+<script type="text/javascript" src="js/debug.js"></script>
 <script type="text/paperscript" canvas="canvas" src="js/draw.js"></script>
+
+<!-- Templates -->
 
 <?php write_footer($cfg); ?>

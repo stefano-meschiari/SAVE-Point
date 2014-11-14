@@ -32,3 +32,12 @@ color:
 constants:
   - /share/js/colors.js
   - /share/js/constants.js
+
+utils:
+  - /share/js/utils.js
+
+animalese:
+  - /share/animalese/riffwave.js
+  - /share/animalese/Blob.js
+  - /share/animalese/animalese.js
+  
