@@ -546,7 +546,7 @@ var App = Backbone.ROComputedModel.extend({
                 _.delay(function() {
                     app.trigger('load');
                     app.menu();
-                }, 3000);
+                }, 5000);
             });
         });
     },
