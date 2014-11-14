@@ -34,7 +34,20 @@ missions:
       - on: start
         message: |          
           @noninteractive
-          *@name*, it's your very first mission: just add one planet and make it orbit around the star!
+         "I quit!" Groknar, Lead Engineer of Nova Planetia and head of planetary development, 
+         threw the digipad on the Big Boss' desk.  "But we just got a huge contract to develop 
+         the Arcturus Nebular Cloud!" Big Boss Reaz-7 protested.  "We already brought 1000 
+         planets out of the Eridani drydocks and they're waiting to be deployed!"
+         
+         Groknar spat.  "Maybe next time you'll get us a breakroom espresso maker."  He slammed the door.
+         
+         Reaz-7 turned furiously.  "YOU!  You're hired.  Get in the spacedozer and start training!"
+         @proceed
+
+       - on: proceed
+         message: |          
+          @noninteractive
+          *@name*, it's your very first training mission: just add one planet and make it orbit around the star!
 
           *Click "Next" to learn how.*
           @proceed
@@ -81,6 +94,14 @@ missions:
           
           Now *tap on the @icon-star star* to let the planet orbit!
           
+       - on: win
+         message: |          
+          @noninteractive
+          Big Boss Reaz-7 says, "Good work, but we need you to train quickly!  We need to 
+          engineer all of the new star systems forming in the Arcturus Nebula, and our 
+          customers are very... picky."
+          @proceed
+
                   
   - title: Crash & Burn
     rule: nplanets > 0 && collided
