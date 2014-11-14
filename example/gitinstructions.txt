@@ -1,0 +1,8 @@
+git instructions
+
+git pull
+git add -A
+git commit -am "changes to main.js file"
+git push
+
+open -a safari spring.html

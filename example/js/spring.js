@@ -8,14 +8,14 @@ function Spring() {
     this.x_resting = 400;
     this.v0 = 0;
     this.dt = 0.02;
-
+    this.divid = "#spring"
     this.update = function() {
         var a = - this.k * (this.x0-this.x_resting) - this.f * this.v0;
         
         this.x0 = this.x0 + this.v0 * this.dt;
         this.v0 = this.v0 + a * this.dt;
         
-        $("#spring").css('width', this.x0);
+        $(this.divid).css('width', this.x0);
     };
 };
 
@@ -24,11 +24,16 @@ $("#start-button").on("click", function() {
     $("#start-button").text("Waiting...");
 
     var spring = new Spring();
+    var spring2 = new Spring();
+    spring2.divid="#newspring"
+    spring2.k=7
 
     function step() {
         spring.update();
+	spring2.update();
 
-        if (Math.abs(spring.v0) < 1e-2) {
+        if (Math.abs(spring.v0) < 1e-2 &&
+	    Math.abs(spring2.v0) < 1e-2) {
             $("#start-button").text('Start');
             $("#start-button").attr('disabled', false);
             return;

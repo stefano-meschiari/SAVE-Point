@@ -17,46 +17,64 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
+      <div>        
+        <div id="speed1" class=speeds>
+          Very fast
+	  </div>
+     	<div id="speed2" class=speeds>
+          Just perfect
+	  </div>
+        <div id="speed3" class=speeds>
+          Nearly perfect
+	  </div>
+        <div id="speed4" class=speeds>
+          Very slow
+	  </div>
+      </div>
+      
+      <div><div class="clear"></div>
+
       <div>
-        
-        <div id="spring" class=spring>
-          Hello! I am the spring.
+        <div id="orbit1" class=orbits>
+         Crash!
         </div>
-        <div id="box" class=box>
-          Hello! I am a box attached to a spring.
+        <div id="orbit2" class=orbits>
+         Oval
         </div>
       </div>
-
-      <div class="clear"></div>
-
+ 
+	<div><div class="clear"></div>
+ 
       <div>
-
-	<div id="newspring" class=spring>
-	  Hi!  I'm a new spring!
-	</div>
-	<div id="newbox" class=box>
-	  Hi! I'm a new box!
-	</div>
-
-	<div class="clear"></div>
-
-	<button id="start-button">Start!</button>
-
+        <div id="orbit3" class=orbits>
+         Circle
+        </div>
+        <div id="orbit4" class=orbits>
+         Escape!
+        </div>
+       </div>
+	<div><div class="clear"></div>
+      
       
       <style>
-       .box {
-         width:100px;
+       .orbits {
+         border:1px solid black;
+         width:200px;
          height:100px;
-         background-color:yellow;
+         background-color:cyan;
+	 background-image:menu_image;
          text-align:center;
+	 line-height:6em;
          float:left;
        }
 
-       .spring {
+       .speeds {
          border:1px solid black;
-         height:100px;
-         width:500px;
+         height:50px;
+         width:150px;
+	 background-color:yellow;
          text-align:center;
+	 line-height:3em;
          float:left;
        }
 
