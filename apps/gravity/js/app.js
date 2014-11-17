@@ -919,7 +919,7 @@ var MissionHelpModel = Backbone.Model.extend({
 
 var MissionHelpView = Backbone.View.extend({
     el: $("#help-body"),
-    safeTags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'b', 'i', 'u'],
+    safeTags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'b', 'i', 'u', 'img'],
 
     NEXT_LABEL: '<span class="fa fa-chevron-circle-right"></span> Next',
     NEXT_MISSION_LABEL: '<span class="fa fa-thumbs-up"></span> Next Mission',
@@ -935,6 +935,7 @@ var MissionHelpView = Backbone.View.extend({
         "@icon-help": '<span class="icon-help"></span>',
         "@noninteractive": '<script> app.set("interactive", false); </script>',
         "\\*(.+?)\\*": "<strong>$1</strong>",
+        "\\{(.+)\\}": '<div class="img-container"><img src=$1></div>',
         "^(#)\\s*(.+)": "<h1>$2</h1>",
         "^\s*$": "<br>",
         "@proceed-win": '<div class="help-toolbar"><button id="help-next-mission" class="btn btn-lg btn-jrs"><span class="fa fa-thumbs-up"></span>  Next mission</button></div>',

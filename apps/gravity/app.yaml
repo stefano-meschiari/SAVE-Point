@@ -33,8 +33,9 @@ missions:
     help:      
       - on: start
         message: |          
+          @fly
           @noninteractive
-          "I quit!" Groknar, Lead Engineer of Nova Planetia and head of planetary development, 
+          {img/groknar.png width=100} "I quit!" Groknar, Lead Engineer of Nova Planetia and head of planetary development, 
           threw the digipad on the Big Boss' desk.
 
 
@@ -56,6 +57,7 @@ missions:
           @noninteractive
           *@name*, it's your very first training mission: just add one planet and make it orbit around the star!
 
+
           *Click "Next" to learn how.*
           @proceed
 
@@ -76,6 +78,7 @@ missions:
           
       - on: proceed
         message: >          
+          @stop-fly
           First, *@icon-tap tap anywhere* to add a new planet. 
            
       - on: change:nplanets
