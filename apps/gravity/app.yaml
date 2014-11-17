@@ -33,19 +33,19 @@ missions:
     help:      
       - on: start
         message: |          
-          @fly
-          @noninteractive
-          {img/groknar.png width=100} "I quit!" Groknar, Lead Engineer of Nova Planetia and head of planetary development, 
+          @fly @noninteractive {img/groknar_sad.png width=150 class=avatar-left}{img/boss_angry.png width=150 class=avatar-right}
+          "I quit!" Groknar, Lead Engineer of Nova Planetia and head of planetary development, 
           threw the digipad on the Big Boss' desk.
 
-
+          
           "But we just got a huge contract to develop 
           the Arcturus Nebular Cloud!" Big Boss Reaz-7 protested.  "We already brought 1000 
           planets out of the Eridani drydocks and they're waiting to be deployed!"
           @proceed
 
       - on: proceed
-        message: |          
+        message: |
+          @fly @noninteractive {img/boss_angry.png width=150 class=avatar-right}
           Groknar spat.  "Maybe next time you'll get us a breakroom espresso maker."  He slammed the door.
 
          

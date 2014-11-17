@@ -334,9 +334,30 @@ td.td-val {
   line-height: 1;
   margin: 0 0;
 }
-#help-body img-container {
-  margin: 10px;
-  float: left;
+@keyframes flyin {
+  to {
+    filter: blur(0);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes flyin {
+  to {
+    filter: blur(0);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.avatar-left {
+  animation: flyin 1.2s ease forwards;
+  position: absolute;
+  bottom: 0px;
+  left: -200px;
+}
+.avatar-right {
+  position: absolute;
+  bottom: 0px;
+  right: -200px;
 }
 #help-nav {
   display: table-cell;
