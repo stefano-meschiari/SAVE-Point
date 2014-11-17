@@ -14,10 +14,10 @@ colors:
 watch:
 	./node_modules/.bin/wach -o apps/share/less/*,apps/gravity/*.yaml,apps/users/*.yaml make 
 
-devserver: 
-	cd apps; php -S localhost:8000 &
-	open http://localhost:8000
+devserver:
+	sleep 5 && open http://localhost:8800 &
+	cd apps; /opt/local/bin/php55 -S localhost:8800 
 
 download_db:
-	dropdb sm52286
-	heroku pg:pull DATABASE_URL sm52286
+	dropdb $(whoami)
+	heroku pg:pull DATABASE_URL $(whoami)
