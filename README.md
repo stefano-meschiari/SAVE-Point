@@ -126,11 +126,11 @@ e.g. gravity/app.yaml contains a list of missions and their
 properties. Its contents are translated into data structures in both
 PHP and JavaScript: e.g., a YAML file that looks like this:
 
-description: Hello!
+`description: Hello!
 properties:
   - Cute
   - Neat
-  - Wise
+  - Wise`
 
 would be translated into this JavaScript object:
 
