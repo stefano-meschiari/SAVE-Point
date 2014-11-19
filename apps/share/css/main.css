@@ -145,6 +145,12 @@ body {
   animation: throbshadow 1s infinite;
   animation-direction: alternate;
 }
+#help-next {
+  -webkit-animation: throbshadow 1s infinite;
+  -webkit-animation-direction: alternate;
+  animation: throbshadow 1s infinite;
+  animation-direction: alternate;
+}
 .btn-jrs-ico {
   font-size: 30px;
   padding: 12px;
@@ -334,30 +340,37 @@ td.td-val {
   line-height: 1;
   margin: 0 0;
 }
-@keyframes flyin {
-  to {
-    filter: blur(0);
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-@-webkit-keyframes flyin {
-  to {
-    filter: blur(0);
-    transform: scale(1);
-    opacity: 1;
-  }
-}
 .avatar-left {
-  animation: flyin 1.2s ease forwards;
   position: absolute;
   bottom: 0px;
   left: -200px;
+  -webkit-transition: 1s ease-in;
+  -moz-transition: 1s ease-in;
+  -o-transition: 1s ease-in;
+  transition: 1s ease-in;
+}
+.avatar-left-visible {
+  left: -200px !important;
+  -webkit-transition: 1s ease-in;
+  -moz-transition: 1s ease-in;
+  -o-transition: 1s ease-in;
+  transition: 1s ease-in;
 }
 .avatar-right {
   position: absolute;
   bottom: 0px;
   right: -200px;
+  -webkit-transition: 1s ease-in;
+  -moz-transition: 1s ease-in;
+  -o-transition: 1s ease-in;
+  transition: 1s ease-in;
+}
+.avatar-right-visible {
+  right: -200px !important;
+  -webkit-transition: 1s ease-in;
+  -moz-transition: 1s ease-in;
+  -o-transition: 1s ease-in;
+  transition: 1s ease-in;
 }
 #help-nav {
   display: table-cell;

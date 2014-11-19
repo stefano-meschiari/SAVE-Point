@@ -934,6 +934,7 @@ var MissionHelpView = Backbone.View.extend({
         "@icon-menu": '<span class="icon-menu"></span>',
         "@icon-help": '<span class="icon-help"></span>',
         "@noninteractive": '<script> app.set("interactive", false); </script>',
+        "@fly-avatar": "",
         "@fly": '',
         "@stop-fly": '',
         "\\*(.+?)\\*": "<strong>$1</strong>",

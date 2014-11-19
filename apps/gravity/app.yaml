@@ -33,7 +33,7 @@ missions:
     help:      
       - on: start
         message: |          
-          @fly @noninteractive {img/groknar_sad.png width=150 class=avatar-left}{img/boss_angry.png width=150 class=avatar-right}
+          @fly @noninteractive {img/groknar_sad.png width=150 class=avatar-left}{img/boss_angry.png width=150 class=avatar-right} @fly-avatar
           "I quit!" Groknar, Lead Engineer of Nova Planetia and head of planetary development, 
           threw the digipad on the Big Boss' desk.
 
