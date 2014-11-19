@@ -893,7 +893,7 @@ var MissionHelpModel = Backbone.Model.extend({
                 this.listenTo(this, on, (function(j) {
                     return function() {
                         if (self.get('currentHelp') == j) {
-                            self.trigger('help', h[j].message);
+                            self.trigger('help', h[j]);
                         }
                     };
                 })(i));
@@ -901,7 +901,7 @@ var MissionHelpModel = Backbone.Model.extend({
                 this.listenTo(model, on, (function(j) {
                     return function() {
                         if (! shown[j]) {
-                            self.trigger('help', h[j].message);
+                            self.trigger('help', h[j]);
                             self.set('currentHelp', j);
                             shown[j] = true;
                         }
@@ -910,7 +910,7 @@ var MissionHelpModel = Backbone.Model.extend({
             }
         }
 
-        this.trigger('help', mission.get('help')[0].message);
+        this.trigger('help', mission.get('help')[0]);
     },
     
     initialize: function() {
@@ -934,9 +934,14 @@ var MissionHelpView = Backbone.View.extend({
         "@icon-menu": '<span class="icon-menu"></span>',
         "@icon-help": '<span class="icon-help"></span>',
         "@noninteractive": '<script> app.set("interactive", false); </script>',
-        "@fly-avatar": "",
-        "@fly": '',
-        "@stop-fly": '',
+        "@enter-avatar": function() {
+            _.delay(function() {
+                $(".avatar-left").addClass("avatar-left-visible");
+                $(".avatar-right").addClass("avatar-right-visible");
+            }, 100);
+        },
+        "@stop-fly": function() { draw.cancelFly(); },   
+        "@fly": function() { draw.fly(); },
         "\\*(.+?)\\*": "<strong>$1</strong>",
         "\\{(.+?)\\}": '<img src=$1>',
         "^(#)\\s*(.+)": "<h1>$2</h1>",
@@ -945,9 +950,9 @@ var MissionHelpView = Backbone.View.extend({
         "@proceed": '<div class="help-toolbar"><button id="help-next" class="btn btn-lg btn-jrs"><span class="fa fa-chevron-right"></span>  Next</button></div>',
         "@eccentricity": '<span id="eccentricity"></span>',
         "@name": LOGGED_USER,
-        "@wait-1": '<script> _.delay(function() { app.trigger("proceed()");  }, 1000); </script>',
-        "@wait-5": '<script> _.delay(function() { app.trigger("proceed()");  }, 5000); </script>',
-        "@wait-30": '<script> _.delay(function() { app.trigger("proceed()");  }, 30000); </script>'
+        "@wait-10": function() {  _.delay(function(self) { self.listener.proceed(); }, 10000, this); },
+        "@wait-5": function() {  _.delay(function(self) { console.log(self); self.listener.proceed(); }, 5000, this); },
+        "@wait-4": function() {  _.delay(function(self) { console.log(self); self.listener.proceed(); }, 4000, this); }
     },
     
     
@@ -971,6 +976,7 @@ var MissionHelpView = Backbone.View.extend({
     },
 
     setupTemplates: function() {
+        var self = this;
         var missions = this.model.get('missions');
         var templater = this.templater;
 
@@ -980,12 +986,17 @@ var MissionHelpView = Backbone.View.extend({
             if (!help)
                 continue;
             
-                       
             for (var j = 0; j < help.length; j++) {
                 help[j].message = _.escapeHTML(help[j].message);
+                help[j].funcs = [];
                 
-                help[j].message = _.reduce( _.keys(templater), function(transformed, tag) {
-                    return transformed.replace(new RegExp(tag, 'gm'), templater[tag]);
+                help[j].message = _.reduce( _.keys(templater), function(transformed, tag) {                    
+                    var sub = templater[tag];
+                    if (_.isFunction(templater[tag]) && transformed.indexOf(tag) != -1) {
+                        help[j].funcs.push(_.bind(templater[tag], self));
+                        sub = "";
+                    }
+                    return transformed.replace(new RegExp(tag, 'gm'), sub);
                 }, help[j].message);
                 
             };
@@ -1009,7 +1020,9 @@ var MissionHelpView = Backbone.View.extend({
         return txt.replace(/<script.+?<\/script>/, '').replace(/<button.+?<\/button>/, '').replace(/<.+?>/g, '').replace(/&.+;/g, '');
     },
 
-    render: function(helpText) {
+    render: function(help) {
+        var helpText = (help ? help.message : null);
+        
         var self = this;
         if (helpText && self.lastHelp == helpText) {
             $("#help-text").addClass("expanded");        
@@ -1036,6 +1049,9 @@ var MissionHelpView = Backbone.View.extend({
             
             $("#help-text").addClass("expanded");
             app.mainView.renderInfo();
+            if (help)
+                for (var i = 0; i < help.funcs.length; i++)
+                    help.funcs[i]();
         }, 500);
     }
 });

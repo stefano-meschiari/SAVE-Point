@@ -3,7 +3,7 @@
 var SoundEngine = Backbone.ROComputedModel.extend({
     lettersPath: '/share/animalese/animalese.wav',
     speechRate:2.0,
-    speech:true,
+    speech:false,
     effects:true,
     volume:0.2,
 

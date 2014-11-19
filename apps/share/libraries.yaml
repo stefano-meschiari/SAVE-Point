@@ -11,6 +11,12 @@ bootstrap:
   - /share/bootstrap/dist/css/bootstrap-theme.min.css
   - /share/bootstrap/dist/js/bootstrap.min.js
 
+textillate:
+  - /share/textillate/assets/animate.css
+  - /share/textillate/assets/jquery.fittext.js
+  - /share/textillate/assets/jquery.lettering.js
+  - /share/textillate/jquery.textillate.js
+  
 backbone:
   - /share/backbone/backbone.js
 

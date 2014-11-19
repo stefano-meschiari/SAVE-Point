@@ -92,17 +92,20 @@ var Draw = Backbone.View.extend({
     
     },
 
-    rotateBackgroundStars:function() {
+    rotateBackgroundStars:function(fix) {
         var bg = this.backgroundStars;
         var ret = {};
         
         this.transformation.stretch = 1;
         for (var i = 0; i < bg.length; i++) {
             var s = bg[i];
+            if (fix)
+                ret = s.coords;
             Physics.applyRotation(this.transformation, s.coords, ret);
             s.position = new Point(ret.x, ret.y) + view.center;
             s.visible = ret.z > 0;
         }
+
         this.transformation.stretch = PIXELS_PER_AU;
     },
 
@@ -131,13 +134,99 @@ var Draw = Backbone.View.extend({
         for (var i = 0; i < this.animations.length; i++) {
             if (this.animations[i].name == name) {
                 this.animations[i].f('cancel');
-                this.animations.splice(i, i);
+                this.animations.splice(i, 1);
             }
         }
     },
 
-    animateExplosion: function() {
-//        var 
+    getAnimation: function(name) {
+        for (var i = 0; i < this.animations.length; i++)
+            if (this.animations[i].name == name)
+                return this.animations[i];
+        return null;
+    },
+
+    fly: function() {
+        if (this.getAnimation('fly'))
+            return;
+
+        console.log('fly');
+        
+        
+        var self = this;
+        var dI = 0.0025;
+        var interactivity = app.get('interactive');
+        var scale = Math.pow(0.1, 4./120);
+        
+        this.cancelAnimation('cancel-fly');
+        this.cancelAnimation('star');
+        this.destroyTrails();
+        this.destroyHandles();
+        this.destroyPlanets();
+        
+        app.set('interactive', false);
+        
+        this.pushAnimation('fly', function(arg) {
+            Physics.setRotation(self.transformation,
+                                self.transformation.I + dI,
+                                self.transformation.O,
+                                self.transformation.W + dI,
+                                PIXELS_PER_AU);
+            self.rotateBackgroundStars();
+            if (self.star.bounds.width >= 1) {
+                self.star.scale(scale);
+                self.star.halo.scale(scale);                
+            } else {
+                self.star.visible = false;
+                self.star.halo.visible = false;
+            }
+            if (arg == 'cancel') {
+                app.set('interactive', interactivity);
+                
+                return false;
+            }
+            return true;
+        });
+    },
+
+    cancelFly: function() {
+        if (!this.getAnimation('fly'))
+            return;
+        console.log('cancelFly');
+        
+        var self = this;
+        var interactivity = app.get('interactive');
+        this.cancelAnimation('fly');
+        this.cancelAnimation('star');
+        
+        var dI_start = 0.0025;
+        var frames = 60;
+        var frame = 0;
+        
+        
+        this.pushAnimation('cancel-fly', function(arg) {
+            app.set('interactive', false);
+            var dI = dI_start * (1-frame/frames);
+
+            Physics.setRotation(self.transformation,
+                                self.transformation.I + dI,
+                                self.transformation.O,
+                                self.transformation.W + dI,
+                                PIXELS_PER_AU);
+
+            self.rotateBackgroundStars();
+            frame++;
+            
+            if (arg == 'cancel' || frame == frames) {
+                self.rotateBackgroundStars(true);
+                self.resetView();
+                app.set('interactive', true);
+                if (frame == frames)
+                    self.animateStar();
+                return false;
+            }
+            return true;
+        });
     },
     
     animateActionFeedback: function(pos, size) {
@@ -687,10 +776,12 @@ var Draw = Backbone.View.extend({
 
     animateStar: function() {
         var start = 5;
-        var N = 100;
+        var N = 50;
         var dx = (2*STAR_SIZE-start)/N;
         var i = 1;
         var star = this.star;
+        star.visible = true;
+        star.halo.visible = true;
         this.cancelAnimation('travel');
         
         this.pushAnimation('star', function(cmd) {
@@ -854,11 +945,17 @@ var Draw = Backbone.View.extend({
     },
     
     toggleState: function(event) {
+        console.log("State: " + app.get('state'));
         if (app.get('state') != PAUSED) {
             this.destroyHandles();
         }
-        this.bobStar();
-        
+        if (app.get('state') == RUNNING)
+            this.bobStar();
+
+        if (app.get('state') == MENU) {
+            this.fly();
+        } else
+            this.cancelFly();
     },
 
     resetView: function() {
@@ -923,6 +1020,7 @@ var Draw = Backbone.View.extend({
 
         this.listenTo(this.model, "reset start", function() {           
             this.resetView();
+            
         });
 
         

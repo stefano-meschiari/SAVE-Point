@@ -72,7 +72,7 @@ body {
 }
 #canvas-container {
   background-color: black;
-  background-image: -webkit-radial-gradient(80% 10%, circle, #320000, transparent), -webkit-radial-gradient(80% 50%, circle, #323200, transparent), -webkit-radial-gradient(40% 80%, circle, #000064, transparent), -webkit-radial-gradient(30% 30%, circle, #323232, transparent);
+  background-image: linear-gradient(to bottom, #000000 0%, #282828 100%);
 }
 #canvas {
   /*  z-index:0; */
@@ -343,34 +343,34 @@ td.td-val {
 .avatar-left {
   position: absolute;
   bottom: 0px;
-  left: -200px;
-  -webkit-transition: 1s ease-in;
-  -moz-transition: 1s ease-in;
-  -o-transition: 1s ease-in;
-  transition: 1s ease-in;
+  left: -1000px;
+  -webkit-transition: 1s ease-out;
+  -moz-transition: 1s ease-out;
+  -o-transition: 1s ease-out;
+  transition: 1s ease-out;
 }
 .avatar-left-visible {
   left: -200px !important;
-  -webkit-transition: 1s ease-in;
-  -moz-transition: 1s ease-in;
-  -o-transition: 1s ease-in;
-  transition: 1s ease-in;
+  -webkit-transition: 0.5s ease-out;
+  -moz-transition: 0.5s ease-out;
+  -o-transition: 0.5s ease-out;
+  transition: 0.5s ease-out;
 }
 .avatar-right {
   position: absolute;
   bottom: 0px;
-  right: -200px;
-  -webkit-transition: 1s ease-in;
-  -moz-transition: 1s ease-in;
-  -o-transition: 1s ease-in;
-  transition: 1s ease-in;
+  right: -1000px;
+  -webkit-transition: 0.5s ease-out;
+  -moz-transition: 0.5s ease-out;
+  -o-transition: 0.5s ease-out;
+  transition: 0.5s ease-out;
 }
 .avatar-right-visible {
   right: -200px !important;
-  -webkit-transition: 1s ease-in;
-  -moz-transition: 1s ease-in;
-  -o-transition: 1s ease-in;
-  transition: 1s ease-in;
+  -webkit-transition: 0.5s ease-out;
+  -moz-transition: 0.5s ease-out;
+  -o-transition: 0.5s ease-out;
+  transition: 0.5s ease-out;
 }
 #help-nav {
   display: table-cell;

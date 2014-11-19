@@ -13,7 +13,8 @@ requires:
   - constants
   - utils
   - animalese
-
+  - textillate
+  
 args:
   - nplanets
   - elements
@@ -33,27 +34,36 @@ missions:
     help:      
       - on: start
         message: |          
-          @fly @noninteractive {img/groknar_sad.png width=150 class=avatar-left}{img/boss_angry.png width=150 class=avatar-right} @fly-avatar
+          @fly @noninteractive {img/groknar_sad.png width=150 class=avatar-left} @enter-avatar
           "I quit!" Groknar, Lead Engineer of Nova Planetia and head of planetary development, 
           threw the digipad on the Big Boss' desk.
+          @wait-4
+      
+      - on: proceed
+        message: |          
+          @fly @noninteractive {img/boss_angry.png width=150 class=avatar-right} @enter-avatar
+          "But we just got a huge contract to develop 
+          the Arcturus Nebular Cloud!" Big Boss Reaz-7 protested.
 
           
-          "But we just got a huge contract to develop 
-          the Arcturus Nebular Cloud!" Big Boss Reaz-7 protested.  "We already brought 1000 
+          "We already brought 1000 
           planets out of the Eridani drydocks and they're waiting to be deployed!"
+          @wait-5
+
+      - on: proceed
+        message: |
+          @fly @noninteractive {img/groknar_sad.png width=150 class=avatar-left} @enter-avatar
+          Groknar spat.  "Maybe next time you'll get us a breakroom espresso maker."  He slammed the door.
+          @wait-4
+          
+      - on: proceed
+        message: |
+          @fly @noninteractive {img/boss_angry.png width=150 class=avatar-right} @enter-avatar          
+          Reaz-7 turned furiously.  "@name!  You're hired.  Get in the spacedozer and start training!"
           @proceed
 
       - on: proceed
         message: |
-          @fly @noninteractive {img/boss_angry.png width=150 class=avatar-right}
-          Groknar spat.  "Maybe next time you'll get us a breakroom espresso maker."  He slammed the door.
-
-         
-          Reaz-7 turned furiously.  "YOU!  You're hired.  Get in the spacedozer and start training!"
-          @proceed
-
-      - on: proceed
-         message: |          
           @noninteractive
           *@name*, it's your very first training mission: just add one planet and make it orbit around the star!
 
@@ -69,7 +79,7 @@ missions:
           @proceed
       
       - on: proceed
-        message: |          
+        message: |
           @noninteractive
           To review your current mission at any time, click on the @icon-help Help button!
           
@@ -77,7 +87,7 @@ missions:
           @proceed
           
       - on: proceed
-        message: >          
+        message: >
           @stop-fly
           First, *@icon-tap tap anywhere* to add a new planet. 
            
@@ -104,13 +114,12 @@ missions:
           
           Now *tap on the @icon-star star* to let the planet orbit!
           
-       - on: win
-         message: |          
-          @noninteractive
+      - on: win
+        message: |
+          {img/boss_angry.png width=150 class=avatar-right} @enter-avatar
           Big Boss Reaz-7 says, "Good work, but we need you to train quickly!  We need to 
           engineer all of the new star systems forming in the Arcturus Nebula, and our 
           customers are very... picky."
-          @proceed
 
                   
   - title: Crash & Burn
