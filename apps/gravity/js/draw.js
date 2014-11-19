@@ -69,21 +69,23 @@ var Draw = Backbone.View.extend({
         var R = 0.75*Math.max(view.bounds.width, view.bounds.height);        
         var symbols = [];
             
-        
-        var path = new Path.Circle(new Point(0, 0), 1.5);
-        path.fillColor = 'rgba(255, 255, 255, 0.5)';
-            
-        var symbol = new Symbol(path);
+        for (var i = 1; i <= 3; i++) {
+            var path = new Path.Circle(new Point(0, 0), i);
+            path.fillColor = 'rgba(255, 255, 255, 0.5)';
+            symbols[i] = new Symbol(path);
+        }
 
-        for (var i = 0; i < STARS; i++) {
+        for (i = 0; i < STARS; i++) {
             var u = 1-2*Math.random();
             var t = Math.random() * 2 * Math.PI;
             
             var x = R*Math.sqrt(1-u*u) * Math.cos(t);
             var y = R*Math.sqrt(1-u*u) * Math.sin(t);
             var z = R*u;
-            
-            var s = symbol.place(new Point(x, y) + view.center);
+
+            var size = (3*Math.random()+1)|0;
+            console.log(size);
+            var s = symbols[size].place(new Point(x, y) + view.center);
             s.coords = {x: x, y: y, z: z};
             if (z < 0)
                 s.visible = false;
@@ -150,8 +152,6 @@ var Draw = Backbone.View.extend({
         if (this.getAnimation('fly'))
             return;
 
-        console.log('fly');
-        
         
         var self = this;
         var dI = 0.0025;
@@ -200,7 +200,7 @@ var Draw = Backbone.View.extend({
         this.cancelAnimation('star');
         
         var dI_start = 0.0025;
-        var frames = 60;
+        var frames = 120;
         var frame = 0;
         
         

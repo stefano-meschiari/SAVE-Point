@@ -908,9 +908,12 @@ var MissionHelpModel = Backbone.Model.extend({
                     };
                 })(i));
             }
-        }
 
-        this.trigger('help', mission.get('help')[0]);
+            if (on == "start")
+                this.trigger('help', mission.get('help')[0]);
+        }
+        
+        
     },
     
     initialize: function() {
@@ -919,10 +922,16 @@ var MissionHelpModel = Backbone.Model.extend({
 
 var MissionHelpView = Backbone.View.extend({
     el: $("#help-body"),
-    safeTags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'br', 'b', 'i', 'u', 'img'],
+    safeTags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
 
     NEXT_LABEL: '<span class="fa fa-chevron-circle-right"></span> Next',
     NEXT_MISSION_LABEL: '<span class="fa fa-thumbs-up"></span> Next Mission',
+
+
+    avatars: {
+        "@groknar": "{img/groknar_sad.png width=150 class=avatar-left} @enter-avatar",
+        "@boss": "{img/boss_angry.png width=150 class=avatar-right} @enter-avatar"
+    },
     
     templater: {
         "@separator": '<div class="separator"></div>',
@@ -933,7 +942,8 @@ var MissionHelpView = Backbone.View.extend({
         "@icon-win": '<span class="icon-win"></span>',
         "@icon-menu": '<span class="icon-menu"></span>',
         "@icon-help": '<span class="icon-help"></span>',
-        "@noninteractive": '<script> app.set("interactive", false); </script>',
+        
+        "@noninteractive": '<script> app.set("interactive", false); </script>',        
         "@enter-avatar": function() {
             _.delay(function() {
                 $(".avatar-left").addClass("avatar-left-visible");
@@ -942,6 +952,8 @@ var MissionHelpView = Backbone.View.extend({
         },
         "@stop-fly": function() { draw.cancelFly(); },   
         "@fly": function() { draw.fly(); },
+        "@hide": function() { this.hide();  },
+        
         "\\*(.+?)\\*": "<strong>$1</strong>",
         "\\{(.+?)\\}": '<img src=$1>',
         "^(#)\\s*(.+)": "<h1>$2</h1>",
@@ -978,7 +990,7 @@ var MissionHelpView = Backbone.View.extend({
     setupTemplates: function() {
         var self = this;
         var missions = this.model.get('missions');
-        var templater = this.templater;
+        var templater = _.extend(this.templater, this.avatars);
 
         for (var i = 0; i < missions.length; i++) {
             var m = missions.at(i);
@@ -989,16 +1001,23 @@ var MissionHelpView = Backbone.View.extend({
             for (var j = 0; j < help.length; j++) {
                 help[j].message = _.escapeHTML(help[j].message);
                 help[j].funcs = [];
-                
-                help[j].message = _.reduce( _.keys(templater), function(transformed, tag) {                    
-                    var sub = templater[tag];
-                    if (_.isFunction(templater[tag]) && transformed.indexOf(tag) != -1) {
-                        help[j].funcs.push(_.bind(templater[tag], self));
-                        sub = "";
-                    }
-                    return transformed.replace(new RegExp(tag, 'gm'), sub);
-                }, help[j].message);
-                
+                var transforms = 0;
+
+                while (true) {
+                    var msg = _.reduce( _.keys(templater), function(transformed, tag) {                    
+                        var sub = templater[tag];
+                        if (_.isFunction(templater[tag]) && transformed.indexOf(tag) != -1) {
+                            help[j].funcs.push(_.bind(templater[tag], self));
+                            sub = "";
+                        }
+                        return transformed.replace(new RegExp(tag, 'gm'), sub);
+                    }, help[j].message);
+
+                    if (msg == help[j].message)
+                        break;
+                    else
+                        help[j].message = msg;
+                }
             };
             m.set('help', help);
             
@@ -1029,9 +1048,11 @@ var MissionHelpView = Backbone.View.extend({
             return;
         }
         self.lastHelp = helpText;
+
         _.defer(function() {
             app.set('interactive', true);
         });
+        
         $("#help-text").removeClass("expanded");
         
         if (!helpText) {
@@ -1053,6 +1074,10 @@ var MissionHelpView = Backbone.View.extend({
                 for (var i = 0; i < help.funcs.length; i++)
                     help.funcs[i]();
         }, 500);
+    },
+
+    hide: function() {
+        this.render(null);
     }
 });
 

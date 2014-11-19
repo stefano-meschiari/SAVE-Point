@@ -34,14 +34,14 @@ missions:
     help:      
       - on: start
         message: |          
-          @fly @noninteractive {img/groknar_sad.png width=150 class=avatar-left} @enter-avatar
+          @fly @noninteractive @groknar
           "I quit!" Groknar, Lead Engineer of Nova Planetia and head of planetary development, 
           threw the digipad on the Big Boss' desk.
           @wait-4
       
       - on: proceed
         message: |          
-          @fly @noninteractive {img/boss_angry.png width=150 class=avatar-right} @enter-avatar
+          @fly @noninteractive @boss
           "But we just got a huge contract to develop 
           the Arcturus Nebular Cloud!" Big Boss Reaz-7 protested.
 
@@ -52,19 +52,19 @@ missions:
 
       - on: proceed
         message: |
-          @fly @noninteractive {img/groknar_sad.png width=150 class=avatar-left} @enter-avatar
+          @fly @noninteractive @groknar
           Groknar spat.  "Maybe next time you'll get us a breakroom espresso maker."  He slammed the door.
           @wait-4
           
       - on: proceed
         message: |
-          @fly @noninteractive {img/boss_angry.png width=150 class=avatar-right} @enter-avatar          
+          @fly @noninteractive @boss
           Reaz-7 turned furiously.  "@name!  You're hired.  Get in the spacedozer and start training!"
           @proceed
 
       - on: proceed
         message: |
-          @noninteractive
+          @noninteractive @stop-fly
           *@name*, it's your very first training mission: just add one planet and make it orbit around the star!
 
 
@@ -88,7 +88,6 @@ missions:
           
       - on: proceed
         message: >
-          @stop-fly
           First, *@icon-tap tap anywhere* to add a new planet. 
            
       - on: change:nplanets
@@ -116,7 +115,7 @@ missions:
           
       - on: win
         message: |
-          {img/boss_angry.png width=150 class=avatar-right} @enter-avatar
+          @boss
           Big Boss Reaz-7 says, "Good work, but we need you to train quickly!  We need to 
           engineer all of the new star systems forming in the Arcturus Nebula, and our 
           customers are very... picky."
@@ -128,9 +127,25 @@ missions:
     subtitle: Make your planet collide with the star.
     win: Those were impressive fireworks!
     lose: You avoided crashing into the star.
-    icon: icon-crash
+    icon: icon-crash     
     constraints:
       nplanets: 1
+    help:
+      - on: start
+        message: |        
+           @boss
+           The ironic Asteroid Metal band Suddenly Starburst wants to play their farewell concert on a new planet... as it crashes into its Sun.
+
+      - on: change:nplanets
+        message: @hide
+        
+      - on: win
+        message: |
+          @boss
+          Big Boss Reaz-7 says, "Good work, but we need you to train quickly!  We need to 
+          engineer all of the new star systems forming in the Arcturus Nebula, and our 
+          customers are very... picky."
+      
 
   - title: Ejected!
     rule: nplanets > 0 && elements[0].eccentricity > 1
@@ -151,6 +166,15 @@ missions:
     icon: icon-elliptical
     constraints:
       nplanets: 1
+    help:
+      - on: win
+        message: |
+          {img/boss_angry.png width=150 class=avatar-right} @enter-avatar
+          Did you know that you can view your creation in all its glory?
+
+
+          @icon-drag Drag to
+          rotate the view!     
 
   - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
