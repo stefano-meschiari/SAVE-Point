@@ -1,5 +1,7 @@
 # All paths referenced to the top-level document directory (apps).
 
+device:
+  - /share/device/dist/devicejs.min.js
 paper:
   - /share/paper/dist/paper-full.min.js
 

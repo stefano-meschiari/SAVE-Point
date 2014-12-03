@@ -2,6 +2,7 @@
 description: A game of gravity
 title: Orbits
 requires:
+  - device
   - color
   - jquery
   - underscore

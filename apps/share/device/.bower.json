@@ -1,0 +1,33 @@
+{
+  "name": "device",
+  "version": "0.0.3",
+  "main": "dist/devicejs.min.js",
+  "license": "MIT",
+  "ignore": [
+    "Gruntfile.js",
+    "package.json"
+  ],
+  "files": [
+    "src/index.js",
+    "package.json",
+    "README.md",
+    "examples",
+    "test",
+    "dist"
+  ],
+  "keywords": [
+    "device",
+    "devicejs"
+  ],
+  "homepage": "https://github.com/ngot/devicejs",
+  "_release": "0.0.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.0.3",
+    "commit": "5685ce9e1aec8e4ad834079a80187d048e761d22"
+  },
+  "_source": "git://github.com/ngot/devicejs.git",
+  "_target": "~0.0.3",
+  "_originalSource": "device",
+  "_direct": true
+}

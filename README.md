@@ -193,3 +193,4 @@ is only active for the current help box).
 the next message.
 * @proceed inserts the "Next" button
 * `*text*` makes the text bold.
+* Use two carriage returns to create a paragraph.

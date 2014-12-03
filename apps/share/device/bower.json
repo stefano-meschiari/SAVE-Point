@@ -1,0 +1,22 @@
+{
+	"name": "device",
+	"version": "0.0.3",
+	"main": "dist/devicejs.min.js",
+	"license": "MIT",
+	"ignore": [
+		"Gruntfile.js",
+		"package.json"
+	],
+	"files": [
+		"src/index.js",
+		"package.json",
+		"README.md",
+		"examples",
+		"test",
+		"dist"
+	],
+	"keywords": [
+		"device",
+		"devicejs"
+	]
+}

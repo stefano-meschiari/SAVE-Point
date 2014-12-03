@@ -6,7 +6,8 @@ MAX_SEGMENTS = 700;
 PIXELS_PER_AU = 200;
 // Number of pixels corresponding to 1 speed unit (1 AU/day)
 PIXELS_PER_AUPDAY = 100 / Math.sqrt(K2);
-
+// Minimum size of drag target
+DRAG_TARGET_MIN_SIZE = 50;
 
 var Draw = Backbone.View.extend({
     backgroundStars:[],
@@ -34,8 +35,7 @@ var Draw = Backbone.View.extend({
     
     recalculateSizes: function() {
         // Size of arrow
-        ARROW_SIZE = 15;
-        ARROW_DRAG_SIZE = 50;
+        ARROW_SIZE = 0.5*DRAG_TARGET_MIN_SIZE;
 
         var physicalSizes = app.get('physicalSizes');
 
@@ -59,9 +59,9 @@ var Draw = Backbone.View.extend({
         STAR_HALO_SIZE = Math.max(3*STAR_SIZE, 70);
 
 
-        PLANET_HALO_SIZE = Math.max(25, 2*PLANET_SIZE);
+        PLANET_HALO_SIZE = Math.max(0.5*DRAG_TARGET_MIN_SIZE, 2*PLANET_SIZE);
         // Size of planet when dragging
-        PLANET_DRAG_SIZE = Math.max(25, 2*PLANET_SIZE);
+        PLANET_DRAG_SIZE = Math.max(0.5*DRAG_TARGET_MIN_SIZE, 2*PLANET_SIZE);
         PLANET_HALO_DRAG_SIZE = 1.1*PLANET_DRAG_SIZE;
     },
     
@@ -403,9 +403,6 @@ var Draw = Backbone.View.extend({
             
             if (this.handles.length > i && !this.handles[i].vector.dragging) {
                 var vector = this.handles[i].vector;
-                center = vector.head.bounds.center;
-                vector.head.bounds.size = new Size(2*ARROW_SIZE, 2*ARROW_SIZE);
-                vector.head.bounds.center = center;
             }
         }
     },
@@ -413,16 +410,23 @@ var Draw = Backbone.View.extend({
     createArrow: function(from, to, color) {
         color = color || COLOR_OUTLINE;
         var myPath = new Path.Line(from, to);
+        myPath.strokeColor = color;
+        myPath.strokeWidth = 3;
+
         var t = Math.atan2(to.y-from.y, to.x-from.x) * 180/Math.PI;
+
+        var head2 = new Path.Circle({ center: to, radius: 1.5*ARROW_SIZE });
+        head2.fillColor = 'rgba(0, 0, 0, 0)';
+        
         var head = new Path.RegularPolygon(to, 3, ARROW_SIZE);
         
         head.fillColor = color;
-        myPath.strokeColor = color;
-        myPath.strokeWidth = 3;
         head.rotate(t-30);
+
+        
         var g = new Group([myPath, head]);
         g.last = t;
-        g.head = head;
+        g.head = new Group([head2, head]);
 
         g.setVector = function(from, to) {
             myPath.segments[0].point = from;
@@ -435,7 +439,7 @@ var Draw = Backbone.View.extend({
             } else {
                 head.position = to;
             }
-            
+            head2.position = to;
             g.last = t;
         };
         return g;
@@ -635,9 +639,9 @@ var Draw = Backbone.View.extend({
                         app.setVelocityForBody(body.planetIndex, c);
                     });
                     vector.head.on("mousedown", function(event) {
-                        var center = vector.head.bounds.center;
-                        vector.head.bounds.size = new Size(ARROW_DRAG_SIZE, ARROW_DRAG_SIZE);
-                        vector.head.bounds.center = center;
+//                        var center = vector.head.bounds.center;
+//                        vector.head.bounds.size = new Size(ARROW_DRAG_SIZE, ARROW_DRAG_SIZE);
+//                        vector.head.bounds.center = center;
                     });
                     vector.head.on("mouseup", function(event) {
                         app.trigger("planet:dragvelocity");
