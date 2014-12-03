@@ -149,4 +149,47 @@ file should never be modified directly, and it might be overwritten by
 `make watch` -- instead one should only work
 on the YAML file. 
 
+## The app.yaml file for Gravity
+### Message boxes
 
+In the "help" section, different message boxes can be set up that will
+pop up on specific events. A typical help section will look like this:
+
+help:
+   - on: start
+     message: |
+       Hello there stranger!
+       @proceed
+       
+   - on: proceed
+     message: |
+       You clicked next! Good job!
+
+### Available events
+* on: start is shown at the beginning of the level.
+* on: proceed is shown when the user clicks on the "Next" button. You
+  can set up multiple on: proceed message boxes, and they will be
+  shown in order.
+* on: change:nplanets is shown when the user adds a planet.
+* on: planet:drag is shown when the user drags a planet.
+* on: planet:dragvelocity is shown when the user drags the velocity
+vector.
+* on: win is shown when the user completes the level.
+* on: lose is shown when the user fails to complete the level.
+
+### Available tags in the message
+Special strings can be inserted in the message that will be translated
+into non-text content (e.g. the Next button, avatar images, etc) or
+commands that influence the game (e.g. making the screen
+non-interactive, make the stars rotate, etc.). These are the tags that
+are implemented:
+
+* @fly makes the stars spin
+* @noninteractive ignores clicks from the user on the game area (this
+is only active for the current help box).
+* @name is the username of the player.
+* @boss, @groknar are the avatars for characters
+* @wait-5, @wait-10 shows the message for 5/10 seconds before proceeding to
+the next message.
+* @proceed inserts the "Next" button
+* `*text*` makes the text bold.
