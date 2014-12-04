@@ -1,5 +1,5 @@
 // Number of stars
-STARS = 500;
+STARS = 100;
 CANVAS_ID = 'canvas';
 MAX_SEGMENTS = 700;
 // Number of pixels corresponding to 1 length unit (1 AU)

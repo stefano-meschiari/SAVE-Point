@@ -35,7 +35,6 @@ assets:
     clickety: sounds/proceed.wav
     addPlanet: sounds/add-planet.mp3
     "planet:drag": sounds/drag.mp3
-
   
 starsBounty: 24
 missions:
