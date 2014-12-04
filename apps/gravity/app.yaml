@@ -177,6 +177,7 @@ missions:
   - title: Ejected!
     rule: nplanets > 0 && elements[0].eccentricity > 1
     enabled: true
+    music: sad
     subtitle: Add a planet that escapes the pull of its star.
     win: Bye bye planet!
     lose: Oh no!  You're caught by the pull of gravity!
@@ -187,6 +188,7 @@ missions:
   - title: Elliptical Orbit
     rule: nplanets > 0 && elements[0].eccentricity > 0.2 && elements[0].eccentricity < 0.99 && !collided
     enabled: true
+    music: triumph
     subtitle: Add a planet in an elliptical (oval) orbit.
     win: So elliptical!
     lose: That orbit could be more elliptical...
@@ -196,7 +198,7 @@ missions:
     help:
       - on: win
         message: |
-          {img/boss_angry.png width=150 class=avatar-right} @enter-avatar
+          @boss
           Did you know that you can view your creation in all its glory?
 
 
@@ -206,6 +208,7 @@ missions:
   - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
     enabled: true
+    music: triumph
     subtitle: Add a planet in a circular orbit.
     win: Sweet! That's... pretty circular!
     lose: That orbit is not very circular.
@@ -217,6 +220,7 @@ missions:
     subtitle: Add a planet in a circular orbit at 40 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
     icon: icon-circ-rvs
+    music: level
     constraints:
       speed: 40
       direction: perpendicular
@@ -241,7 +245,8 @@ missions:
   - title: Speed vs. distance (30 km/s)
     subtitle: Add a planet in a circular orbit at 30 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
-    icon: icon-circ-rvs    
+    icon: icon-circ-rvs
+    music: level    
     constraints:
       speed: 30
       direction: perpendicular
