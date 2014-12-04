@@ -84,7 +84,7 @@ var Draw = Backbone.View.extend({
             var z = R*u;
 
             var size = (3*Math.random()+1)|0;
-            console.log(size);
+
             var s = symbols[size].place(new Point(x, y) + view.center);
             s.coords = {x: x, y: y, z: z};
             if (z < 0)
@@ -192,7 +192,6 @@ var Draw = Backbone.View.extend({
     cancelFly: function() {
         if (!this.getAnimation('fly'))
             return;
-        console.log('cancelFly');
         
         var self = this;
         var interactivity = app.get('interactive');
@@ -442,6 +441,13 @@ var Draw = Backbone.View.extend({
             head2.position = to;
             g.last = t;
         };
+
+        g.remove = function() {
+            myPath.remove();
+            head.remove();
+            head2.remove();
+        };
+        
         return g;
     },
     
@@ -949,7 +955,6 @@ var Draw = Backbone.View.extend({
     },
     
     toggleState: function(event) {
-        console.log("State: " + app.get('state'));
         if (app.get('state') != PAUSED) {
             this.destroyHandles();
         }

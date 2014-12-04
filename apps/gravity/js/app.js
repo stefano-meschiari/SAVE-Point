@@ -212,7 +212,7 @@ var App = Backbone.ROComputedModel.extend({
             return true;
 
         var nplanets = this.get('nplanets');
-        console.log(nplanets, constraints.nplanets);
+
         var ready = true;
         ready &= (nplanets < constraints.nplanets);
 
@@ -422,7 +422,7 @@ var App = Backbone.ROComputedModel.extend({
         var bodies = missionObj.get('bodies');
         if (bodies) {
             _.each(bodies, function(body) {
-                console.log(body);
+//                console.log(body);
             });
         }
     },
@@ -963,8 +963,8 @@ var MissionHelpView = Backbone.View.extend({
         "@eccentricity": '<span id="eccentricity"></span>',
         "@name": LOGGED_USER,
         "@wait-10": function() {  _.delay(function(self) { self.listener.proceed(); }, 10000, this); },
-        "@wait-5": function() {  _.delay(function(self) { console.log(self); self.listener.proceed(); }, 5000, this); },
-        "@wait-4": function() {  _.delay(function(self) { console.log(self); self.listener.proceed(); }, 4000, this); }
+        "@wait-5": function() {  _.delay(function(self) {  self.listener.proceed(); }, 5000, this); },
+        "@wait-4": function() {  _.delay(function(self) {  self.listener.proceed(); }, 4000, this); }
     },
     
     
@@ -1063,7 +1063,6 @@ var MissionHelpView = Backbone.View.extend({
         _.delay(function() {
             self.$el.html(helpText);
             var plainText = self.plainText(helpText);
-            console.log(plainText);
             app.sounds.speak(plainText);
             $("#help-next").on("click", function() { self.listener.proceed(); } );
             $("#help-next-mission").on("click", function() { self.model.nextMission(); } );
@@ -1223,7 +1222,6 @@ $(document).ready(function() {
     APP_CFG = null;
 
     app.once('load', function() {
-        console.log(_.parameter('mission'));
         if (_.parameter('mission') != null) {
             app.setMission(_.parameter('mission')|0);
             console.error("Check if mission is kosher.");
