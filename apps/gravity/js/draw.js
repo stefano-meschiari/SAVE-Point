@@ -7,7 +7,7 @@ PIXELS_PER_AU = 200;
 // Number of pixels corresponding to 1 speed unit (1 AU/day)
 PIXELS_PER_AUPDAY = 100 / Math.sqrt(K2);
 // Minimum size of drag target
-DRAG_TARGET_MIN_SIZE = 50;
+DRAG_TARGET_MIN_SIZE = 40;
 
 var Draw = Backbone.View.extend({
     backgroundStars:[],

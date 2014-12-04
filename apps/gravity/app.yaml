@@ -21,6 +21,22 @@ args:
   - elements
   - collided
 
+assets:
+  music:
+    level: sounds/level_v2_low.mp3
+    groove: sounds/groove-loop1_v2-low.mp3
+    triumph: sounds/triumph_v4_low.mp3
+    sad: sounds/sad_v2_low.mp3
+  effects:
+    lose: sounds/lose.mp3
+    win: sounds/win.mp3
+    collision: sounds/collision.mp3
+    proceed: sounds/proceed.wav
+    clickety: sounds/proceed.wav
+    addPlanet: sounds/add-planet.mp3
+    "planet:drag": sounds/drag.mp3
+
+  
 starsBounty: 24
 missions:
   - title: Practice Mode
@@ -28,6 +44,7 @@ missions:
     win: Woohoo! Look at that planet go!
     lose: Darn! You forgot to add the planet!
     rule: nplanets > 0
+    music: level
     enabled: true
     icon: icon-practice
     constraints:
@@ -121,6 +138,11 @@ missions:
           engineer all of the new star systems forming in the Arcturus Nebula, and our 
           customers are very... picky."
 
+      - on: lose
+        message: |
+          @boss
+          Good job, rookie... not! 
+          
                   
   - title: Crash & Burn
     rule: nplanets > 0 && collided
@@ -128,18 +150,23 @@ missions:
     subtitle: Make your planet collide with the star.
     win: Those were impressive fireworks!
     lose: You avoided crashing into the star.
-    icon: icon-crash     
+    icon: icon-crash
+    music: groove
     constraints:
       nplanets: 1
     help:
       - on: start
-        message: |        
+        message: |   
            @boss
-           The ironic Asteroid Metal band Suddenly Starburst wants to play their farewell concert on a new planet... as it crashes into its Sun.
-
-      - on: change:nplanets
-        message: @hide
-        
+           The ironic Asteroid Metal band *Suddenly Starburst* wants to play their farewell concert on a new planet... as it crashes into its Sun.
+           @close
+           
+      - on: hint
+        message: |
+           @boss
+           Try launching the planet towards the star, rookie.
+           @hide-5
+           
       - on: win
         message: |
           @boss

@@ -189,8 +189,10 @@ are implemented:
 is only active for the current help box).
 * @name is the username of the player.
 * @boss, @groknar are the avatars for characters
-* @wait-5, @wait-10 shows the message for 5/10 seconds before proceeding to
+* @wait-5, @wait-10 show the message for 5/10 seconds before proceeding to
 the next message.
+* @hide-5, @hide-10 show the message for 5/10 seconds, then hide the message.
 * @proceed inserts the "Next" button
+* @close inserts the "Close" button
 * `*text*` makes the text bold.
 * Use two carriage returns to create a paragraph.

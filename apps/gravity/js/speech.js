@@ -1,64 +1,44 @@
 "use strict";
 
 var SoundEngine = Backbone.ROComputedModel.extend({
-    lettersPath: '/share/animalese/animalese.wav',
-    speechRate:2.0,
-    speech:false,
-    effects:true,
-    volume:0.2,
-
-    library: {
-        lose: '/share/sounds/lose.mp3',
-        win: '/share/sounds/win.mp3',
-        collision: '/share/sounds/collision.mp3',
-        proceed: '/share/sounds/proceed.wav',
-        clickety: '/share/sounds/proceed.wav',
-        addPlanet: '/share/sounds/add-planet.mp3',
-        'planet:drag': '/share/sounds/drag.mp3'
-    },
+    musicEnabled:true,
+    musicVolume:0.4,
+    effectsEnabled:true,
+    effectsVolume:0.2,
+    
     
     initialize: function() {
         var self = this;
+        this.assets = app.get('assets');
         this.synth = new Animalese(this.lettersPath);
-
-        _.map(this.library, function(value, key) {
+        console.log(this.assets);
+        
+        _.map(this.assets.effects, function(value, key) {
             self[key] = self.newAudio(value);
 
             self.listenTo(app, key, function() {
                 self.playEffect(key);
             });
-        });        
+        });
+
+        this.musicPlayer = new Audio();
+        this.musicPlayer.loop = true;
+        this.musicPlayer.volume = this.musicVolume;
     },
 
     newAudio: function(src) {
         var audio = new Audio();
         audio.src = src;
-        audio.volume = this.volume;
+        audio.volume = this.effectsVolume;
         return audio;
     },
     
-    speak: function(text) {
-        if (!this.speech)
+    playEffect: function(type) {
+        if (!this.effectsEnabled)
             return;
         
-        if (this.speechAudio) {
-            this.speechAudio.pause();
-            this.speechAudio = null;
-        }
-        this.speechAudio = this.newAudio(this.synth.Animalese(text).dataURI);
-        this.speechAudio.defaultPlaybackRate = this.speechRate;
-        this.speechAudio.playbackRate = this.speechRate;
-        this.speechAudio.play();
-        this.speechAudio.pause();
-        
-        this.speechAudio.defaultPlaybackRate = this.speechRate;
-        this.speechAudio.playbackRate = this.speechRate;
-        this.speechAudio.play();        
-    },
-
-    playEffect: function(type) {
         try {
-            if (this[type]) {
+            if (this.assets.effects[type]) {
                 this[type].currentTime = 0;
                 if (this[type].currentTime != 0)
                     this[type].load();
@@ -67,7 +47,14 @@ var SoundEngine = Backbone.ROComputedModel.extend({
         } catch(e) {
             console.log(e);
         }
-    }    
+    },
+
+    playMusic: function(type) {
+        if (!this.musicEnabled)
+            return;
+
+        this.musicPlayer.src = this.assets.music[type];
+        this.musicPlayer.play();        
+    }
 });
 
-app.sounds = new SoundEngine();

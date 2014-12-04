@@ -418,7 +418,10 @@ var App = Backbone.ROComputedModel.extend({
         this.set({ currentMission: mission });
         this.trigger('start');
 
+
         var missionObj = this.mission();
+        this.sounds.playMusic(missionObj.get('music'));
+        
         var bodies = missionObj.get('bodies');
         if (bodies) {
             _.each(bodies, function(body) {
@@ -608,7 +611,7 @@ var AppView = Backbone.View.extend({
     // Events table mapping button to UI updates.
     events: {
         "click #menu": function() { $("#sidebar").toggleClass("expanded"); },
-        "click #help": function() { this.renderMission(); },
+        "click #help": function() { this.renderMission(); app.trigger('hint'); },
         "click #reset": function() { app.reset(); },
         "click #missions": function() { app.menu(); },
         "click #dashboard": function() { location.href='../dashboard'; },
@@ -667,7 +670,7 @@ var AppView = Backbone.View.extend({
      */
     
     missionTemplate: _.template('<div class="title"><span class="fa fa-rocket"></span> <%= title %></div><div class="subtitle"><%= subtitle %></div>'),
-    missionDelay: 6000,
+    missionDelay: 7000,
     missionTimer: null,
     
     renderMission: function() {
@@ -686,6 +689,7 @@ var AppView = Backbone.View.extend({
             $("#text-top").removeClass("in-front");
         
         }, this.missionDelay);
+
     },
 
 
@@ -746,8 +750,8 @@ var AppView = Backbone.View.extend({
                               (velocity[Y]-velocity[NPHYS+Y])*(velocity[Y]-velocity[NPHYS+Y]) +
                               (velocity[Z]-velocity[NPHYS+Z])*(velocity[Z]-velocity[NPHYS+Z]));
             
-            $("#distance").html((r * Units.RUNIT / (1e11)).toFixed(2) + " x 10<sup>6</sup> km");
-            $("#speed").text((v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(2) + " km/s");
+            $("#distance").html((r * Units.RUNIT / (1e11)).toFixed(1) + " million km");
+            $("#speed").text((v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(1) + " km/s");
            
             $("#eccentricity").text(els[0].eccentricity.toFixed(2));
             
@@ -898,15 +902,16 @@ var MissionHelpModel = Backbone.Model.extend({
                     };
                 })(i));
             } else {
-                this.listenTo(model, on, (function(j) {
+                this.listenTo(model, on, (function(j, jon) {
                     return function() {
                         if (! shown[j]) {
                             self.trigger('help', h[j]);
                             self.set('currentHelp', j);
-                            shown[j] = true;
+                            if (jon != 'hint')
+                                shown[j] = true;
                         }
                     };
-                })(i));
+                })(i, on));
             }
 
             if (on == "start")
@@ -952,6 +957,9 @@ var MissionHelpView = Backbone.View.extend({
         },
         "@stop-fly": function() { draw.cancelFly(); },   
         "@fly": function() { draw.fly(); },
+        "@hide-10": function() {  _.delay(function(self) { self.hide(); }, 10000, this); },
+        "@hide-5": function() {  _.delay(function(self) {  self.hide(); }, 5000, this); },
+
         "@hide": function() { this.hide();  },
         
         "\\*(.+?)\\*": "<strong>$1</strong>",
@@ -960,11 +968,11 @@ var MissionHelpView = Backbone.View.extend({
         "^\s*$": "<br>",
         "@proceed-win": '<div class="help-toolbar"><button id="help-next-mission" class="btn btn-lg btn-jrs"><span class="fa fa-thumbs-up"></span>  Next mission</button></div>',
         "@proceed": '<div class="help-toolbar"><button id="help-next" class="btn btn-lg btn-jrs"><span class="fa fa-chevron-right"></span>  Next</button></div>',
+        "@close": '<div class="help-toolbar"><button id="help-close" class="btn btn-lg btn-jrs"><span class="fa fa-times"></span>  Close</button></div>',
         "@eccentricity": '<span id="eccentricity"></span>',
         "@name": LOGGED_USER,
         "@wait-10": function() {  _.delay(function(self) { self.listener.proceed(); }, 10000, this); },
-        "@wait-5": function() {  _.delay(function(self) {  self.listener.proceed(); }, 5000, this); },
-        "@wait-4": function() {  _.delay(function(self) {  self.listener.proceed(); }, 4000, this); }
+        "@wait-5": function() {  _.delay(function(self) {  self.listener.proceed(); }, 5000, this); }
     },
     
     
@@ -1063,8 +1071,8 @@ var MissionHelpView = Backbone.View.extend({
         _.delay(function() {
             self.$el.html(helpText);
             var plainText = self.plainText(helpText);
-            app.sounds.speak(plainText);
             $("#help-next").on("click", function() { self.listener.proceed(); } );
+            $("#help-close").on("click", function() { self.hide(); });
             $("#help-next-mission").on("click", function() { self.model.nextMission(); } );
             
             $("#help-text").addClass("expanded");
@@ -1219,6 +1227,8 @@ $(document).ready(function() {
     // mission text and objectives.
     app.loadConfig(APP_CFG);
     app.loadMissionData();
+    app.sounds = new SoundEngine(app);
+
     APP_CFG = null;
 
     app.once('load', function() {
