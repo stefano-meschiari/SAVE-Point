@@ -935,7 +935,8 @@ var MissionHelpView = Backbone.View.extend({
 
     avatars: {
         "@groknar": "{img/groknar_sad.png width=150 class=avatar-left} @enter-avatar",
-        "@boss": "{img/boss_angry.png width=150 class=avatar-right} @enter-avatar"
+        "@boss": "{img/boss_angry.png width=150 class=avatar-right} @enter-avatar",
+        "@praetor": "{img/praetor.png width=150 class=avatar-right} @enter-avatar"
     },
     
     templater: {
