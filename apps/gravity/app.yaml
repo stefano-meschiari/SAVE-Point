@@ -268,7 +268,7 @@ missions:
     lose: The orbit was not quite circular... Try moving the planet to a different distance.
 
   - title: Multi-planet test
-    subtitle: Work dammit!
+    subtitle: Under construction...
     rule: nplanets > 0 
     icon: icon-circ-rvs
     enabled: true
@@ -278,7 +278,7 @@ missions:
       nplanets: 2
 
   - title: Barycentric gravity
-    subtitle: Work dammit!
+    subtitle: Under construction...
     rule: nplanets > 0 
     icon: icon-circ-rvs
     enabled: true
