@@ -15,7 +15,7 @@ watch:
 	./node_modules/.bin/wach -o apps/share/less/*,apps/gravity/*.yaml,apps/users/*.yaml make 
 
 devserver:
-	sleep 5 && open http://localhost:8800 &
+	sleep 2 && open http://localhost:8800 &
 	cd apps; /opt/local/bin/php55 -S localhost:8800 
 
 download_db:
