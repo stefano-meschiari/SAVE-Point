@@ -66,7 +66,10 @@ to track the Git repository, if you haven't already:
 
 `export DATABASE_URL="postgres://$(whoami)@localhost:5432/$(whoami)"`
 
-(9) Restart your shell(s) to make sure the environment variables are set.
+(9) Run composer to download required PHP packages:
+`php composer.phar install`
+
+(10) Restart your shell(s) to make sure the environment variables are set.
 
 # The development lifecycle
 (1) Cd to the project directory, make sure to have the most recent
