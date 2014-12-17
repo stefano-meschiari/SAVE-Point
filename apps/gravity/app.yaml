@@ -140,7 +140,7 @@ missions:
       - on: lose
         message: |
           @boss
-          Good job, rookie... not! 
+          "Good job, rookie... not!"
           
                   
   - title: Crash & Burn
@@ -185,6 +185,12 @@ missions:
     constraints:
       nplanets: 1
 
+      - on: start
+        message: |   
+           @boss
+           The Empress of the Planet Zanitex wants to set up her loud father-in-law on a beautiful new planetary estate... on a one-way trip out of the star system.
+           @close
+
   - title: Elliptical Orbit
     rule: nplanets > 0 && elements[0].eccentricity > 0.2 && elements[0].eccentricity < 0.99 && !collided
     enabled: true
@@ -196,6 +202,12 @@ missions:
     constraints:
       nplanets: 1
     help:
+      - on: start
+        message: |   
+           @boss
+           The people of the planet Selia Prime are bored always orbiting between the same two planets.  Now they want to resettle on a world that tours both the inner and outer solar system at different times of year.
+           @close
+
       - on: win
         message: |
           @boss
@@ -215,6 +227,12 @@ missions:
     icon: icon-circular
     constraints:
       nplanets: 1
+      - on: start
+        message: |   
+           @boss
+           The Arkanids are really, really picky about the amount of sunlight on their planet because their chocolate pod plants are a Galaxywide delicacy.  They don't want their orbit to change at all based on the time of year.
+           @close
+
 
   - title: Speed vs. distance (40 km/s)
     subtitle: Add a planet in a circular orbit at 40 km/s.
@@ -254,7 +272,14 @@ missions:
     enabled: true
     win: So circular!
     lose: The orbit was not quite circular... Try moving the planet to a different distance.    
-    
+       - on: start
+        message: |   
+           @boss
+           The Arkanids didn't like their first planet.  Perhaps the shadows were wrong.  Their leader DEMANDS that you make a new system with their planet moving at a very specific speed of 30 km/s.
+
+           @close
+
+   
   - title: Speed vs. distance (25 km/s)
     subtitle: Add a planet in a circular orbit at 25 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
@@ -266,6 +291,12 @@ missions:
     enabled: true
     win: So circular!
     lose: The orbit was not quite circular... Try moving the planet to a different distance.
+      - on: start
+        message: |   
+           @boss
+           Still not satisfied, the leader of the Arkanids demands a different planet moving at 25 km/s for more optimal growing conditions.
+           @close
+
 
   - title: Multi-planet test
     subtitle: Under construction...

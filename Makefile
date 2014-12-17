@@ -19,5 +19,5 @@ devserver:
 	cd apps; /opt/local/bin/php55 -S localhost:8800 
 
 download_db:
-	dropdb $(whoami)
-	heroku pg:pull DATABASE_URL $(whoami)
+	dropdb `whoami`
+	heroku pg:pull DATABASE_URL `whoami`
