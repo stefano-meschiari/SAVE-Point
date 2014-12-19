@@ -20,29 +20,29 @@ function write_js_requires($cfg) {
 }
 
 function write_cfg_json($cfg) {  
-  echo '<script type="text/javascript">';  
+  echo '<script type="text/javascript" class="server-content">';  
   echo "\nAPP_CFG = " . json_encode($cfg['app-cfg']) . ";\n";
   echo "\n</script>\n";
 }
 
-// TODO: This function needs to sanitize its input.
 function write_mission_rules($cfg) {
   $missions = $cfg["missions"];
   $args = $cfg["args"];
-  
-  echo '<script type="text/javascript">';  
-  echo "\nRULES_FN = {};\n";
+  $formulas = $cfg["formulas"];
 
+  echo '<script type="text/javascript" class="server-content">';  
   $idx = 0;
   
-  foreach ($missions as $val) {
-    echo "RULES_FN[$idx] = function() {\n";
-    foreach ($args as $arg)
-      echo "var $arg = app.get('$arg'); if ($arg === undefined) $arg = app.$arg(); \n";
-    echo "return (" . $val['rule'] . ");";
-    echo "\n};\n";
-    echo "APP_CFG.missions[$idx].rule = $idx;\n";
-    $idx++;
+  foreach ($missions as $missionidx => $mission) {
+    foreach ($mission as $key => $value ) {
+      if (in_array($key, $formulas)) {
+        echo "APP_CFG.missions[$missionidx]['" . $key . "'] = function() {\n";
+        foreach ($args as $arg)
+          echo "var $arg = app.get('$arg'); if ($arg === undefined) $arg = app.$arg(); \n";
+        echo "return (" . $mission[$key] . ");";
+        echo "\n};\n";
+      }      
+    }
   }
 
   echo "\n</script>\n";

@@ -1,5 +1,5 @@
 // Number of stars
-STARS = 80;
+STARS = 500;
 CANVAS_ID = 'canvas';
 MAX_SEGMENTS = 700;
 // Number of pixels corresponding to 1 length unit (1 AU)
@@ -17,7 +17,7 @@ var Draw = Backbone.View.extend({
     zoom:1,
     
     setZoom: function(zoom) {
-        if (zoom < 0.1 || zoom > 10)
+        if (zoom < 0.05 || zoom > 10)
             return;
         
         zoom = ((zoom * 100)|0)/100;
@@ -25,12 +25,37 @@ var Draw = Backbone.View.extend({
         this.zoom = zoom;
         PIXELS_PER_AU = 200 * zoom;
         PIXELS_PER_AUPDAY = 100/Math.sqrt(K2) * zoom;
-        this.transformation.stretch = PIXELS_PER_AU;
+        if (this.transformation)
+            this.transformation.stretch = PIXELS_PER_AU;
+        
         this.recalculateSizes();
         this.restoreSizes();
         this.planetsUpdate();
         this.handlesUpdate();
-        this.destroyTrails();
+
+        if (this.trailSegments) {
+            var ret = {};
+            for (j = 0; j < this.trailSegments.length; j++) {
+                var tc = this.trailSegments[j];
+                var tC = this.trailCoords[j];
+                
+                for (i = 0; i < tc.length; i++) {
+                    var c = tc[i];
+                    var C0 = (i > 0 ? tC[i-1] : tC[i]);
+                    var C1 = tC[i];
+                    
+                    Physics.applyRotation(this.transformation, C0, ret);                
+                    c.segments[0].point.x = ret.x + view.center.x;
+                    c.segments[0].point.y = ret.y + view.center.y;
+                    
+                    Physics.applyRotation(this.transformation, C1, ret);
+                    c.segments[1].point.x = ret.x + view.center.x;
+                    c.segments[1].point.y = ret.y + view.center.y;
+                    
+                }            
+            }
+        }
+        //this.destroyTrails();
     },
     
     recalculateSizes: function() {
@@ -554,6 +579,7 @@ var Draw = Backbone.View.extend({
 
         var star = this.star;
         var ret = {};
+        var zoomOut = false;
         
         for (i = 0; i < nplanets; i++) {
             var planet = planets[i];
@@ -579,7 +605,14 @@ var Draw = Backbone.View.extend({
                                                 planet.position.y - 0.5*w*Math.sin(angle));
             planet.fillColor.destination = new Point(planet.position.x + 0.5*w*Math.cos(angle),
                                                      planet.position.y + 0.5*w*Math.sin(angle));
+
+            if (planet.position.x < 0 || planet.position.y < 0 || planet.position.x > view.bounds.width || planet.position.y > view.bounds.height)
+                zoomOut = true;
         }
+
+        if (zoomOut && app.get('state') == RUNNING)
+            this.setZoom(this.zoom * 0.5);
+            
     },
 
     handlesUpdate: function() {
@@ -968,6 +1001,7 @@ var Draw = Backbone.View.extend({
     },
 
     resetView: function() {
+        this.setZoom(1);
         this.transformation = Physics.setRotation(this.transformation, 0, 0, 0, PIXELS_PER_AU); 
     },
     
@@ -1028,8 +1062,7 @@ var Draw = Backbone.View.extend({
         });
 
         this.listenTo(this.model, "reset start", function() {           
-            this.resetView();
-            
+            this.resetView();            
         });
 
         

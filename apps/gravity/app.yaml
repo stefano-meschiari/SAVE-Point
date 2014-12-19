@@ -20,7 +20,18 @@ args:
   - nplanets
   - elements
   - collided
+  
+formulas:
+  - rule
+  - starsrule
 
+avatars:
+  @groknar: {img/groknar_sad.png width=150 class=avatar-left} @enter-avatar
+  @boss: {img/boss_angry.png width=150 class=avatar-right} @enter-avatar
+  @praetor: {img/praetor.png width=130 class=avatar-left} @enter-avatar
+  
+
+  
 assets:
   music:
     level: sounds/level_v2_low.mp3
@@ -42,10 +53,11 @@ missions:
     subtitle: Create your first planet.
     win: Woohoo! Look at that planet go!
     lose: Darn! You forgot to add the planet!
-    rule: nplanets > 0
+    rule: nplanets > 0 
     music: level
     enabled: true
     icon: icon-practice
+    starsrule: 3
     constraints:
       nplanets: 1
     help:      
@@ -130,21 +142,25 @@ missions:
           
           Now *tap on the @icon-star star* to let the planet orbit!
           
-      - on: win
+      - on: win3
         message: |
           @boss
-          Big Boss Reaz-7 says, "Good work, but we need you to train quickly!  We need to 
+          Did you know that you can view your creation in all its glory? @icon-drag Drag to
+          rotate the view!     
+
+          Good work, but we need you to train quickly!  We need to 
           engineer all of the new star systems forming in the Arcturus Nebula, and our 
           customers are very... picky."
 
       - on: lose
         message: |
           @boss
-          "Good job, rookie... not!"
+          Maybe I should have bought that breakroom espresso maker instead of hiring you.
           
                   
   - title: Crash & Burn
     rule: nplanets > 0 && collided
+    starsrule: 3
     enabled: true
     subtitle: Make your planet collide with the star.
     win: Those were impressive fireworks!
@@ -165,17 +181,22 @@ missions:
            @boss
            Try launching the planet towards the star, rookie.
            @hide-5
-           
-      - on: win
+
+      - on: lose
         message: |
           @boss
-          Big Boss Reaz-7 says, "Good work, but we need you to train quickly!  We need to 
-          engineer all of the new star systems forming in the Arcturus Nebula, and our 
-          customers are very... picky."
+          At least they burned up ironically.  Now make sure they impact! It’s a big star out there.
+          
+      - on: win3
+        message: |
+          @boss
+          They just failed to miss the star.  Good work!
       
 
   - title: Ejected!
-    rule: nplanets > 0 && elements[0].eccentricity > 1
+    rule: nplanets > 0 && elements[0].eccentricity > 0.9
+    starsrule: |
+      (elements[0].eccentricity < 1.25 ? 3 : (elements[0].eccentricity < 1.75 ? 2 : 1))
     enabled: true
     music: sad
     subtitle: Add a planet that escapes the pull of its star.
@@ -184,15 +205,37 @@ missions:
     icon: icon-hyperbolic
     constraints:
       nplanets: 1
-
+    help:
       - on: start
         message: |   
-           @boss
-           The Empress of the Planet Zanitex wants to set up her loud father-in-law on a beautiful new planetary estate... on a one-way trip out of the star system.
+           @boss @praetor
+           The Empress of the Planet Zanimech wants to set up her loud father-in-law, Praetor Berk-ork,  on a beautiful new planetary estate... on a one-way trip out of the star system.
            @close
 
+      - on: lose
+        message: |
+           @boss
+           A little more oomph in your orbit?
+
+      - on: win1
+        message: |
+          @boss
+          Whoa there, nelly.  We don’t want to give the customer whiplash, slow down a little.
+      
+      - on: win2
+        message: |
+          @boss
+          Can we make the ejection a little more subtle?
+
+      - on: win3
+        message: |
+          @boss
+          Perfect, he’ll never notice until he’s out of the system.
+
   - title: Elliptical Orbit
-    rule: nplanets > 0 && elements[0].eccentricity > 0.2 && elements[0].eccentricity < 0.99 && !collided
+    rule: nplanets > 0 && elements[0].eccentricity > 0.01 && elements[0].eccentricity < 0.99 && !collided
+    starsrule: |
+      (elements[0].eccentricity < 0.4 ? 1 : (elements[0].eccentricity < 0.7 ? 2 : 3))
     enabled: true
     music: triumph
     subtitle: Add a planet in an elliptical (oval) orbit.
@@ -205,17 +248,28 @@ missions:
       - on: start
         message: |   
            @boss
-           The people of the planet Selia Prime are bored always orbiting between the same two planets.  Now they want to resettle on a world that tours both the inner and outer solar system at different times of year.
+           The people of Selia Prime are bored with always orbiting between the same planets.  Now they want to resettle on a world that gently tours both the inner and outer solar system at different times of year. High Councilor Zeniak pulls out his cyber binoculars eagerly and awaits a fresh night sky.
            @close
 
-      - on: win
+      - on: lose
         message: |
           @boss
-          Did you know that you can view your creation in all its glory?
+          I said TOUR the solar system, not become a permanent piece of space junk!  Make it an elliptical orbit.
 
+      - on: win1
+        message: |
+          @boss
+          Surely you can make the orbit more XTREME than that.
+      
+      - on: win2
+        message: |
+          @boss
+          I still want to see entire solar system; can you work on that?
 
-          @icon-drag Drag to
-          rotate the view!     
+      - on: win3
+        message: |
+          @boss
+          I feel the rush already!
 
   - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
@@ -226,7 +280,8 @@ missions:
     lose: That orbit is not very circular.
     icon: icon-circular
     constraints:
-      nplanets: 1
+    nplanets: 1
+    help:
       - on: start
         message: |   
            @boss
@@ -271,8 +326,9 @@ missions:
       nplanets: 1
     enabled: true
     win: So circular!
-    lose: The orbit was not quite circular... Try moving the planet to a different distance.    
-       - on: start
+    lose: The orbit was not quite circular... Try moving the planet to a different distance.
+    help:
+      - on: start
         message: |   
            @boss
            The Arkanids didn't like their first planet.  Perhaps the shadows were wrong.  Their leader DEMANDS that you make a new system with their planet moving at a very specific speed of 30 km/s.
@@ -291,6 +347,7 @@ missions:
     enabled: true
     win: So circular!
     lose: The orbit was not quite circular... Try moving the planet to a different distance.
+    help:
       - on: start
         message: |   
            @boss

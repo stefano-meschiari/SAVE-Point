@@ -168,6 +168,40 @@ help:
      message: |
        You clicked next! Good job!
 
+### How to win a level and computing points
+Each level will have two fields, "rule" and "starsrule". "rule"
+determines whether a level has been cleared or not. The rule will be a
+single JavaScript expression that evaluates to true or false.
+
+In order to compose a rule, you have access to a few properties:
+- nplanets is the number of planets
+- elements is an array of a list of orbital elements (period, sma,
+  eccentricity are the most useful). For instance,
+  elements[0].eccentricity returns the eccentricity of the first
+  planet.
+- collided is a boolean property reflecting whether there has been a
+  collision before the rule is evaluated.
+
+For the elliptical level, a rule looks like this:
+
+rule: nplanets > 0 && elements[0].eccentricity < 0.99 && !collided
+
+"starsrule" returns a number between 1 and 3, reflecting the number of
+stars earned by the user. It should again be a single JavaScript
+expression. The ternary expression in JavaScript is useful for that
+purpose: (cond ? return1 : return2) returns "return1" if cond is true,
+"return2" otherwise. It can be nested, too. A starsrule for the
+elliptical level looks like this:
+
+    starsrule: |
+      (elements[0].eccentricity < 0.4 ? 1 : (elements[0].eccentricity < 0.7 ? 2 : 3))
+
+(notice that the rule itself is on a separate line preceded by the
+pipe character -- this is because the rule contains a colon character,
+which is a reserved character for YAML keys -- the pipe character
+introduces an "as-is" string). The expression evaluates to 1 if the
+eccentricity is < 0.4, 2 if < 0.7, 3 otherwise. 
+
 ### Available events
 * on: start is shown at the beginning of the level.
 * on: proceed is shown when the user clicks on the "Next" button. You
