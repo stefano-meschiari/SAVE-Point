@@ -25,6 +25,7 @@ var Draw = Backbone.View.extend({
         this.zoom = zoom;
         PIXELS_PER_AU = 200 * zoom;
         PIXELS_PER_AUPDAY = 100/Math.sqrt(K2) * zoom;
+        
         if (this.transformation)
             this.transformation.stretch = PIXELS_PER_AU;
         

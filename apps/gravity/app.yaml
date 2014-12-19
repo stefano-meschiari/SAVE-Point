@@ -194,7 +194,7 @@ missions:
       
 
   - title: Ejected!
-    rule: nplanets > 0 && elements[0].eccentricity > 0.9
+    rule: nplanets > 0 && elements[0].eccentricity > 0.9 && !collided
     starsrule: |
       (elements[0].eccentricity < 1.25 ? 3 : (elements[0].eccentricity < 1.75 ? 2 : 1))
     enabled: true
@@ -272,7 +272,7 @@ missions:
           I feel the rush already!
 
   - title: Circular Orbit
-    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
+    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     enabled: true
     music: triumph
     subtitle: Add a planet in a circular orbit.
@@ -291,7 +291,7 @@ missions:
 
   - title: Speed vs. distance (40 km/s)
     subtitle: Add a planet in a circular orbit at 40 km/s.
-    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
+    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs
     music: level
     constraints:
@@ -317,7 +317,7 @@ missions:
 
   - title: Speed vs. distance (30 km/s)
     subtitle: Add a planet in a circular orbit at 30 km/s.
-    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
+    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs
     music: level    
     constraints:
@@ -338,7 +338,7 @@ missions:
    
   - title: Speed vs. distance (25 km/s)
     subtitle: Add a planet in a circular orbit at 25 km/s.
-    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001
+    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs    
     constraints:
       speed: 25
