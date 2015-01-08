@@ -26,15 +26,6 @@ Backbone.ROComputedModel = Backbone.Model.extend({
 });
 
 
-/*
- * Templates.
- */
-
-var Templates = {
-    fullStar: '<span class="icon-win-star"></span> ',
-    emptyStar: '<span class="icon-win-star-o"></span> '  
-};
-
 
 /*
  * The mission model. 
@@ -52,9 +43,9 @@ var Mission = Backbone.ROComputedModel.extend({
         var repr = "";
         var stars = this.get('stars');
         for (var i = 0; i < stars; i++)
-            repr += Templates.fullStar;
+            repr += app.templates.FULL_STAR;
         for (i = stars; i < 3; i++)
-            repr += Templates.emptyStar;
+            repr += app.templates.EMPTY_STAR;
         return repr;
     },
 
@@ -882,58 +873,12 @@ var MissionHelpModel = Backbone.Model.extend({
 
 var MessageView = Backbone.View.extend({
     el: $("#help-body"),
-    safeTags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-
-    NEXT_LABEL: '<span class="fa fa-chevron-circle-right"></span> Next',
-    NEXT_MISSION_LABEL: '<span class="fa fa-thumbs-up"></span> Next Mission',
     
-    templater: {
-        "@separator": '<div class="separator"></div>',
-        "@icon-tap": '<span class="icon-tap"></span>',
-        "@icon-drag": '<span class="icon-drag"></span>',
-        "@icon-star": '<span class="icon-star"></span>',
-        "@icon-rocket": '<span class="fa fa-rocket"></span>',
-        "@icon-win": '<span class="icon-win"></span>',
-        "@icon-menu": '<span class="icon-menu"></span>',
-        "@icon-help": '<span class="icon-help"></span>',
-        
-        "@noninteractive": '<script> app.set("interactive", false); </script>',        
-        "@enter-avatar": function() {
-            _.delay(function() {
-                $(".avatar-left").addClass("avatar-left-visible");
-                $(".avatar-right").addClass("avatar-right-visible");
-            }, 100);
-        },
-        "@stop-fly": function() { draw.cancelFly(); console.log('Cancel Fly!'); },   
-        "@fly": function() { draw.fly(); console.log('Fly!'); },
-        "@hide-10": function() {  _.delay(function(self) { self.hide(); }, 10000, this); },
-        "@hide-5": function() {  _.delay(function(self) {  self.hide(); }, 5000, this); },
-
-        "@hide": function() { this.hide();  },
-        
-        "\\*(.+?)\\*": "<strong>$1</strong>",
-        "\\{(.+?)\\}": '<img src=$1>',
-        "^(#)\\s*(.+)": "<h1>$2</h1>",
-        "^\s*$": "<br>",
-        "@proceed-win": '<div class="help-toolbar"><button id="help-next-mission" class="btn btn-lg btn-jrs"><span class="fa fa-thumbs-up"></span>  Next mission</button></div>',
-        "@proceed": '<div class="help-toolbar"><button id="help-next" class="btn btn-lg btn-jrs"><span class="fa fa-chevron-right"></span>  Next</button></div>',
-        "@close": '<div class="help-toolbar"><button id="help-close" class="btn btn-lg btn-jrs"><span class="fa fa-times"></span>  Close</button></div>',
-        "@eccentricity": '<span id="eccentricity"></span>',
-        "@name": LOGGED_USER,
-        "@wait-10": function() {  _.delay(function(self) { self.listener.proceed(); }, 10000, this); },
-        "@wait-5": function() {  _.delay(function(self) {  self.listener.proceed(); }, 5000, this); }
-    },
 
     messagesSetup:false,
     
     
     initialize: function() {
-        var safeTags = this.safeTags;
-
-        for (var i = 0; i < safeTags.length; i++) {
-            this.templater['@' + safeTags[i]] = "<" + safeTags[i] + ">";
-            this.templater['@/' + safeTags[i]] = "</" + safeTags[i] + ">";
-        }
         
         this.listenToOnce(this.model, "change:missions", function() {
             this.setupTemplates();
@@ -950,12 +895,13 @@ var MessageView = Backbone.View.extend({
         $("#help-next").on("click", function() { self.model.proceed(); });
     },
 
+
+    
     setupTemplates: function() {
         if (this.messagesSetup)
             return;
         var self = this;
         var missions = this.model.get('missions');
-        var templater = _.extend(this.templater, app.get('avatars'));
 
         for (var i = 0; i < missions.length; i++) {
             var m = missions.at(i);
@@ -964,30 +910,7 @@ var MessageView = Backbone.View.extend({
                 continue;
             
             for (var j = 0; j < help.length; j++) {
-                var msg = help[j].message;
-                
-                msg = _.escapeHTML(msg);
-                help[j].funcs = [];
-                var transforms = 0;
-
-                while (true) {
-                    var msg_new = _.reduce( _.keys(templater), function(transformed, tag) {                    
-                        var sub = templater[tag];
-                        if (_.isFunction(templater[tag]) && transformed.indexOf(tag) != -1) {
-                            help[j].funcs.push(_.bind(templater[tag], self));
-                            sub = "";
-                        }
-                        return transformed.replace(new RegExp(tag, 'gm'), sub);
-                    }, msg);
-
-                    if (msg == msg_new)
-                        break;
-                    else
-                        msg = msg_new;
-                }
-
-                help[j].message = msg;
-
+                app.templates.template(help[j]);
             };
             m.set('help', help);
             
@@ -1139,9 +1062,9 @@ var AppMenuView = Backbone.View.extend({
         var stars = missions.at(currentMission).get('stars');
         var text = "";
         for (i = 0; i < stars; i++)
-            text += Templates.fullStar;
+            text += app.templates.FULL_STAR;
         for (i = stars; i < 3; i++)
-            text += Templates.emptyStar;
+            text += app.templates.EMPTY_STAR;
         
         $("#app-menu-stars").html(text);
 
@@ -1180,6 +1103,7 @@ var AppModalView = Backbone.View.extend({
 
 $(document).ready(function() {
     app.mainView = new AppView({ model: app });
+    app.templates = new Templates();
     app.messageView = new MessageView({ model: app });
     app.menuView = new AppMenuView({model: app});
     app.modalView = new AppModalView({model:app});
