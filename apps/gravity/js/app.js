@@ -421,7 +421,7 @@ var App = Backbone.ROComputedModel.extend({
 
 
         var missionObj = this.mission();
-        this.sounds.playMusic(missionObj.get('music'));
+        this.sounds.playMusic(missionObj.get('music'));      
         
         var bodies = missionObj.get('bodies');
         if (bodies) {
@@ -518,6 +518,8 @@ var App = Backbone.ROComputedModel.extend({
         this.set('missions', coll);
     },
 
+    components: [],
+    
     /*
      * Read data from server.
      */
@@ -878,7 +880,7 @@ var MissionHelpModel = Backbone.Model.extend({
     }
 });
 
-var MissionHelpView = Backbone.View.extend({
+var MessageView = Backbone.View.extend({
     el: $("#help-body"),
     safeTags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
 
@@ -924,6 +926,7 @@ var MissionHelpView = Backbone.View.extend({
 
     messagesSetup:false,
     
+    
     initialize: function() {
         var safeTags = this.safeTags;
 
@@ -935,6 +938,7 @@ var MissionHelpView = Backbone.View.extend({
         this.listenToOnce(this.model, "change:missions", function() {
             this.setupTemplates();
         });
+        
         this.listenTo(this.model, "start", function() {
             console.log('start, Setting up');
             this.render(null);
@@ -960,25 +964,30 @@ var MissionHelpView = Backbone.View.extend({
                 continue;
             
             for (var j = 0; j < help.length; j++) {
-                help[j].message = _.escapeHTML(help[j].message);
+                var msg = help[j].message;
+                
+                msg = _.escapeHTML(msg);
                 help[j].funcs = [];
                 var transforms = 0;
 
                 while (true) {
-                    var msg = _.reduce( _.keys(templater), function(transformed, tag) {                    
+                    var msg_new = _.reduce( _.keys(templater), function(transformed, tag) {                    
                         var sub = templater[tag];
                         if (_.isFunction(templater[tag]) && transformed.indexOf(tag) != -1) {
                             help[j].funcs.push(_.bind(templater[tag], self));
                             sub = "";
                         }
                         return transformed.replace(new RegExp(tag, 'gm'), sub);
-                    }, help[j].message);
+                    }, msg);
 
-                    if (msg == help[j].message)
+                    if (msg == msg_new)
                         break;
                     else
-                        help[j].message = msg;
+                        msg = msg_new;
                 }
+
+                help[j].message = msg;
+
             };
             m.set('help', help);
             
@@ -1171,7 +1180,7 @@ var AppModalView = Backbone.View.extend({
 
 $(document).ready(function() {
     app.mainView = new AppView({ model: app });
-    app.helpView = new MissionHelpView({ model: app });
+    app.messageView = new MessageView({ model: app });
     app.menuView = new AppMenuView({model: app});
     app.modalView = new AppModalView({model:app});
     

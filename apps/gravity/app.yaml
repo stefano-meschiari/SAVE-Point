@@ -13,8 +13,6 @@ requires:
   - physics
   - constants
   - utils
-  - animalese
-  - textillate
   
 args:
   - nplanets
@@ -26,11 +24,9 @@ formulas:
   - starsrule
 
 avatars:
-  @groknar: {img/groknar_sad.png width=150 class=avatar-left} @enter-avatar
+  @groknar: {img/groknar.gif width=150 class=avatar-left} @enter-avatar
   @boss: {img/boss_angry.png width=150 class=avatar-right} @enter-avatar
   @praetor: {img/praetor.png width=130 class=avatar-left} @enter-avatar
-  
-
   
 assets:
   music:
@@ -145,9 +141,6 @@ missions:
       - on: win3
         message: |
           @boss
-          Did you know that you can view your creation in all its glory? @icon-drag Drag to
-          rotate the view!     
-
           Good work, but we need you to train quickly!  We need to 
           engineer all of the new star systems forming in the Arcturus Nebula, and our 
           customers are very... picky."
@@ -239,7 +232,7 @@ missions:
     enabled: true
     music: triumph
     subtitle: Add a planet in an elliptical (oval) orbit.
-    win: So elliptical!
+    win: So elliptical! 
     lose: That orbit could be more elliptical...
     icon: icon-elliptical
     constraints:
@@ -271,6 +264,26 @@ missions:
           @boss
           I feel the rush already!
 
+  - title: Multiple choices
+    enabled: true
+    rule: 0
+    type: question
+    subtitle: Get an extra star by answering this question.
+    win: Well done!
+    lose: Try again.
+    icon: icon-single
+    help: 
+      - on: start
+        message: |
+          @boss @fly
+          How do planets in elliptical orbits move when they are far from their star?
+          
+          @single-choice{ 
+          - They slow down.
+          - They speed up.
+          - They move at a constant speed.
+          }
+
   - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     enabled: true
@@ -280,7 +293,7 @@ missions:
     lose: That orbit is not very circular.
     icon: icon-circular
     constraints:
-    nplanets: 1
+      nplanets: 1
     help:
       - on: start
         message: |   

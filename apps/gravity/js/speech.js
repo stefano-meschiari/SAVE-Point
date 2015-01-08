@@ -10,8 +10,6 @@ var SoundEngine = Backbone.ROComputedModel.extend({
     initialize: function() {
         var self = this;
         this.assets = app.get('assets');
-        this.synth = new Animalese(this.lettersPath);
-        console.log(this.assets);
         
         _.map(this.assets.effects, function(value, key) {
             self[key] = self.newAudio(value);

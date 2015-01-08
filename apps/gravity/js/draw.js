@@ -112,7 +112,7 @@ var Draw = Backbone.View.extend({
             var size = (3*Math.random()+1)|0;
 
             var s = symbols[size].place(new Point(x, y) + view.center);
-            s.coords = {x: x, y: y, z: z};
+            s.coords = {x: x, y: y, z: z, f: Math.ceil(2*Math.random()) };
             if (z < 0)
                 s.visible = false;
             this.backgroundStars.push(s);
