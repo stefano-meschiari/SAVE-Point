@@ -218,7 +218,9 @@ var Draw = Backbone.View.extend({
     cancelFly: function() {
         if (!this.getAnimation('fly'))
             return;
-        
+
+        console.log('Canceling fly!');
+        console.log(new Error().stack);
         var self = this;
         var interactivity = app.get('interactive');
         this.cancelAnimation('fly');

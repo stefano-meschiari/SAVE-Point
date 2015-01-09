@@ -149,6 +149,7 @@ LOGGED_USER='<?= db_user(); ?>';
 <script type="text/javascript" src="../share/js/init.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/templates.js"></script>
+<script type="text/javascript" src="js/single-choice.js"></script>
 <script type="text/javascript" src="js/speech.js"></script>
 <script type="text/javascript" src="js/debug.js"></script>
 <script type="text/paperscript" canvas="canvas" src="js/draw.js"></script>

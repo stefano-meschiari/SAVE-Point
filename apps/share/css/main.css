@@ -920,3 +920,18 @@ a.border {
   font-size: 70%;
   color: #e6e6e6;
 }
+.question {
+  padding: 5px;
+}
+.question-title {
+  font-size: 30px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.question-option {
+  width: 100%;
+  margin: 5px;
+}
+.question-option:hover {
+  background: #66ccff;
+}

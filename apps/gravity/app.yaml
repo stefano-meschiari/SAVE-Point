@@ -43,7 +43,6 @@ assets:
     addPlanet: sounds/add-planet.mp3
     "planet:drag": sounds/drag.mp3
   
-starsBounty: 24
 missions:
   - title: Practice Mode
     subtitle: Create your first planet.
@@ -266,6 +265,7 @@ missions:
 
   - title: Single choice
     enabled: true
+    value: 1
     type: single-choice
     subtitle: Get an extra star by answering this question.
     win: Well done!

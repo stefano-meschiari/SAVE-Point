@@ -123,6 +123,8 @@ var App = Backbone.ROComputedModel.extend({
             minAU: 0.19
         };
     },
+
+    components: {},
     
     /*
      * Toggles the state of the application between RUNNING and PAUSED.
@@ -387,7 +389,9 @@ var App = Backbone.ROComputedModel.extend({
         mission.set('stars', Math.max(mission.get('stars'), this.stars()));
         mission.set('elements', this.elements());
         mission.set('lastPlayed', new Date());
+
         app.saveMissionData();
+        
         this.trigger('win' + this.stars());
         this.trigger('win');
     },
@@ -409,7 +413,6 @@ var App = Backbone.ROComputedModel.extend({
         
         this.set({ currentMission: mission });
         this.reset();
-
 
         var missionObj = this.mission();
         this.sounds.playMusic(missionObj.get('music'));      
@@ -452,7 +455,7 @@ var App = Backbone.ROComputedModel.extend({
         var mission = app.mission();
         var starsFormula = mission.get('starsrule');
         if (! _.isFunction(starsFormula)) {
-            return 3;
+            return mission.value;
         } else
             return starsFormula();
     },
@@ -489,6 +492,14 @@ var App = Backbone.ROComputedModel.extend({
         this.ctx.elements = null;
         this.trigger('reset');
         this.trigger('start');
+
+        if (app.component)
+            app.component.stopListening();
+        
+        var mission = app.mission();
+        if (mission.get('type') && app.components[mission.get('type')]) {
+            app.component = new app.components[mission.get('type')]({ model: this });
+        }
     },
 
 
@@ -498,19 +509,20 @@ var App = Backbone.ROComputedModel.extend({
     loadConfig: function(dict) {
         var missions = dict.missions;
         var coll = new MissionCollection();
+        var starsBounty = 0;
         
         _.each(missions, function(mission) {
             var m = new Mission(mission);
             coll.add(m);
+            starsBounty += m.get('value') || 3;                
         });
 
         delete dict.missions;
         this.set(dict);
         this.set('missions', coll);
+        this.set('starsBounty', starsBounty);
     },
 
-    components: [],
-    
     /*
      * Read data from server.
      */
@@ -927,6 +939,7 @@ var MessageView = Backbone.View.extend({
         console.log(app.get('currentMission'));
         this.listener = new MissionHelpModel({ model:this.model });
         this.listenTo(this.listener, 'help', this.render);
+        this.listenTo(this.model, 'help', this.render);
         this.listener.setup();
     },
 

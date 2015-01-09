@@ -79,6 +79,7 @@ var Templates = Backbone.Model.extend({
         }
 
         help.message = msg;
+        return help;
     },
 
 
