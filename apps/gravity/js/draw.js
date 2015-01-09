@@ -994,12 +994,13 @@ var Draw = Backbone.View.extend({
         if (app.get('state') != PAUSED) {
             this.destroyHandles();
         }
+        
         if (app.get('state') == RUNNING)
             this.bobStar();
 
         if (app.get('state') == MENU) {
             this.fly();
-        } else
+        } else if (app.get('state') == PAUSED)
             this.cancelFly();
     },
 

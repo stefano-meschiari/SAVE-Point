@@ -659,7 +659,22 @@ var AppView = Backbone.View.extend({
     
     missionTemplate: _.template('<div class="title"><span class="fa fa-rocket"></span> <%= title %></div><div class="subtitle"><%= subtitle %></div>'),
     missionDelay: 7000,
-    missionTimer: null,
+    topHideTimer: null,
+
+    renderTopText: function(text, hide) {
+        $("#text-top").html(text);
+        $("#text-top").addClass("expanded");
+        $("#text-top").removeClass("in-front");
+
+        if (this.topHideTimer)
+            clearTimeout(this.topHideTimer);
+
+        if (hide)
+            this.topHideTimer = _.delay(function() {
+                $("#text-top").removeClass("expanded");
+                $("#text-top").removeClass("in-front");        
+            }, this.missionDelay);
+    },
     
     renderMission: function() {
         // Check if the top banner is already expanded; if it is, hide it
@@ -667,17 +682,7 @@ var AppView = Backbone.View.extend({
         var current = this.model.get('currentMission');
         var mission = this.model.get('missions').at(current);
         
-        $("#text-top").html(this.missionTemplate(mission.attributes));
-        $("#text-top").addClass("expanded");
-        $("#text-top").removeClass("in-front");
-        if (this.missionTimer)
-            clearTimeout(this.missionTimer);
-        this.missionTimer = _.delay(function() {
-            $("#text-top").removeClass("expanded");
-            $("#text-top").removeClass("in-front");
-        
-        }, this.missionDelay);
-
+        this.renderTopText(this.missionTemplate(mission.attributes), true);        
     },
 
 
@@ -781,12 +786,11 @@ var AppView = Backbone.View.extend({
             winDelay = Math.min(this.winDelayMax, els[0].period / app.get('deltat') * this.approxFrameRate * 1000);
         
         winDelay = Math.max(4000, winDelay);
-        
-        $("#text-top").html(this.winTemplate({
+
+        this.renderTopText(this.winTemplate({
             win: mission.get('win'),
             stars: mission.starsRepr()
-        }));
-        $("#text-top").addClass("expanded");
+        }), false);
         $("#text-top").addClass("in-front");
 
         app.set('state', ROTATABLE);

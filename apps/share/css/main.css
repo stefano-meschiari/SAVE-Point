@@ -935,3 +935,11 @@ a.border {
 .question-option:hover {
   background: #66ccff;
 }
+a {
+  color: white;
+  border-bottom: 1px solid gray;
+}
+a:hover {
+  color: #66ccff;
+  text-decoration: none;
+}

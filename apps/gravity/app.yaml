@@ -45,6 +45,7 @@ assets:
   
 missions:
   - title: Practice Mode
+    name: practice
     subtitle: Create your first planet.
     win: Woohoo! Look at that planet go!
     lose: Darn! You forgot to add the planet!
@@ -152,6 +153,7 @@ missions:
                   
   - title: Crash & Burn
     rule: nplanets > 0 && collided
+    name: crash
     starsrule: 3
     enabled: true
     subtitle: Make your planet collide with the star.
@@ -187,6 +189,7 @@ missions:
 
   - title: Ejected!
     rule: nplanets > 0 && elements[0].eccentricity > 0.9 && !collided
+    name: ejected
     starsrule: |
       (elements[0].eccentricity < 1.25 ? 3 : (elements[0].eccentricity < 1.75 ? 2 : 1))
     enabled: true
@@ -229,6 +232,7 @@ missions:
     starsrule: |
       (elements[0].eccentricity < 0.4 ? 1 : (elements[0].eccentricity < 0.7 ? 2 : 3))
     enabled: true
+    name: elliptical
     music: triumph
     subtitle: Add a planet in an elliptical (oval) orbit.
     win: So elliptical! 
@@ -267,9 +271,10 @@ missions:
     enabled: true
     value: 1
     type: single-choice
+    name: elliptical_question
     subtitle: Get an extra star by answering this question.
-    win: Well done!
-    lose: Try again.
+    win: That's the right answer!
+    lose: Not quite right.
     icon: icon-single
     question: |
       @boss @fly
@@ -279,10 +284,21 @@ missions:
       - They speed up.
       - They move at a constant speed.
     answer: 0
+    help:
+      - on: win
+        message: |
+          @boss
+          That's right, @name! Puny humans call this property "[Kepler's 2nd law](http://howthingsfly.si.edu/media/kepler%E2%80%99s-second-law)".
+
+      - on: lose
+        message: |
+          @boss
+          You might want to practice this out a bit in the sandbox. 
 
   - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     enabled: true
+    name: circular
     music: triumph
     subtitle: Add a planet in a circular orbit.
     win: Sweet! That's... pretty circular!
@@ -303,6 +319,7 @@ missions:
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs
     music: level
+    name: speed_vs_distance_40
     constraints:
       speed: 40
       direction: perpendicular
@@ -329,6 +346,7 @@ missions:
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs
     music: level    
+    name: speed_vs_distance_30
     constraints:
       speed: 30
       direction: perpendicular
@@ -349,6 +367,7 @@ missions:
     subtitle: Add a planet in a circular orbit at 25 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs    
+    name: speed_vs_distance_25
     constraints:
       speed: 25
       direction: perpendicular
@@ -367,6 +386,7 @@ missions:
   - title: Multi-planet test
     subtitle: Under construction...
     rule: nplanets > 0 
+    name: multi-planet-test
     icon: icon-circ-rvs
     enabled: true
     win: So circular!
@@ -379,6 +399,7 @@ missions:
     rule: nplanets > 0 
     icon: icon-circ-rvs
     enabled: true
+    name: barycentric
     win: So circular!
     lose: The orbit was not quite circular... Try moving the planet to a different distance.
     bodies:
