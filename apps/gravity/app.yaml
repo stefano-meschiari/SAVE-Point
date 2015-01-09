@@ -267,7 +267,7 @@ missions:
           @boss
           I feel the rush already!
 
-  - title: Single choice
+  - title: The speed of planets
     enabled: true
     value: 1
     type: single-choice

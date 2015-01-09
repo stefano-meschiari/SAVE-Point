@@ -36,15 +36,17 @@ var Mission = Backbone.ROComputedModel.extend({
         elapsed: -1,
         elements: null,
         stars: 0,
-        lastPlayed: null
+        lastPlayed: null,
+        name: ''
     }, 
 
     starsRepr: function() {
         var repr = "";
+        var total = this.get('value') || 3;
         var stars = this.get('stars');
         for (var i = 0; i < stars; i++)
             repr += app.templates.FULL_STAR;
-        for (i = stars; i < 3; i++)
+        for (i = stars; i < total; i++)
             repr += app.templates.EMPTY_STAR;
         return repr;
     },
@@ -455,7 +457,7 @@ var App = Backbone.ROComputedModel.extend({
         var mission = app.mission();
         var starsFormula = mission.get('starsrule');
         if (! _.isFunction(starsFormula)) {
-            return mission.value;
+            return mission.get('value');
         } else
             return starsFormula();
     },
@@ -534,14 +536,28 @@ var App = Backbone.ROComputedModel.extend({
                 if (data.trim() != "") {
                     data = JSON.parse(data);
                     var missions = app.get('missions');
-                    for (var i = 0; i < data.length; i++)
-                        missions.at(i).set(data[i]);
+
+                    for (var i = 0; i < data.length; i++) {
+                        if (! data[i].name) {
+                            console.error("Mission #" + i + " does not have a name property.");
+                            continue;
+                        }
+                        var which = missions.where({ name : data[i].name });
+
+                        if (!which || which.length == 0 || which.length > 1) {
+                            console.error("Mission named " + data[i].name + " has either 0 or multiple corresponding missions in the configuration file.");
+                            continue;
+                        }
+                        
+                        which[0].set(data[i]);
+                    }
+                    
                 }
 
                 _.delay(function() {
                     app.trigger('load');
                     app.menu();
-                }, 5000);
+                }, 3000);
             });
         });
     },
@@ -572,12 +588,18 @@ var App = Backbone.ROComputedModel.extend({
     },
 
     /*
-     * Get a pointer to current mission.
+     * Get a pointer to current mission, or a specific mission.
      */
 
-    mission: function() {
-        return app.get('missions').at(app.get('currentMission'));
+    mission: function(which) {
+        if (!which)
+            return app.get('missions').at(app.get('currentMission'));
+        else if (_.isNumber(which))
+            return app.get('missions').at(which);
+        else
+            return app.get('missions').pluck({ name: which })[0];
     },
+
     
     /*
      * Initializes the model, by creating a "context" object. The context
