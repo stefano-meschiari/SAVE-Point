@@ -106,6 +106,9 @@ LOGGED_USER='<?= db_user(); ?>';
       <div id="help" class="btn-jrs-ico fa fa-question-circle"></div>
       <div class="sidebar-title">Help</div>
     </div>
+    Debug:
+    <button id="debug-get-stars" class="btn btn-sm btn-danger">get all stars</button>
+    <button id="debug-reset-missions" class="btn btn-sm btn-danger">reset missions</button>
 
   </div>
 
@@ -152,6 +155,7 @@ LOGGED_USER='<?= db_user(); ?>';
 <script type="text/javascript" src="js/single-choice.js"></script>
 <script type="text/javascript" src="js/speech.js"></script>
 <script type="text/javascript" src="js/debug.js"></script>
+
 <script type="text/paperscript" canvas="canvas" src="js/draw.js"></script>
 
 <!-- Templates -->
