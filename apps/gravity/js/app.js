@@ -522,7 +522,7 @@ var App = Backbone.ROComputedModel.extend({
                 if (data.trim() != "") {
                     data = JSON.parse(data);
                     var missions = app.get('missions');
-                    for (var i = 0; i < data.length; i++)
+                    for (var i = 0; i < missions.size(); i++)
                         missions.at(i).set(data[i]);
                 }
 
