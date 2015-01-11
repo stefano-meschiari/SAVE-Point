@@ -53,15 +53,15 @@ write_header($cfg);
               
       <div class="tab-pane fade" id="register">
         <form role="form" id="form-register" action="usermgmt.php?action=register" method="post">
-          <div class="form-group">
+          <div class="form-group" style="display:none">
             <label for="class">Class:</label>
-            <div class="pull-right font-s">Select the class you are enrolled in.</div>
+            <div class="pull-right font-s">Select the class you are enrolled in (use "--" if you're not enrolled in  a class.).</div>
             <select class="form-control" name="class" id="class">
-              <option selected disabled hidden value=''>Select a class.</option>
+              <option selected value='--'>--</option>
               <?php
-              $classes = db_get_classes();
-              foreach ($classes as $class)
-                echo "<option>{$class['class_name']}</option>";
+              //$classes = db_get_classes();
+              //foreach ($classes as $class)
+              //  echo "<option>{$class['class_name']}</option>";
               ?>
             </select>
           </div>
