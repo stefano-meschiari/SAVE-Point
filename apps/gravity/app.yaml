@@ -254,22 +254,6 @@ missions:
           @boss
           I feel the rush already!
 
-  - title: Single choice
-    enabled: true
-    type: single-choice
-    subtitle: Get an extra star by answering this question.
-    win: Well done!
-    lose: Try again.
-    icon: icon-single
-    question: |
-      @boss @fly
-      How do planets in elliptical orbits move when they are far from their star?
-    choices:
-      - They slow down.
-      - They speed up.
-      - They move at a constant speed.
-    answer: 0
-
   - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     enabled: true
