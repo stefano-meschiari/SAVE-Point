@@ -284,7 +284,7 @@ Physics.setRotation = function(transformation, I, O, W, stretch) {
 
 
 
-Physics.applyRotation = function(T, xin, Xout, neg) {
+Physics.applyRotation = function(T, xin, Xout, scale) {
     
     var x = xin.x;
     var y = xin.y;
@@ -296,20 +296,20 @@ Physics.applyRotation = function(T, xin, Xout, neg) {
         Xout.z = z * T.stretch;
         return;
     }
-    if (neg) {
-        T.sinW *= -1;
-        T.sinI *= -1;
-        T.sinO *= -1;
+    if (scale) {
+        T.sinW *= scale;
+        T.sinI *= scale;
+        T.sinO *= scale;
     }        
 
     Xout.x = ((T.cosW * x - T.sinW * y) * T.cosO - (T.cosI * (T.cosW * y + T.sinW * x) - T.sinI * z)*T.sinO) * T.stretch;
     Xout.y = ((T.cosW * x - T.sinW * y) * T.sinO + (T.cosI * (T.cosW * y + T.sinW * x) - T.sinI * z)*T.cosO) * T.stretch;
     Xout.z = (T.cosI * z + T.sinI * (T.cosW * y + T.sinW * x)) * T.stretch;
     
-    if (neg) {
-        T.sinW *= -1;
-        T.sinI *= -1;
-        T.sinO *= -1;
+    if (scale) {
+        T.sinW /= scale;
+        T.sinI /= scale;
+        T.sinO /= scale;
     }
 };
 

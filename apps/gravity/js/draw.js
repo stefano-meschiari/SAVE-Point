@@ -1,5 +1,5 @@
 // Number of stars
-STARS = 500;
+STARS = 250;
 CANVAS_ID = 'canvas';
 MAX_SEGMENTS = 700;
 // Number of pixels corresponding to 1 length unit (1 AU)
@@ -112,7 +112,8 @@ var Draw = Backbone.View.extend({
             var size = (3*Math.random()+1)|0;
 
             var s = symbols[size].place(new Point(x, y) + view.center);
-            s.coords = {x: x, y: y, z: z, f: Math.ceil(2*Math.random()) };
+            
+            s.coords = {x: x, y: y, z: z, f: 1 };
             if (z < 0)
                 s.visible = false;
             this.backgroundStars.push(s);
@@ -124,14 +125,21 @@ var Draw = Backbone.View.extend({
         var bg = this.backgroundStars;
         var ret = {};
         
+        var center = view.center;
+
         this.transformation.stretch = 1;
         for (var i = 0; i < bg.length; i++) {
             var s = bg[i];
             if (fix)
                 ret = s.coords;
             Physics.applyRotation(this.transformation, s.coords, ret);
-            s.position = new Point(ret.x, ret.y) + view.center;
+            
             s.visible = ret.z > 0;
+            if (ret.z < 0)
+                continue;
+            
+            s.position.x = ret.x + center.x;
+            s.position.y = ret.y + center.y;
         }
 
         this.transformation.stretch = PIXELS_PER_AU;
@@ -198,8 +206,9 @@ var Draw = Backbone.View.extend({
                                 self.transformation.O,
                                 self.transformation.W + dI,
                                 PIXELS_PER_AU);
+            
             self.rotateBackgroundStars();
-            if (self.star.bounds.width >= 1) {
+            if (self.star.visible && self.star.bounds.width >= 1) {
                 self.star.scale(scale);
                 self.star.halo.scale(scale);                
             } else {
