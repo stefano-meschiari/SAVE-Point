@@ -95,21 +95,7 @@ missions:
 
           *Click "Next" to learn how.*
           @proceed
-
-      - on: proceed
-        message: |
-          @noninteractive
-          Your goal is to complete your mission in as little time as possible. As time passes, the number
-          of stars you can earn will decrease.
-          @proceed
       
-      - on: proceed
-        message: |
-          @noninteractive
-          To review your current mission at any time, click on the @icon-help Help button!
-          
-          *Now, let's start playing!*
-          @proceed
           
       - on: proceed
         message: >
@@ -144,6 +130,10 @@ missions:
           Good work, but we need you to train quickly!  We need to 
           engineer all of the new star systems forming in the Arcturus Nebula, and our 
           customers are very... picky."
+          
+
+          Did you know? To review your current mission at any time, click on the @icon-help Help button!
+
 
       - on: lose
         message: |
@@ -364,28 +354,3 @@ missions:
            @close
 
 
-  - title: Multi-planet test
-    subtitle: Under construction...
-    rule: nplanets > 0 
-    icon: icon-circ-rvs
-    enabled: true
-    win: So circular!
-    lose: The orbit was not quite circular... Try moving the planet to a different distance.
-    constraints:
-      nplanets: 2
-
-  - title: Barycentric gravity
-    subtitle: Under construction...
-    rule: nplanets > 0 
-    icon: icon-circ-rvs
-    enabled: true
-    win: So circular!
-    lose: The orbit was not quite circular... Try moving the planet to a different distance.
-    bodies:
-      - mass: 0.25
-        x: 1
-        y: 0
-        z: 0
-        u: 0
-        v: 0.017
-        z: 0

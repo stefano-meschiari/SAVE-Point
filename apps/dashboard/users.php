@@ -44,7 +44,6 @@ write_header($cfg);
             <label for="password">Password:</label>
             <input type="password" required class="form-control" name="password" placeholder="Password">
           </div>
-          <a href="forgot.php">Forgot your username or password?</a>
 
           <div class="separator-center"></div>
           <button type="submit" class="btn btn-primary btn-lg pull-right" >Sign in</button>
