@@ -1014,6 +1014,7 @@ var MessageView = Backbone.View.extend({
     }
 });
 
+/*
 var AppMenuView = Backbone.View.extend({
     // Top-level container
     el: $("#app-menu"),
@@ -1115,7 +1116,7 @@ var AppMenuView = Backbone.View.extend({
     renderOrbit: function(ctx) {
     }
 });
-
+    */
 
 var AppModalView = Backbone.View.extend({
     // Top-level container

@@ -12,7 +12,8 @@ write_mission_rules($cfg);
 <?php write_js_requires($cfg); ?>
 
 <script>
-LOGGED_USER='<?= db_user(); ?>';
+ LOGGED_USER='<?= db_user(); ?>';
+ APP_CFG.map = <?= json_encode(spyc_load_file("./map.yaml")); ?>;
 </script>
 <style>
  body, html {
@@ -131,17 +132,7 @@ LOGGED_USER='<?= db_user(); ?>';
 
 <div id="app-menu" class="animated">
   <div id="app-menu-container">
-    <div id="app-menu-message" class="title">Mission list</div>
-    <div class="separator-center"></div>
-    <div id="app-menu-stats">
-      <div id="app-menu-stars">
-      </div>
-      <div id="app-menu-totals">
-      </div>
-    </div>
-    <div class="separator-center clear"></div>
-    <div id="app-menu-missions">
-    </div>
+    
   </div>
 </div>
 
@@ -149,6 +140,7 @@ LOGGED_USER='<?= db_user(); ?>';
 <script type="text/javascript" src="../share/js/init.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/templates.js"></script>
+<script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/single-choice.js"></script>
 <script type="text/javascript" src="js/speech.js"></script>
 <script type="text/javascript" src="js/debug.js"></script>
