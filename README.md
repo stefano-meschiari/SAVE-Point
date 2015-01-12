@@ -113,9 +113,21 @@ iOS simulator.
 
 `git add -A; git commit -am "My commit message"; git push`
 
-(7) To see changes in Heroku, type
+(7) To see changes in Heroku at save-point-dev.herokuapp.com, type
+
+`git push dev master`
+
+This will push the changes to the *development* server, giving you the
+chance to test the changes remotely before pushing to the *production*
+(i.e. stable version) server.
+
+(8) Optional! *Only if you're 100% sure that your changes are not breaking
+anything on the website*, push changes to the stable Heroku address
+save-point.herokuapp.com, by typing
 
 `git push heroku master`
+
+
 
 # Some useful files
 ## YAML files
@@ -168,6 +180,43 @@ help:
      message: |
        You clicked next! Good job!
 
+
+### Available events
+* on: start is shown at the beginning of the level.
+* on: proceed is shown when the user clicks on the "Next" button. You
+  can set up multiple on: proceed message boxes, and they will be
+  shown in order.
+* on: change:nplanets is shown when the user adds a planet.
+* on: planet:drag is shown when the user drags a planet.
+* on: planet:dragvelocity is shown when the user drags the velocity
+vector.
+* on: winX where X is 1, 2, or 3 is the message displayed when the
+  user wins the level with X stars. 
+* on: win is shown when the user completes the level, if there is no
+  winX property.
+* on: lose is shown when the user fails to complete the level.
+
+
+### Available tags in the message
+Special strings can be inserted in the message that will be translated
+into non-text content (e.g. the Next button, avatar images, etc) or
+commands that influence the game (e.g. making the screen
+non-interactive, make the stars rotate, etc.). These are the tags that
+are implemented:
+
+* @fly makes the stars spin
+* @noninteractive ignores clicks from the user on the game area (this
+is only active for the current help box).
+* @name is the username of the player.
+* @boss, @groknar are the avatars for characters
+* @wait-5, @wait-10 show the message for 5/10 seconds before proceeding to
+the next message.
+* @hide-5, @hide-10 show the message for 5/10 seconds, then hide the message.
+* @proceed inserts the "Next" button
+* @close inserts the "Close" button
+* `*text*` makes the text bold.
+* Use two carriage returns to create a paragraph.
+
 ### How to win a level and computing points
 Each level will have two fields, "rule" and "starsrule". "rule"
 determines whether a level has been cleared or not. The rule will be a
@@ -202,34 +251,17 @@ which is a reserved character for YAML keys -- the pipe character
 introduces an "as-is" string). The expression evaluates to 1 if the
 eccentricity is < 0.4, 2 if < 0.7, 3 otherwise. 
 
-### Available events
-* on: start is shown at the beginning of the level.
-* on: proceed is shown when the user clicks on the "Next" button. You
-  can set up multiple on: proceed message boxes, and they will be
-  shown in order.
-* on: change:nplanets is shown when the user adds a planet.
-* on: planet:drag is shown when the user drags a planet.
-* on: planet:dragvelocity is shown when the user drags the velocity
-vector.
-* on: win is shown when the user completes the level.
-* on: lose is shown when the user fails to complete the level.
+### Level properties
+Aside from the starsrule and rule properties, there are a few
+additional properties:
+* title: the title of the level (main message)
+* name: the name of the level (a unique string), used in maps.yaml to
+connect levels together.
+* icon: name of the icon
+* music: the music for the level
+* value: used to evaluate the stars value of a level (if not
+  specified, equals to 3) -- useful, for example, to create 1-star
+  levels like the single choice levels.
 
-### Available tags in the message
-Special strings can be inserted in the message that will be translated
-into non-text content (e.g. the Next button, avatar images, etc) or
-commands that influence the game (e.g. making the screen
-non-interactive, make the stars rotate, etc.). These are the tags that
-are implemented:
-
-* @fly makes the stars spin
-* @noninteractive ignores clicks from the user on the game area (this
-is only active for the current help box).
-* @name is the username of the player.
-* @boss, @groknar are the avatars for characters
-* @wait-5, @wait-10 show the message for 5/10 seconds before proceeding to
-the next message.
-* @hide-5, @hide-10 show the message for 5/10 seconds, then hide the message.
-* @proceed inserts the "Next" button
-* @close inserts the "Close" button
-* `*text*` makes the text bold.
-* Use two carriage returns to create a paragraph.
+### Special types of levels
+When a "type"
