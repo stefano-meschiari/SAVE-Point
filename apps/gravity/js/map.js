@@ -56,8 +56,6 @@ var AppMenuView = Backbone.View.extend({
         
         if (state === MENU) {
             $el.addClass("expanded");
-            $("#app-menu-map").css('background-image', 'url(' + app.get('map')[0].bg + ')');
-//            this.renderMissionMenu();
         } else {
             $el.removeClass("expanded");
         }
