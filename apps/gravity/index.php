@@ -131,11 +131,15 @@ write_mission_rules($cfg);
 
 
 <div id="app-menu" class="animated">
-  <div id="app-menu-container">
-    
+  <div id="app-menu-map">
+    Hi
+  </div>
+  <div id="app-menu-text">
+    Hi
   </div>
 </div>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsPlumb/1.4.1/jquery.jsPlumb-1.4.1-all-min.js">
 
 <script type="text/javascript" src="../share/js/init.js"></script>
 <script type="text/javascript" src="js/app.js"></script>

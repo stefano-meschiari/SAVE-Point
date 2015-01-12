@@ -12,6 +12,10 @@
 @border-radius: 20px;
 
 
+@color-glass: rgba(140, 140, 140, 0.3);
+@color-accent: rgb(102, 204, 255);
+
+
 html, body {
   margin:0px;
   padding:0px;
@@ -70,30 +74,37 @@ html, body {
   left:0;
   width:100%;
   height:100%;
-  background-color:@glass-color;
   visibility:hidden;
   opacity: 0;
   color:white;
 }
-
 
 #app-menu.expanded {
   visibility:visible;
   opacity:1;
 }
 
-
-#app-menu-container {
+#app-menu-map {
+  width:50%;
+  position:absolute;
   top:0;
-  margin:0 auto;
-  width:500px;
+  left:0;
   height:100%;
-  padding:15px;
-  text-align:center;
-  //  .background-image(linear-gradient(to bottom, rgba(22, 34, 42, 0), #3A6073));
-  background-color:rgba(0, 0, 0, 0.5);
   overflow-y:scroll;
+  background-size:cover;
+  background-repeat:no-repeat;
 }
+
+#app-menu-text {
+  width:50%;
+  position:absolute;
+  top:0;
+  left:50%;
+  height:100%;
+  overflow-y:scroll;
+  background-color:@color-glass;
+}
+
 
 #app-menu-stars {
   font-size:@font-l;
@@ -120,8 +131,6 @@ html, body {
   min-height:100%;
 }
 
-@glass-color: rgba(140, 140, 140, 0.3);
-
 #sidebar {
   width:70px;
   position:absolute;
@@ -137,7 +146,7 @@ html, body {
 
 #sidebar.expanded {
   width:@sidebar-width;
-  background-color:@glass-color;
+  background-color:@color-glass;
   .transition(0.5s, ease-in);
 }
 
@@ -247,7 +256,7 @@ html, body {
 }
 
 .sidebar-glass {
-  background-color:@glass-color;
+  background-color:@color-glass;
 }
 
 .sidebar-title {
@@ -282,7 +291,7 @@ html, body {
 }
 
 #info-table-container {
-  background:@glass-color;
+  background:@color-glass;
   padding:10px;
   font-size:18px;
   font-weight:200;
@@ -311,7 +320,7 @@ html, body {
   padding:10px;
   margin-top:15px;
   position:relative;
-  background: @glass-color;
+  background: @color-glass;
 }
 
 .btn-borderless {
@@ -346,7 +355,7 @@ td.td-val {
   padding:12px;
   padding-left:20px;
   padding-right:20px;
-  background-color:@glass-color;
+  background-color:@color-glass;
   text-align:left;
   color:white;
   .user-select(none);
@@ -790,7 +799,7 @@ a.border {
   margin:5px;
 }
 .question-option:hover {
-  background: rgb(102, 204, 255);
+  background: @color-accent;
 }
 
 a {
@@ -799,6 +808,6 @@ a {
 }
 
 a:hover {
-  color: rgb(102, 204, 255);
+  color: @color-accent;
   text-decoration:none;
 }

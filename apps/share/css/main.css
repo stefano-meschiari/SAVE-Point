@@ -45,7 +45,6 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(140, 140, 140, 0.3);
   visibility: hidden;
   opacity: 0;
   color: white;
@@ -54,15 +53,24 @@ body {
   visibility: visible;
   opacity: 1;
 }
-#app-menu-container {
+#app-menu-map {
+  width: 50%;
+  position: absolute;
   top: 0;
-  margin: 0 auto;
-  width: 500px;
+  left: 0;
   height: 100%;
-  padding: 15px;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.5);
   overflow-y: scroll;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+#app-menu-text {
+  width: 50%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  overflow-y: scroll;
+  background-color: rgba(140, 140, 140, 0.3);
 }
 #app-menu-stars {
   font-size: 35px;

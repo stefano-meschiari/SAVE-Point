@@ -60,7 +60,7 @@ var Mission = Backbone.ROComputedModel.extend({
  * A collection of missions. This object takes care of synchronizing with the server.
  */
 var MissionCollection = Backbone.Collection.extend({
-    model: Mission    
+    model: Mission   
 });
 
 /*
@@ -596,8 +596,12 @@ var App = Backbone.ROComputedModel.extend({
             return app.get('missions').at(app.get('currentMission'));
         else if (_.isNumber(which))
             return app.get('missions').at(which);
-        else
-            return app.get('missions').pluck({ name: which })[0];
+        else {
+            var l = app.get('missions').where({ name: which });
+            if (l.length > 1)
+                console.error("Warning, multiple missions with name ", name)
+            return l[0];
+        }
     },
 
     
@@ -1143,10 +1147,6 @@ var AppModalView = Backbone.View.extend({
 
 $(document).ready(function() {
     app.mainView = new AppView({ model: app });
-    app.templates = new Templates();
-    app.messageView = new MessageView({ model: app });
-    app.menuView = new AppMenuView({model: app});
-    app.modalView = new AppModalView({model:app});
     
     // APP_CFG is an object created statically by the backend and inserted in
     // a top-level <script> tag. This is done so that the model does not have to
@@ -1154,6 +1154,12 @@ $(document).ready(function() {
     // APP_CFG replicates the configuration options contained in app.yaml: e.g.,
     // mission text and objectives.
     app.loadConfig(APP_CFG);
+
+    app.templates = new Templates();
+    app.messageView = new MessageView({ model: app });
+    app.menuView = new AppMenuView({model: app});
+    app.modalView = new AppModalView({model:app});
+    
     app.loadMissionData();
     app.sounds = new SoundEngine(app);
 

@@ -59,7 +59,7 @@ var Templates = Backbone.Model.extend({
         
         help.old_message = msg;
         
-        msg = _.escapeHTML(msg);
+        msg = _.str.escapeHTML(msg);
         help.funcs = [];
         var transforms = 0;
 
