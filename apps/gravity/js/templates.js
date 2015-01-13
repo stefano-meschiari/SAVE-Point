@@ -52,7 +52,13 @@ var Templates = Backbone.Model.extend({
 
      The "this" argument for the functions created in field "funcs" will be either this object, or the bindTo parameter if different from null. 
      */
+    firstRun: true,
     template: function(help, bindTo) {
+        if (this.firstRun) {
+            this.templates = _.extend(this.templates, app.get('avatars'));
+            this.firstRun = false;
+        }
+        
         var msg = help.message;
         var templates = this.templates;
         bindTo = bindTo || this;
@@ -92,10 +98,6 @@ var Templates = Backbone.Model.extend({
             this.templates['@/' + safeTags[i]] = "</" + safeTags[i] + ">";
         }
 
-        
-        this.listenToOnce(app, "change:missions", function() {
-            this.templates = _.extend(this.templates, app.get('avatars'));
-        });        
     }
 
 });

@@ -27,50 +27,50 @@ write_mission_rules($cfg);
 
 
 <div id="app" class="full-size">
-    <div id="text-top" class="animated">
-      Welcome!
-    </div>
-    
-    
-    <div id="canvas-container" class="full-size">
-      
-  <div id="info-top">
-    <div id="info-table-container">
-      <table cols="2">
-        <tr>
-          <td class="td-label">Distance</td>
-          <td class="td-val" id="distance"></td>
-        </tr>
-        <tr>
-          <td class="td-label">Speed</td>
-          <td class="td-val" id="speed"></td>
-        </tr>
-        <tr>
-          <td class="td-label">Time</td>
-          <td class="td-val" id="time"></td>
-        </tr>
-        <tr>
-          <td class="td-stars" colspan="2">
-            <div id="stars">
-            </div>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div id="toolbars">
-      <div class="toolbar in-front hidden" id="toolbar-zoom">
-        Zoom: <strong><span id="zoom-value">100</span>%</strong>
-        <span class="pull-right">
-        <span class="btn-group">
-          <button class="btn btn-sm btn-jrs in-front fa fa-plus" id="zoom-in"></button>
-          <button class="btn btn-sm btn-jrs in-front fa fa-minus" id="zoom-out"></button>
-        </span>
-        <span class="fa fa-minus-circle btn-borderless" id="zoom-close"></span>
-        </span>
-      </div>
-    </div>
-  
+  <div id="text-top" class="animated">
+    Welcome!
   </div>
+  
+  
+  <div id="canvas-container" class="full-size">
+    
+    <div id="info-top">
+      <div id="info-table-container">
+        <table cols="2">
+          <tr>
+            <td class="td-label">Distance</td>
+            <td class="td-val" id="distance"></td>
+          </tr>
+          <tr>
+            <td class="td-label">Speed</td>
+            <td class="td-val" id="speed"></td>
+          </tr>
+          <tr>
+            <td class="td-label">Time</td>
+            <td class="td-val" id="time"></td>
+          </tr>
+          <tr>
+            <td class="td-stars" colspan="2">
+              <div id="stars">
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div id="toolbars">
+        <div class="toolbar in-front hidden" id="toolbar-zoom">
+          Zoom: <strong><span id="zoom-value">100</span>%</strong>
+          <span class="pull-right">
+            <span class="btn-group">
+              <button class="btn btn-sm btn-jrs in-front fa fa-plus" id="zoom-in"></button>
+              <button class="btn btn-sm btn-jrs in-front fa fa-minus" id="zoom-out"></button>
+            </span>
+            <span class="fa fa-minus-circle btn-borderless" id="zoom-close"></span>
+          </span>
+        </div>
+      </div>
+      
+    </div>
     <canvas id="canvas" resize keepalive="true" style="position:absolute"></canvas>
   </div>
 
@@ -126,7 +126,7 @@ write_mission_rules($cfg);
 <div id="app-message" style="display:none">
   <div id="app-message-container">
     <div id="app-message-body">
-    
+      
     </div>
     <div id="app-message-close" class="btn-jrs-ico fa fa-close" onClick="$('#app-message').hide();"></div>
   </div>
@@ -134,15 +134,38 @@ write_mission_rules($cfg);
 
 
 <div id="app-menu" class="animated">
-  <div id="app-menu-map">
-    Hi
+  <div id="app-menu-map-container">
+    <div id="app-menu-world">
+      <span id="app-menu-world-name">Hello!</span>
+      <div class="float-right">
+        <span class="icon-win-star color-accent"></span>&times;<span id="app-menu-stars-earned">20</span>
+      </div>
+    </div>
+    <div id="app-menu-map">
+      
+    </div>
   </div>
   <div id="app-menu-text">
-    Hi
+    <div id="app-menu-text-top">
+      <button id="app-menu-start" class="btn btn-lg btn-jrs float-right">
+        Play
+      </button>
+
+      <div id="app-menu-mission-title" class="title"></div>
+      <div id="app-menu-mission-subtitle" class="subtitle"></div>
+      <div id="app-menu-mission-stars"></div>
+      <div class="clear"></div>
+    </div>
+    <div class="bubble-cont">
+      <img src="img/boss.png" width="150" class="bubble-avatar">
+      <div class="bubble">
+        Hello!
+      </div>
+    </div>
+    <div id="app-menu-start-container">
+    </div>
   </div>
 </div>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsPlumb/1.4.1/jquery.jsPlumb-1.4.1-all-min.js">
 
 <script type="text/javascript" src="../share/js/init.js"></script>
 <script type="text/javascript" src="js/app.js"></script>

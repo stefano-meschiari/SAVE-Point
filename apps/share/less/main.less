@@ -3,7 +3,9 @@
 @import (reference) "apps/share/less/lesshat";
 
 @font: "Dosis";
+@font-XL: 60px;
 @font-xl: 50px;
+@font-L: 40px;
 @font-l: 35px;
 @font-M: 30px;
 @font-m: 20px;
@@ -15,7 +17,6 @@
 @color-glass: rgba(140, 140, 140, 0.4);
 @color-glass-dark: rgba(140, 140, 140, 0.2);
 @color-accent: rgb(102, 204, 255);
-
 
 html, body {
   margin:0px;
@@ -85,43 +86,127 @@ html, body {
   opacity:1;
 }
 
-#app-menu-map {
-  width:50%;
-  position:absolute;
-  padding:10px;
+#app-menu-map-container {
+  width:500px;
+  float:left;
+  position:relative;
   top:0;
   left:0;
   height:100%;
   overflow-y:scroll;
+  background-size:cover;
   background-color:@color-glass-dark;
-  
+  background-repeat:no-repeat;
+  border-right:5px solid white;
+}
+
+#app-menu-world {
+  font-size:@font-L;
+  text-shadow: 0px 0px 4px black;
+  font-variant:small-caps;
+  margin:40px;
+}
+
+#app-menu-map {
+  width:100%;
+  position:relative;
+  top:0;
+  left:0;
+  padding-top:60px;
+  background-size:cover;
 }
 
 #app-menu-text {
-  width:50%;
-  position:absolute;
-  top:0;
-  left:50%;
-  height:100%;
+  padding:50px;
   overflow-y:scroll;
-  background-color:@color-glass;
+  height:100%;
+  background-color: @color-glass-dark;
+}
+
+#app-menu-text-top {
+  line-height:1.1;
 }
 
 .app-menu-mission-row {
   width:100%;
   padding:10px;
+  padding-bottom:50px;
   clear:both;
   text-align:center;
+}
+
+
+
+#app-menu-mission-stars {
+  font-size: @font-l;
+  color: @color-accent;
 }
 
 .app-menu-mission-box {
   background-color:white;
   color:black;
-  padding:10px;
+  padding:20px;
   width:100px;
   height:100px;
   border-radius:50px;
+  box-shadow: 2px 2px 10px black;
   margin:0 auto;
+  position:relative;
+  z-index:1;
+  border:none;
+
+  cursor:pointer;
+}
+
+#app-menu-start-container {
+  text-align:center;
+  margin-top:100px;
+}
+#app-menu-start {
+  font-size: @font-l;
+  width:150px;
+  height:150px;
+  border-radius:75px;
+  .animation(bob 0.75s ease alternate infinite);
+}
+
+.bubble-cont {
+  width:600px;
+  margin:0 auto;
+  margin-top:100px;
+}
+
+.bubble {
+  background-color: @color-glass;
+  font-size:@font-m;
+  padding:30px;
+  border-radius:@border-radius;
+  min-height:250px;
+  width:400px;
+}
+
+
+.bubble-avatar {
+  float:right;
+  width:150px;
+  margin-left:20px;
+}
+
+.keyframes(~'bob, 0%{transform: scale(1); background-color:silver; } 100%{transform:scale(1.05)}');
+
+.app-menu-mission-box-selected {
+  box-shadow:0px 0px 0px 15px @color-accent, 2px 2px 30px black;
+}
+
+
+.app-menu-mission-locked {
+  background:black !important;
+  color:white;
+  border:2px solid white;
+  .icon-mission-locked;
+  cursor:not-allowed !important;
+  font-size:70px;
+  line-height:1;
 }
 
 .box {
@@ -637,13 +722,13 @@ td.td-val {
 }
 
 .title {
-  font-size:@font-xl;
+  font-size:@font-XL;
   color:white;
   text-shadow:0px 0px 2px black;
 }
 
 .subtitle {
-  font-size:@font-m;
+  font-size:@font-M;
   color:silver;
   margin-bottom:5px;
   text-shadow:0px 0px 4px black;
@@ -845,3 +930,6 @@ a:hover {
   text-decoration:none;
 }
 
+.color-accent {
+  color: @color-accent;
+}

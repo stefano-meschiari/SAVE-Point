@@ -53,39 +53,131 @@ body {
   visibility: visible;
   opacity: 1;
 }
-#app-menu-map {
-  width: 50%;
-  position: absolute;
-  padding: 10px;
+#app-menu-map-container {
+  width: 500px;
+  float: left;
+  position: relative;
   top: 0;
   left: 0;
   height: 100%;
   overflow-y: scroll;
+  background-size: cover;
   background-color: rgba(140, 140, 140, 0.2);
+  background-repeat: no-repeat;
+  border-right: 5px solid white;
+}
+#app-menu-world {
+  font-size: 40px;
+  text-shadow: 0px 0px 4px black;
+  font-variant: small-caps;
+  margin: 40px;
+}
+#app-menu-map {
+  width: 100%;
+  position: relative;
+  top: 0;
+  left: 0;
+  padding-top: 60px;
+  background-size: cover;
 }
 #app-menu-text {
-  width: 50%;
-  position: absolute;
-  top: 0;
-  left: 50%;
-  height: 100%;
+  padding: 50px;
   overflow-y: scroll;
-  background-color: rgba(140, 140, 140, 0.4);
+  height: 100%;
+  background-color: rgba(140, 140, 140, 0.2);
+}
+#app-menu-text-top {
+  line-height: 1.1;
 }
 .app-menu-mission-row {
   width: 100%;
   padding: 10px;
+  padding-bottom: 50px;
   clear: both;
   text-align: center;
+}
+#app-menu-mission-stars {
+  font-size: 35px;
+  color: #66ccff;
 }
 .app-menu-mission-box {
   background-color: white;
   color: black;
-  padding: 10px;
+  padding: 20px;
   width: 100px;
   height: 100px;
   border-radius: 50px;
+  box-shadow: 2px 2px 10px black;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  border: none;
+  cursor: pointer;
+}
+#app-menu-start-container {
+  text-align: center;
+  margin-top: 100px;
+}
+#app-menu-start {
+  font-size: 35px;
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  -webkit-animation: bob 0.75s ease alternate infinite;
+  -moz-animation: bob 0.75s ease alternate infinite;
+  -o-animation: bob 0.75s ease alternate infinite;
+  animation: bob 0.75s ease alternate infinite;
+}
+.bubble-cont {
+  width: 600px;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+.bubble {
+  background-color: rgba(140, 140, 140, 0.4);
+  font-size: 20px;
+  padding: 30px;
+  border-radius: 20px;
+  min-height: 250px;
+  width: 400px;
+}
+.bubble-avatar {
+  float: right;
+  width: 150px;
+  margin-left: 20px;
+}
+lesshat-selector {
+  -lh-property: 0; } 
+@-webkit-keyframes bob{ 0%{-webkit-transform: scale(1); background-color:silver; } 100%{-webkit-transform:scale(1.05)}}
+@-moz-keyframes bob{ 0%{-moz-transform: scale(1); background-color:silver; } 100%{-moz-transform:scale(1.05)}}
+@-o-keyframes bob{ 0%{-o-transform: scale(1); background-color:silver; } 100%{-o-transform:scale(1.05)}}
+@keyframes bob{ 0%{-webkit-transform: scale(1);-moz-transform: scale(1);-ms-transform: scale(1);transform: scale(1); background-color:silver; } 100%{-webkit-transform:scale(1.05);-moz-transform:scale(1.05);-ms-transform:scale(1.05);transform:scale(1.05);};
+}
+.app-menu-mission-box-selected {
+  box-shadow: 0px 0px 0px 15px #66ccff, 2px 2px 30px black;
+}
+.app-menu-mission-locked {
+  background: black !important;
+  color: white;
+  border: 2px solid white;
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  cursor: not-allowed !important;
+  font-size: 70px;
+  line-height: 1;
+}
+.app-menu-mission-locked.pull-left {
+  margin-right: .3em;
+}
+.app-menu-mission-locked.pull-right {
+  margin-left: .3em;
+}
+.app-menu-mission-locked:before {
+  content: "\f023";
 }
 .box {
   width: 100%;
@@ -782,12 +874,12 @@ td.td-val {
   user-select: none;
 }
 .title {
-  font-size: 50px;
+  font-size: 60px;
   color: white;
   text-shadow: 0px 0px 2px black;
 }
 .subtitle {
-  font-size: 20px;
+  font-size: 30px;
   color: silver;
   margin-bottom: 5px;
   text-shadow: 0px 0px 4px black;
@@ -987,4 +1079,7 @@ a {
 a:hover {
   color: #66ccff;
   text-decoration: none;
+}
+.color-accent {
+  color: #66ccff;
 }

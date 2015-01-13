@@ -1,23 +1,31 @@
 /*
- * Reads in the map.yaml and transforms it into linear arrays.
+ * Reads in the map.yaml and transforms it into a tree.
  */
 
 "use strict";
 
-
+var mapPlumb;
 var AppMenuView = Backbone.View.extend({
-    // Top-level container
+    selectedMission: '',
     el: $("#app-menu"),
 
+    events: {
+        "click #app-menu-start": function() { this.start(); }
+    },
+    
     initialize: function() {
         this.listenTo(this.model, "change:state", this.render);
-
         var maps = this.model.get('map');
         var missions = this.model.get('missions');
-
+        this.selectedMission = this.model.mission().get('name');
         this.setupMaps(maps, missions);
     },
 
+    start: function() {
+        this.model.sounds.playEffect('clickety');
+        this.model.setMission(this.selectedMission);
+    },
+    
     rootLevel: function() {
         return this.model.get('map')[this.model.mission().get('worldidx')].levels[0];
     },
@@ -55,17 +63,35 @@ var AppMenuView = Backbone.View.extend({
         
     },
 
-    DIV_THUMB: '<div class="<%= divclass %>"><div class="app-menu-mission-box <%= icon %>"></div></div>',
+    DIV_THUMB: '<div class="<%= divclass %>"><button id="app-menu-mission-box-<%= name %>" class="app-menu-mission-box <%= icon %> <%= allowed %>"></button></div>',
     DIV_ROW: '<div class="app-menu-mission-row"><%= row %><div class="clear"></div></div>',
     
     renderTree: function(rl, posx, posy, rows) {
+        var app = this.model;
+        var self = this;
+        var prev = rl.get('prev');
         
-        var div = _.template(this.DIV_THUMB, { divclass: 'box' + posx, content: rl.get('name'), icon: rl.get('icon') + '-b'} );
+        var allowed = false;
+        if (!prev)
+            allowed = true;
+        else if (prev && app.mission(prev).get('completed'))
+            allowed = true;
+
+        var selected = app.mission().get('name') === rl.get('name');
+        
+        var div = _.template(this.DIV_THUMB, { divclass: 'box' + posx, name: rl.get('name'), icon: rl.get('icon') + '-b', allowed: (allowed ? '' : 'app-menu-mission-locked') } );
         if (rows[posy])
             rows[posy] += div;
         else
             rows[posy] = div;
 
+        if (allowed)
+            _.defer(function() {
+                $("#app-menu-mission-box-" + rl.get('name')).on("click", function() {
+                    self.select(rl.get('name'));
+                });
+            });
+        
         var next = rl.get('next');
         if (!next)
             return;
@@ -79,15 +105,47 @@ var AppMenuView = Backbone.View.extend({
             this.renderTree(this.model.mission(next[0]), posx + 'L', posy + 1, rows);
             this.renderTree(this.model.mission(next[1]), posx + 'R', posy + 1, rows);
         }
+
+        _.defer(function() {
+            _.each(next, function(name) {
+                mapPlumb.connect({ source: "app-menu-mission-box-" + rl.get('name'),
+                                   target: "app-menu-mission-box-" + name,
+                                   anchor: "AutoDefault"
+                                 });
+            });
+        });
+
+    },
+
+    select: function(name) {
+        var app = this.model;
+        var mission = app.mission(name);
+        $(".app-menu-mission-box").removeClass("app-menu-mission-box-selected");
+        $("#app-menu-mission-box-" + name).addClass("app-menu-mission-box-selected");
+
+        $("#app-menu-mission-title").html(mission.get('title'));
+        $("#app-menu-mission-subtitle").html(mission.get('subtitle'));
+        $("#app-menu-mission-stars").html(mission.starsRepr());
+        var intro = '';
+        if (mission.get('intro')) {
+            var help = { message: mission.get('intro') };
+            app.templates.template(help);
+            intro = help.message;
+        }
         
+        $("#app-menu .bubble").html(intro);
     },
     
     render: function() {
         var self = this;
-        var state = this.model.get('state');
-        var world = this.model.mission().get('world');
-        var $el = this.$el;
+        var app = this.model;
+        var state = app.get('state');
+        var world = app.mission().get('world');
+        var world_props = _.where(app.get('map'), { world: world })[0];
         
+        var $el = this.$el;
+        mapPlumb.reset();
+            
         if (state === MENU) {
             $el.addClass("expanded");
 
@@ -101,12 +159,32 @@ var AppMenuView = Backbone.View.extend({
                 t += _.template(self.DIV_ROW, { row: row }) + '\n';
             });
 
+            console.log(world_props.bg);
+            $("#app-menu-map-container").css("background-image", 'url(' + world_props.bg + ')');
+            $("#app-menu-world-name").html(world_props.world);
             $('#app-menu-map').html(t);
+            
+            this.select(app.mission().get('name'));
         } else {
             $el.removeClass("expanded");
         }
     }
-
-    
 });
 
+jsPlumb.ready(function() {
+    mapPlumb = jsPlumb.getInstance({
+        PaintStyle:{ 
+            lineWidth:6, 
+            strokeStyle:"rgb(200, 200, 200)"
+        },
+
+        Connector: ['Flowchart'],
+        Endpoint: 'Blank'
+    });
+    mapPlumb.setContainer("app-menu-map");
+
+
+    $(window).resize(function(){
+      mapPlumb.repaintEverything();
+    });
+});

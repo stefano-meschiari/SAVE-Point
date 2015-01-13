@@ -49,3 +49,5 @@ animalese:
   - /share/animalese/Blob.js
   - /share/animalese/animalese.js
   
+jsplumb:
+  - /share/jsplumb/dist/js/dom.jsPlumb-1.7.2.js

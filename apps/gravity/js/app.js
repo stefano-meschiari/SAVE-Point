@@ -412,6 +412,16 @@ var App = Backbone.ROComputedModel.extend({
     setMission: function(mission) {
         if (mission === undefined)
             mission = this.get('currentMission')+1;
+
+        if (_.isString(mission)) {            
+            app.get('missions').find(function(m, idx) {
+                if (m.get('name') === mission) {
+                    mission = idx;
+                    return true;
+                };
+                return false;
+            });
+        }
         
         this.set({ currentMission: mission });
         this.reset();
@@ -920,9 +930,8 @@ var MessageView = Backbone.View.extend({
     messagesSetup:false,
     
     
-    initialize: function() {
-        
-        this.listenToOnce(this.model, "change:missions", function() {
+    initialize: function() {        
+        this.listenToOnce(this.model, "start", function() {
             this.setupTemplates();
         });
         
@@ -942,12 +951,14 @@ var MessageView = Backbone.View.extend({
     setupTemplates: function() {
         if (this.messagesSetup)
             return;
+
         var self = this;
         var missions = this.model.get('missions');
 
         for (var i = 0; i < missions.length; i++) {
             var m = missions.at(i);
             var help = m.get('help');
+            console.log(help);
             if (!help)
                 continue;
             
@@ -1007,7 +1018,7 @@ var MessageView = Backbone.View.extend({
             
             $("#help-text").addClass("expanded");
             app.mainView.renderInfo();
-            if (help)
+            if (help && help.funcs)
                 for (var i = 0; i < help.funcs.length; i++)
                     help.funcs[i]();
         }, 500);
