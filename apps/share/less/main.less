@@ -88,6 +88,7 @@ html, body {
 #app-menu-map {
   width:50%;
   position:absolute;
+  padding:10px;
   top:0;
   left:0;
   height:100%;
@@ -106,6 +107,36 @@ html, body {
   background-color:@color-glass;
 }
 
+.app-menu-mission-row {
+  width:100%;
+  padding:10px;
+  clear:both;
+  text-align:center;
+}
+
+.app-menu-mission-box {
+  background-color:white;
+  color:black;
+  padding:10px;
+  width:100px;
+  height:100px;
+  border-radius:50px;
+  margin:0 auto;
+}
+
+.box {
+  width:100%;
+}
+
+.boxL {
+  width:50%;
+  float:left;
+}
+
+.boxR {
+  width:50%;
+  float:right;
+}
 
 #app-menu-stars {
   font-size:@font-l;
@@ -524,7 +555,8 @@ td.td-val {
   -o-background-size: contain;
   background-size: contain;
   padding:10px;
-  background-origin: content-box;  
+  background-origin: content-box;
+  background-color:white;
 }
 
 .icon-circular {
@@ -812,3 +844,4 @@ a:hover {
   color: @color-accent;
   text-decoration:none;
 }
+

@@ -56,6 +56,7 @@ body {
 #app-menu-map {
   width: 50%;
   position: absolute;
+  padding: 10px;
   top: 0;
   left: 0;
   height: 100%;
@@ -70,6 +71,32 @@ body {
   height: 100%;
   overflow-y: scroll;
   background-color: rgba(140, 140, 140, 0.4);
+}
+.app-menu-mission-row {
+  width: 100%;
+  padding: 10px;
+  clear: both;
+  text-align: center;
+}
+.app-menu-mission-box {
+  background-color: white;
+  color: black;
+  padding: 10px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  margin: 0 auto;
+}
+.box {
+  width: 100%;
+}
+.boxL {
+  width: 50%;
+  float: left;
+}
+.boxR {
+  width: 50%;
+  float: right;
 }
 #app-menu-stars {
   font-size: 35px;
@@ -613,6 +640,7 @@ td.td-val {
   background-size: contain;
   padding: 10px;
   background-origin: content-box;
+  background-color: white;
 }
 .icon-circular {
   background: url('../img/circular_icon.png') no-repeat center center;
@@ -622,6 +650,7 @@ td.td-val {
   background-size: contain;
   padding: 10px;
   background-origin: content-box;
+  background-color: white;
   background-image: url('../img/circular_icon.png');
 }
 .icon-circular-b {
@@ -632,6 +661,7 @@ td.td-val {
   background-size: contain;
   padding: 10px;
   background-origin: content-box;
+  background-color: white;
   background-image: url('../img/circular_icon_b.png');
 }
 .icon-elliptical {
@@ -642,6 +672,7 @@ td.td-val {
   background-size: contain;
   padding: 10px;
   background-origin: content-box;
+  background-color: white;
   background-image: url('../img/elliptical_icon.png');
 }
 .icon-elliptical-b {
@@ -652,6 +683,7 @@ td.td-val {
   background-size: contain;
   padding: 10px;
   background-origin: content-box;
+  background-color: white;
   background-image: url('../img/elliptical_icon_b.png');
 }
 .icon-hyperbolic {
@@ -662,6 +694,7 @@ td.td-val {
   background-size: contain;
   padding: 10px;
   background-origin: content-box;
+  background-color: white;
   background-image: url('../img/escape_icon.png');
 }
 .icon-hyperbolic-b {
@@ -672,6 +705,7 @@ td.td-val {
   background-size: contain;
   padding: 10px;
   background-origin: content-box;
+  background-color: white;
   background-image: url('../img/escape_icon_b.png');
 }
 .icon-crash {
@@ -682,6 +716,7 @@ td.td-val {
   background-size: contain;
   padding: 10px;
   background-origin: content-box;
+  background-color: white;
   background-image: url('../img/crash_icon.png');
 }
 .icon-crash-b {
@@ -692,6 +727,7 @@ td.td-val {
   background-size: contain;
   padding: 10px;
   background-origin: content-box;
+  background-color: white;
   background-image: url('../img/crash_icon_b.png');
 }
 .icon-practice-b {
@@ -702,6 +738,7 @@ td.td-val {
   background-size: contain;
   padding: 10px;
   background-origin: content-box;
+  background-color: white;
   background-image: url('../img/practice_icon.png');
 }
 .icon-circ-rvs-b {
@@ -712,6 +749,7 @@ td.td-val {
   background-size: contain;
   padding: 10px;
   background-origin: content-box;
+  background-color: white;
   background-image: url('../img/circ_rvs_icon.png');
 }
 .separator {

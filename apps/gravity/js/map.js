@@ -55,12 +55,12 @@ var AppMenuView = Backbone.View.extend({
         
     },
 
-    DIV_THUMB: '<div class="app-menu-mission-box <%= divclass %>"><%= content %></div>',
-    DIV_ROW: '<div class="app-menu-mission-row"><%= row %></div>',
+    DIV_THUMB: '<div class="<%= divclass %>"><div class="app-menu-mission-box <%= icon %>"></div></div>',
+    DIV_ROW: '<div class="app-menu-mission-row"><%= row %><div class="clear"></div></div>',
     
     renderTree: function(rl, posx, posy, rows) {
         
-        var div = _.template(this.DIV_THUMB, { divclass: 'box' + posx, content: rl.get('name')} );
+        var div = _.template(this.DIV_THUMB, { divclass: 'box' + posx, content: rl.get('name'), icon: rl.get('icon') + '-b'} );
         if (rows[posy])
             rows[posy] += div;
         else
@@ -100,8 +100,8 @@ var AppMenuView = Backbone.View.extend({
             _.each(rows, function(row) {
                 t += _.template(self.DIV_ROW, { row: row }) + '\n';
             });
-            console.log(t);
 
+            $('#app-menu-map').html(t);
         } else {
             $el.removeClass("expanded");
         }
