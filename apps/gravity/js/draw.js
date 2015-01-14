@@ -15,9 +15,15 @@ var DrawUtils = {
     createArrow: function(from, to, color) {
         color = color || COLOR_OUTLINE;
         var myPath = new Path.Line(from, to);
-
-        myPath.strokeColor = color;
-        myPath.strokeWidth = 3;
+        myPath.strokeColor = {
+            gradient: {
+                stops:[[color, 0.5], ['rgba(0, 0, 0, 0)', 1]]
+            },
+            origin: to,
+            destination: from
+        };
+        
+        myPath.strokeWidth = 10;
 
         var t = Math.atan2(to.y-from.y, to.x-from.x) * 180/Math.PI;
 
@@ -28,7 +34,6 @@ var DrawUtils = {
         
         head.fillColor = color;
         head.rotate(t-30);
-
         
         var g = new Group([myPath, head]);
         g.last = t;
@@ -37,6 +42,9 @@ var DrawUtils = {
         g.setVector = function(from, to) {
             myPath.segments[0].point = from;
             myPath.segments[1].point = to;
+            myPath.strokeColor.origin = to;
+            myPath.strokeColor.destination = from;
+            
             var t = Math.atan2(to.y-from.y, to.x-from.x) * 180/Math.PI;
             if (t != g.last) {
                 head.rotate(-(g.last-30));
@@ -53,7 +61,20 @@ var DrawUtils = {
             myPath.remove();
             head.remove();
             head2.remove();
+            g.frame = null;
         };
+
+        g.frame = function() {
+            var f = myPath.strokeColor.gradient.stops[0].rampPoint;
+            f -= 0.005;
+            if (f <= 0.1)
+                f = 0.5;
+            myPath.strokeColor.gradient.stops[0].rampPoint = f;
+            if (g.frame)
+                requestAnimationFrame(g.frame);
+        };
+
+        requestAnimationFrame(g.frame);
         
         return g;
     }    
