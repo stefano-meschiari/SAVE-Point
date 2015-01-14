@@ -7,7 +7,7 @@
 var mapPlumb;
 
 var AppMenuView = Backbone.View.extend({
-    selectedMission: '',
+    selectedMission: null,
     el: $("#app-menu"),
 
     events: {
@@ -119,6 +119,7 @@ var AppMenuView = Backbone.View.extend({
     },
 
     select: function(name) {
+        console.log(name);
         var app = this.model;
         var mission = app.mission(name);
         $(".app-menu-mission-box").removeClass("app-menu-mission-box-selected");
@@ -136,6 +137,15 @@ var AppMenuView = Backbone.View.extend({
         
         $("#app-menu .bubble").html(intro);
         this.selectedMission = name;        
+    },
+
+    selectNextMission: function() {
+        var app = this.model;
+        var mission = app.mission();
+        if (!mission.get('next'))
+            return;
+        else
+            this.selectedMission = mission.get('next')[0];
     },
     
     render: function() {
@@ -165,8 +175,8 @@ var AppMenuView = Backbone.View.extend({
             $("#app-menu-map-container").css("background-image", 'url(' + world_props.bg + ')');
             $("#app-menu-world-name").html(world_props.world);
             $('#app-menu-map').html(t);
-            
-            this.select(app.mission().get('name'));
+            $('#app-menu-stars-earned').html(app.starsEarnedTotal());
+            this.select(this.selectedMission);
         } else {
             $el.removeClass("expanded");
         }

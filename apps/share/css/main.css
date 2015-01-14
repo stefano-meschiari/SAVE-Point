@@ -170,7 +170,7 @@ lesshat-selector {
 @keyframes bob{ 0%{-webkit-transform: scale(1);-moz-transform: scale(1);-ms-transform: scale(1);transform: scale(1); background-color:silver; } 100%{-webkit-transform:scale(1.05);-moz-transform:scale(1.05);-ms-transform:scale(1.05);transform:scale(1.05);};
 }
 .app-menu-mission-box-selected {
-  box-shadow: 0px 0px 0px 15px #66ccff, 2px 2px 30px #000000;
+  box-shadow: 0px 0px 0px 15px #66ccff, 2px 2px 30px black;
 }
 .app-menu-mission-locked {
   background: black !important;
@@ -298,9 +298,10 @@ lesshat-selector {
   padding: 12px;
   color: white;
   text-align: center;
-  background-color: none;
+  background: none;
   cursor: pointer;
   width: 50px;
+  border: 0px;
 }
 .btn-jrs-ico:hover {
   background-color: white;
@@ -309,6 +310,9 @@ lesshat-selector {
   -webkit-animation-direction: alternate;
   animation: throbshadow 1s infinite;
   animation-direction: alternate;
+}
+.btn-jrs-ico-unknown {
+  border: 1px solid grey;
 }
 .sidebar-section {
   opacity: 0;
@@ -346,6 +350,9 @@ lesshat-selector {
 .sidebar-item {
   text-align: center;
   margin-bottom: 5px;
+}
+.sidebar-item-disabled {
+  display: none;
 }
 .sidebar-hidden {
   -webkit-transition: 0.5s ease-in;

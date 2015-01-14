@@ -61,7 +61,11 @@ missions:
     icon: icon-practice
     starsrule: 3
     intro: |
-      You! Who are you? Don't just stand at the door, come in!
+      Big Boss Reaz-7 pushes aside the giant potted plant on his gold leaf desk and glares at you.
+
+
+      *"You! Who are you? Don't just stand at the door, press that Play button!"*
+      
     constraints:
       nplanets: 1
     help:      

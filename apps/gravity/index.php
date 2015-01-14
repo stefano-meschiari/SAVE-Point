@@ -76,41 +76,36 @@ write_mission_rules($cfg);
 
   <div id="sidebar">
     <div class="sidebar-item">
-      <div id="menu" class="btn-jrs-ico fa fa-bars"></div>
+      <button id="menu" class="btn-jrs-ico fa fa-bars"></button>
     </div>
-    <div class="separator-center"></div>
-    <div class="sidebar-item">
-      <div id="sizes" class="btn-jrs-ico fa fa-arrows-alt"></div>
-      <div class="sidebar-title">Toggle physical size</div>
-    </div>
-    <div class="sidebar-item">
-      <div id="zoom" class="btn-jrs-ico fa fa-search"></div>
-      <div class="sidebar-title">Zoom</div>
-    </div>
-
     <div class="separator-center"></div>
     
     <div class="sidebar-item">
-      <div id="missions" class="btn-jrs-ico fa fa-th-large"></div>
+      <button id="missions" class="btn-jrs-ico fa fa-th-large"></button>
       <div class="sidebar-title">Mission list</div>
     </div>
     <div class="sidebar-item">
-      <div id="reset" class="btn-jrs-ico fa fa-undo"></div>
+      <button id="reset" class="btn-jrs-ico fa fa-undo"></button>
       <div class="sidebar-title">Restart mission</div>
     </div>
     <div class="sidebar-item">
-      <div id="dashboard" class="btn-jrs-ico fa fa-backward"></div>
+      <button id="dashboard" class="btn-jrs-ico fa fa-backward"></button>
       <div class="sidebar-title">Back to dashboard</div>
     </div>
-    <div class="separator-center"></div>
     <div class="sidebar-item">
-      <div id="help" class="btn-jrs-ico fa fa-question-circle"></div>
+      <button id="help" class="btn-jrs-ico fa fa-question-circle"></button>
       <div class="sidebar-title">Help</div>
     </div>
-    Debug:
-    <button id="debug-get-stars" class="btn btn-sm btn-danger">get all stars</button>
-    <button id="debug-reset-missions" class="btn btn-sm btn-danger">reset missions</button>
 
+    <div class="separator-center"></div>
+    <div class="sidebar-item sidebar-item-disabled" id="sidebar-sizes">
+      <button id="sizes" class="btn-jrs-ico fa fa-arrows-alt"></button>
+      <div class="sidebar-title">Toggle physical size</div>
+    </div>
+    <div class="sidebar-item sidebar-item-disabled" id="sidebar-zoom">
+      <button id="zoom" class="btn-jrs-ico fa fa-search"></button>
+      <div class="sidebar-title">Zoom</div>
+    </div>
   </div>
 
   
