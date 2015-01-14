@@ -361,6 +361,10 @@ missions:
     intro: |
       Still not satisfied, the leader of the Arkanids demands a different planet moving at 25 km/s for more optimal growing conditions.
 
+  - title: Boss level
+    subtitle: Boss level test
+    name: boss_arcturus
+    icon: icon-boss
 
   - title: Multi-planet test
     subtitle: Under construction...

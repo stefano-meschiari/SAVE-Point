@@ -186,8 +186,22 @@ html, body {
   border-radius:@border-radius;
   min-height:250px;
   width:400px;
+  position:relative;
 }
 
+.bubble:before
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 15px 0 15px 15px;
+border-color: transparent @color-glass;
+display: block;
+width: 0;
+z-index: 1;
+top: 50px;
+left:400px;
+}
 
 .bubble-avatar {
   float:right;
@@ -211,6 +225,8 @@ html, body {
   font-size:70px;
   line-height:1;
 }
+
+
 
 .box {
   width:100%;

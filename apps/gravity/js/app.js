@@ -658,7 +658,7 @@ var AppView = Backbone.View.extend({
         // Update information when planetary parameters change
         self.listenTo(self.model, 'change:nplanets change:time change:position change:velocity change:elements', _.throttle(self.renderInfo, 500));
         
-//        self.listenTo(self.model, 'start change:missions reset', self.renderMission);
+        self.listenTo(self.model, 'start change:missions reset', self.renderMission);
         self.listenTo(self.model, 'change:state', self.setVisibility);
         self.listenTo(self.model, 'win', self.renderWin);
         self.listenTo(self.model, 'lose', self.renderLose);

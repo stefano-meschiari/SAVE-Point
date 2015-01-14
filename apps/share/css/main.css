@@ -143,6 +143,19 @@ body {
   border-radius: 20px;
   min-height: 250px;
   width: 400px;
+  position: relative;
+}
+.bubble:before {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 15px 0 15px 15px;
+  border-color: transparent rgba(140, 140, 140, 0.4);
+  display: block;
+  width: 0;
+  z-index: 1;
+  top: 50px;
+  left: 400px;
 }
 .bubble-avatar {
   float: right;
