@@ -1136,22 +1136,43 @@ var AppMenuView = Backbone.View.extend({
 var AppModalView = Backbone.View.extend({
     // Top-level container
     el: $("#app-modal"),
+    on: false,
+    size: 10,
     
     initialize: function() {
         this.listenTo(this.model, "loading", this.renderLoading);
         this.listenTo(this.model, "load", this.renderLoad);
+        this.frame = _.bind(this.frame, this);
     },
 
-    loadingMessage: 'Loading data...<br><i class="fa fa-circle-o-notch fa-spin"></i>',
+    loadingMessage: 'Traveling to the <%= world %>...<p><i class="fa fa-circle-o-notch fa-spin"></i>',
+
+    frame: function() {
+        this.size = this.size * 1.02;
+        $("#app-modal").css("background-size", this.size + "%");
+        
+        if (this.on)
+            requestAnimationFrame(this.frame);
+    },
     
     renderLoading:function() {
-        $("#app-modal").html(this.loadingMessage);
+        var map = app.get('map');
+        this.on = true;
+        this.size = 10;
+        
+        $("#app-modal").css("background-image", "url(" + map[0]['travel-bg'] + ")");
+        $("#app-modal").css("background-size", "10%");
+        
+        $("#app-modal").html(_.template(this.loadingMessage, map[0]));
+        
         $("#app").hide();
         this.$el.show();
+        requestAnimationFrame(this.frame);
     },
 
     renderLoad: function() {
         $("#app").show();
+
         this.$el.hide();
     }
 });

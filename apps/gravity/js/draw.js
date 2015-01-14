@@ -9,6 +9,57 @@ PIXELS_PER_AUPDAY = 100 / Math.sqrt(K2);
 // Minimum size of drag target
 DRAG_TARGET_MIN_SIZE = 40;
 
+var DrawUtils = {
+
+    
+    createArrow: function(from, to, color) {
+        color = color || COLOR_OUTLINE;
+        var myPath = new Path.Line(from, to);
+
+        myPath.strokeColor = color;
+        myPath.strokeWidth = 3;
+
+        var t = Math.atan2(to.y-from.y, to.x-from.x) * 180/Math.PI;
+
+        var head2 = new Path.Circle({ center: to, radius: 1.5*ARROW_SIZE });
+        head2.fillColor = 'rgba(0, 0, 0, 0)';
+        
+        var head = new Path.RegularPolygon(to, 3, ARROW_SIZE);
+        
+        head.fillColor = color;
+        head.rotate(t-30);
+
+        
+        var g = new Group([myPath, head]);
+        g.last = t;
+        g.head = new Group([head2, head]);
+
+        g.setVector = function(from, to) {
+            myPath.segments[0].point = from;
+            myPath.segments[1].point = to;
+            var t = Math.atan2(to.y-from.y, to.x-from.x) * 180/Math.PI;
+            if (t != g.last) {
+                head.rotate(-(g.last-30));
+                head.rotate(t-30);
+                head.position = to;           
+            } else {
+                head.position = to;
+            }
+            head2.position = to;
+            g.last = t;
+        };
+
+        g.remove = function() {
+            myPath.remove();
+            head.remove();
+            head2.remove();
+        };
+        
+        return g;
+    }    
+};
+
+
 var Draw = Backbone.View.extend({
     backgroundStars:[],
     backgroundStarsCoords:[],
@@ -446,52 +497,7 @@ var Draw = Backbone.View.extend({
             }
         }
     },
-    
-    createArrow: function(from, to, color) {
-        color = color || COLOR_OUTLINE;
-        var myPath = new Path.Line(from, to);
-        myPath.strokeColor = color;
-        myPath.strokeWidth = 3;
-
-        var t = Math.atan2(to.y-from.y, to.x-from.x) * 180/Math.PI;
-
-        var head2 = new Path.Circle({ center: to, radius: 1.5*ARROW_SIZE });
-        head2.fillColor = 'rgba(0, 0, 0, 0)';
         
-        var head = new Path.RegularPolygon(to, 3, ARROW_SIZE);
-        
-        head.fillColor = color;
-        head.rotate(t-30);
-
-        
-        var g = new Group([myPath, head]);
-        g.last = t;
-        g.head = new Group([head2, head]);
-
-        g.setVector = function(from, to) {
-            myPath.segments[0].point = from;
-            myPath.segments[1].point = to;
-            var t = Math.atan2(to.y-from.y, to.x-from.x) * 180/Math.PI;
-            if (t != g.last) {
-                head.rotate(-(g.last-30));
-                head.rotate(t-30);
-                head.position = to;           
-            } else {
-                head.position = to;
-            }
-            head2.position = to;
-            g.last = t;
-        };
-
-        g.remove = function() {
-            myPath.remove();
-            head.remove();
-            head2.remove();
-        };
-        
-        return g;
-    },
-    
     starUpdate: function(position) {
         this.star.halo.position.x = this.star.position.x = view.center.x + position[X] * PIXELS_PER_AU;
         this.star.halo.position.y = this.star.position.y = view.center.y + position[Y] * PIXELS_PER_AU;
@@ -680,7 +686,7 @@ var Draw = Backbone.View.extend({
 
                 var dv = new Point(velocity[NPHYS*(i+1)+X], velocity[NPHYS*(i+1)+Y]);
                 
-                var vector = this.createArrow(body.position, body.position + dv * PIXELS_PER_AUPDAY,
+                var vector = DrawUtils.createArrow(body.position, body.position + dv * PIXELS_PER_AUPDAY,
                                               haloColor);
                 
                 (function(body, vector) {

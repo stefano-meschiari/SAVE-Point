@@ -1006,11 +1006,15 @@ lesshat-selector {
   animation: flash-red-keyframes 2s ease;
 }
 #app-modal {
-  background: linear-gradient(to bottom, #4a4a4a 0%, #2b2b2b 100%);
   color: white;
   font-size: 50px;
   text-align: center;
   padding: 40px;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-color: black;
+  background-size: 10%;
 }
 #app-screen {
   background: linear-gradient(to bottom, #83a4d4 0%, #b6fbff 100%);

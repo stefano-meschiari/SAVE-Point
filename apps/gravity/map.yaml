@@ -1,6 +1,7 @@
 ---
 - world: Arcturus Nebula
-  bg: img/arcturus.png
+  bg: img/arcturus.jpg
+  travel-bg: img/arcturus_travel.jpg
   levels:
     - practice
     - crash
