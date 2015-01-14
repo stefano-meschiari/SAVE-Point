@@ -810,7 +810,7 @@ var AppView = Backbone.View.extend({
      * Render win.
      */
 
-    winTemplate: _.template('<div class="font-l"><%= win %></div><div class="font-l"><%= stars %></div><br><button class="btn-jrs font-m" onClick="app.menu()"><span class="fa fa-graduation-cap"></span> Go to the next mission!</button>'),
+    winTemplate: _.template('<div class="font-l"><%= win %></div><div class="font-l"><%= stars %></div><br><button class="btn-jrs font-m" onClick="app.menu.selectNextMission()"><span class="fa fa-graduation-cap"></span> Go to the next mission!</button>'),
     winDelayMax: 10000,
     approxFrameRate: 1/60.,
     

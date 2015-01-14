@@ -5,6 +5,7 @@
 "use strict";
 
 var mapPlumb;
+
 var AppMenuView = Backbone.View.extend({
     selectedMission: '',
     el: $("#app-menu"),
