@@ -1136,7 +1136,7 @@ var AppMenuView = Backbone.View.extend({
 var AppModalView = Backbone.View.extend({
     // Top-level container
     el: $("#app-modal"),
-    on: false,
+    animate: false,
     size: 10,
     
     initialize: function() {
@@ -1151,13 +1151,13 @@ var AppModalView = Backbone.View.extend({
         this.size = this.size * 1.02;
         $("#app-modal").css("background-size", this.size + "%");
         
-        if (this.on)
+        if (this.animate)
             requestAnimationFrame(this.frame);
     },
     
     renderLoading:function() {
         var map = app.get('map');
-        this.on = true;
+        this.animate = true;
         this.size = 10;
         
         $("#app-modal").css("background-image", "url(" + map[0]['travel-bg'] + ")");
@@ -1172,7 +1172,7 @@ var AppModalView = Backbone.View.extend({
 
     renderLoad: function() {
         $("#app").show();
-
+        this.animate = false;
         this.$el.hide();
     }
 });

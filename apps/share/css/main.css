@@ -453,9 +453,8 @@ td.td-val {
   visibility: none;
   text-shadow: 0px 0px 2px black;
   border-radius: 20px;
-  padding: 12px;
-  padding-left: 20px;
-  padding-right: 20px;
+  font-family: Nobile;
+  padding: 30px;
   background-color: rgba(140, 140, 140, 0.4);
   text-align: left;
   color: white;
