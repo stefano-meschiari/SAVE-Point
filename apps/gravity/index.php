@@ -142,19 +142,20 @@ write_mission_rules($cfg);
   </div>
   <div id="app-menu-text">
     <div id="app-menu-text-top">
-      <button id="app-menu-start" class="btn btn-lg btn-jrs float-right">
-        Play
-      </button>
-
       <div id="app-menu-mission-title" class="title"></div>
       <div id="app-menu-mission-subtitle" class="subtitle"></div>
       <div id="app-menu-mission-stars"></div>
       <div class="clear"></div>
     </div>
     <div class="bubble-cont">
-      <img src="img/boss.png" width="150" class="bubble-avatar">
+      <img src="img/boss.gif" width="150" class="bubble-avatar">
       <div class="bubble">
-        Hello!
+        <div id="bubble-text">
+        </div>
+        <button id="app-menu-start" class="btn btn-lg btn-jrs">
+          Play
+        </button>
+
       </div>
     </div>
     <div id="app-menu-start-container">

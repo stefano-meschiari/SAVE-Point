@@ -135,7 +135,7 @@ var AppMenuView = Backbone.View.extend({
             intro = help.message;
         }
         
-        $("#app-menu .bubble").html(intro);
+        $("#bubble-text").html(intro);
         this.selectedMission = name;        
     },
 

@@ -164,18 +164,21 @@ html, body {
   text-align:center;
   margin-top:100px;
 }
+
 #app-menu-start {
   font-size: @font-l;
-  width:150px;
-  height:150px;
-  border-radius:75px;
+  font-family: Dosis;
+  border-radius:20px;
+  display:block;
+  margin:0 auto;
+  margin-top:20px;
   .animation(bob 0.75s ease alternate infinite);
 }
 
 .bubble-cont {
   width:600px;
   margin:0 auto;
-  margin-top:100px;
+  margin-top:50px;
 }
 
 .bubble {
@@ -501,6 +504,7 @@ td.td-val {
   background-color:@color-glass;
   text-align:left;
   color:white;
+  z-index:-1;
   .user-select(none);
 }
 
@@ -515,6 +519,7 @@ td.td-val {
 #help-text.expanded {
   opacity:1;
   visibility:visible;
+  z-index:auto;
 }
 
 #help-text.right {

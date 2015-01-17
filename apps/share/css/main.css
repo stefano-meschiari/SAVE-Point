@@ -122,9 +122,11 @@ body {
 }
 #app-menu-start {
   font-size: 35px;
-  width: 150px;
-  height: 150px;
-  border-radius: 75px;
+  font-family: Dosis;
+  border-radius: 20px;
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
   -webkit-animation: bob 0.75s ease alternate infinite;
   -moz-animation: bob 0.75s ease alternate infinite;
   -o-animation: bob 0.75s ease alternate infinite;
@@ -133,7 +135,7 @@ body {
 .bubble-cont {
   width: 600px;
   margin: 0 auto;
-  margin-top: 100px;
+  margin-top: 50px;
 }
 .bubble {
   background-color: rgba(140, 140, 140, 0.4);
@@ -170,7 +172,7 @@ lesshat-selector {
 @keyframes bob{ 0%{-webkit-transform: scale(1);-moz-transform: scale(1);-ms-transform: scale(1);transform: scale(1); background-color:silver; } 100%{-webkit-transform:scale(1.05);-moz-transform:scale(1.05);-ms-transform:scale(1.05);transform:scale(1.05);};
 }
 .app-menu-mission-box-selected {
-  box-shadow: 0px 0px 0px 15px #66ccff, 2px 2px 30px black;
+  box-shadow: 0px 0px 0px 15px #66ccff, 2px 2px 30px #000000;
 }
 .app-menu-mission-locked {
   background: black !important;
@@ -458,6 +460,7 @@ td.td-val {
   background-color: rgba(140, 140, 140, 0.4);
   text-align: left;
   color: white;
+  z-index: -1;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -475,6 +478,7 @@ td.td-val {
 #help-text.expanded {
   opacity: 1;
   visibility: visible;
+  z-index: auto;
 }
 #help-text.right {
   left: -80%;

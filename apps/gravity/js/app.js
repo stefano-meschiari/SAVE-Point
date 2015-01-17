@@ -197,6 +197,42 @@ var App = Backbone.ROComputedModel.extend({
 
     },
 
+    /*
+     * Returns the force for the i-th body, in internal units (AU/Msun/days)
+     */
+    forceForBody: function(body, power) {
+        power = power || 3;
+        var f = [0, 0, 0];
+        var position = this.get('position');
+        var masses = this.get('masses');
+        var N = app.get('nplanets')+1;
+        body += 1;
+
+        var bodyX = position[body*NPHYS+X];
+        var bodyY = position[body*NPHYS+Y];
+        var bodyZ = position[body*NPHYS+Z];
+        
+        for (var i = 0; i < N; i++) {
+            if (i == body)
+                continue;
+
+            var x = position[i * NPHYS+X];
+            var y = position[i * NPHYS+Y];
+            var z = position[i * NPHYS+Z];
+            var M = masses[i];
+            
+            var d = Math.sqrt((x-bodyX)*(x-bodyX) + (y-bodyY)*(y-bodyY) + (z-bodyZ)*(z-bodyZ));
+            var d3 = Math.pow(d, power);
+            
+            f[X] += -K2 * M * (bodyX - x) / d3;
+            f[Y] += -K2 * M * (bodyY - y) / d3;
+            f[Z] += -K2 * M * (bodyZ - z) / d3;
+
+        }
+
+        return f;
+    },
+
 
     ensureConstraints:function() {
         var constraints = app.mission().get('constraints');
@@ -1199,8 +1235,9 @@ $(document).ready(function() {
 
     app.once('load', function() {
         if (_.parameter('mission') != null) {
-            app.setMission(_.parameter('mission')|0);
-            console.error("Check if mission is kosher.");
+            _.defer(function() {
+                app.setMission(_.parameter('mission'));
+            });
         }
     });
 });

@@ -6,72 +6,123 @@ MAX_SEGMENTS = 700;
 PIXELS_PER_AU = 200;
 // Number of pixels corresponding to 1 speed unit (1 AU/day)
 PIXELS_PER_AUPDAY = 100 / Math.sqrt(K2);
+// Number of pixels corresponding to 1 force unit
+PIXELS_PER_FORCE = 200000;
 // Minimum size of drag target
 DRAG_TARGET_MIN_SIZE = 40;
+// Width of stem of arrow
+ARROW_STEM_SIZE = 10;
+// Force power index
+FORCE_POWER_INDEX = 1.5;
+// Force color (move to configuration file)
+FORCE_COLOR = 'rgba(214, 197, 0, 1)';
 
 var DrawUtils = {
+    triangleCenter: function(path) {
+        var x = path.segments[0].point.clone();
+        for (var i = 1; i < 3; i++) 
+            x += path.segments[i].point;
 
+        x /= 3;
+        return x;
+    },
     
-    createArrow: function(from, to, color) {
+    createArrow: function(from, to, color, arrowSide, strokeSize) {
         color = color || COLOR_OUTLINE;
-        var myPath = new Path.Line(from, to);
-        myPath.strokeColor = {
+        arrowSide = arrowSide || ARROW_SIZE;
+        strokeSize = strokeSize || ARROW_STEM_SIZE;
+        
+        var stem = new Path.Line(from, to);
+        stem.strokeColor = {
             gradient: {
                 stops:[[color, 0.5], ['rgba(0, 0, 0, 0)', 1]]
             },
             origin: to,
             destination: from
         };
+        stem.strokeCap = 'square';
+        stem.strokeWidth = strokeSize;
+
+        // Triangle properties
+        var arrowRadius = 3/Math.sqrt(3) * arrowSide;
+        var arrowHeight = Math.sqrt(3)/2 * arrowSide;
+        var shift = arrowHeight - arrowRadius;
         
-        myPath.strokeWidth = 10;
-
-        var t = Math.atan2(to.y-from.y, to.x-from.x) * 180/Math.PI;
-
-        var head2 = new Path.Circle({ center: to, radius: 1.5*ARROW_SIZE });
+        var t = Math.atan2(to.y-from.y, to.x-from.x);
+        var tdeg = t * 180/Math.PI;
+        
+        var head2 = new Path.Circle({ center: to, radius: 2*arrowRadius });
         head2.fillColor = 'rgba(0, 0, 0, 0)';
+//        head2.strokeColor = 'white';
         
-        var head = new Path.RegularPolygon(to, 3, ARROW_SIZE);
-        
+        var head = new Path.RegularPolygon(to, 3, arrowRadius);
+//        var head = new Path();
         head.fillColor = color;
-        head.rotate(t-30);
-        
-        var g = new Group([myPath, head]);
-        g.last = t;
-        g.head = new Group([head2, head]);
+        head.rotate(-30);
 
-        g.setVector = function(from, to) {
-            myPath.segments[0].point = from;
-            myPath.segments[1].point = to;
-            myPath.strokeColor.origin = to;
-            myPath.strokeColor.destination = from;
-            
-            var t = Math.atan2(to.y-from.y, to.x-from.x) * 180/Math.PI;
-            if (t != g.last) {
-                head.rotate(-(g.last-30));
-                head.rotate(t-30);
-                head.position = to;           
-            } else {
-                head.position = to;
+        head.rotate(tdeg);
+        head.position = to;
+        var center = DrawUtils.triangleCenter(head);
+        head.position -= center - to;       
+        head.position.x -= shift * Math.cos(t);
+        head.position.y -= shift * Math.sin(t);
+        head2.position = head.position;
+
+        var g = new Group([stem, head]);
+        g.last = tdeg;
+
+        g.head = {
+            on: function(what, f) {
+                head.on(what, f);
+                head2.on(what, f);
             }
+        };
+        
+        g.setVector = function(from, to) {
+            stem.segments[0].point = from;
+            stem.segments[1].point = to;
+            stem.strokeColor.origin = to;
+            stem.strokeColor.destination = from;
+            
+            var t = Math.atan2(to.y-from.y, to.x-from.x);
+            var tdeg = t * 180/Math.PI;
+            
+            if (tdeg != g.last) {
+                head.rotate(-g.last);
+                head.rotate(tdeg);
+            } 
+
+            head.position = to;
+            var center = DrawUtils.triangleCenter(head);
+            head.position -= center - to;
+            head.position.x -= shift * Math.cos(t);
+            head.position.y -= shift * Math.sin(t);
             head2.position = to;
-            g.last = t;
+            g.last = tdeg;   
         };
 
         g.remove = function() {
-            myPath.remove();
+            stem.remove();
             head.remove();
             head2.remove();
             g.frame = null;
+            console.log("Destroyed");
         };
 
         g.frame = function() {
-            var f = myPath.strokeColor.gradient.stops[0].rampPoint;
-            f -= 0.005;
+            var f = stem.strokeColor.gradient.stops[0].rampPoint;
+            f -= 0.0075;
             if (f <= 0.1)
                 f = 0.5;
-            myPath.strokeColor.gradient.stops[0].rampPoint = f;
+            stem.strokeColor.gradient.stops[0].rampPoint = f;
             if (g.frame)
                 requestAnimationFrame(g.frame);
+        };
+
+        g.insertBelow = function(body) {
+            head.insertBelow(body);
+            head2.insertBelow(body);
+            stem.insertBelow(head);
         };
 
         requestAnimationFrame(g.frame);
@@ -133,7 +184,7 @@ var Draw = Backbone.View.extend({
     
     recalculateSizes: function() {
         // Size of arrow
-        ARROW_SIZE = 0.5*DRAG_TARGET_MIN_SIZE;
+        ARROW_SIZE = 0.3*DRAG_TARGET_MIN_SIZE;
 
         var physicalSizes = app.get('physicalSizes');
 
@@ -565,6 +616,16 @@ var Draw = Backbone.View.extend({
                     var drag = function(event) {
                         var point = event.point;
                         var bsize = body.bounds.width;
+                        var refuseDrag = false;
+                        
+                        var dist = Math.sqrt((point.x - view.center.x) * (point.x - view.center.x) +
+                                             (point.y - view.center.y) * (point.y - view.center.y));
+
+                        if (dist < STAR_HALO_SIZE) {
+                            point.x = (point.x - view.center.x) * STAR_HALO_SIZE/dist + view.center.x;
+                            point.y = (point.y - view.center.y) * STAR_HALO_SIZE/dist + view.center.y;                            
+                        }
+                        
                         if (point.x - bsize < 0 ||
                             point.y - bsize < 0 ||
                             point.x + bsize > view.bounds.width ||
@@ -573,8 +634,7 @@ var Draw = Backbone.View.extend({
                             document.elementFromPoint(point.x+bsize, point.y+bsize).id !== CANVAS_ID ||
                             document.elementFromPoint(point.x, point.y).id !== CANVAS_ID)
                         {
-                            body.dragging = false;
-                            return;
+                            refuseDrag = true;
                         }
 
                         if (!body.dragging)
@@ -582,10 +642,20 @@ var Draw = Backbone.View.extend({
                         
                         body.dragging = true;
 
-                        var c = [point.x - self.star.position.x, point.y - self.star.position.y, 0];
-                        c[0] /= PIXELS_PER_AU;
-                        c[1] /= PIXELS_PER_AU;
-                        app.setPositionForBody(body.planetIndex, c);
+                        if (!refuseDrag) {
+                            var c = [point.x - self.star.position.x, point.y - self.star.position.y, 0];
+                            c[0] /= PIXELS_PER_AU;
+                            c[1] /= PIXELS_PER_AU;
+                            app.setPositionForBody(body.planetIndex, c);
+                        }
+                        
+                        var f = app.forceForBody(body.planetIndex, FORCE_POWER_INDEX);
+                        if (body.force)
+                            body.force.remove();
+
+                        var forceTo = body.position + new Point(f[X], f[Y]) * PIXELS_PER_FORCE;                        
+                        body.force = DrawUtils.createArrow(body.position, forceTo, FORCE_COLOR, ARROW_SIZE);
+                        body.force.insertBelow(body);
                     };
 
                     var mouseDown = function() {
@@ -595,12 +665,26 @@ var Draw = Backbone.View.extend({
                         self.handles[body.planetIndex].halo.bounds.size = new Size(2*PLANET_HALO_DRAG_SIZE, 2*PLANET_HALO_DRAG_SIZE);
                         self.handles[body.planetIndex].halo.bounds.center = center;
 
+                        var f = app.forceForBody(body.planetIndex, FORCE_POWER_INDEX);
+                        
+                        if (body.force)
+                            body.force.remove();
+
+                        var forceTo = body.position + new Point(f[X], f[Y]) * PIXELS_PER_FORCE;                        
+                        body.force = DrawUtils.createArrow(body.position, forceTo, FORCE_COLOR, ARROW_SIZE);
+                        body.force.insertBelow(body);
+
                     };
 
                     var mouseUp = function() {
                         if (body.dragging)
                             app.trigger("planet:drag");
+                        
                         body.dragging = false;
+                        if (body.force) {
+                            body.force.remove();
+                            body.force = null;
+                        }
                         self.restoreSizes();                        
                     };
                     
@@ -728,7 +812,7 @@ var Draw = Backbone.View.extend({
                     vector.head.on("mouseup", function(event) {
                         app.trigger("planet:dragvelocity");
                         vector.dragging = false;
-                        self.restoreSizes();
+//                        self.restoreSizes();
                     });
                     
                     handles.push({halo:halo, vector:vector});
@@ -964,6 +1048,10 @@ var Draw = Backbone.View.extend({
 
     onMouseUp: function(event) {
         this.dragDirection = null;
+        
+        if (app.get('interactive'))
+            for (var i = 0; i < this.planets.length; i++) 
+                this.planets[i].mouseUp();
     },
     
     onMouseDrag: function(event) {

@@ -26,7 +26,7 @@ formulas:
 
 avatars:
   @groknar: {img/groknar.gif width=150 class=avatar-left} @enter-avatar
-  @boss: {img/boss.png width=150 class=avatar-right} @enter-avatar
+  @boss: {img/boss.gif width=150 class=avatar-right} @enter-avatar
   @praetor: {img/praetor.png width=130 class=avatar-left} @enter-avatar
   
 assets:
@@ -101,18 +101,15 @@ missions:
 
       - on: proceed
         message: |
-          @noninteractive @stop-fly
-          *@name*, it's your very first training mission: just add one planet and make it orbit around the star!
-
-
-          *Click "Next" to learn how.*
+          @fly @noninteractive @boss
+          You’ll be paid in “stars"!  Stars can be redeemed at the company store for special prizes later on.
+          Your payment is based on how well you do the job at hand.
           @proceed
-
+          
       - on: proceed
         message: |
-          @noninteractive
-          Your goal is to complete your mission in as little time as possible. As time passes, the number
-          of stars you can earn will decrease.
+          @noninteractive @stop-fly
+          *@name*, you need to get through our specially mandated training program.  It’s simple enough: make a planet and have it orbit around the star!          
           @proceed
       
       - on: proceed
@@ -134,8 +131,8 @@ missions:
 
       - on: planet:drag
         message: |
-          Awesome!  Lots of useful information about your planet is shown in the upper right, 
-          such as its distance from the star, its speed, and the time it takes to orbit the star.  
+          Great job, rookie! Lots of useful information about your planet is shown in the upper right, 
+          such as its distance from the star, its speed, and the time it takes to orbit the star.
           @proceed
           
       - on: proceed
@@ -273,6 +270,14 @@ missions:
     type: single-choice
     name: elliptical_question
     subtitle: Get an extra star by answering this question.
+    intro: |
+      Big Boss Reaz-7 says, "The press is banging down my door with questions.  Go out there and deal with them!  Don't say anything to embarrass me or you're in trouble." 
+
+      
+      He pauses and smirks.  
+
+
+      "Also, have fun with it."
     win: That's the right answer!
     lose: Not quite right.
     icon: icon-single
