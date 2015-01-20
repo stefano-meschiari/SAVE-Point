@@ -18,6 +18,7 @@ var COLOR_SUN_HALO_OUTER = 'rgba(200,200,0,0.)';
 
 var PLANET_COLORS = [base0c, base08, base09, base0a, base0e, base0d, base0b, base0f, base07, base0f];
 
+
 var ORBIT_COLORS = _.map(PLANET_COLORS, function(color) {
     var c = new Color(color);
     return c.alpha(0.5).rgbString();

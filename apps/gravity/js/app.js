@@ -650,6 +650,23 @@ var App = Backbone.ROComputedModel.extend({
         }
     },
 
+    getHumanInfoForBody: function(body) {
+        body += 1;
+        var position = this.get('position');
+        var velocity = this.get('velocity');
+        var r = Math.sqrt((position[X]-position[body*NPHYS+X])*(position[X]-position[body*NPHYS+X]) +
+                          (position[Y]-position[body*NPHYS+Y])*(position[Y]-position[body*NPHYS+Y]) +
+                          (position[Z]-position[body*NPHYS+Z])*(position[Z]-position[body*NPHYS+Z]));
+
+        var v = Math.sqrt((velocity[X]-velocity[body*NPHYS+X])*(velocity[X]-velocity[body*NPHYS+X]) +
+                          (velocity[Y]-velocity[body*NPHYS+Y])*(velocity[Y]-velocity[body*NPHYS+Y]) +
+                          (velocity[Z]-velocity[body*NPHYS+Z])*(velocity[Z]-velocity[body*NPHYS+Z]));
+
+        return {
+            distance: (r * Units.RUNIT / (1e11)).toFixed(1) + " million km",
+            speed: (v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(1) + " km/s"
+        };
+    },
     
     /*
      * Initializes the model, by creating a "context" object. The context
@@ -787,8 +804,7 @@ var AppView = Backbone.View.extend({
                               (velocity[Z]-velocity[NPHYS+Z])*(velocity[Z]-velocity[NPHYS+Z]));
             
             $("#distance").html((r * Units.RUNIT / (1e11)).toFixed(1) + " million km");
-            $("#speed").text((v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(1) + " km/s");
-           
+            $("#speed").text((v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(1) + " km/s");           
             $("#eccentricity").text(els[0].eccentricity.toFixed(2));
             
         } else {

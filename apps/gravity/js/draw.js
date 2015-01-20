@@ -13,7 +13,7 @@ DRAG_TARGET_MIN_SIZE = 40;
 // Width of stem of arrow
 ARROW_STEM_SIZE = 10;
 // Force power index
-FORCE_POWER_INDEX = 1.5;
+FORCE_POWER_INDEX = 1.75;
 // Force color (move to configuration file)
 FORCE_COLOR = 'rgba(214, 197, 0, 1)';
 
@@ -27,10 +27,11 @@ var DrawUtils = {
         return x;
     },
     
-    createArrow: function(from, to, color, arrowSide, strokeSize) {
+    createArrow: function(from, to, color, arrowSide, strokeSize, type) {
         color = color || COLOR_OUTLINE;
         arrowSide = arrowSide || ARROW_SIZE;
         strokeSize = strokeSize || ARROW_STEM_SIZE;
+        type = type || 'regular';
         
         var stem = new Path.Line(from, to);
         stem.strokeColor = {
@@ -49,16 +50,40 @@ var DrawUtils = {
         var shift = arrowHeight - arrowRadius;
         
         var t = Math.atan2(to.y-from.y, to.x-from.x);
+        var pi_2 = Math.PI/2.;
         var tdeg = t * 180/Math.PI;
         
         var head2 = new Path.Circle({ center: to, radius: 2*arrowRadius });
         head2.fillColor = 'rgba(0, 0, 0, 0)';
 //        head2.strokeColor = 'white';
+
+        var head;
+        if (type == 'regular') {
+            head = new Path.RegularPolygon(to, 3, arrowRadius);
+            head.rotate(-30);
+            
+        } else {
+            arrowSide *= 2;
+            arrowHeight *= 3;
+            head = new Path();
+            var head_shift = strokeSize/2;
+            var x1 = to.x + head_shift * Math.cos(t + pi_2);
+            var y1 = to.y + head_shift * Math.sin(t + pi_2);
+
+            var x2 = x1 + arrowHeight * Math.cos(t);
+            var y2 = y1 + arrowHeight * Math.sin(t);
+
+            var x3 = x1 + arrowSide * Math.cos(t - pi_2);
+            var y3 = y1 + arrowSide * Math.sin(t - pi_2);
+
+            head.add(new Point(x1, y1));
+            head.add(new Point(x2, y2));
+            head.add(new Point(x3, y3));
+            head.add(new Point(x1, y1));
         
-        var head = new Path.RegularPolygon(to, 3, arrowRadius);
-//        var head = new Path();
-        head.fillColor = color;
-        head.rotate(-30);
+        }
+
+        head.fillColor = color;        
 
         head.rotate(tdeg);
         head.position = to;
@@ -601,9 +626,11 @@ var Draw = Backbone.View.extend({
                         center: view.center,
                         radius:PLANET_SIZE 
                     });
+
+                    var bodyColor = PLANET_COLORS[colorIndex];
                     body.fillColor = {
                         gradient: {
-                            stops:[[PLANET_COLORS[colorIndex], 0.], ['black', 0.85]],
+                            stops:[[bodyColor, 0.], ['black', 0.85]],
                             radial:true
                         },
                         origin: body.position,
@@ -612,6 +639,25 @@ var Draw = Backbone.View.extend({
                     this.planets.push(body);
                     
                     body.planetIndex = i;
+
+                    var printDistance = function(body, remove) {
+                        if (body.text) {
+                            body.text.remove();
+                            body.text = null;
+                        }
+                        if (remove)
+                            return;
+                        
+                        var info = app.getHumanInfoForBody(body.planetIndex);
+                        body.text = new PointText({
+                            point: body.position + new Point(0, 1.5*body.bounds.height),
+                            content: "Distance:\n" + info.distance,
+                            fillColor: bodyColor,
+                            fontSize: 20,
+                            justification: 'center'
+                        });
+                        
+                    };
 
                     var drag = function(event) {
                         var point = event.point;
@@ -650,12 +696,14 @@ var Draw = Backbone.View.extend({
                         }
                         
                         var f = app.forceForBody(body.planetIndex, FORCE_POWER_INDEX);
-                        if (body.force)
+                        if (body.force) 
                             body.force.remove();
-
+                        
                         var forceTo = body.position + new Point(f[X], f[Y]) * PIXELS_PER_FORCE;                        
                         body.force = DrawUtils.createArrow(body.position, forceTo, FORCE_COLOR, ARROW_SIZE);
                         body.force.insertBelow(body);
+
+                        printDistance(body);
                     };
 
                     var mouseDown = function() {
@@ -673,7 +721,7 @@ var Draw = Backbone.View.extend({
                         var forceTo = body.position + new Point(f[X], f[Y]) * PIXELS_PER_FORCE;                        
                         body.force = DrawUtils.createArrow(body.position, forceTo, FORCE_COLOR, ARROW_SIZE);
                         body.force.insertBelow(body);
-
+                        printDistance(body);
                     };
 
                     var mouseUp = function() {
@@ -685,6 +733,8 @@ var Draw = Backbone.View.extend({
                             body.force.remove();
                             body.force = null;
                         }
+                        
+                        printDistance(body, true);
                         self.restoreSizes();                        
                     };
                     
