@@ -294,6 +294,7 @@ lesshat-selector {
   -webkit-animation-direction: alternate;
   animation: throbshadow 1s infinite;
   animation-direction: alternate;
+  font-family: Dosis;
 }
 .btn-jrs-ico {
   font-size: 30px;
@@ -456,7 +457,7 @@ td.td-val {
   text-shadow: 0px 0px 2px black;
   border-radius: 20px;
   font-family: Nobile;
-  padding: 30px;
+  padding: 20px;
   background-color: rgba(140, 140, 140, 0.4);
   text-align: left;
   color: white;

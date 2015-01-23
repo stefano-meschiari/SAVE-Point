@@ -18,7 +18,14 @@ var Templates = Backbone.Model.extend({
         "@icon-menu": '<span class="icon-menu"></span>',
         "@icon-help": '<span class="icon-help"></span>',
         
-        "@noninteractive": '<script> app.set("interactive", false); </script>',        
+        "@noninteractive": function() { app.set("interactive", false); },
+        "@disable-star": function() { app.flags.disabledStar = true; },
+        "@disable-planet-drag": function() { app.flags.disabledPlanetDrag = true; },
+        "@disable-velocity-drag": function() { app.flags.disabledVelocityDrag = true; },
+        "@disable-velocity": function() { app.flags.disabledVelocity = true; },
+        "@disable-force": function() { app.flags.disabledForce = true; },
+        "@refresh": function() { app.trigger("refresh"); },
+        
         "@enter-avatar": function() {
             _.delay(function() {
                 $(".avatar-left").addClass("avatar-left-visible");
@@ -38,6 +45,7 @@ var Templates = Backbone.Model.extend({
         "^(#)\\s*(.+)": "<h1>$2</h1>",
         "^\s*$": "<br>",
         "@proceed-win": '<div class="help-toolbar"><button id="help-next-mission" class="btn btn-lg btn-jrs"><span class="fa fa-thumbs-up"></span>  Next mission</button></div>',
+        "@proceed-hidden": '<div class="help-toolbar"><button id="help-next" style="display:none" class="btn btn-lg btn-jrs"><span class="fa fa-chevron-right"></span>  Next</button></div>',
         "@proceed": '<div class="help-toolbar"><button id="help-next" class="btn btn-lg btn-jrs"><span class="fa fa-chevron-right"></span>  Next</button></div>',
         "@close": '<div class="help-toolbar"><button id="help-close" class="btn btn-lg btn-jrs"><span class="fa fa-times"></span>  Close</button></div>',
         "@eccentricity": '<span id="eccentricity"></span>',

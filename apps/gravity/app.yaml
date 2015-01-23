@@ -108,36 +108,71 @@ missions:
           
       - on: proceed
         message: |
-          @noninteractive @stop-fly
-          *@name*, you need to get through our specially mandated training program.  It’s simple enough: make a planet and have it orbit around the star!          
+          @noninteractive @stop-fly @boss
+          But first, you need to get through our specially mandated training program.  It’s simple enough: make a planet and have it orbit around the star!          
           @proceed
       
       - on: proceed
         message: |
-          @noninteractive
+          @noninteractive @boss
           To review your current mission at any time, click on the @icon-help Help button!
+
           
-          *Now, let's start playing!*
+          *Now, let's start training!*
           @proceed
           
       - on: proceed
         message: >
+          @boss @disable-star  @disable-planet-drag @disable-velocity @disable-force
           First, *@icon-tap tap anywhere* to add a new planet. 
            
       - on: change:nplanets
         message: >
+          @boss @disable-star @disable-velocity @disable-force @refresh
           That's your first planet! Now try to *@icon-drag drag the planet*
           to change its position.
 
       - on: planet:drag
         message: |
+          @boss @disable-star @disable-velocity @disable-force @refresh
           Great job, rookie! Lots of useful information about your planet is shown in the upper right, 
-          such as its distance from the star, its speed, and the time it takes to orbit the star.
+          such as its distance from the star and its speed.
           @proceed
+
+      - on: proceed
+        message: |
+          @boss @disable-star @disable-planet-drag @disable-velocity
+          *Check out that yellow arrow!*
+
+
+          As you move the planet closer and further away from the star, the gravitational force of
+          the star on the planet gets stronger and weaker.
+          @proceed-hidden
+          
+        script: |
+          var t = 0;
+          var min_d = 0.4;
+          var max_d = 1.1;
+          var step = 0.005;
+          window.ORIGINAL_X = app.positionForBody(0);
+          var direction = 1;
+          _.defer(function() {
+          
+          app.animateUntil("proceed", function() {
+          t += direction * step;
+          var d = (max_d - min_d) * t * t + min_d;
+          if (d < min_d || d > max_d) direction *= -1;
+          
+          app.setPositionForBody(0, [ d, -d, 0 ]);
+          draw.showForces(0);
+          }, function() { draw.hideForces(); app.setPositionForBody(0, window.ORIGINAL_X); }, 1000);
+          });
+          _.delay(function() { $("#help-next").fadeIn();  }, 15000);
           
       - on: proceed
         message: >
-          Try it out!  @icon-drag *Drag the head of the arrow* to change the speed
+          @disable-star @refresh
+          Now try to @icon-drag *drag the head of the speed arrow* to change the speed
           and direction of the planet, and see its speed change in the upper right. 
 
       - on: planet:dragvelocity

@@ -127,6 +127,12 @@ var App = Backbone.ROComputedModel.extend({
     },
 
     components: {},
+    flags: {},
+
+
+    resetFlags: function() {
+        this.flags = {};
+    },
     
     /*
      * Toggles the state of the application between RUNNING and PAUSED.
@@ -194,7 +200,18 @@ var App = Backbone.ROComputedModel.extend({
         
         this.trigger("change:position");
         Physics.barycenter(this.ctx);
+    },
 
+    /*
+     * Returns the position for the i-th body, in internal units (AU)
+     */
+    positionForBody: function(i, x) {
+        x = x || [];
+        var position = this.get('position');
+        x[0] = position[(i+1)*NPHYS+X];
+        x[1] = position[(i+1)*NPHYS+Y];
+        x[2] = position[(i+1)*NPHYS+Z];
+        return x;
     },
 
     /*
@@ -645,10 +662,35 @@ var App = Backbone.ROComputedModel.extend({
         else {
             var l = app.get('missions').where({ name: which });
             if (l.length > 1)
-                console.error("Warning, multiple missions with name ", name)
+                console.error("Warning, multiple missions with name ", name);
             return l[0];
         }
     },
+
+    
+
+    animateUntil: function(event, f, cancel, wait) {
+        wait = wait || 0;
+        var listener = _.extend({}, Backbone.Events);
+        var stop = false;
+        listener.listenTo(this, event, function() {
+            stop = true;
+            listener.off();
+            _.defer(cancel);
+        });
+
+        
+        var f2 = function() {
+            if (!stop) {
+                f();
+                requestAnimationFrame(f2);
+            }
+        };
+
+        _.delay(f2, wait);
+    },
+
+
 
     getHumanInfoForBody: function(body) {
         body += 1;
@@ -746,7 +788,7 @@ var AppView = Backbone.View.extend({
      * and icons of the missions.
      */
     
-    missionTemplate: _.template('<div class="title"><span class="fa fa-rocket"></span> <%= title %></div><div class="subtitle"><%= subtitle %></div>'),
+    missionTemplate: _.template('<div class="title"><%= title %></div><div class="subtitle"><%= subtitle %></div>'),
     missionDelay: 7000,
     topHideTimer: null,
 
@@ -773,7 +815,6 @@ var AppView = Backbone.View.extend({
         
         this.renderTopText(this.missionTemplate(mission.attributes), true);        
     },
-
 
     els: {},
 
@@ -1049,9 +1090,10 @@ var MessageView = Backbone.View.extend({
             return;
         }
         self.lastHelp = helpText;
-
+        
         _.defer(function() {
             app.set('interactive', true);
+            app.resetFlags();
         });
         
         $("#help-text").removeClass("expanded");
@@ -1060,6 +1102,9 @@ var MessageView = Backbone.View.extend({
             $("#help-body").html("");
             return;
         }
+
+        if (help.script)
+            eval(help.script);
         
         _.delay(function() {
             self.$el.html(helpText);
