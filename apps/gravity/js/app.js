@@ -73,6 +73,7 @@ var TYPE_STAR = 0;
 var TYPE_PLANET = 1;
 var TYPE_STAR_FIXED = 2;
 var TYPE_PLANET_FIXED = 3;
+var TYPE_HALO = 4;
 
 var App = Backbone.ROComputedModel.extend({
     defaults: function() {
@@ -1051,7 +1052,6 @@ var MessageView = Backbone.View.extend({
         for (var i = 0; i < missions.length; i++) {
             var m = missions.at(i);
             var help = m.get('help');
-            console.log(help);
             if (!help)
                 continue;
             

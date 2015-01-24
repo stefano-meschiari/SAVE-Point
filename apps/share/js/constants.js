@@ -7,6 +7,13 @@ var PAUSED = 1;
 var MENU = 2;
 var ROTATABLE = 3;
 
+// Paper.js font styles
+
+var FONT_MESSAGE = {
+    fontFamily: "Dosis",
+    fontSize: "40px",
+    fontWeight: 'bold'
+};
 
 // Colors
 var COLOR_SUN_INNER = 'white';
@@ -16,23 +23,19 @@ var COLOR_SUN_OUTER3 = 'rgba(255, 254, 181, 0)';
 var COLOR_SUN_HALO_INNER = 'rgba(200,200,0,0.5)';
 var COLOR_SUN_HALO_OUTER = 'rgba(200,200,0,0.)';
 
-var PLANET_COLORS = [base0c, base08, base09, base0a, base0e, base0d, base0b, base0f, base07, base0f];
-
-
-var ORBIT_COLORS = _.map(PLANET_COLORS, function(color) {
-    var c = new Color(color);
-    return c.alpha(0.5).rgbString();
-});
-
 var COLOR_OUTLINE = 'rgba(255, 255, 255, 1)';
 var COLOR_MESSAGE = base0a;
 
-// Paper.js font styles
-
-var FONT_MESSAGE = {
-    fontFamily: "Dosis",
-    fontSize: "40px",
-    fontWeight: 'bold'
+var Colors = {
+    cyan: base0c,
+    red: base08,
+    orange: base09,
+    gold: base0a,
+    blue: base0e,
+    green: base0d,
+    accent: 'rgb(102, 204, 255)',
+    white: 'white',
+    darkGlass: 'rgba(140, 140, 140, 0.4)',
+    glass: 'rgba(140, 140, 140, 0.2)'
+    
 };
-
-// Templates

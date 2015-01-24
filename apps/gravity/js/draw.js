@@ -1,3 +1,5 @@
+
+
 // Number of stars
 STARS = 250;
 CANVAS_ID = 'canvas';
@@ -99,12 +101,12 @@ var DrawUtils = {
         var g = {};
         g.last = tdeg;
 
-        g.head = {
-            on: function(what, f) {
-                head.on(what, f);
-                head2.on(what, f);
-            }
+        g.on = function(what, f) {
+            head.on(what, f);
+            head2.on(what, f);
         };
+
+        g.head = head;
         
         g.setVector = function(from, to) {
             stem.segments[0].point = from;
@@ -166,6 +168,14 @@ var DrawUtils = {
             stem.visible = false;
         };
 
+        g.intersects = function(obj) {
+            return head.intersects(obj) || stem.intersects(obj);
+        };
+
+        g.bounds = function() {
+            return head.bounds.unite(stem.bounds);
+        };
+        
         requestAnimationFrame(g.frame);
         
         return g;
@@ -179,6 +189,22 @@ var Draw = Backbone.View.extend({
     
     animating:false,
     zoom:1,
+    
+    color: function(type, index) {
+        var colors = app.mission().get('colors') || [];
+        if (_.isString(colors)) {
+            colors = [colors];
+            app.mission().set('colors', colors);
+        }        
+        var color = Colors.cyan;
+        if (colors[index] && Colors[colors[index]])
+            color = Colors[colors[index]];
+
+        if (type == TYPE_HALO)
+            color = window.Color(color).lighten(0.2).rgbString();
+
+        return color;
+    },
     
     setZoom: function(zoom) {
         if (zoom < 0.05 || zoom > 10)
@@ -261,7 +287,7 @@ var Draw = Backbone.View.extend({
             
         for (var i = 1; i <= 3; i++) {
             var path = new Path.Circle(new Point(0, 0), i);
-            path.fillColor = 'rgba(255, 255, 255, 0.5)';
+            path.fillColor = 'rgba(255, 255, 255, 1)';
             symbols[i] = new Symbol(path);
         }
 
@@ -328,6 +354,67 @@ var Draw = Backbone.View.extend({
         textItem.justification = 'center';
         textItem.content = text;
     },
+
+    text: null,
+    directions: [[1, 0], [0, -1], [-1, 0], [0, 1]],
+    
+    showText: function(label, position, color, distance, intersectingObjects) {
+        this.hideText();
+        if (!distance)
+            distance = 0;
+        
+        var text = new PointText({
+            point: position + new Point(0, distance),
+            content: label,
+            fillColor: color,
+            fontSize: 16,
+            justification: 'center'
+        });
+
+        if (intersectingObjects) {
+            var positions = [];
+            var intersections = _.map(this.directions, function(dir) {
+                text.position = position + new Point(dir[0] * (distance + 0.5 * text.bounds.width) , dir[1] * (distance + 0.5 * text.bounds.height));
+                
+                positions.push(text.position);
+                
+                return _.countWhere(intersectingObjects, function(obj) {
+                    if (!obj)
+                        return false;
+                    if (_.isFunction(obj.bounds)) {
+                        return obj.bounds().intersects(text.bounds);
+                    } else
+                        return obj.bounds.intersects(text.bounds);
+                });
+            });
+
+            console.log(intersections);
+            var which = _m.whichMin(intersections);
+            text.position = positions[which];
+            console.log(this.directions[which]);
+        }
+
+        var textPane = new Path.Rectangle(text.bounds, 10);
+        textPane.fillColor = Colors.glass;
+        textPane.position -= new Point(10, 10);
+        textPane.bounds.width += 20;
+        textPane.bounds.height += 20;
+        
+        textPane.insertBelow(text);
+
+        this.text = text;
+        this.textPane = textPane;
+        return this.text;
+    },
+
+    hideText: function() {
+        if (this.text) {
+            this.text.remove();
+            this.text = null;
+            this.textPane.remove();
+            this.textPane = null;
+        }
+    },    
 
     pushAnimation: function(name, fun) {
         var f = {f: fun, name: name};
@@ -463,8 +550,7 @@ var Draw = Backbone.View.extend({
 
     
     animateCollision: function(info) {
-        var colorIndex = app.get('currentMission');
-        var smokeColor = PLANET_COLORS[colorIndex];
+        var smokeColor = this.color(TYPE_PLANET, 0);
         var self = this;
         this.planets[info.planet-1].visible = false;
         
@@ -655,8 +741,6 @@ var Draw = Backbone.View.extend({
         if (!app.get('interactive'))
             return;
         
-        var colorIndex = app.get('currentMission');
-        var color = new window.Color(PLANET_COLORS[colorIndex]);
         var self = this;
         
         var position = app.get('position');
@@ -678,7 +762,7 @@ var Draw = Backbone.View.extend({
                         radius:PLANET_SIZE 
                     });
 
-                    var bodyColor = PLANET_COLORS[colorIndex];
+                    var bodyColor = this.color(TYPE_PLANET, i);
                     body.fillColor = {
                         gradient: {
                             stops:[[bodyColor, 0.], ['black', 0.85]],
@@ -691,24 +775,7 @@ var Draw = Backbone.View.extend({
                     
                     body.planetIndex = i;
 
-                    var printDistance = function(body, remove) {
-                        if (body.text) {
-                            body.text.remove();
-                            body.text = null;
-                        }
-                        if (remove)
-                            return;
-                        
-                        var info = app.getHumanInfoForBody(body.planetIndex);
-                        body.text = new PointText({
-                            point: body.position + new Point(0, 1.5*body.bounds.height),
-                            content: "Distance:\n" + info.distance,
-                            fillColor: bodyColor,
-                            fontSize: 20,
-                            justification: 'center'
-                        });
-                        
-                    };
+                    
 
                     var drag = function(event) {
                         if (app.flags.disabledPlanetDrag)
@@ -749,6 +816,11 @@ var Draw = Backbone.View.extend({
                         }
 
                         self.showForces(body.planetIndex);
+
+                        var info = app.getHumanInfoForBody(body.planetIndex);
+                        self.showText("Distance:\n" + info.distance, body.position,
+                                      self.color(TYPE_HALO, body.planetIndex), body.bounds.height,
+                                      [ self.handles[body.planetIndex].vector, self.forces[body.planetIndex], self.star ]);
                     };
 
                     var mouseDown = function() {
@@ -769,8 +841,8 @@ var Draw = Backbone.View.extend({
                         
                         body.dragging = false;
                         self.hideForces();
-                        
-                        printDistance(body, true);
+
+                        self.hideText();
                         self.restoreSizes();                        
                     };
                     
@@ -844,8 +916,6 @@ var Draw = Backbone.View.extend({
         var handles = this.handles;
         var self = this;
         var i = 0;
-        var colorIdx = app.get('currentMission');
-
         
         if (handles.length == 0 || handles.length != nplanets) {
             this.destroyHandles();
@@ -857,7 +927,7 @@ var Draw = Backbone.View.extend({
                     radius: PLANET_HALO_SIZE
                 });
 
-                var haloColor = window.Color(PLANET_COLORS[colorIdx]).lighten(0.2).rgbString();
+                var haloColor = this.color(TYPE_HALO, i);
                 
                 halo.fillColor =  {
                     gradient: {
@@ -883,7 +953,7 @@ var Draw = Backbone.View.extend({
                 (function(body, vector) {
                     vector.insertBelow(body);
                     
-                    vector.head.on("mousedrag", function(event) {
+                    vector.on("mousedrag", function(event) {
                         if (app.flags.disabledVelocityDrag)
                             return;
                         
@@ -892,13 +962,19 @@ var Draw = Backbone.View.extend({
                         c[0] /= PIXELS_PER_AUPDAY;
                         c[1] /= PIXELS_PER_AUPDAY;
                         app.setVelocityForBody(body.planetIndex, c);
+
+                        var info = app.getHumanInfoForBody(body.planetIndex);
+                        self.showText("Speed:\n" + info.speed, vector.head.position,
+                                      self.color(TYPE_HALO, body.planetIndex), vector.head.bounds.width,
+                                      [ vector, body, self.star, self.forces[body.planetIndex] ]);
+
                     });
-                    vector.head.on("mousedown", function(event) {
+                    vector.on("mousedown", function(event) {
 //                        var center = vector.head.bounds.center;
 //                        vector.head.bounds.size = new Size(ARROW_DRAG_SIZE, ARROW_DRAG_SIZE);
 //                        vector.head.bounds.center = center;
                     });
-                    vector.head.on("mouseup", function(event) {
+                    vector.on("mouseup", function(event) {
                         if (app.flags.disabledVelocityDrag)
                             return;
                         
@@ -969,8 +1045,8 @@ var Draw = Backbone.View.extend({
             
             if (tc.length == 0) {
                 lastPos = planet.position;
-                var colorIdx = app.get('currentMission');
-                this.trailColor = window.Color(PLANET_COLORS[colorIdx]).lighten(0.2).rgbString();
+
+                this.trailColor = this.color(TYPE_HALO, i);
                 this.trailLastTheta[i] = theta;
                 this.trailThetaTotal[i] = 0.;
             }
