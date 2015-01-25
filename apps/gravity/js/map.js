@@ -64,7 +64,7 @@ var AppMenuView = Backbone.View.extend({
         
     },
 
-    DIV_THUMB: '<div class="<%= divclass %>"><button id="app-menu-mission-box-<%= name %>" class="app-menu-mission-box <%= icon %> <%= allowed %>"></button></div>',
+    DIV_THUMB: '<div class="<%= divclass %>"><button id="app-menu-mission-box-<%= name %>" class="app-menu-mission-box <%= icon %> <%= allowed %>" title="<%= title %>"  data-uk-tooltip="{pos: \'right\', offset:10}"></button></div>',
     DIV_ROW: '<div class="app-menu-mission-row"><%= row %><div class="clear"></div></div>',
     
     renderTree: function(rl, posx, posy, rows) {
@@ -80,7 +80,7 @@ var AppMenuView = Backbone.View.extend({
 
         var selected = app.mission().get('name') === rl.get('name');
         
-        var div = _.template(this.DIV_THUMB, { divclass: 'box' + posx, name: rl.get('name'), icon: rl.get('icon') + '-b', allowed: (allowed ? '' : 'app-menu-mission-locked') } );
+        var div = _.template(this.DIV_THUMB, { divclass: 'box' + posx, name: rl.get('name'), icon: rl.get('icon') + '-b', allowed: (allowed ? '' : 'app-menu-mission-locked'), title: rl.get('title') } );
         if (rows[posy])
             rows[posy] += div;
         else

@@ -414,7 +414,20 @@ var Draw = Backbone.View.extend({
             this.textPane.remove();
             this.textPane = null;
         }
-    },    
+    },
+
+    showTip: function(what, untilEvent) {
+        
+    },
+
+    hideTip: function() {
+        if (this.tip) {
+            this.tip.remove();
+            this.tip = null;
+            this.tipPane.remove();
+            this.tipPane = null;
+        }
+    },
 
     pushAnimation: function(name, fun) {
         var f = {f: fun, name: name};

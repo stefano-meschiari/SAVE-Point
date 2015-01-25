@@ -123,7 +123,8 @@ var App = Backbone.ROComputedModel.extend({
             // number of stars gained so far
             starsEarned:[],            
             maxAU: 1.5,
-            minAU: 0.19
+            minAU: 0.19,
+            saveData: {}
         };
     },
 
@@ -496,7 +497,8 @@ var App = Backbone.ROComputedModel.extend({
      * the app-menu div is brought to the forefront and UI elements are hidden.
      */
     menu: function() {
-        this.set('state', MENU);
+        app.saveMissionData();
+        this.set('state', MENU);        
     },
 
     /*
@@ -593,28 +595,35 @@ var App = Backbone.ROComputedModel.extend({
      * Read data from server.
      */
     loadMissionData: function() {
-        app.trigger('loading');
+        this.trigger('loading');
+        var self = this;
         _.defer(function() {
             $.get('php/gamedata.php?action=load')
-            .done(function(data) {
-                if (data.trim() != "") {
-                    data = JSON.parse(data);
-                    var missions = app.get('missions');
+            .done(function(allData) {
+                if (allData.trim() != "") {
+                    var data = JSON.parse(allData);
 
-                    for (var i = 0; i < data.length; i++) {
-                        if (! data[i].name) {
+                    var missionsData = data.missions || [];
+                    var saveData = data.saveData || {};
+                    
+                    var missions = self.get('missions');
+
+                    for (var i = 0; i < missionsData.length; i++) {
+                        if (! missionsData[i].name) {
                             console.error("Mission #" + i + " does not have a name property.");
                             continue;
                         }
-                        var which = missions.where({ name : data[i].name });
+                        var which = missions.where({ name : missionsData[i].name });
 
                         if (!which || which.length == 0 || which.length > 1) {
-                            console.error("Mission named " + data[i].name + " has either 0 or multiple corresponding missions in the configuration file.");
+                            console.error("Mission named " + missionsData[i].name + " has either 0 or multiple corresponding missions in the configuration file.");
                             continue;
                         }
                         
-                        which[0].set(data[i]);
+                        which[0].set(missionsData[i]);
                     }
+
+                    self.set('saveData', saveData);
                     
                 }
 
@@ -630,7 +639,10 @@ var App = Backbone.ROComputedModel.extend({
      * Save data to server.
      */
     saveMissionData: function() {
-        var data = JSON.stringify(app.get('missions'));
+        var data = JSON.stringify({
+            missions: app.get('missions'),
+            saveData: app.get('saveData')
+        });
         var earned_stars = app.starsEarnedTotal();
         app.trigger('saving');
         $.post('php/gamedata.php?action=save', {
@@ -904,7 +916,8 @@ var AppView = Backbone.View.extend({
      * Render win.
      */
 
-    winTemplate: _.template('<div class="font-l"><%= win %></div><div class="font-l"><%= stars %></div><br><button class="btn-jrs font-m" onClick="app.menuView.selectNextMission(); app.menu();"><span class="fa fa-graduation-cap"></span> Go to the next mission!</button>'),
+    winTemplate: _.template('<div class="font-l"><%= win %></div><div class="font-l"><div class="color-accent"><%= stars %></div><button class="btn-jrs font-m" onClick="app.menuView.selectNextMission(); app.menu();"><span class="fa fa-graduation-cap"></span> Go to the next mission!</button></div>'),
+    defaultEncouragement: 'Good job!',
     winDelayMax: 10000,
     approxFrameRate: 1/60.,
     

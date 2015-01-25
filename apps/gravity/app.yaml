@@ -8,8 +8,8 @@ requires:
   - underscore
   - underscore.string
   - jsplumb
+  - uikit
   - backbone
-  - bootstrap
   - paper
   - physics
   - constants
@@ -232,6 +232,7 @@ missions:
   - title: Ejected!
     rule: nplanets > 0 && elements[0].eccentricity > 0.9 && !collided
     name: ejected
+    color: orange
     starsrule: |
       (elements[0].eccentricity < 1.25 ? 3 : (elements[0].eccentricity < 1.75 ? 2 : 1))
     enabled: true
@@ -271,6 +272,7 @@ missions:
       (elements[0].eccentricity < 0.4 ? 1 : (elements[0].eccentricity < 0.7 ? 2 : 3))
     enabled: true
     name: elliptical
+    color: gold
     music: triumph
     subtitle: Add a planet in an elliptical (oval) orbit.
     win: So elliptical! 
@@ -356,6 +358,7 @@ missions:
     subtitle: Add a planet in a circular orbit at 40 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs
+    color: blue
     music: level
     name: speed_vs_distance_40
     constraints:
@@ -381,6 +384,7 @@ missions:
     icon: icon-circ-rvs
     music: level    
     name: speed_vs_distance_30
+    color: blue
     constraints:
       speed: 30
       direction: perpendicular
@@ -396,6 +400,7 @@ missions:
     subtitle: Add a planet in a circular orbit at 25 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs    
+    color: blue
     name: speed_vs_distance_25
     constraints:
       speed: 25

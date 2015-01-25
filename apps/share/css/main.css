@@ -4,6 +4,7 @@ body {
   padding: 0px;
   height: 100%;
   min-height: 100%;
+  line-height: 1.42857143;
   font-family: "Dosis", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 #app {
@@ -127,6 +128,7 @@ body {
   display: block;
   margin: 0 auto;
   margin-top: 20px;
+  box-shadow: 0px 0px 10px silver;
   -webkit-animation: bob 0.75s ease alternate infinite;
   -moz-animation: bob 0.75s ease alternate infinite;
   -o-animation: bob 0.75s ease alternate infinite;
@@ -166,10 +168,10 @@ body {
 }
 lesshat-selector {
   -lh-property: 0; } 
-@-webkit-keyframes bob{ 0%{-webkit-transform: scale(1); background-color:silver; } 100%{-webkit-transform:scale(1.05)}}
-@-moz-keyframes bob{ 0%{-moz-transform: scale(1); background-color:silver; } 100%{-moz-transform:scale(1.05)}}
-@-o-keyframes bob{ 0%{-o-transform: scale(1); background-color:silver; } 100%{-o-transform:scale(1.05)}}
-@keyframes bob{ 0%{-webkit-transform: scale(1);-moz-transform: scale(1);-ms-transform: scale(1);transform: scale(1); background-color:silver; } 100%{-webkit-transform:scale(1.05);-moz-transform:scale(1.05);-ms-transform:scale(1.05);transform:scale(1.05);};
+@-webkit-keyframes bob{ 0%{-webkit-transform: scale(1); background-color:silver; box-shadow:0px 0px 0px silver; } 100%{-webkit-transform:scale(1.05); box-shadow:0px 0px 20px silver; }}
+@-moz-keyframes bob{ 0%{-moz-transform: scale(1); background-color:silver; box-shadow:0px 0px 0px silver; } 100%{-moz-transform:scale(1.05); box-shadow:0px 0px 20px silver; }}
+@-o-keyframes bob{ 0%{-o-transform: scale(1); background-color:silver; box-shadow:0px 0px 0px silver; } 100%{-o-transform:scale(1.05); box-shadow:0px 0px 20px silver; }}
+@keyframes bob{ 0%{-webkit-transform: scale(1);-moz-transform: scale(1);-ms-transform: scale(1);transform: scale(1); background-color:silver; box-shadow:0px 0px 0px silver; } 100%{-webkit-transform:scale(1.05);-moz-transform:scale(1.05);-ms-transform:scale(1.05);transform:scale(1.05); box-shadow:0px 0px 20px silver; };
 }
 .app-menu-mission-box-selected {
   box-shadow: 0px 0px 0px 15px #66ccff, 2px 2px 30px #000000;
@@ -276,11 +278,13 @@ lesshat-selector {
   border: 0px;
   color: black;
   text-transform: uppercase;
+  font-family: "Dosis";
   font-weight: 500;
   background: white;
   background: linear-gradient(to bottom, #ffffff 0%, #b4b4b4 100%);
   border-radius: 3px;
   border: 1px solid #b4b4b4;
+  padding: 10px;
 }
 .btn-jrs:hover {
   background-color: #ecf0f1;
@@ -1113,4 +1117,11 @@ a:hover {
 }
 .color-accent {
   color: #66ccff;
+}
+div.mobile-only {
+  display: none;
+}
+.uk-tooltip {
+  font-size: 18px;
+  line-height: 20px;
 }

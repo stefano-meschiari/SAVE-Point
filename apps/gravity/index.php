@@ -62,8 +62,8 @@ write_mission_rules($cfg);
           Zoom: <strong><span id="zoom-value">100</span>%</strong>
           <span class="pull-right">
             <span class="btn-group">
-              <button class="btn btn-sm btn-jrs in-front fa fa-plus" id="zoom-in"></button>
-              <button class="btn btn-sm btn-jrs in-front fa fa-minus" id="zoom-out"></button>
+              <button class="btn-jrs in-front fa fa-plus" id="zoom-in"></button>
+              <button class="btn-jrs in-front fa fa-minus" id="zoom-out"></button>
             </span>
             <span class="fa fa-minus-circle btn-borderless" id="zoom-close"></span>
           </span>
@@ -75,34 +75,36 @@ write_mission_rules($cfg);
   </div>
 
   <div id="sidebar">
-    <div class="sidebar-item">
-      <button id="menu" class="btn-jrs-ico fa fa-bars"></button>
+    <div class="mobile-only">
+      <div class="sidebar-item">
+        <button id="menu" class="btn-jrs-ico fa fa-bars"></button>
+      </div>
+      <div class="separator-center"></div>
     </div>
-    <div class="separator-center"></div>
     
     <div class="sidebar-item">
-      <button id="missions" class="btn-jrs-ico fa fa-th-large"></button>
-      <div class="sidebar-title">Mission list</div>
+      <button id="missions" class="btn-jrs-ico fa fa-th-large" title="Mission menu" data-uk-tooltip="{pos: 'right', offset:10}"></button>
+      <div class="sidebar-title">Mission menu</div>
     </div>
     <div class="sidebar-item">
-      <button id="reset" class="btn-jrs-ico fa fa-undo"></button>
+      <button id="reset" class="btn-jrs-ico fa fa-undo"  title="Restart mission" data-uk-tooltip="{pos: 'right', offset:10}"></button>
       <div class="sidebar-title">Restart mission</div>
     </div>
     <div class="sidebar-item">
-      <button id="dashboard" class="btn-jrs-ico fa fa-backward"></button>
+      <button id="dashboard" class="btn-jrs-ico fa fa-backward" title="Back to Dashboard" data-uk-tooltip="{pos: 'right', offset:10}"></button>
       <div class="sidebar-title">Back to dashboard</div>
     </div>
     <div class="sidebar-item">
-      <button id="help" class="btn-jrs-ico fa fa-question-circle"></button>
+      <button id="help" class="btn-jrs-ico fa fa-question-circle" title="Help" data-uk-tooltip="{pos: 'right', offset:10}"></button>
       <div class="sidebar-title">Help</div>
     </div>
 
     <div class="separator-center"></div>
     <div class="sidebar-item sidebar-item-disabled" id="sidebar-sizes">
-      <button id="sizes" class="btn-jrs-ico fa fa-arrows-alt"></button>
+      <button id="sizes" class="btn-jrs-ico fa fa-arrows-alt"  title="Toggle physical size" data-uk-tooltip="{pos: 'right', offset:10}"></button>
       <div class="sidebar-title">Toggle physical size</div>
     </div>
-    <div class="sidebar-item sidebar-item-disabled" id="sidebar-zoom">
+    <div class="sidebar-item sidebar-item-disabled"  title="Zoom" data-uk-tooltip="{pos: 'right', offset:10}" id="sidebar-zoom">
       <button id="zoom" class="btn-jrs-ico fa fa-search"></button>
       <div class="sidebar-title">Zoom</div>
     </div>
@@ -152,7 +154,7 @@ write_mission_rules($cfg);
       <div class="bubble">
         <div id="bubble-text">
         </div>
-        <button id="app-menu-start" class="btn btn-lg btn-jrs">
+        <button id="app-menu-start" class="btn-jrs">
           Play
         </button>
 
@@ -169,6 +171,7 @@ write_mission_rules($cfg);
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/single-choice.js"></script>
 <script type="text/javascript" src="js/speech.js"></script>
+<script type="text/javascript" src="js/ui.js"></script>
 <script type="text/javascript" src="js/debug.js"></script>
 
 <script type="text/paperscript" canvas="canvas" src="js/draw.js"></script>

@@ -51,3 +51,7 @@ animalese:
   
 jsplumb:
   - /share/jsplumb/dist/js/dom.jsPlumb-1.7.2.js
+
+uikit:
+  - /share/uikit/css/uikit.min.css
+  - /share/uikit/js/uikit.min.js

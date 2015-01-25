@@ -23,6 +23,7 @@ html, body {
   padding:0px;
   height:100%;
   min-height:100%;
+  line-height:1.42857143;
   font-family:@font, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -172,6 +173,7 @@ html, body {
   display:block;
   margin:0 auto;
   margin-top:20px;
+  box-shadow:0px 0px 10px silver;
   .animation(bob 0.75s ease alternate infinite);
 }
 
@@ -212,7 +214,7 @@ left:400px;
   margin-left:20px;
 }
 
-.keyframes(~'bob, 0%{transform: scale(1); background-color:silver; } 100%{transform:scale(1.05)}');
+.keyframes(~'bob, 0%{transform: scale(1); background-color:silver; box-shadow:0px 0px 0px silver; } 100%{transform:scale(1.05); box-shadow:0px 0px 20px silver; }');
 
 .app-menu-mission-box-selected {
   box-shadow:0px 0px 0px 15px @color-accent, 2px 2px 30px black;
@@ -307,11 +309,13 @@ left:400px;
   border:0px;
   color:black;
   text-transform:uppercase;
+  font-family: @font;
   font-weight:500;
   background:white;
   background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(180, 180, 180) 100%); 
   border-radius:3px;
   border:1px solid rgb(180, 180, 180);
+  padding:10px;
 }
 
 .btn-jrs:hover {
@@ -967,4 +971,13 @@ a:hover {
 
 .color-accent {
   color: @color-accent;
+}
+
+div.mobile-only {
+  display:none;
+}
+
+.uk-tooltip {
+  font-size:18px;
+  line-height:20px;
 }
