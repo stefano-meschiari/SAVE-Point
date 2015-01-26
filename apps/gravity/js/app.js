@@ -125,7 +125,7 @@ var App = Backbone.ROComputedModel.extend({
             maxAU: 1.5,
             minAU: 0.19,
             // Music settings
-            musicVolume:0.4,
+            musicVolume:0.2,
             effectsVolume:0.2
         };
     },
@@ -1312,6 +1312,7 @@ $(document).ready(function() {
     app.messageView = new MessageView({ model: app });
     app.menuView = new AppMenuView({model: app});
     app.modalView = new AppModalView({model:app});
+    app.settings = new AppSettings({ model:app });
     
     app.loadMissionData();
     app.sounds = new SoundEngine(app);
@@ -1319,6 +1320,8 @@ $(document).ready(function() {
     APP_CFG = null;
 
     app.once('load', function() {
+        app.sounds.playMusic('level');
+        
         if (_.parameter('mission') != null) {
             _.defer(function() {
                 app.setMission(_.parameter('mission'));

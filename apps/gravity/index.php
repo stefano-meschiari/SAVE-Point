@@ -91,7 +91,7 @@ write_mission_rules($cfg);
       <div class="sidebar-title">Restart mission</div>
     </div>
     <div class="sidebar-item">
-      <button class="settings btn-jrs-ico fa fa-sliders"  title="Settings" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <button class="settings btn-jrs-ico fa fa-sliders" data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-uk-tooltip="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Game settings</div>
     </div>
     <div class="sidebar-item">
@@ -147,7 +147,7 @@ write_mission_rules($cfg);
     </div>
   </div>
   <div id="app-menu-text">
-    <button class="settings btn-jrs-ico fa fa-sliders"  title="Settings" data-uk-tooltip="{pos: 'bottom', offset:20}"></button>
+    <button class="settings btn-jrs-ico fa fa-sliders"  data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-uk-tooltip="{pos: 'bottom', offset:20}"></button>
     <div id="app-menu-text-top">
       <div id="app-menu-mission-title" class="title"></div>
       <div id="app-menu-mission-subtitle" class="subtitle"></div>
@@ -168,19 +168,47 @@ write_mission_rules($cfg);
     <div id="app-menu-start-container">
     </div>
   </div>
-  <div id="my-id" class="uk-offcanvas">
-    <div class="uk-offcanvas-bar">
-      Hello!!
-    </div>
-  </div>
+ 
 </div>
+ <div id="settings-modal" class="uk-modal">
+   <div class="uk-modal-dialog" id="settings-dialog">
+     
 
+     <div class="settings-pane">
+       <div>
+         <label><i class="fa fa-music"></i> Music</label>
+         <output></output>
+       </div>
+       <div class="clear"></div>
+       <input type="range" id="settings-music-volume" min=0 max=100 step=10 value=0 data-property="musicVolume">
+     </div>
+
+     <div class="separator-center"></div>
+
+     <div class="settings-pane">
+       <div>
+         <label><i class="fa fa-bell"></i> Sound effects</label>
+         <output></output>
+       </div>
+       <div class="clear"></div>
+       <input type="range" id="settings-effects-volume" min=0 max=100 step=10 value=0 data-property="effectsVolume">
+
+     </div>
+
+     <div class="separator-center"></div>
+
+     <button class="btn-jrs uk-modal-close"><i class="fa fa-thumbs-up"></i> OK</button>
+   </div>
+
+
+  </div>
 <script type="text/javascript" src="../share/js/init.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/templates.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/single-choice.js"></script>
 <script type="text/javascript" src="js/speech.js"></script>
+<script type="text/javascript" src="js/settings.js"></script>
 <script type="text/javascript" src="js/ui.js"></script>
 <script type="text/javascript" src="js/debug.js"></script>
 

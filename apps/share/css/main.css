@@ -892,6 +892,33 @@ td.td-val {
   margin-top: 5px;
   margin-bottom: 5px;
 }
+#settings-dialog {
+  color: white;
+  background-color: black;
+  border: 1px solid silver;
+  font-size: 30px;
+  padding: 30px;
+  text-align: center;
+}
+#settings-dialog button {
+  margin-top: 40px;
+}
+.settings-pane {
+  margin-bottom: 40px;
+}
+.settings-pane label {
+  font-size: 30px;
+  float: left;
+  display: block;
+  margin-bottom: 10px;
+}
+.settings-pane output {
+  font-size: 30px;
+  color: #66ccff;
+  display: block;
+  float: right;
+  margin-bottom: 10px;
+}
 #text-top {
   width: 40%;
   left: 30%;
@@ -1129,4 +1156,7 @@ div.mobile-only {
 .uk-tooltip {
   font-size: 18px;
   line-height: 20px;
+}
+.rangeslider__fill {
+  background-color: #66ccff;
 }

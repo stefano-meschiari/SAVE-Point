@@ -55,3 +55,7 @@ jsplumb:
 uikit:
   - /share/uikit/css/uikit.min.css
   - /share/uikit/js/uikit.min.js
+
+rangeslider:
+  - /share/rangeslider.js/dist/rangeslider.min.js
+  - /share/rangeslider.js/dist/rangeslider.css

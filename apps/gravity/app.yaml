@@ -10,6 +10,7 @@ requires:
   - jsplumb
   - uikit
   - backbone
+  - rangeslider
   - paper
   - physics
   - constants
@@ -31,15 +32,16 @@ avatars:
   
 assets:
   music:
-    level: sounds/level_v3_quietpiano.mp3
+    default: sounds/level_v3.mp3
+    level: sounds/level_v3.mp3
     groove: sounds/groove-loop1_v2-low.mp3
-    triumph: sounds/triumph_v4_low.mp3
+    triumph: sounds/triumph_v4.mp3
     sad: sounds/sad_v2_low.mp3
-    standard: sounds/standard.mp3
+    standard: sounds/standard_v2.mp3
     darktriumph: sounds/darktriump_v2.mp3
-    creep: creep_v2.mp3
-    bloop: bloop-dungeon_v3.mp3
-    lurk: lurk_v3.mp3
+    creep: sounds/creep_v2.mp3
+    bloop: sounds/bloop-dungeon_v3.mp3
+    lurk: sounds/lurk_v3.mp3
   effects:
     lose: sounds/lose.mp3
     win: sounds/win.mp3

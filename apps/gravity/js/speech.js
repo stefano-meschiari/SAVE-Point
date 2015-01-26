@@ -22,6 +22,15 @@ var SoundEngine = Backbone.ROComputedModel.extend({
         this.listenTo(app, "change:musicVolume", function() {
             this.musicPlayer.volume = app.get('musicVolume');
         });
+
+        window.onfocus = function() {
+            self.musicPlayer.volume = app.get('musicVolume');
+        };
+
+        window.onblur = function() {
+            self.musicPlayer.volume = 0.;
+        };
+        
     },
 
     newAudio: function(src) {
@@ -32,7 +41,7 @@ var SoundEngine = Backbone.ROComputedModel.extend({
     },
     
     playEffect: function(type) {
-        if (!this.model.get('effectsVolume') == 0)
+        if (this.model.get('effectsVolume') == 0)
             return;
         
         try {
@@ -40,7 +49,10 @@ var SoundEngine = Backbone.ROComputedModel.extend({
                 this[type].currentTime = 0;
                 if (this[type].currentTime != 0)
                     this[type].load();
+                this[type].volume = app.get('effectsVolume');
                 this[type].play();
+            } else {
+                console.warn("No sound effect of type ", type);
             }
         } catch(e) {
             console.log(e);
@@ -48,7 +60,7 @@ var SoundEngine = Backbone.ROComputedModel.extend({
     },
 
     playMusic: function(type) {
-        if (!this.model.get('musicVolume') == 0.)
+        if (this.model.get('musicVolume') == 0.)
             return;
 
         this.musicPlayer.src = this.assets.music[type];
