@@ -188,7 +188,7 @@ missions:
           @boss
           Good work, but we need you to train quickly!  We need to 
           engineer all of the new star systems forming in the Arcturus Nebula, and our 
-          customers are very... picky."
+          customers are very... picky.
 
       - on: lose
         message: |

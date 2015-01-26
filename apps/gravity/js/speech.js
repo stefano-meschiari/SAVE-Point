@@ -1,14 +1,10 @@
 "use strict";
 
-var SoundEngine = Backbone.ROComputedModel.extend({
-    musicEnabled:true,
-    musicVolume:0.4,
-    effectsEnabled:true,
-    effectsVolume:0.2,
-    
-    
-    initialize: function() {
+var SoundEngine = Backbone.ROComputedModel.extend({    
+    initialize: function(model) {
         var self = this;
+        this.model = model;
+        var app = model;
         this.assets = app.get('assets');
         
         _.map(this.assets.effects, function(value, key) {
@@ -21,18 +17,22 @@ var SoundEngine = Backbone.ROComputedModel.extend({
 
         this.musicPlayer = new Audio();
         this.musicPlayer.loop = true;
-        this.musicPlayer.volume = this.musicVolume;
+        this.musicPlayer.volume = app.get('musicVolume');
+
+        this.listenTo(app, "change:musicVolume", function() {
+            this.musicPlayer.volume = app.get('musicVolume');
+        });
     },
 
     newAudio: function(src) {
         var audio = new Audio();
         audio.src = src;
-        audio.volume = this.effectsVolume;
+        audio.volume = this.model.get('effectsVolume');
         return audio;
     },
     
     playEffect: function(type) {
-        if (!this.effectsEnabled)
+        if (!this.model.get('effectsVolume') == 0)
             return;
         
         try {
@@ -48,7 +48,7 @@ var SoundEngine = Backbone.ROComputedModel.extend({
     },
 
     playMusic: function(type) {
-        if (!this.musicEnabled)
+        if (!this.model.get('musicVolume') == 0.)
             return;
 
         this.musicPlayer.src = this.assets.music[type];

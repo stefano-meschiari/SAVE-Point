@@ -83,28 +83,32 @@ write_mission_rules($cfg);
     </div>
     
     <div class="sidebar-item">
-      <button id="missions" class="btn-jrs-ico fa fa-th-large" title="Mission menu" data-uk-tooltip="{pos: 'right', offset:10}"></button>
+      <button id="missions" class="btn-jrs-ico fa fa-th-large" title="Mission menu" data-uk-tooltip="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Mission menu</div>
     </div>
     <div class="sidebar-item">
-      <button id="reset" class="btn-jrs-ico fa fa-undo"  title="Restart mission" data-uk-tooltip="{pos: 'right', offset:10}"></button>
+      <button id="reset" class="btn-jrs-ico fa fa-undo"  title="Restart mission" data-uk-tooltip="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Restart mission</div>
     </div>
     <div class="sidebar-item">
-      <button id="dashboard" class="btn-jrs-ico fa fa-backward" title="Back to Dashboard" data-uk-tooltip="{pos: 'right', offset:10}"></button>
+      <button class="settings btn-jrs-ico fa fa-sliders"  title="Settings" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <div class="sidebar-title">Game settings</div>
+    </div>
+    <div class="sidebar-item">
+      <button id="dashboard" class="btn-jrs-ico fa fa-backward" title="Back to Dashboard" data-uk-tooltip="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Back to dashboard</div>
     </div>
     <div class="sidebar-item">
-      <button id="help" class="btn-jrs-ico fa fa-question-circle" title="Help" data-uk-tooltip="{pos: 'right', offset:10}"></button>
+      <button id="help" class="btn-jrs-ico fa fa-question-circle" title="Help" data-uk-tooltip="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Help</div>
     </div>
 
     <div class="separator-center"></div>
     <div class="sidebar-item sidebar-item-disabled" id="sidebar-sizes">
-      <button id="sizes" class="btn-jrs-ico fa fa-arrows-alt"  title="Toggle physical size" data-uk-tooltip="{pos: 'right', offset:10}"></button>
+      <button id="sizes" class="btn-jrs-ico fa fa-arrows-alt"  title="Toggle physical size" data-uk-tooltip="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Toggle physical size</div>
     </div>
-    <div class="sidebar-item sidebar-item-disabled"  title="Zoom" data-uk-tooltip="{pos: 'right', offset:10}" id="sidebar-zoom">
+    <div class="sidebar-item sidebar-item-disabled"  title="Zoom" data-uk-tooltip="{pos: 'right', offset:20}" id="sidebar-zoom">
       <button id="zoom" class="btn-jrs-ico fa fa-search"></button>
       <div class="sidebar-title">Zoom</div>
     </div>
@@ -143,6 +147,7 @@ write_mission_rules($cfg);
     </div>
   </div>
   <div id="app-menu-text">
+    <button class="settings btn-jrs-ico fa fa-sliders"  title="Settings" data-uk-tooltip="{pos: 'bottom', offset:20}"></button>
     <div id="app-menu-text-top">
       <div id="app-menu-mission-title" class="title"></div>
       <div id="app-menu-mission-subtitle" class="subtitle"></div>
@@ -161,6 +166,11 @@ write_mission_rules($cfg);
       </div>
     </div>
     <div id="app-menu-start-container">
+    </div>
+  </div>
+  <div id="my-id" class="uk-offcanvas">
+    <div class="uk-offcanvas-bar">
+      Hello!!
     </div>
   </div>
 </div>

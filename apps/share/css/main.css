@@ -89,6 +89,11 @@ body {
   height: 100%;
   background-color: rgba(140, 140, 140, 0.2);
 }
+#app-menu-text .settings {
+  font-size: 40px;
+  float: right;
+  width: initial;
+}
 #app-menu-text-top {
   line-height: 1.1;
 }
@@ -146,7 +151,7 @@ body {
   padding: 30px;
   border-radius: 20px;
   min-height: 250px;
-  width: 400px;
+  width: 370px;
   position: relative;
 }
 .bubble:before {
@@ -159,7 +164,7 @@ body {
   width: 0;
   z-index: 1;
   top: 50px;
-  left: 400px;
+  left: 430px;
 }
 .bubble-avatar {
   float: right;

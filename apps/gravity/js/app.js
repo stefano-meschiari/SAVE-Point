@@ -124,10 +124,13 @@ var App = Backbone.ROComputedModel.extend({
             starsEarned:[],            
             maxAU: 1.5,
             minAU: 0.19,
-            saveData: {}
+            // Music settings
+            musicVolume:0.4,
+            effectsVolume:0.2
         };
     },
 
+    saveKeys: ['musicVolume', 'effectsVolume'],
     components: {},
     flags: {},
 
@@ -622,8 +625,10 @@ var App = Backbone.ROComputedModel.extend({
                         
                         which[0].set(missionsData[i]);
                     }
-
-                    self.set('saveData', saveData);
+                    
+                    _.each(saveData, function(value, key) {
+                        self.set(value, key);
+                    });
                     
                 }
 
@@ -639,6 +644,12 @@ var App = Backbone.ROComputedModel.extend({
      * Save data to server.
      */
     saveMissionData: function() {
+        var self = this;
+        var saveData = {};
+        _.each(this.saveKeys, function(key) {
+            this[key] = self.get(key);
+        }, saveData);
+        
         var data = JSON.stringify({
             missions: app.get('missions'),
             saveData: app.get('saveData')
