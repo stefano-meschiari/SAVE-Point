@@ -15,10 +15,10 @@ DRAG_TARGET_MIN_SIZE = 40;
 // Width of stem of arrow
 ARROW_STEM_SIZE = 10;
 // With of stem of force arrow
-FORCE_ARROW_STEM_SIZE = 5;
-FORCE_ARROW_SIZE = 8;
+FORCE_ARROW_STEM_SIZE = 3;
+FORCE_ARROW_SIZE = 6;
 // Force power index
-FORCE_POWER_INDEX = 1.8;
+FORCE_POWER_INDEX = 2;
 // Force color (move to configuration file)
 FORCE_COLOR = 'rgba(214, 197, 0, 1)';
 
