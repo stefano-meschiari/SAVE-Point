@@ -310,6 +310,7 @@ missions:
     enabled: true
     value: 1
     type: single-choice
+    icon: icon-question
     name: elliptical_question
     subtitle: Get an extra star by answering this question.
     intro: |
@@ -322,7 +323,6 @@ missions:
       "Also, have fun with it."
     win: That's the right answer!
     lose: Not quite right.
-    icon: icon-single
     question: |
       @boss @fly
       How do planets in elliptical orbits move when they are far from their star?

@@ -7,16 +7,9 @@
     - crash
     - ejected
     - elliptical
-    - fork:
-        -
-          - circular
-          - speed_vs_distance_40
-          - speed_vs_distance_30
-          - speed_vs_distance_25
-          - boss_arcturus
-        -
-          - elliptical_question
-          - barycentric  
-          - multi-planet-test
-
+    - elliptical_question
+    - circular
+    - speed_vs_distance_40
+    - speed_vs_distance_30
+    - speed_vs_distance_25
     
