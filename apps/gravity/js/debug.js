@@ -1,4 +1,5 @@
 "use strict";
+return;
 
 $("#sidebar").append('<button id="debug-get-stars" class="btn btn-sm btn-danger">get all stars</button>', [
     '<button id="debug-reset-missions" class="btn btn-sm btn-danger">reset missions</button>',

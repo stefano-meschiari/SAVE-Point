@@ -174,16 +174,17 @@ missions:
           
       - on: proceed
         message: >
-          @disable-star @refresh
+          @disable-star @refresh @boss
           Now try to @icon-drag *drag the head of the green speed arrow* to change the speed
           and direction of the planet, and see its speed change in the upper right. 
 
       - on: planet:dragvelocity
-        message: |          
+        message: |
+          @boss
           As you change the position and speed of the planet, its orbital path will change.
 
           
-          Now *tap on the @icon-star star* to let the planet orbit!
+          Now *tap on the @icon-sun star* to let the planet orbit!
           
       - on: win3
         message: |
@@ -234,7 +235,7 @@ missions:
   - title: Ejected!
     rule: nplanets > 0 && elements[0].eccentricity > 0.9 && !collided
     name: ejected
-    color: orange
+    colors: orange
     starsrule: |
       (elements[0].eccentricity < 1.25 ? 3 : (elements[0].eccentricity < 1.75 ? 2 : 1))
     enabled: true
@@ -271,10 +272,10 @@ missions:
   - title: Elliptical Orbit
     rule: nplanets > 0 && elements[0].eccentricity > 0.01 && elements[0].eccentricity < 0.99 && !collided
     starsrule: |
-      (elements[0].eccentricity < 0.4 ? 1 : (elements[0].eccentricity < 0.7 ? 2 : 3))
+      (elements[0].eccentricity < 0.2 ? 1 : (elements[0].eccentricity < 0.7 ? 2 : 3))
     enabled: true
     name: elliptical
-    color: gold
+    colors: gold
     music: triumph
     subtitle: Add a planet in an elliptical (oval) orbit.
     win: So elliptical! 
@@ -360,7 +361,7 @@ missions:
     subtitle: Add a planet in a circular orbit at 40 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs
-    color: blue
+    colors: blue
     music: level
     name: speed_vs_distance_40
     constraints:
@@ -386,7 +387,7 @@ missions:
     icon: icon-circ-rvs
     music: level    
     name: speed_vs_distance_30
-    color: blue
+    colors: blue
     constraints:
       speed: 30
       direction: perpendicular
@@ -402,7 +403,7 @@ missions:
     subtitle: Add a planet in a circular orbit at 25 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs    
-    color: blue
+    colors: blue
     name: speed_vs_distance_25
     constraints:
       speed: 25

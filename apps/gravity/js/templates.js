@@ -90,7 +90,16 @@ var Templates = Backbone.Model.extend({
         help.message = msg;
         return help;
     },
-
+    
+    starsRepr: function(stars, total) {
+        var repr = "";
+        total = total || 3;
+        for (var i = 0; i < stars; i++)
+            repr += this.FULL_STAR;
+        for (i = stars; i < total; i++)
+            repr += this.EMPTY_STAR;
+        return repr;
+    },
 
     initialize: function() {
         var safeTags = this.safeTags;

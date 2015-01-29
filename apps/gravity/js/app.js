@@ -40,16 +40,6 @@ var Mission = Backbone.ROComputedModel.extend({
         name: ''
     }, 
 
-    starsRepr: function() {
-        var repr = "";
-        var total = this.get('value') || 3;
-        var stars = this.get('stars');
-        for (var i = 0; i < stars; i++)
-            repr += app.templates.FULL_STAR;
-        for (i = stars; i < total; i++)
-            repr += app.templates.EMPTY_STAR;
-        return repr;
-    },
 
     toJSON: function() {
         return _.pick(this.attributes, _.keys(this.defaults));
@@ -943,7 +933,7 @@ var AppView = Backbone.View.extend({
 
         this.renderTopText(this.winTemplate({
             win: mission.get('win'),
-            stars: mission.starsRepr()
+            stars: app.templates.starsRepr(app.stars())
         }), false);
         $("#text-top").addClass("in-front");
 
