@@ -779,7 +779,8 @@ td.td-val {
   content: "\f006";
 }
 .icon-mission-badge {
-  background: url('../img/circular_icon.png') no-repeat center center;
+  background-repeat: no-repeat;
+  background-position: center center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -787,9 +788,11 @@ td.td-val {
   padding: 10px;
   background-origin: content-box;
   background-color: white;
+  font-size: 70px;
 }
 .icon-circular {
-  background: url('../img/circular_icon.png') no-repeat center center;
+  background-repeat: no-repeat;
+  background-position: center center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -797,10 +800,12 @@ td.td-val {
   padding: 10px;
   background-origin: content-box;
   background-color: white;
+  font-size: 70px;
   background-image: url('../img/circular_icon.png');
 }
 .icon-circular-b {
-  background: url('../img/circular_icon.png') no-repeat center center;
+  background-repeat: no-repeat;
+  background-position: center center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -808,10 +813,12 @@ td.td-val {
   padding: 10px;
   background-origin: content-box;
   background-color: white;
+  font-size: 70px;
   background-image: url('../img/circular_icon_b.png');
 }
 .icon-elliptical {
-  background: url('../img/circular_icon.png') no-repeat center center;
+  background-repeat: no-repeat;
+  background-position: center center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -819,10 +826,12 @@ td.td-val {
   padding: 10px;
   background-origin: content-box;
   background-color: white;
+  font-size: 70px;
   background-image: url('../img/elliptical_icon.png');
 }
 .icon-elliptical-b {
-  background: url('../img/circular_icon.png') no-repeat center center;
+  background-repeat: no-repeat;
+  background-position: center center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -830,10 +839,12 @@ td.td-val {
   padding: 10px;
   background-origin: content-box;
   background-color: white;
+  font-size: 70px;
   background-image: url('../img/elliptical_icon_b.png');
 }
 .icon-hyperbolic {
-  background: url('../img/circular_icon.png') no-repeat center center;
+  background-repeat: no-repeat;
+  background-position: center center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -841,10 +852,12 @@ td.td-val {
   padding: 10px;
   background-origin: content-box;
   background-color: white;
+  font-size: 70px;
   background-image: url('../img/escape_icon.png');
 }
 .icon-hyperbolic-b {
-  background: url('../img/circular_icon.png') no-repeat center center;
+  background-repeat: no-repeat;
+  background-position: center center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -852,10 +865,12 @@ td.td-val {
   padding: 10px;
   background-origin: content-box;
   background-color: white;
+  font-size: 70px;
   background-image: url('../img/escape_icon_b.png');
 }
 .icon-crash {
-  background: url('../img/circular_icon.png') no-repeat center center;
+  background-repeat: no-repeat;
+  background-position: center center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -863,10 +878,12 @@ td.td-val {
   padding: 10px;
   background-origin: content-box;
   background-color: white;
+  font-size: 70px;
   background-image: url('../img/crash_icon.png');
 }
 .icon-crash-b {
-  background: url('../img/circular_icon.png') no-repeat center center;
+  background-repeat: no-repeat;
+  background-position: center center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -874,10 +891,12 @@ td.td-val {
   padding: 10px;
   background-origin: content-box;
   background-color: white;
+  font-size: 70px;
   background-image: url('../img/crash_icon_b.png');
 }
 .icon-practice-b {
-  background: url('../img/circular_icon.png') no-repeat center center;
+  background-repeat: no-repeat;
+  background-position: center center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -885,10 +904,12 @@ td.td-val {
   padding: 10px;
   background-origin: content-box;
   background-color: white;
+  font-size: 70px;
   background-image: url('../img/practice_icon.png');
 }
 .icon-circ-rvs-b {
-  background: url('../img/circular_icon.png') no-repeat center center;
+  background-repeat: no-repeat;
+  background-position: center center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
@@ -896,7 +917,36 @@ td.td-val {
   padding: 10px;
   background-origin: content-box;
   background-color: white;
+  font-size: 70px;
   background-image: url('../img/circ_rvs_icon.png');
+}
+.icon-question-b {
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  padding: 10px;
+  background-origin: content-box;
+  background-color: white;
+  font-size: 70px;
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-question-b.pull-left {
+  margin-right: .3em;
+}
+.icon-question-b.pull-right {
+  margin-left: .3em;
+}
+.icon-question-b:before {
+  content: "\f059";
 }
 .separator {
   height: 1px;
@@ -1080,6 +1130,9 @@ lesshat-selector {
   min-height: 100%;
   padding: 40px;
   font-size: 20px;
+}
+#app-screen a {
+  color: #66ccff;
 }
 #app-screen.white {
   background: white;
