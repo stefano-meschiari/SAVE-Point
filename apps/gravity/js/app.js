@@ -116,8 +116,7 @@ var App = Backbone.ROComputedModel.extend({
             minAU: 0.19,
             // Music settings
             musicVolume:0.2,
-            effectsVolume:0.2,
-            username: 
+            effectsVolume:0.2
         };
     },
 
