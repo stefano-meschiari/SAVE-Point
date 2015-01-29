@@ -415,6 +415,37 @@ missions:
     intro: |
       Still not satisfied, the leader of the Arkanids demands a different planet moving at 25 km/s for more optimal growing conditions.
 
+  - title: The speed of planets/2
+    enabled: true
+    value: 1
+    type: single-choice
+    icon: icon-question
+    name: circular_question
+    subtitle: Get an extra star by answering this question.
+    intro: |
+      Answer this question, rookie!
+    win: That's the right answer!
+    lose: Not quite right.
+    question: |
+      @boss @fly
+      For planets in circular orbits, the speed of a planet orbiting far from the star is...
+    choices:
+      - ... faster than a planet close to the star.
+      - ... slower than a planet close to the star.
+      - ... the same speed as a planet close to the star.
+    answer: 2
+    help:
+      - on: win
+        message: |
+          @boss
+          That's right, @name! Puny humans call this property Kepler's 3rd law.
+
+      - on: lose
+        message: |
+          @boss
+          You might want to practice this out a bit in the sandbox. 
+
+
   - title: Boss level
     subtitle: Boss level test
     name: boss_arcturus

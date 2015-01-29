@@ -933,7 +933,7 @@ var AppView = Backbone.View.extend({
 
         this.renderTopText(this.winTemplate({
             win: mission.get('win'),
-            stars: app.templates.starsRepr(app.stars())
+            stars: app.templates.starsRepr(app.stars(), app.mission().get('value'))
         }), false);
         $("#text-top").addClass("in-front");
 
