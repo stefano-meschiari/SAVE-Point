@@ -1131,6 +1131,9 @@ lesshat-selector {
   padding: 40px;
   font-size: 20px;
 }
+#app-screen a {
+  color: #66ccff;
+}
 #app-screen.white {
   background: white;
   color: black;
