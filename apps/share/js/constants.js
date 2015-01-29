@@ -36,6 +36,13 @@ var Colors = {
     accent: 'rgb(102, 204, 255)',
     white: 'white',
     darkGlass: 'rgba(140, 140, 140, 0.4)',
-    glass: 'rgba(140, 140, 140, 0.2)'
-    
+    glass: 'rgba(140, 140, 140, 0.2)'    
 };
+
+(function() {
+    var s = "<style>\n";
+    _.each(Colors, function(value, key) {
+        s += ".color-" + key + " { color: '" + value + "'}\n";
+    });
+    $("head").append(s);
+})();

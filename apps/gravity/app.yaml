@@ -43,13 +43,13 @@ assets:
     bloop: sounds/bloop-dungeon_v3.mp3
     lurk: sounds/lurk_v3.mp3
   effects:
-    lose: sounds/lose.mp3
-    win: sounds/win.mp3
-    collision: sounds/collision.mp3
+    lose: sounds/lose.wav
+    win: sounds/win.wav
+    collision: sounds/collision.wav
     proceed: sounds/proceed.wav
     clickety: sounds/proceed.wav
     addPlanet: sounds/add-planet.mp3
-    "planet:drag": sounds/drag.mp3
+    "planet:drag": sounds/drag.wav
   
 missions:
   - title: Practice Mode
@@ -105,7 +105,7 @@ missions:
       - on: proceed
         message: |
           @fly @noninteractive @boss
-          You’ll be paid in “stars"!  Stars can be redeemed at the company store for special prizes later on.
+          You’ll be paid in @color-accent{@icon-star} stars!  Stars can be redeemed at the company store for special prizes later on.
           Your payment is based on how well you do the job at hand.
           @proceed
           
@@ -175,7 +175,7 @@ missions:
       - on: proceed
         message: >
           @disable-star @refresh
-          Now try to @icon-drag *drag the head of the speed arrow* to change the speed
+          Now try to @icon-drag *drag the head of the green speed arrow* to change the speed
           and direction of the planet, and see its speed change in the upper right. 
 
       - on: planet:dragvelocity

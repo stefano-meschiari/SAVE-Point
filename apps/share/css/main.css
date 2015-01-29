@@ -703,6 +703,24 @@ td.td-val {
   margin-left: .3em;
 }
 .icon-star:before {
+  content: "\f005";
+}
+.icon-sun {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-sun.pull-left {
+  margin-right: .3em;
+}
+.icon-sun.pull-right {
+  margin-left: .3em;
+}
+.icon-sun:before {
   content: "\f10c";
   background: radial-gradient(ellipse at center, #ffff88 0%, rgba(255, 255, 136, 0) 90%);
 }
@@ -937,7 +955,7 @@ td.td-val {
   user-select: none;
 }
 .title {
-  font-size: 60px;
+  font-size: 50px;
   color: white;
   text-shadow: 0px 0px 2px black;
 }

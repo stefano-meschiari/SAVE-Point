@@ -650,6 +650,13 @@ td.td-val {
 .icon-star {
   .fa;
   &:before {
+    content: @fa-var-star;
+  }
+}
+
+.icon-sun {
+  .fa;
+  &:before {
     content: @fa-var-circle-o;
     background: radial-gradient(ellipse at center, rgba(255,255,136,1) 0%,rgba(255,255,136,0) 90%); 
   }
@@ -796,7 +803,7 @@ td.td-val {
 }
 
 .title {
-  font-size:@font-XL;
+  font-size:@font-xl;
   color:white;
   text-shadow:0px 0px 2px black;
 }

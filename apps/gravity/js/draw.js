@@ -32,11 +32,13 @@ var DrawUtils = {
         return x;
     },
     
-    createArrow: function(from, to, color, arrowSide, strokeSize, type) {
+    createArrow: function(from, to, color, arrowSide, strokeSize, options) {
         color = color || COLOR_OUTLINE;
         arrowSide = arrowSide || ARROW_SIZE;
         strokeSize = strokeSize || ARROW_STEM_SIZE;
-        type = type || 'regular';
+        var type = 'regular';
+        options = options || {};
+        
         
         var stem = new Path.Line(from, to);
         stem.strokeColor = {
@@ -175,8 +177,9 @@ var DrawUtils = {
         g.bounds = function() {
             return head.bounds.unite(stem.bounds);
         };
-        
-        requestAnimationFrame(g.frame);
+
+        if (!options.static)
+            requestAnimationFrame(g.frame);
         
         return g;
     }    
@@ -367,7 +370,7 @@ var Draw = Backbone.View.extend({
             point: position + new Point(0, distance),
             content: label,
             fillColor: color,
-            fontSize: 16,
+            fontSize: 20,
             justification: 'center'
         });
 
@@ -731,7 +734,7 @@ var Draw = Backbone.View.extend({
             var f = app.forceForBody(body.planetIndex, FORCE_POWER_INDEX);
             var forceTo = body.position + new Point(f[X], f[Y]) * PIXELS_PER_FORCE;                        
             forces[i] = DrawUtils.createArrow(body.position, forceTo, FORCE_COLOR, FORCE_ARROW_SIZE,
-                                              FORCE_ARROW_STEM_SIZE);
+                                              FORCE_ARROW_STEM_SIZE, {static: true});
             if (this.planets[i])
                 forces[i].insertBelow(body);
         }
@@ -828,7 +831,6 @@ var Draw = Backbone.View.extend({
                             app.setPositionForBody(body.planetIndex, c);
                         }
 
-                        self.showForces(body.planetIndex);
 
                         var info = app.getHumanInfoForBody(body.planetIndex);
                         self.showText("Distance:\n" + info.distance, body.position,
@@ -842,7 +844,6 @@ var Draw = Backbone.View.extend({
                         body.bounds.center = center;
                         self.handles[body.planetIndex].halo.bounds.size = new Size(2*PLANET_HALO_DRAG_SIZE, 2*PLANET_HALO_DRAG_SIZE);
                         self.handles[body.planetIndex].halo.bounds.center = center;
-                        self.showForces(body.planetIndex);
                     };
 
                     var mouseUp = function() {
@@ -853,7 +854,6 @@ var Draw = Backbone.View.extend({
                             app.trigger("planet:drag");
                         
                         body.dragging = false;
-                        self.hideForces();
 
                         self.hideText();
                         self.restoreSizes();                        
@@ -1016,6 +1016,8 @@ var Draw = Backbone.View.extend({
             }
             else
                 handles[i].vector.show();
+
+            self.showForces();
         }
     },
 
@@ -1026,6 +1028,7 @@ var Draw = Backbone.View.extend({
             handles[i].vector.remove();
         }
         handles.length = 0;
+        this.hideForces();
     },
 
     tick: 0,

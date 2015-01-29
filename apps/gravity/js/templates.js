@@ -10,14 +10,8 @@ var Templates = Backbone.Model.extend({
     
     templates: {
         "@separator": '<div class="separator"></div>',
-        "@icon-tap": '<span class="icon-tap"></span>',
-        "@icon-drag": '<span class="icon-drag"></span>',
-        "@icon-star": '<span class="icon-star"></span>',
-        "@icon-rocket": '<span class="fa fa-rocket"></span>',
-        "@icon-win": '<span class="icon-win"></span>',
-        "@icon-menu": '<span class="icon-menu"></span>',
-        "@icon-help": '<span class="icon-help"></span>',
-        
+        "@icon-([\\w\\-]+)": '<span class="icon-$1"></span>',
+        "@color-([\\w\\-]+)\\{(.+?)\\}": '<span class="color-$1">$2</span>',
         "@noninteractive": function() { app.set("interactive", false); },
         "@disable-star": function() { app.flags.disabledStar = true; },
         "@disable-planet-drag": function() { app.flags.disabledPlanetDrag = true; },
