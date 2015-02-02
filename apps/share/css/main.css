@@ -948,6 +948,35 @@ td.td-val {
 .icon-question-b:before {
   content: "\f059";
 }
+.icon-boss-b {
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  padding: 10px;
+  background-origin: content-box;
+  background-color: white;
+  font-size: 70px;
+  background-color: #e74c3c;
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-boss-b.pull-left {
+  margin-right: .3em;
+}
+.icon-boss-b.pull-right {
+  margin-left: .3em;
+}
+.icon-boss-b:before {
+  content: "\f1e2";
+}
 .separator {
   height: 1px;
   background: linear-gradient(to right, #bababa 0%, #bababa 40%, rgba(186, 186, 186, 0) 80%);
@@ -1202,6 +1231,7 @@ a.border {
   font-size: 20px;
   text-align: center;
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 .question-option {
   width: 100%;

@@ -154,10 +154,10 @@ var App = Backbone.ROComputedModel.extend({
      * The initial speed is sqrt(K2) in internal units (~30 km/s),
      * while the initial mass is 0.
      */
-    addPlanet: function(x) {
+    addPlanet: function(x, options) {
         // Return if there are already more planets than allowed.
         if (! this.ensureConstraints())
-            return;
+            return -1;
 
         // Append position and default velocity & mass to the
         // respective arrays, then fire the change events.
@@ -167,10 +167,19 @@ var App = Backbone.ROComputedModel.extend({
         var types = this.get('bodyTypes');
         
         position.push(x[0], x[1], 0);
-        types.push(TYPE_PLANET);
+        if (options && options.type)
+            types.push(options.type);
+        else
+            types.push(TYPE_PLANET);
         
         var v = Math.sqrt(K2);
-        velocity.push(v, 0, 0);
+        if (! (options && options.circular)) {
+            velocity.push(v, 0, 0);
+        } else {
+            var r = Math.sqrt(x[0] * x[0] + x[1] * x[1]);
+            v = Math.sqrt(K2/r);
+            velocity.push(v * (-x[1]/r), v * (x[0]/r), 0);
+        }
         masses.push(this.get('defaultMass'));
         this.ctx.elements = null;
         this.set('nplanets', this.get('nplanets')+1);
@@ -178,7 +187,7 @@ var App = Backbone.ROComputedModel.extend({
         this.ctx.elements = null;
         this.trigger("change:position change:velocity change:masses addPlanet");
         Physics.barycenter(this.ctx);
-
+        return masses.length;
     },
 
     /*
@@ -209,6 +218,10 @@ var App = Backbone.ROComputedModel.extend({
         return x;
     },
 
+    typeForBody: function(i) {
+        return this.get('bodyTypes')[i+1];
+    },
+    
     /*
      * Returns the force for the i-th body, in internal units (AU/Msun/days)
      */
@@ -461,6 +474,7 @@ var App = Backbone.ROComputedModel.extend({
         if (mission === undefined)
             mission = this.get('currentMission')+1;
 
+        var self = this;
         if (_.isString(mission)) {            
             app.get('missions').find(function(m, idx) {
                 if (m.get('name') === mission) {
@@ -480,7 +494,14 @@ var App = Backbone.ROComputedModel.extend({
         var bodies = missionObj.get('bodies');
         if (bodies) {
             _.each(bodies, function(body) {
-//                console.log(body);
+                var type = TYPE_PLANET;
+                if (body.type)
+                    type = eval(body.type);
+                
+                var i = self.addPlanet(body.x, { type: type, circular: body.circular });
+                if (body.v)
+                    self.setVelocityForBody(i - 1, body.v);
+                
             });
         }
     },
@@ -904,6 +925,8 @@ var AppView = Backbone.View.extend({
      *
      */
     validate: function() {
+        if (!app.mission().get('rule'))
+            return;
         var f = app.mission().get('rule')();
         if (f) {
             this.model.win();

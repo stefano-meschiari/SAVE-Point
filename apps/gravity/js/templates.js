@@ -44,6 +44,9 @@ var Templates = Backbone.Model.extend({
         "@close": '<div class="help-toolbar"><button id="help-close" class="btn btn-lg btn-jrs"><span class="fa fa-times"></span>  Close</button></div>',
         "@eccentricity": '<span id="eccentricity"></span>',
         "@name": LOGGED_USER,
+        "@run": function() { app.set('state', RUNNING); },
+        "@rotatable": function() { app.set('state', ROTATABLE); },
+        
         "@wait-10": function() {  _.delay(function(self) { self.listener.proceed(); }, 10000, this); },
         "@wait-5": function() {  _.delay(function(self) {  self.listener.proceed(); }, 5000, this); }
     },

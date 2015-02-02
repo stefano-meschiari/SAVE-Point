@@ -207,6 +207,7 @@ write_mission_rules($cfg);
 <script type="text/javascript" src="js/templates.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/single-choice.js"></script>
+<script type="text/javascript" src="js/drag-choice.js"></script>
 <script type="text/javascript" src="js/speech.js"></script>
 <script type="text/javascript" src="js/settings.js"></script>
 <script type="text/javascript" src="js/ui.js"></script>

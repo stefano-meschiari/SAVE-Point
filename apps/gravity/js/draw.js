@@ -725,11 +725,12 @@ var Draw = Backbone.View.extend({
         for (var i = 0; i < app.get('nplanets'); i++) {
             if (index && i != index)
                 continue;
-
             if (forces[i])
                 forces[i].remove();
-
             var body = this.planets[i];
+            
+            if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
+                continue;
             
             var f = app.forceForBody(body.planetIndex, FORCE_POWER_INDEX);
             var forceTo = body.position + new Point(f[X], f[Y]) * PIXELS_PER_FORCE;                        
@@ -796,6 +797,9 @@ var Draw = Backbone.View.extend({
                     var drag = function(event) {
                         if (app.flags.disabledPlanetDrag)
                             return;
+                        if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
+                            return;
+                        
                         var point = event.point;
                         var bsize = body.bounds.width;
                         var refuseDrag = false;
@@ -839,6 +843,9 @@ var Draw = Backbone.View.extend({
                     };
 
                     var mouseDown = function() {
+                        if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
+                            return;
+                        
                         var center = body.bounds.center;
                         body.bounds.size = new Size(2*PLANET_DRAG_SIZE, 2*PLANET_DRAG_SIZE );
                         body.bounds.center = center;
@@ -847,6 +854,9 @@ var Draw = Backbone.View.extend({
                     };
 
                     var mouseUp = function() {
+                        if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
+                            return;
+                        
                         if (app.flags.disabledPlanetDrag)
                             return;
                         
@@ -962,13 +972,16 @@ var Draw = Backbone.View.extend({
                 
                 var vector = DrawUtils.createArrow(body.position, body.position + dv * PIXELS_PER_AUPDAY,
                                               haloColor);
-                
+
                 (function(body, vector) {
                     vector.insertBelow(body);
                     
                     vector.on("mousedrag", function(event) {
                         if (app.flags.disabledVelocityDrag)
                             return;
+                        if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
+                            return;
+                        
                         
                         vector.dragging = true;
                         c = [event.point.x - body.position.x, event.point.y - body.position.y, 0];
@@ -988,6 +1001,9 @@ var Draw = Backbone.View.extend({
 //                        vector.head.bounds.center = center;
                     });
                     vector.on("mouseup", function(event) {
+                        if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
+                            return;
+                        
                         if (app.flags.disabledVelocityDrag)
                             return;
                         
@@ -1010,8 +1026,10 @@ var Draw = Backbone.View.extend({
             handles[i].vector.setVector(this.planets[i].position, this.planets[i].position +
                                         new Point(vx, vy));
 
+            if (app.typeForBody(i) == TYPE_PLANET_FIXED)
+                handles[i].halo.visible = false;
 
-            if (app.flags.disabledVelocity) {
+            if (app.flags.disabledVelocity || app.typeForBody(i) == TYPE_PLANET_FIXED) {
                 handles[i].vector.hide();
             }
             else

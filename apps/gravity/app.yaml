@@ -105,7 +105,7 @@ missions:
       - on: proceed
         message: |
           @fly @noninteractive @boss
-          You’ll be paid in @color-accent{@icon-star} stars!  Stars can be redeemed at the company store for special prizes later on.
+          You’ll be paid in @color-accent{@icon-star} stars @color-accent{@icon-star}!  Stars can be redeemed at the company store for special prizes later on.
           Your payment is based on how well you do the job at hand.
           @proceed
           
@@ -426,14 +426,27 @@ missions:
       Answer this question, rookie!
     win: That's the right answer!
     lose: Not quite right.
+    bodies:
+      - x:
+          - 0
+          - -1
+        type: TYPE_PLANET_FIXED
+        circular: true
+      - x:
+          - 0
+          - -0.5
+        type: TYPE_PLANET_FIXED
+        circular: true
     question: |
-      @boss @fly
+      @boss @rotatable
       For planets in circular orbits, the speed of a planet orbiting far from the star is...
     choices:
-      - ... faster than a planet close to the star.
-      - ... slower than a planet close to the star.
-      - ... the same speed as a planet close to the star.
-    answer: 2
+      - faster 
+      - the same speed
+      - slower 
+    question-below: |
+      ...compared to a planet orbiting close to the star.
+    answer: 1
     help:
       - on: win
         message: |
@@ -445,6 +458,37 @@ missions:
           @boss
           You might want to practice this out a bit in the sandbox. 
 
+  - title: The speed of planets/3
+    enabled: true
+    value: 1
+    type: drag-choice
+    icon: icon-question
+    name: speeds_question
+    subtitle: Get an extra star by answering this question.
+    intro: |
+      Answer this question, rookie!
+    win: That's the right answer!
+    lose: Not quite right.
+    question: |
+      Imagine a planet in a circular orbit around the star. What would happen if you could change its speed?
+    fixed:
+      - You increased the speed a lot.
+      - You decreased the speed a lot.
+      - You changed the speed a little bit.
+    options:
+      - The planet would be ejected.
+      - The planet would collide with the star.
+      - The orbit would become elliptical (oval).
+    help:
+      - on: win
+        message: |
+          @boss
+          That's right, @name! 
+
+      - on: lose
+        message: |
+          @boss
+          You might want to practice this out a bit in the sandbox. 
 
   - title: Boss level
     subtitle: Boss level test
