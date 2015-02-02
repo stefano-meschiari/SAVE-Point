@@ -262,6 +262,10 @@ connect levels together.
 * value: used to evaluate the stars value of a level (if not
   specified, equals to 3) -- useful, for example, to create 1-star
   levels like the single choice levels.
-
-### Special types of levels
-When a "type"
+* intro: this is the text displayed in the menu that introduces a
+level. For example:
+```
+intro: |
+      The people of Selia Prime are bored with always orbiting between the same planets.  Now they want to resettle on a world that gently tours both the inner and outer solar system at different times of year. High Councilor Zeniak pulls out his cyber binoculars eagerly and awaits a fresh night sky.
+```
+      
