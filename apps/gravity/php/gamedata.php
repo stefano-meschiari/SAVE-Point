@@ -5,7 +5,6 @@ require($_SERVER['DOCUMENT_ROOT'] . '/../share/startup.php');
 require('db.php');
 
 if (db_user_logged_in() === FALSE) {
-  error_log("Not logged in.");
   die();
 }
 

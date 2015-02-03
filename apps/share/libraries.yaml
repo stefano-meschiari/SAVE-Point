@@ -55,7 +55,9 @@ jsplumb:
 uikit:
   - /share/uikit/css/uikit.min.css
   - /share/uikit/js/uikit.min.js
-
+  - /share/uikit/css/components/nestable.min.css
+  - /share/uikit/js/components/nestable.min.js
+  
 rangeslider:
   - /share/rangeslider.js/dist/rangeslider.min.js
   - /share/rangeslider.js/dist/rangeslider.css

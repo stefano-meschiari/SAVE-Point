@@ -6,3 +6,4 @@ apps/share/tmp
 apps/gravity/js/debug.js
 .DS_Store
 apps/share/.DS_Store
+debug

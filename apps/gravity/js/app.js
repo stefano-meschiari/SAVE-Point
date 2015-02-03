@@ -37,7 +37,12 @@ var Mission = Backbone.ROComputedModel.extend({
         elements: null,
         stars: 0,
         lastPlayed: null,
-        name: ''
+        name: '',
+        trialDurations: [],
+        trialStars: [],
+        trialActions: [],
+        trialDates: [],
+        trialData: []
     }, 
 
 
@@ -185,7 +190,7 @@ var App = Backbone.ROComputedModel.extend({
         this.set('nplanets', this.get('nplanets')+1);
         this.ensureConstraintsForBody(this.get('nplanets')-1);        
         this.ctx.elements = null;
-        this.trigger("change:position change:velocity change:masses addPlanet");
+        this.trigger("addPlanet change:position change:velocity change:masses");
         Physics.barycenter(this.ctx);
         return masses.length;
     },
@@ -453,10 +458,10 @@ var App = Backbone.ROComputedModel.extend({
         mission.set('elements', this.elements());
         mission.set('lastPlayed', new Date());
 
-        app.saveMissionData();
         
         this.trigger('win' + this.stars());
         this.trigger('win');
+        app.saveMissionData();
     },
 
     /*
@@ -465,6 +470,7 @@ var App = Backbone.ROComputedModel.extend({
     lose: function() {
         this.set('userEndTime', new Date());
         this.trigger('lose');
+        app.saveMissionData();
     },
 
     /*

@@ -470,6 +470,7 @@ missions:
     win: That's the right answer!
     lose: Not quite right.
     question: |
+      @fly @noninteractive
       Imagine a planet in a circular orbit around the star. What would happen if you could change its speed?
     fixed:
       - You increased the speed a lot.
