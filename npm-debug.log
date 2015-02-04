@@ -1,0 +1,151 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/opt/local/bin/node',
+1 verbose cli   '/opt/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '-g',
+1 verbose cli   'yaml2json' ]
+2 info using npm@2.1.7
+3 info using node@v0.10.33
+4 silly cache add args [ 'yaml2json', null ]
+5 verbose cache add spec yaml2json
+6 silly cache add parsed spec { raw: 'yaml2json',
+6 silly cache add   scope: null,
+6 silly cache add   name: 'yaml2json',
+6 silly cache add   rawSpec: '',
+6 silly cache add   spec: '*',
+6 silly cache add   type: 'range' }
+7 verbose addNamed yaml2json@*
+8 silly addNamed semver.valid null
+9 silly addNamed semver.validRange *
+10 silly addNameRange { name: 'yaml2json', range: '*', hasData: false }
+11 silly mapToRegistry name yaml2json
+12 silly mapToRegistry using default registry
+13 silly mapToRegistry registry https://registry.npmjs.org/
+14 silly mapToRegistry uri https://registry.npmjs.org/yaml2json
+15 verbose addNameRange registry:https://registry.npmjs.org/yaml2json not in flight; fetching
+16 verbose request uri https://registry.npmjs.org/yaml2json
+17 verbose request no auth needed
+18 info attempt registry request try #1 at 14:38:13
+19 verbose request id 119dee1651a26f0c
+20 http request GET https://registry.npmjs.org/yaml2json
+21 http 200 https://registry.npmjs.org/yaml2json
+22 silly get cb [ 200,
+22 silly get   { date: 'Wed, 17 Dec 2014 20:38:14 GMT',
+22 silly get     server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+22 silly get     etag: '"1TLCB8PW53MN1W0GRVR3JJ88"',
+22 silly get     'content-type': 'application/json',
+22 silly get     'cache-control': 'max-age=60',
+22 silly get     'content-length': '6407',
+22 silly get     'accept-ranges': 'bytes',
+22 silly get     via: '1.1 varnish',
+22 silly get     age: '0',
+22 silly get     'x-served-by': 'cache-ord1729-ORD',
+22 silly get     'x-cache': 'MISS',
+22 silly get     'x-cache-hits': '0',
+22 silly get     'x-timer': 'S1418848694.090176,VS0,VE32',
+22 silly get     vary: 'Accept',
+22 silly get     'keep-alive': 'timeout=10, max=50',
+22 silly get     connection: 'Keep-Alive' } ]
+23 silly addNameRange number 2 { name: 'yaml2json', range: '*', hasData: true }
+24 silly addNameRange versions [ 'yaml2json', [ '1.0.0', '1.0.1', '1.0.2' ] ]
+25 verbose addNamed yaml2json@1.0.2
+26 silly addNamed semver.valid 1.0.2
+27 silly addNamed semver.validRange 1.0.2
+28 silly mapToRegistry name yaml2json
+29 silly mapToRegistry using default registry
+30 silly mapToRegistry registry https://registry.npmjs.org/
+31 silly mapToRegistry uri https://registry.npmjs.org/yaml2json
+32 verbose addRemoteTarball https://registry.npmjs.org/yaml2json/-/yaml2json-1.0.2.tgz not in flight; adding
+33 verbose addRemoteTarball [ 'https://registry.npmjs.org/yaml2json/-/yaml2json-1.0.2.tgz',
+33 verbose addRemoteTarball   '3ab846deb87c062d9904e143c6947128d488c119' ]
+34 info retry fetch attempt 1 at 14:38:14
+35 info attempt registry request try #1 at 14:38:14
+36 http fetch GET https://registry.npmjs.org/yaml2json/-/yaml2json-1.0.2.tgz
+37 http fetch 200 https://registry.npmjs.org/yaml2json/-/yaml2json-1.0.2.tgz
+38 silly fetchAndShaCheck shasum 3ab846deb87c062d9904e143c6947128d488c119
+39 verbose addTmpTarball /var/folders/4_/2sk8rpdj095f25_4_d1_9yqw0000gn/T/npm-10930-96bbe150/registry.npmjs.org/yaml2json/-/yaml2json-1.0.2.tgz not in flight; adding
+40 verbose addTmpTarball already have metadata; skipping unpack for yaml2json@1.0.2
+41 silly cache afterAdd yaml2json@1.0.2
+42 verbose afterAdd /Users/randiludwig/.npm/yaml2json/1.0.2/package/package.json not in flight; writing
+43 verbose afterAdd /Users/randiludwig/.npm/yaml2json/1.0.2/package/package.json written
+44 silly install resolved [ { author:
+44 silly install resolved      { name: 'AJ ONeal',
+44 silly install resolved        email: 'coolaj86@gmail.com',
+44 silly install resolved        url: 'http://coolaj86.com' },
+44 silly install resolved     name: 'yaml2json',
+44 silly install resolved     description: 'A commandline utility to convert YAML / YML to JSON',
+44 silly install resolved     keywords: [ 'yml', 'yaml', 'json', 'cli', 'util' ],
+44 silly install resolved     version: '1.0.2',
+44 silly install resolved     main: 'index.js',
+44 silly install resolved     repository:
+44 silly install resolved      { type: 'git',
+44 silly install resolved        url: 'https://github.com/coolaj86/yaml2json.git' },
+44 silly install resolved     bin:
+44 silly install resolved      { yaml2json: './index.js',
+44 silly install resolved        yamltojson: './index.js',
+44 silly install resolved        ymltojson: './index.js',
+44 silly install resolved        yml2json: './index.js' },
+44 silly install resolved     engines: { node: '>= 0.2.0' },
+44 silly install resolved     test: 'echo \'error no test\'; exit 1',
+44 silly install resolved     dependencies: { yaml: '0.2.x' },
+44 silly install resolved     devDependencies: {},
+44 silly install resolved     preferGlobal: true,
+44 silly install resolved     readme: 'yaml2json\n=========\n\nA command-line utility to convert YAML to JSON (meaning a `.yml` file to a `.json` file)\n\nSee <http://yamltojson.com> for an online demo.\n\nThe purpose of this utility is to minify YAML as JSON.\n(ignore the misnomer, YAML is actually an Object Notation, not a Markup Language)\n\nInstallation\n===\n\n```bash\nnpm install -g yaml2json\n```\n\nUsage\n===\n\nSpecify a file:\n\n```bash\nyaml2json ./example.kml\n\njson2yaml ./example.json | yaml2json\n```\n\nOr pipe from stdin:\n\n```bash\ncurl -s http://foobar3000.com/echo/echo.json | json2yaml | yaml2json\n\nwget -qO- http://foobar3000.com/echo/echo.json | json2yaml | yaml2json\n```\n\nExample\n===\n\n```yaml\n---\n  foo: bar\n  baz:\n    - qux\n    - quxx\n  corge: null\n  grault: 1\n  garply: true\n  waldo: "false"\n  fred: undefined\n```\n\nbecomes\n\n```javascript\n{\n  "foo": "bar",\n  "baz": [\n    "qux",\n    "quxx"\n  ],\n  "corge": null,\n  "grault": 1,\n  "garply": true,\n  "waldo": "false",\n  "fred": "undefined"\n}\n```\n\n*Note*: JSON is a proper subset of YAML.\nThe difference is that YAML can use whitespace instead of syntax, which is more human-readable.\nAlso, YAML supports comments.\n\nAlias\n===\n\n`yaml2json` has the following aliases:\n\n  * `yml2json`\n  * `yamltojson`\n  * `ymltojson`\n',
+44 silly install resolved     readmeFilename: 'README.md',
+44 silly install resolved     bugs: { url: 'https://github.com/coolaj86/yaml2json/issues' },
+44 silly install resolved     _id: 'yaml2json@1.0.2',
+44 silly install resolved     dist:
+44 silly install resolved      { shasum: '3ab846deb87c062d9904e143c6947128d488c119',
+44 silly install resolved        tarball: 'http://registry.npmjs.org/yaml2json/-/yaml2json-1.0.2.tgz' },
+44 silly install resolved     _from: 'yaml2json@*',
+44 silly install resolved     _npmVersion: '1.2.32',
+44 silly install resolved     _npmUser: { name: 'coolaj86', email: 'coolaj86@gmail.com' },
+44 silly install resolved     maintainers: [ [Object] ],
+44 silly install resolved     directories: {},
+44 silly install resolved     _shasum: '3ab846deb87c062d9904e143c6947128d488c119',
+44 silly install resolved     _resolved: 'https://registry.npmjs.org/yaml2json/-/yaml2json-1.0.2.tgz' } ]
+45 info install yaml2json@1.0.2 into /opt/local/lib
+46 info installOne yaml2json@1.0.2
+47 verbose installOne of yaml2json to /opt/local/lib not in flight; installing
+48 verbose lock using /Users/randiludwig/.npm/_locks/yaml2json-fda43bc3da0bcf04.lock for /opt/local/lib/node_modules/yaml2json
+49 silly install write writing yaml2json 1.0.2 to /opt/local/lib/node_modules/yaml2json
+50 silly cache addNamed cb yaml2json@1.0.2
+51 verbose unbuild lib/node_modules/yaml2json
+52 verbose gentlyRm vacuuming /opt/local/lib/node_modules/yaml2json
+53 verbose tar unpack /Users/randiludwig/.npm/yaml2json/1.0.2/package.tgz
+54 verbose tar unpacking to /opt/local/lib/node_modules/yaml2json
+55 verbose gentlyRm vacuuming /opt/local/lib/node_modules/yaml2json
+56 silly gunzTarPerm modes [ '755', '644' ]
+57 error tar.unpack untar error /Users/randiludwig/.npm/yaml2json/1.0.2/package.tgz
+58 verbose unlock done using /Users/randiludwig/.npm/_locks/yaml2json-fda43bc3da0bcf04.lock for /opt/local/lib/node_modules/yaml2json
+59 verbose fstream_path /opt/local/lib/node_modules/yaml2json
+60 verbose fstream_type Directory
+61 verbose fstream_class DirWriter
+62 verbose stack Error: EACCES, mkdir '/opt/local/lib/node_modules/yaml2json'
+63 verbose fstream_stack /opt/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
+63 verbose fstream_stack /opt/local/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53
+63 verbose fstream_stack Object.oncomplete (fs.js:107:15)
+64 verbose cwd /Users/randiludwig/jrs-edu
+65 error Darwin 13.4.0
+66 error argv "/opt/local/bin/node" "/opt/local/bin/npm" "install" "-g" "yaml2json"
+67 error node v0.10.33
+68 error npm  v2.1.7
+69 error path /opt/local/lib/node_modules/yaml2json
+70 error code EACCES
+71 error errno 3
+72 error Error: EACCES, mkdir '/opt/local/lib/node_modules/yaml2json'
+72 error  { [Error: EACCES, mkdir '/opt/local/lib/node_modules/yaml2json']
+72 error   errno: 3,
+72 error   code: 'EACCES',
+72 error   path: '/opt/local/lib/node_modules/yaml2json',
+72 error   fstream_type: 'Directory',
+72 error   fstream_path: '/opt/local/lib/node_modules/yaml2json',
+72 error   fstream_class: 'DirWriter',
+72 error   fstream_stack:
+72 error    [ '/opt/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
+72 error      '/opt/local/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53',
+72 error      'Object.oncomplete (fs.js:107:15)' ] }
+73 error Please try running this command again as root/Administrator.
+74 verbose exit [ 3, true ]
+75 verbose unbuild lib/node_modules/yaml2json
+76 verbose gentlyRm vacuuming /opt/local/lib/node_modules/yaml2json
