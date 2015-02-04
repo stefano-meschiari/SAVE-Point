@@ -1,7 +1,13 @@
 <?php
 require($_SERVER['DOCUMENT_ROOT'] . '/../share/startup.php');
 require('db.php');
-db_ensure_logged_in();
+
+if ($_GET['demo']) {
+  $user = 'Rookie';  
+} else {
+  db_ensure_logged_in();
+  $user = db_user();
+}
 
 $cfg = init();
 write_header($cfg);
@@ -12,7 +18,7 @@ write_mission_rules($cfg);
 <?php write_js_requires($cfg); ?>
 
 <script>
- LOGGED_USER='<?= db_user(); ?>';
+ LOGGED_USER='<?= $user ?>';
  APP_CFG.map = <?= json_encode(spyc_load_file("./map.yaml")); ?>;
 </script>
 <style>
@@ -211,6 +217,7 @@ write_mission_rules($cfg);
 <script type="text/javascript" src="js/speech.js"></script>
 <script type="text/javascript" src="js/settings.js"></script>
 <script type="text/javascript" src="js/ui.js"></script>
+<script type="text/javascript" src="js/actions.js"></script>
 <script type="text/javascript" src="js/debug.js"></script>
 
 <script type="text/paperscript" canvas="canvas" src="js/draw.js"></script>
@@ -218,3 +225,20 @@ write_mission_rules($cfg);
 <!-- Templates -->
 
 <?php write_footer($cfg); ?>
+<?php
+if ($_GET['demo']) {
+?>
+  <script>
+   $(document).ready(function() {
+     var missions = app.get('missions');
+
+    missions.each(function(mission) {
+        mission.set('stars', mission.get('value') || 3);
+        mission.set('completed', true);
+    });
+    
+   });
+  </script>
+<?php
+}
+?>

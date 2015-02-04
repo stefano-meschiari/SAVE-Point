@@ -268,4 +268,3 @@ level. For example:
 intro: |
       The people of Selia Prime are bored with always orbiting between the same planets.  Now they want to resettle on a world that gently tours both the inner and outer solar system at different times of year. High Councilor Zeniak pulls out his cyber binoculars eagerly and awaits a fresh night sky.
 ```
-      
