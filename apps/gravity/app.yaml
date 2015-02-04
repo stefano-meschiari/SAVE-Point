@@ -105,16 +105,14 @@ missions:
       - on: proceed
         message: |
           @fly @noninteractive @boss
-          You’ll be paid in @color-accent{@icon-star} stars @color-accent{@icon-star}!  Stars can be redeemed 
-	  at the company store for special prizes later on.
+          You’ll be paid in @color-accent{@icon-star} stars @color-accent{@icon-star}!  Stars can be redeemed at the company store for special prizes later on.
           Your payment is based on how well you do the job at hand.
           @proceed
           
       - on: proceed
         message: |
           @noninteractive @stop-fly @boss
-          But first, you need to get through the company's mandated training program.  It’s simple enough: 
-	  create a planet and make it orbit around the star!          
+          But first, you need to get through the company's mandated training program.  It’s simple enough: create a planet and make it orbit around the star!          
           @proceed
       
       - on: proceed
@@ -150,9 +148,7 @@ missions:
           *Check out that yellow arrow!*
 
 
-          As you move the planet closer and further away from the star, the force of gravity from the star 
-	  pulling on the planet gets stronger and weaker.  The yellow arrow represents the amount of 
-	  force pulling on the planet.
+          As you move the planet closer and further away from the star, the force of gravity from the star pulling on the planet gets stronger and weaker.  The yellow arrow represents the amount of force pulling on the planet.
           @proceed-hidden
           
         script: |
@@ -305,8 +301,7 @@ missions:
       - on: hint
         message: |
            @boss
-           Try aiming the speed at a right angle @icon-perpendicular to the star.  Check the yellow force 
-	   arrow by clicking on the planet and compare it to your direction of motion.
+           Try aiming the speed at a right angle @icon-perpendicular to the star.  Check the yellow force  arrow by clicking on the planet and compare it to your direction of motion.
            @hide-5
 
       - on: lose
@@ -354,7 +349,7 @@ missions:
     help:
       - on: win
         message: |
-          @boss
+          @boss 
           That's right, @name! Puny humans call this property "[Kepler's 2nd law](http://howthingsfly.si.edu/media/kepler%E2%80%99s-second-law)".
 
       - on: lose
@@ -365,7 +360,7 @@ missions:
   - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     starsrule: |
-      (elements[0].distance > 200 ? 1 : (elements[0].distance < 100 ? 2 : 3))
+      (elements[0].sma > 2 ? 1 : (elements[0].sma < 1 ? 2 : 3))
     enabled: true
     name: circular
     music: triumph
@@ -380,11 +375,11 @@ missions:
       at all based on the time of year, so they should always stay the same distance from their star.
     constraints:
       nplanets: 1
+    help:
       - on: hint
         message: |
            @boss
-           Try aiming the speed at a right angle @icon-perpendicular to the star.  Check the yellow force 
-	   arrow by clicking on the planet and compare it to your direction of motion.  
+           Try aiming the speed at a right angle @icon-perpendicular to the star.  Check the yellow force arrow by clicking on the planet and compare it to your direction of motion.  
            @hide-5
 
       - on: lose
@@ -395,8 +390,7 @@ missions:
       - on: win1
         message: |
           @arkanid
-          I got one lousy chocolate bar out of my crop this year.  Surely you can put us closer to the star
-	  so the plants don't freeze.
+          I got one lousy chocolate bar out of my crop this year.  Surely you can put us closer to the star so the plants don't freeze.
       
       - on: win2
         message: |
@@ -406,13 +400,11 @@ missions:
       - on: win3
         message: |
           @arkanid
-          I am spending this year in a vat of molten chocolate thanks to your efforts!  Mmmmm... fresh 
-	  chocolate...
+          I am spending this year in a vat of molten chocolate thanks to your efforts!  Mmmmm... fresh chocolate...
 
 
 
-  - title: Speed vs. distance
-     (40 km/s)
+  - title: Speed vs. distance (40 km/s)
     subtitle: Add a planet in a circular orbit at 40 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs
@@ -428,12 +420,16 @@ missions:
       @boss
       It turns out that the Arkanids didn't like the first planet.  Perhaps the shadows were wrong.  Now the 
       Arkanids DEMAND that you make a new system with their planet moving at a very specific speed.
+    help:
+      - on: start
+        message: >
+          In this mission, your planet will have a *fixed speed (40 km/s)*
+          and a *fixed direction* (perpendicular to the direction towards the star).
 
-      In this mission, your planet will have a *fixed speed (40 km/s)*
-      and a *fixed direction* (perpendicular to the direction towards the star).
+          To complete this job, you will have to place the planet at just the right distance to get
+          a circular orbit. 
+          @close
 
-      To complete this job, you will have to place the planet at just the right distance to get
-      a circular orbit. 
       - on: hint
         message: |
            @boss
@@ -465,6 +461,7 @@ missions:
       @boss
       The Arkanids didn't like the last planet you created either.  Perhaps the sunlight was too intense.  Their 
       leader DEMANDS that you make another system with their planet moving at a very specific speed of 30 km/s.
+    help:
       - on: hint
         message: |
            @boss
@@ -475,8 +472,6 @@ missions:
           @arkanid
           This planet looks better than the last one you made, but we still need to test the growing conditions.
 
-
-   
   - title: Speed vs. distance (25 km/s)
     subtitle: Add a planet in a circular orbit at 25 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
@@ -494,6 +489,7 @@ missions:
       @boss
       Still searching for the perfect planet, the leader of the Arkanids demands a different planet moving 
       at 25 km/s for more optimal growing conditions.
+    help:
       - on: hint
         message: |
            @boss

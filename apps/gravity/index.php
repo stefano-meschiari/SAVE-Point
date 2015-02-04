@@ -208,7 +208,8 @@ write_mission_rules($cfg);
 
 
   </div>
-<script type="text/javascript" src="../share/js/init.js"></script>
+  <script type="text/javascript" src="../share/js/init.js"></script>
+  
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/templates.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
@@ -220,7 +221,7 @@ write_mission_rules($cfg);
 <script type="text/javascript" src="js/actions.js"></script>
 <script type="text/javascript" src="js/debug.js"></script>
 
-<script type="text/paperscript" canvas="canvas" src="js/draw.js"></script>
+<script type="text/paperscript" canvas="canvas" src="draw/draw.js"></script>
 
 <!-- Templates -->
 

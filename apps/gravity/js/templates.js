@@ -28,8 +28,8 @@ var Templates = Backbone.Model.extend({
         },
         "@stop-fly": function() { draw.cancelFly(); console.log('Cancel Fly!'); },   
         "@fly": function() { draw.fly(); console.log('Fly!'); },
-        "@hide-10": function() {  _.delay(function(self) { self.hide(); }, 10000, this); },
-        "@hide-5": function() {  _.delay(function(self) {  self.hide(); }, 5000, this); },
+        "@hide-10": function() {  _.delay(function(self) { app.messageView.hide(); }, 10000, this); },
+        "@hide-5": function() {  _.delay(function(self) {  app.messageView.hide(); }, 5000, this); },
 
         "@hide": function() { this.hide();  },
         
@@ -41,7 +41,7 @@ var Templates = Backbone.Model.extend({
         "@proceed-win": '<div class="help-toolbar"><button id="help-next-mission" class="btn btn-lg btn-jrs"><span class="fa fa-thumbs-up"></span>  Next mission</button></div>',
         "@proceed-hidden": '<div class="help-toolbar"><button id="help-next" style="display:none" class="btn btn-lg btn-jrs"><span class="fa fa-chevron-right"></span>  Next</button></div>',
         "@proceed": '<div class="help-toolbar"><button id="help-next" class="btn btn-lg btn-jrs"><span class="fa fa-chevron-right"></span>  Next</button></div>',
-        "@close": '<div class="help-toolbar"><button id="help-close" class="btn btn-lg btn-jrs"><span class="fa fa-times"></span>  Close</button></div>',
+        "@close": '<div class="help-toolbar"><button id="help-close" class="btn btn-lg btn-jrs"><span class="fa fa-times"></span>  OK</button></div>',
         "@eccentricity": '<span id="eccentricity"></span>',
         "@name": LOGGED_USER,
         "@run": function() { app.set('state', RUNNING); },

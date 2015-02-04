@@ -792,7 +792,7 @@ var AppView = Backbone.View.extend({
         var self = this;
 
         // Update information when planetary parameters change
-        self.listenTo(self.model, 'change:nplanets change:time change:position change:velocity change:elements', _.throttle(self.renderInfo, 500));
+        self.listenTo(self.model, 'change:nplanets change:time change:position change:velocity change:elements', _.throttle(self.renderInfo, 200));
         
         self.listenTo(self.model, 'start change:missions reset', self.renderMission);
         self.listenTo(self.model, 'change:state', self.setVisibility);
@@ -995,6 +995,7 @@ var MissionHelpModel = Backbone.Model.extend({
     },
                     
     proceed: function() {
+        this.trigger('help', null);
         this.set('currentHelp', this.get('currentHelp') + 1);
         this.trigger('proceed');
         app.trigger('proceed');

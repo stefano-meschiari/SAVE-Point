@@ -3,6 +3,11 @@ error_reporting(E_STRICT);
 
 require_once('vendor/autoload.php');
 
+// is local?
+function is_local() {
+  
+}
+
 // Renders the header using the given hash.
 function write_header($cfg) {
   $m = new Mustache_Engine;
