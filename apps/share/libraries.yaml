@@ -54,6 +54,7 @@ jsplumb:
 
 uikit:
   - /share/uikit/css/uikit.min.css
+  - /share/uikit/css/uikit.gradient.min.css
   - /share/uikit/js/uikit.min.js
   - /share/uikit/css/components/nestable.min.css
   - /share/uikit/js/components/nestable.min.js

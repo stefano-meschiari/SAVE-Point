@@ -1000,18 +1000,6 @@ td.td-val {
 .icon-boss-b:before {
   content: "\f1e2";
 }
-.separator {
-  height: 1px;
-  background: linear-gradient(to right, #bababa 0%, #bababa 40%, rgba(186, 186, 186, 0) 80%);
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-.separator-center {
-  height: 1px;
-  background: linear-gradient(to right, rgba(186, 186, 186, 0) 0%, #bababa 30%, #bababa 70%, rgba(186, 186, 186, 0) 100%);
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
 #settings-dialog {
   color: white;
   background-color: black;

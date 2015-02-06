@@ -5,13 +5,15 @@
 
 html {
   width:100%;
-  background-color:black;
-  background: url(../img/bg2.jpg) 0px 0px no-repeat;
-  background-color:black;  
   background-size: 100%;
   font-family: "proxima-nova";
   font-size:24px;
   line-height:1.6;
+  background:black;
+}
+
+body {
+
 }
 
 #save-brand {
@@ -53,9 +55,37 @@ html {
   color:white;
 }
 
+.content {
+  color:white;
+}
+
+
 #tab-container  {
   background:linear-gradient(to bottom, @color-glass 0%, @color-glass-dark 100%);
   padding:50px;
+  color:white;
+}
+
+.app-col {
+  text-align:center;
+  color:white;
+  font-family: "Dosis";
+}
+
+.app-col img {
+  margin-bottom:10px;
+}
+
+.app-col .app-title {
+  font-size: @font-l;
+  font-weight:700;
+}
+
+.app-col .app-subtitle {
+  font-size: @font-m;
+  color:silver;
+  font-weight:400;
+  line-height:1;
 }
 
 .clear {
@@ -87,12 +117,14 @@ input[type=checkbox] {
 
 .uk-tab li a {
   color:silver;
+  text-shadow: none !important;
 }
 
 .uk-tab .uk-active a {
   background:@color-glass !important;
   color:@color-accent !important;
   border:none !important;
+  text-shadow: none !important;
 }
 
 .uk-tooltip {
@@ -124,4 +156,27 @@ input[type=checkbox] {
   height:initial;
   padding:15px;
   margin-top:20px;
+}
+
+.user {
+  color:white;
+  padding:30px;
+  font-size:@font-M;
+}
+.separator {
+  height:1px;
+  background: linear-gradient(to right, rgba(186,186,186,1) 0%,rgba(186,186,186,1) 40%,rgba(186,186,186,0) 80%);
+  margin-top:5px;
+  margin-bottom:5px;
+}
+
+.separator-center {
+  height:1px;
+  background: linear-gradient(to right, rgba(186,186,186,0) 0%,rgba(186,186,186,1) 30%,rgba(186,186,186,1) 70%, rgba(186,186,186,0) 100%);
+  margin-top:5px;
+  margin-bottom:5px;  
+}
+
+.logout-header {
+  margin-bottom:80px;
 }

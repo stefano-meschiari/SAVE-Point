@@ -17,38 +17,51 @@ write_header($cfg);
   <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-  <div id="content">
-    <div id="save-brand">
-      <div class="brand">
-        <span class="heavy">SAVE</span><span class="sep">/</span><span class="light">Point</span>
-        <div class="brand-acronym">
-          Society for Astronomy Visualization and Education
-        </div>
+  <div class="uk-clearfix logout-header">
+    <div class="uk-float-right uk-button-dropdown" data-uk-dropdown>
+      <button class="uk-button primary-button"><i class="fa fa-user"></i> <?= db_user() ?> <i class="fa fa-caret-down"></i></button>
+      <div class="uk-dropdown uk-dropdown-small">
+        <ul class="uk-nav uk-nav-dropdown">
+          <li><a href="/dashboard/usermgmt.php?action=logout">Log out</a></li>
+        </ul>
       </div>
     </div>
+  </div>
 
-    <div id="app-screen">
-      <div>
-        <span class="font-l">Welcome, <?= db_user(); ?>!</span>
-        <a href="/dashboard/usermgmt.php?action=logout" class="border pull-right">Log out</a>
-      </div>
-      <div class="clear"></div>
-      <div class="separator">
-      </div>
-
-      <div class="app-dashboard">
-        <div class="app-icon-container">
-          <div class="app-icon app-icon-gravity" onClick="location.href='../gravity/'">
+  <div id="content">
+      <div class="uk-grid">
+        <div class="app-col uk-width-1-3">
+          <a href="/orbits"><img src="img/orbits.png" width="192" class="uk-animation-hover uk-animation-scale"></a>
+          <div class="app-title">
+            Orbits            
           </div>
-          <div class="app-icon-label">
-            Orbits
-          </div>
-          <div class="app-icon-subtitle">
-            A game of gravity.
+          <div class="app-subtitle">
+            Help an alien civilization design new planetary systems.
           </div>
         </div>
-      </div>
+        <div class="app-col uk-width-1-3">
+          <a href="http://www.stefanom.org/spc"><img src="img/spc.png" width="192" class="uk-animation-hover uk-animation-scale"></a>
+          <div class="app-title">
+            Super Planet Crash 
+          </div>
+          <div class="app-subtitle">
+            Create and destroy your own Solar System.
+          </div>
+        </div>
+        <div class="app-col uk-width-1-3">
+          <a href="http://www.stefanom.org/systemic-online"><img src="img/systemic_live.png" width="192" class="uk-animation-hover uk-animation-scale"></a>
+          <div class="app-title">
+            Systemic Live
+          </div>
+          <div class="app-subtitle">
+            Discover planets around other stars.
+          </div>
 
+        </div>    
+      </div>
+      <div id="app-screen">
+
+      
       <?php
       if (db_user_is_instructor(db_user())) {   
         $classes = db_instructor_classes(db_user());
