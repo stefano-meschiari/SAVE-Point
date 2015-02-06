@@ -1,0 +1,112 @@
+html {
+  width: 100%;
+  background: url(../img/bg2.jpg) 0px 0px no-repeat;
+  background-color: black;
+  background-size: 100%;
+  font-family: "proxima-nova";
+  font-size: 24px;
+  line-height: 1.6;
+}
+#save-brand {
+  font-family: "Dosis", "Helvetica Neue", Arial;
+}
+.brand {
+  font-size: 90px;
+  color: white;
+  margin-bottom: 60px;
+  line-height: 1;
+}
+.brand-acronym {
+  font-size: 0.8rem;
+  font-variant: small-caps;
+}
+.heavy {
+  font-weight: 700;
+}
+.light {
+  font-weight: 100;
+}
+.normal {
+  font-weight: 400;
+}
+.sep {
+  color: #66ccff;
+}
+#app-screen {
+  width: 600px;
+  margin: 0 auto;
+  position: relative;
+  color: white;
+}
+#tab-container {
+  background: linear-gradient(to bottom, rgba(140, 140, 140, 0.4) 0%, rgba(140, 140, 140, 0.2) 100%);
+  padding: 50px;
+}
+.clear {
+  clear: both;
+}
+input,
+input:focus {
+  height: initial !important;
+  width: 100%;
+  border: none !important;
+  color: white !important;
+  margin-left: 20px !important;
+  background: none !important;
+  border-bottom: 5px solid #66ccff !important;
+}
+input[type=checkbox] {
+  width: initial;
+}
+.uk-tab {
+  border-bottom: none;
+}
+.uk-tab .uk-active {
+  border: none;
+}
+.uk-tab li a {
+  color: silver;
+}
+.uk-tab .uk-active a {
+  background: rgba(140, 140, 140, 0.4) !important;
+  color: #66ccff !important;
+  border: none !important;
+}
+.uk-tooltip {
+  background-color: #66ccff;
+  color: black;
+}
+.uk-form-row {
+  margin-bottom: 20px;
+}
+.primary-button-frames from {
+  background-color: #66ccff;
+}
+.primary-button-frames to {
+  background-color: #00a8e6;
+}
+@-webkit-keyframes primary-btn-frames {
+  from {
+    background-color: #66ccff;
+  }
+  to {
+    background-color: #00a8e6;
+  }
+}
+@keyframes primary-btn-frames {
+  from {
+    background-color: #66ccff;
+  }
+  to {
+    background-color: #00a8e6;
+  }
+}
+.primary-button {
+  -webkit-animation: primary-btn-frames 1s infinite;
+  -webkit-animation-direction: alternate;
+  animation: primary-btn-frames 1s infinite;
+  animation-direction: alternate;
+  height: initial;
+  padding: 15px;
+  margin-top: 20px;
+}

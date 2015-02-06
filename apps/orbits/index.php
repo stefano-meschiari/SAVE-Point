@@ -89,7 +89,7 @@ write_mission_rules($cfg);
     </div>
     
     <div class="sidebar-item">
-      <button id="missions" class="btn-jrs-ico fa fa-th-large" title="Mission menu" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <button id="missions" class="btn-jrs-ico fa fa-th-list" title="Mission menu" data-uk-tooltip="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Mission menu</div>
     </div>
     <div class="sidebar-item">
@@ -97,19 +97,11 @@ write_mission_rules($cfg);
       <div class="sidebar-title">Restart mission</div>
     </div>
     <div class="sidebar-item">
-      <button class="settings btn-jrs-ico fa fa-sliders" data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-uk-tooltip="{pos: 'right', offset:20}"></button>
-      <div class="sidebar-title">Game settings</div>
-    </div>
-    <div class="sidebar-item">
-      <button id="dashboard" class="btn-jrs-ico fa fa-backward" title="Back to Dashboard" data-uk-tooltip="{pos: 'right', offset:20}"></button>
-      <div class="sidebar-title">Back to dashboard</div>
-    </div>
-    <div class="sidebar-item">
       <button id="help" class="btn-jrs-ico fa fa-question-circle" title="Help" data-uk-tooltip="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Help</div>
     </div>
 
-    <div class="separator-center"></div>
+    <div class="separator-center sidebar-item-disabled"></div>
     <div class="sidebar-item sidebar-item-disabled" id="sidebar-sizes">
       <button id="sizes" class="btn-jrs-ico fa fa-arrows-alt"  title="Toggle physical size" data-uk-tooltip="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Toggle physical size</div>
@@ -118,6 +110,16 @@ write_mission_rules($cfg);
       <button id="zoom" class="btn-jrs-ico fa fa-search"></button>
       <div class="sidebar-title">Zoom</div>
     </div>
+    <div class="separator-center"></div>
+    <div class="sidebar-item">
+      <button class="settings btn-jrs-ico fa fa-sliders" data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <div class="sidebar-title">Game settings</div>
+    </div>
+    <div class="sidebar-item">
+      <button id="dashboard" class="btn-jrs-ico icon-dashboard" title="Back to Dashboard" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <div class="sidebar-title">Back to dashboard</div>
+    </div>
+
   </div>
 
   
@@ -154,6 +156,8 @@ write_mission_rules($cfg);
   </div>
   <div id="app-menu-text">
     <button class="settings btn-jrs-ico fa fa-sliders"  data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-uk-tooltip="{pos: 'bottom', offset:20}"></button>
+    <button class="dashboard btn-jrs-ico icon-dashboard" title="Back to Dashboard" data-uk-tooltip="{pos: 'bottom', offset:20}" onClick="window.location.href='/';"></button>
+
     <div id="app-menu-text-top">
       <div id="app-menu-mission-title" class="title"></div>
       <div id="app-menu-mission-subtitle" class="subtitle"></div>

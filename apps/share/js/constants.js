@@ -43,7 +43,7 @@ var Colors = {
     var s = "<style>\n";
     _.each(Colors, function(value, key) {
         s += ".color-" + key + " { color: " + value + "}\n";
-        s += ".shadow-color-" + key + " { color: " + value + "}\n";
+        s += ".shadow-color-" + key + " { text-shadow: 0px 0px 3px " + value + "}\n";
     });
     $("head").append(s);
 })();

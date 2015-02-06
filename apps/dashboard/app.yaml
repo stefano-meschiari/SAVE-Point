@@ -5,8 +5,7 @@ requires:
   - jquery
   - underscore
   - underscore.string
-  - bootstrap
-
+  - uikit
 
 apps:
-  - gravity
+  - orbits

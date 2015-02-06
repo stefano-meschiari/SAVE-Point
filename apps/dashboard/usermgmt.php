@@ -24,7 +24,7 @@ function is_registration_invalid($post) {
     return "USERNAME_EXISTS";
 
   $class = $_POST['class'];
-  if (!db_class_exists($class))
+  if (!db_class_exists($class) && $class != "--" && $class != "")
     return "CLASS_INVALID";
 
   $password = $_POST['password'];
@@ -78,6 +78,7 @@ if ($_GET['action'] == 'login') {
     ));
 
     if ($result === FALSE) {
+      error_log(pg_last_error());
       redirect_alert('REGISTRATION_NOT_SUCCESSFUL', 'register');      
     } else {
       $_SESSION['username'] = $_POST['username'];

@@ -1,0 +1,198 @@
+html {
+  width: 100%;
+  font-size: 30px;
+  background: url(../img/bg2.jpg) 0px 0px no-repeat;
+  background-color: black;
+  background-size: 100%;
+  line-height: 1.2;
+}
+body {
+  color: white;
+  font-family: "Dosis", "Helvetica Neue", Arial;
+  font-size: 1rem;
+}
+canvas#cover {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  width: 100%;
+  height: 100%;
+}
+#container {
+  z-index: 1;
+  position: absolute;
+  width: 900px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+.description {
+  margin-top: 20px;
+  color: #c8c8c8;
+  font-size: 0.8rem;
+}
+.actions {
+  margin-top: 20px;
+}
+.actions a {
+  margin-right: 10px;
+  font-size: 0.8rem;
+  padding: 12px;
+}
+#save-nav {
+  background-color: black !important;
+  border-bottom: 1px solid white;
+  padding: 6px;
+  color: white;
+}
+#save-nav a {
+  color: white;
+}
+#save-nav a:hover {
+  color: black;
+}
+#save-nav a:focus {
+  outline: none;
+}
+.link {
+  font-size: 1.2rem;
+}
+#save-navigator-container {
+  margin-top: 50px;
+}
+#save-navigator {
+  font-size: 1.8rem;
+  text-align: center;
+}
+.nav-sticky {
+  background-color: black;
+  border-bottom: 1px solid white;
+  left: 0px !important;
+  width: 100% !important;
+}
+#save-navigator-home {
+  display: none;
+}
+.nav-sticky #save-navigator-home {
+  display: inline;
+}
+#save-navigator a {
+  border-bottom: none;
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#save-navigator a:hover {
+  background-color: #66ccff;
+  color: black;
+  border-bottom: none;
+}
+a {
+  text-decoration: none;
+  color: white;
+  border-bottom: 1px solid grey;
+}
+a:hover,
+.thumb a:hover {
+  text-decoration: none;
+  color: #66ccff;
+}
+a.uk-button:hover {
+  color: white;
+}
+a:hover .sep {
+  color: white;
+}
+.brand {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 60px;
+}
+.brand-acronym {
+  font-size: 0.8rem;
+  font-variant: small-caps;
+}
+.heavy {
+  font-weight: 700;
+}
+.light {
+  font-weight: 100;
+}
+.normal {
+  font-weight: 400;
+}
+.sep {
+  color: #66ccff;
+}
+div.header-light {
+  font-weight: 100;
+  font-size: 2rem;
+  margin-top: 50px;
+  margin-bottom: 40px;
+}
+.grid-divider {
+  height: 100px;
+}
+.thumb a {
+  color: white;
+}
+#about-table td {
+  vertical-align: top;
+  padding: 20px;
+}
+.save-person-thumb {
+  float: left;
+  margin-right: 30px;
+  margin-bottom: 15px;
+}
+.save-person {
+  margin-bottom: 80px;
+}
+.uk-close-alt {
+  background: black;
+  border: 2px solid white;
+  color: white;
+}
+.img-overlay {
+  border: none;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  html {
+    font-size: 18px;
+  }
+  .brand {
+    font-size: 3rem;
+  }
+  #save-navigator a {
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid grey;
+  }
+  #save-navigator.nav-sticky a {
+    border-bottom: none;
+  }
+  .actions a {
+    font-size: 0.9rem;
+    padding: 5px;
+    line-height: 15px;
+    min-height: 15px;
+    margin-right: 5px;
+  }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
+  #container {
+    width: 320px;
+  }
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: landscape) {
+  #container {
+    width: 480px;
+  }
+}

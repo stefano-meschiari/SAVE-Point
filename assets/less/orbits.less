@@ -1,22 +1,12 @@
-@import (reference) "apps/share/less/colors";
+@import (reference) "assets/less/colors";
 @import (reference) "apps/share/font-awesome/less/font-awesome";
-@import (reference) "apps/share/less/lesshat";
+@import (reference) "assets/less/lesshat";
+@import (reference) "assets/less/fonts";
 
 @font: "Dosis";
-@font-XL: 60px;
-@font-xl: 50px;
-@font-L: 40px;
-@font-l: 35px;
-@font-M: 30px;
-@font-m: 20px;
-@font-s: 14px;
+@font-para: "proxima-nova", 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 
 @border-radius: 20px;
-
-
-@color-glass: rgba(140, 140, 140, 0.4);
-@color-glass-dark: rgba(140, 140, 140, 0.2);
-@color-accent: rgb(102, 204, 255);
 
 html, body {
   margin:0px;
@@ -133,6 +123,14 @@ html, body {
   width:initial;
 }
 
+#app-menu-text .dashboard {
+  font-size:40px;
+  float:right;
+  width:initial;
+}
+
+
+
 #app-menu-text-top {
   line-height:1.1;
 }
@@ -193,7 +191,7 @@ html, body {
 .bubble {
   background-color: @color-glass;
   font-size:@font-m;
-  font-family: "Nobile";
+  font-family: @font-para;
   padding:30px;
   border-radius:@border-radius;
   min-height:250px;
@@ -507,11 +505,10 @@ td.td-val {
   bottom:30px;
   opacity:0;
   font-size:@font-m;
-//  font-weight:200;
   visibility:none;
   text-shadow:0px 0px 2px black;
   border-radius:@border-radius;
-  font-family: Nobile;
+  font-family: @font-para;
   padding:20px;
   background-color:@color-glass;
   text-align:left;
@@ -587,6 +584,13 @@ td.td-val {
 .help-toolbar {
   text-align:right;
   padding-top:5px;
+}
+
+.icon-dashboard {
+  .fa;
+  &:before {
+    content: @fa-var-th-large;
+  }
 }
 
 .icon-mission-next {
