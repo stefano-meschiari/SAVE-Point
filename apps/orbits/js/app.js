@@ -646,13 +646,14 @@ var App = Backbone.ROComputedModel.extend({
                     _.each(saveData, function(value, key) {
                         self.set(value, key);
                     });
+
                     
+                    _.delay(function() {
+                        app.trigger('load');
+                        app.menu();
+                    }, 3000);
                 }
 
-                _.delay(function() {
-                    app.trigger('load');
-                    app.menu();
-                }, 3000);
             });
         });
     },
@@ -1289,7 +1290,7 @@ var AppModalView = Backbone.View.extend({
     loadingMessage: 'Traveling to the <%= world %>...<p><i class="fa fa-circle-o-notch fa-spin"></i>',
 
     frame: function() {
-        this.size = this.size * 1.02;
+        this.size = this.size * 1.01;
         $("#app-modal").css("background-size", this.size + "%");
         
         if (this.animate)

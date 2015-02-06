@@ -31,7 +31,7 @@ write_header($cfg);
   <div id="content">
       <div class="uk-grid">
         <div class="app-col uk-width-1-3">
-          <a href="/orbits"><img src="img/orbits.png" width="192" class="uk-animation-hover uk-animation-scale"></a>
+          <a href="/orbits/"><img src="img/orbits.png" width="192" class="uk-animation-hover uk-animation-scale"></a>
           <div class="app-title">
             Orbits            
           </div>
