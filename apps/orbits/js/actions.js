@@ -26,8 +26,10 @@ Actions.listenTo(app, 'lose', function() {
     this.durations.push(app.elapsedTime(true));
 });
 
-_.each(['change:position', 'change:velocity'], function(action) {
+_.each(['planet:drag', 'planet:dragvelocity'], function(action) {
     Actions.listenTo(app, action, function() {
+        if (! app.get('state') == PAUSED)
+            return;
         if (! app.get('interactive'))
             return;
         if (Actions.actions[Actions.actions.length-1].action == action)
@@ -42,6 +44,9 @@ _.each(['change:position', 'change:velocity'], function(action) {
 
 _.each(['addPlanet'], function(action) {
     Actions.listenTo(app, action, function() {
+        if (! app.get('state') == PAUSED)
+            return;
+
         if (! app.get('interactive'))
             return;
         Actions.actions.push({

@@ -51,8 +51,8 @@ assets:
     addPlanet: sounds/add-planet.mp3
     "planet:drag": sounds/drag.wav
   
-missions:
-  - title: Practice Mode
+missions:        
+  - title: Training
     name: practice
     subtitle: Create your first planet.
     win: Woohoo! Look at that planet go!
@@ -190,7 +190,8 @@ missions:
           @boss
           Good work, but we need you to train quickly!  We need to 
           engineer all of the new star systems forming in the Arcturus Nebula, and our 
-          customers are very... picky.
+          customers are very... picky. You can practice your skills at any time using the
+          @icon-sandbox Practice Mode.
 
       - on: lose
         message: |
@@ -354,8 +355,8 @@ missions:
 
       - on: lose
         message: |
-          @boss
-          You might want to try this out in the practice level and come back to earn your star. 
+          @boss          
+          You might want to try this out in the @icon-sandbox *Practice Mode* and come back to earn your star.
 
   - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
@@ -574,7 +575,7 @@ missions:
       - on: lose
         message: |
           @boss
-          You might want to practice this out a bit in the sandbox. 
+          You might want to practice this out a bit. How about taking the @icon-sandbox *Practice Mode* for a spin? 
 
   - title: Boss level
     subtitle: Boss level test
@@ -608,3 +609,20 @@ missions:
         u: 0
         v: 0.017
         z: 0
+
+  - title: Practice Mode
+    subtitle: Practice your moves.
+    name: sandbox
+    value: 0
+    music: level
+    enabled: true
+    hidden: true
+    help:
+      - on: start
+        showOnce: true
+        message: |          
+          Here you can practice your planet building skills!
+        
+
+          Press the @icon-missions *Mission menu* to get back to the missions menu.
+          @close

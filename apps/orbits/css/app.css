@@ -565,6 +565,42 @@ td.td-val {
 .icon-dashboard:before {
   content: "\f009";
 }
+.icon-sandbox {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-sandbox.pull-left {
+  margin-right: .3em;
+}
+.icon-sandbox.pull-right {
+  margin-left: .3em;
+}
+.icon-sandbox:before {
+  content: "\f1d8";
+}
+.icon-missions {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-missions.pull-left {
+  margin-right: .3em;
+}
+.icon-missions.pull-right {
+  margin-left: .3em;
+}
+.icon-missions:before {
+  content: "\f00b";
+}
 .icon-mission-next {
   display: inline-block;
   font-family: FontAwesome;
@@ -1271,4 +1307,16 @@ div.mobile-only {
 }
 .rangeslider__fill {
   background-color: #66ccff;
+}
+.separator {
+  height: 1px;
+  background: linear-gradient(to right, #bababa 0%, #bababa 40%, rgba(186, 186, 186, 0) 80%);
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.separator-center {
+  height: 1px;
+  background: linear-gradient(to right, rgba(186, 186, 186, 0) 0%, #bababa 30%, #bababa 70%, rgba(186, 186, 186, 0) 100%);
+  margin-top: 5px;
+  margin-bottom: 5px;
 }

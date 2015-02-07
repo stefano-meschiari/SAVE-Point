@@ -3,10 +3,12 @@ require($_SERVER['DOCUMENT_ROOT'] . '/../share/startup.php');
 require('db.php');
 
 if ($_GET['demo']) {
-  $user = 'Rookie';  
+  $user = 'Rookie';
+  $logged_in = 'false';
 } else {
   db_ensure_logged_in();
   $user = db_user();
+  $logged_in = 'true';
 }
 
 $cfg = init();
@@ -19,6 +21,7 @@ write_mission_rules($cfg);
 
 <script>
  LOGGED_USER='<?= $user ?>';
+ LOGGED_IN=<?= $logged_in ?>;
  APP_CFG.map = <?= json_encode(spyc_load_file("./map.yaml")); ?>;
 </script>
 <style>
@@ -89,12 +92,16 @@ write_mission_rules($cfg);
     </div>
     
     <div class="sidebar-item">
-      <button id="missions" class="btn-jrs-ico fa fa-th-list" title="Mission menu" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <button id="missions" class="btn-jrs-ico icon-missions" title="Mission menu" data-uk-tooltip="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Mission menu</div>
     </div>
     <div class="sidebar-item">
       <button id="reset" class="btn-jrs-ico fa fa-undo"  title="Restart mission" data-uk-tooltip="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Restart mission</div>
+    </div>
+    <div class="sidebar-item">
+      <button id="practice" class="btn-jrs-ico icon-sandbox" title="Practice mode" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <div class="sidebar-title">Practice mode</div>
     </div>
     <div class="sidebar-item">
       <button id="help" class="btn-jrs-ico fa fa-question-circle" title="Help" data-uk-tooltip="{pos: 'right', offset:20}"></button>
@@ -241,7 +248,7 @@ if ($_GET['demo']) {
         mission.set('stars', mission.get('value') || 3);
         mission.set('completed', true);
     });
-    
+    console.log('done');
    });
   </script>
 <?php

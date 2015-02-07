@@ -32,7 +32,6 @@ var AppMenuView = Backbone.View.extend({
     },
     
     scanLevels: function(world, levels, missions, prev) {
-        console.log(levels);
         for (var i = 0; i < levels.length; i++)
             if (_.isString(levels[i])) {
                 var name = levels[i];
@@ -119,7 +118,6 @@ var AppMenuView = Backbone.View.extend({
     },
 
     select: function(name) {
-        console.log(name);
         var app = this.model;
         var mission = app.mission(name);
         $(".app-menu-mission-box").removeClass("app-menu-mission-box-selected");
@@ -171,7 +169,6 @@ var AppMenuView = Backbone.View.extend({
                 t += _.template(self.DIV_ROW, { row: row }) + '\n';
             });
 
-            console.log(world_props.bg);
             $("#app-menu-map-container").css("background-image", 'url(' + world_props.bg + ')');
             $("#app-menu-world-name").html(world_props.world);
             $('#app-menu-map').html(t);

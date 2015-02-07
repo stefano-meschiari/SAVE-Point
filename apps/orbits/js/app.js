@@ -648,11 +648,12 @@ var App = Backbone.ROComputedModel.extend({
                     });
 
                     
-                    _.delay(function() {
-                        app.trigger('load');
-                        app.menu();
-                    }, 3000);
                 }
+                _.delay(function() {
+                    app.trigger('load');
+                    app.menu();
+                }, 3000);
+               
 
             });
         });
@@ -777,6 +778,7 @@ var AppView = Backbone.View.extend({
     events: {
         "click #menu": function() { $("#sidebar").toggleClass("expanded"); },
         "click #help": function() { this.renderMission(); app.trigger('hint'); },
+        "click #practice": function() { app.setMission('sandbox'); },
         "click #reset": function() { app.reset(); },
         "click #missions": function() { app.menu(); },
         "click #dashboard": function() { location.href='../dashboard'; },
@@ -1093,6 +1095,7 @@ var MessageView = Backbone.View.extend({
 
         var self = this;
         var missions = this.model.get('missions');
+        var id = 0;
 
         for (var i = 0; i < missions.length; i++) {
             var m = missions.at(i);
@@ -1102,9 +1105,11 @@ var MessageView = Backbone.View.extend({
             
             for (var j = 0; j < help.length; j++) {
                 app.templates.template(help[j]);
+                help[j].id = id;
+                id++;
             };
+
             m.set('help', help);
-            
         }
         this.messagesSetup = true;
     },
@@ -1126,6 +1131,8 @@ var MessageView = Backbone.View.extend({
         return txt.replace(/<script.+?<\/script>/, '').replace(/<button.+?<\/button>/, '').replace(/<.+?>/g, '').replace(/&.+;/g, '');
     },
 
+    shown: {},
+    
     render: function(help) {
         var helpText = (help ? help.message : null);
         
@@ -1134,6 +1141,12 @@ var MessageView = Backbone.View.extend({
             $("#help-text").addClass("expanded");        
             return;
         }
+
+        console.log(help);
+        if (help != null && help.showOnce && this.shown[help.id]) {
+            helpText = null;
+        }
+        
         self.lastHelp = helpText;
         
         _.defer(function() {
@@ -1153,6 +1166,7 @@ var MessageView = Backbone.View.extend({
         
         _.delay(function() {
             self.$el.html(helpText);
+            self.shown[help.id] = true;
             var plainText = self.plainText(helpText);
             $("#help-next").on("click", function() { self.listener.proceed(); } );
             $("#help-close").on("click", function() { self.hide(); });

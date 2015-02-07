@@ -391,10 +391,8 @@ var Draw = Backbone.View.extend({
                 });
             });
 
-            console.log(intersections);
             var which = _m.whichMin(intersections);
             text.position = positions[which];
-            console.log(this.directions[which]);
         }
 
         var textPane = new Path.Rectangle(text.bounds, 10);
@@ -499,8 +497,6 @@ var Draw = Backbone.View.extend({
         if (!this.getAnimation('fly'))
             return;
 
-        console.log('Canceling fly!');
-        console.log(new Error().stack);
         var self = this;
         var interactivity = app.get('interactive');
         this.cancelAnimation('fly');
@@ -866,7 +862,7 @@ var Draw = Backbone.View.extend({
                         body.dragging = false;
 
                         self.hideText();
-                        self.restoreSizes();                        
+                        self.restoreSizes();
                     };
                     
                     body.drag = drag;
@@ -1403,7 +1399,8 @@ var Draw = Backbone.View.extend({
         });
 
         this.listenTo(this.model, "reset start", function() {           
-            this.resetView();            
+            this.resetView();
+            this.cancelFly();
         });
 
         
