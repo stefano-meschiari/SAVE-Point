@@ -62,7 +62,7 @@ missions:
     enabled: true
     icon: icon-practice
     starsrule: 3
-    color: cyan
+    colors: cyan
     intro: |
       Big Boss Reaz-7 pushes aside the giant potted plant on his golden desk and glares at you.
 
@@ -512,17 +512,6 @@ missions:
       Answer this question, rookie!
     win: That's the right answer!
     lose: Not quite right.
-    bodies:
-      - x:
-          - 0
-          - -1
-        type: TYPE_PLANET_FIXED
-        circular: true
-      - x:
-          - 0
-          - -0.5
-        type: TYPE_PLANET_FIXED
-        circular: true
     question: |
       @boss @rotatable
       For planets in circular orbits, the speed of a planet orbiting far from the star is...
@@ -614,6 +603,15 @@ missions:
     subtitle: Practice your moves.
     name: sandbox
     value: 0
+    colors:
+      - cyan
+      - red
+      - gold
+      - blue
+      - orange
+      - green
+    constraints:
+      nplanets: 6
     music: level
     enabled: true
     hidden: true
@@ -621,8 +619,13 @@ missions:
       - on: start
         showOnce: true
         message: |          
-          Here you can practice your planet building skills!
-        
+          @boss
+          Here you can practice your planet building skills! You can place as many
+          planets as you want.        
 
-          Press the @icon-missions *Mission menu* to get back to the missions menu.
+
+          Press the @icon-missions *Mission menu* button to get back to the missions menu.
           @close
+      - on: change:state
+        message: |        
+          @rotatable @hide

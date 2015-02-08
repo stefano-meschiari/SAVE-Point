@@ -139,6 +139,7 @@ body {
   margin: 0 auto;
   margin-top: 20px;
   box-shadow: 0px 0px 10px silver;
+  padding: 20px;
   -webkit-animation: bob 0.75s ease alternate infinite;
   -moz-animation: bob 0.75s ease alternate infinite;
   -o-animation: bob 0.75s ease alternate infinite;
@@ -291,7 +292,7 @@ lesshat-selector {
   font-family: "Dosis";
   font-weight: 500;
   background: white;
-  background: linear-gradient(to bottom, #ffffff 0%, #b4b4b4 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, #969696 100%);
   border-radius: 3px;
   border: 1px solid #b4b4b4;
   padding: 10px;
@@ -1118,35 +1119,6 @@ td.td-val {
   text-align: center;
   line-height: 100px;
   cursor: not-allowed;
-}
-lesshat-selector {
-  -lh-property: 0; } 
-@-webkit-keyframes bob{ 0%{-webkit-transform: scale(0.9); background-color:silver; } 100%{-webkit-transform:scale(1.05)}}
-@-moz-keyframes bob{ 0%{-moz-transform: scale(0.9); background-color:silver; } 100%{-moz-transform:scale(1.05)}}
-@-o-keyframes bob{ 0%{-o-transform: scale(0.9); background-color:silver; } 100%{-o-transform:scale(1.05)}}
-@keyframes bob{ 0%{-webkit-transform: scale(0.9);-moz-transform: scale(0.9);-ms-transform: scale(0.9);transform: scale(0.9); background-color:silver; } 100%{-webkit-transform:scale(1.05);-moz-transform:scale(1.05);-ms-transform:scale(1.05);transform:scale(1.05);};
-}
-.mission-thumb-next {
-  background-color: white;
-  color: black;
-  cursor: pointer;
-  -webkit-animation: bob 0.75s ease alternate infinite;
-  -moz-animation: bob 0.75s ease alternate infinite;
-  -o-animation: bob 0.75s ease alternate infinite;
-  animation: bob 0.75s ease alternate infinite;
-}
-.mission-thumb-completed {
-  background-color: white;
-  color: black;
-  cursor: pointer;
-}
-.mission-title {
-  font-weight: bold;
-  color: white;
-  text-shadow: 0px 0px 5px black;
-}
-.mission-subtitle {
-  text-shadow: 0px 0px 5px black;
 }
 #stars {
   font-size: 35px;

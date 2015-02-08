@@ -711,7 +711,6 @@ var App = Backbone.ROComputedModel.extend({
     },
 
     
-
     animateUntil: function(event, f, cancel, wait) {
         wait = wait || 0;
         var listener = _.extend({}, Backbone.Events);
@@ -1077,7 +1076,6 @@ var MessageView = Backbone.View.extend({
         });
         
         this.listenTo(this.model, "start", function() {
-            console.log('start, Setting up');
             this.render(null);
             this.setupMessages();
         });
@@ -1120,7 +1118,6 @@ var MessageView = Backbone.View.extend({
             this.listener.destroy();
             this.listener = null;
         }
-        console.log(app.get('currentMission'));
         this.listener = new MissionHelpModel({ model:this.model });
         this.listenTo(this.listener, 'help', this.render);
         this.listenTo(this.model, 'help', this.render);
@@ -1142,7 +1139,6 @@ var MessageView = Backbone.View.extend({
             return;
         }
 
-        console.log(help);
         if (help != null && help.showOnce && this.shown[help.id]) {
             helpText = null;
         }

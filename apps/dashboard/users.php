@@ -6,7 +6,7 @@ require_once('messages.php');
 
 $cfg = init();
 write_header($cfg);
-
+include('canvas.html');
 
 ?>
 <?php write_js_requires($cfg); ?>
@@ -37,7 +37,7 @@ write_header($cfg);
 
     <div id="app-screen">
       <div id="app-user">
-        <ul class="uk-tab" data-uk-switcher="{connect:'#tabs', animation:'scale'}">
+        <ul class="uk-tab" data-uk-switcher="{connect:'#tabs', animation:'fade'}">
           <li><a href="">Sign in</a></li>
           <li><a href="">New user</a></li>
         </ul>

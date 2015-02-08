@@ -9,7 +9,9 @@ var mapPlumb;
 var AppMenuView = Backbone.View.extend({
     selectedMission: null,
     el: $("#app-menu"),
-
+    currentWorld: 0,
+    currentWorldName: null,
+    
     events: {
         "click #app-menu-start": function() { this.start(); }
     },
@@ -17,6 +19,7 @@ var AppMenuView = Backbone.View.extend({
     initialize: function() {
         this.listenTo(this.model, "change:state", this.render);
         var maps = this.model.get('map');
+        this.currentWorldName = this.model.get('map')[this.currentWorld].world;
         var missions = this.model.get('missions');
         this.selectedMission = this.model.mission().get('name');
         this.setupMaps(maps, missions);
@@ -28,7 +31,7 @@ var AppMenuView = Backbone.View.extend({
     },
     
     rootLevel: function() {
-        return this.model.get('map')[this.model.mission().get('worldidx')].levels[0];
+        return this.model.get('map')[this.currentWorld].levels[0];
     },
     
     scanLevels: function(world, levels, missions, prev) {
@@ -150,7 +153,7 @@ var AppMenuView = Backbone.View.extend({
         var self = this;
         var app = this.model;
         var state = app.get('state');
-        var world = app.mission().get('world');
+        var world = this.currentWorldName;
         var world_props = _.where(app.get('map'), { world: world })[0];
         
         var $el = this.$el;

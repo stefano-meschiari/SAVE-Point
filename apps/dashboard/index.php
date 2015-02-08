@@ -8,7 +8,7 @@ db_ensure_logged_in();
 
 $cfg = init();
 write_header($cfg);
-
+include('canvas.html');
 ?>
 <?php write_js_requires($cfg); ?>
 <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom" id="container">

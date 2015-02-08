@@ -162,8 +162,9 @@ write_mission_rules($cfg);
     </div>
   </div>
   <div id="app-menu-text">
-    <button class="settings btn-jrs-ico fa fa-sliders"  data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-uk-tooltip="{pos: 'bottom', offset:20}"></button>
     <button class="dashboard btn-jrs-ico icon-dashboard" title="Back to Dashboard" data-uk-tooltip="{pos: 'bottom', offset:20}" onClick="window.location.href='/';"></button>
+    <button class="settings btn-jrs-ico fa fa-sliders"  data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-uk-tooltip="{pos: 'bottom', offset:20}"></button>
+    <button class="settings btn-jrs-ico icon-sandbox" onClick='app.setMission("sandbox");' title="Practice Mode" data-uk-tooltip="{pos: 'bottom', offset: 20}"></button>
 
     <div id="app-menu-text-top">
       <div id="app-menu-mission-title" class="title"></div>
@@ -214,7 +215,7 @@ write_mission_rules($cfg);
 
      <div class="separator-center"></div>
 
-     <button class="btn-jrs uk-modal-close"><i class="fa fa-thumbs-up"></i> OK</button>
+     <button class="btn-jrs uk-modal-close"><i class="fa fa-check"></i> OK</button>
    </div>
 
 

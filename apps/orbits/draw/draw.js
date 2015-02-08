@@ -198,7 +198,7 @@ var Draw = Backbone.View.extend({
         if (_.isString(colors)) {
             colors = [colors];
             app.mission().set('colors', colors);
-        }        
+        }
         var color = Colors.cyan;
         if (colors[index] && Colors[colors[index]])
             color = Colors[colors[index]];
@@ -431,6 +431,7 @@ var Draw = Backbone.View.extend({
     },
 
     pushAnimation: function(name, fun) {
+        console.log(name);
         var f = {f: fun, name: name};
         this.animations.push(f);
     },
@@ -440,6 +441,7 @@ var Draw = Backbone.View.extend({
             if (this.animations[i].name == name) {
                 this.animations[i].f('cancel');
                 this.animations.splice(i, 1);
+                console.log('Canceling', name);        
             }
         }
     },
@@ -522,7 +524,7 @@ var Draw = Backbone.View.extend({
             
             if (arg == 'cancel' || frame == frames) {
                 self.rotateBackgroundStars(true);
-                self.resetView();
+                self.resetTransformation();
                 app.set('interactive', true);
                 if (frame == frames)
                     self.animateStar();
@@ -562,9 +564,9 @@ var Draw = Backbone.View.extend({
 
     
     animateCollision: function(info) {
-        var smokeColor = this.color(TYPE_PLANET, 0);
         var self = this;
         this.planets[info.planet-1].visible = false;
+        var smokeColor = this.color(TYPE_PLANET, info.planet-1);
         
         var frame = 0;
         var frames = 60;
@@ -682,6 +684,7 @@ var Draw = Backbone.View.extend({
 
     restoreSizes: function() {
         var star = this.star;
+        console.log("Restoring sizes");
         star.bounds.width = 2*STAR_SIZE;
         star.bounds.height = 2*STAR_SIZE;
         star.halo.bounds.width = 2*STAR_HALO_SIZE;
@@ -914,7 +917,7 @@ var Draw = Backbone.View.extend({
                 zoomOut = true;
         }
 
-        if (zoomOut && app.get('state') == RUNNING)
+        if (zoomOut && (app.get('state') == RUNNING || app.get('state') == ROTATABLE))
             this.setZoom(this.zoom * 0.5);
             
     },
@@ -1076,7 +1079,6 @@ var Draw = Backbone.View.extend({
             if (tc.length == 0) {
                 lastPos = planet.position;
 
-                this.trailColor = this.color(TYPE_HALO, i);
                 this.trailLastTheta[i] = theta;
                 this.trailThetaTotal[i] = 0.;
             }
@@ -1105,7 +1107,7 @@ var Draw = Backbone.View.extend({
             );
             
             path.strokeWidth = 3;
-            path.strokeColor = this.trailColor;
+            path.strokeColor = this.color(TYPE_HALO, i);
             path.opacity = Math.max((a * a * (1-e) * (1-e))/r, 0.4);
             path.insertBelow(planets[i]);
             tc.push(path);
@@ -1155,8 +1157,8 @@ var Draw = Backbone.View.extend({
         var dx = (2*STAR_SIZE-start)/N;
         var i = 1;
         var star = this.star;
-        star.visible = true;
-        star.halo.visible = true;
+        star.visible = false;
+        star.halo.visible = false;
         this.cancelAnimation('travel');
         
         this.pushAnimation('star', function(cmd) {
@@ -1169,6 +1171,9 @@ var Draw = Backbone.View.extend({
                 
                 star.position = view.center;
                 star.halo.position = view.center;
+                star.visible = true;
+                star.halo.visible = true;
+
                 return false;
             }
             
@@ -1181,6 +1186,10 @@ var Draw = Backbone.View.extend({
             
             star.position = view.center;
             star.halo.position = view.center;
+            if (i == 1) {
+                star.visible = true;
+                star.halo.visible = true;
+            }
             i++;
             return true;
         });
@@ -1339,6 +1348,10 @@ var Draw = Backbone.View.extend({
 
     resetView: function() {
         this.setZoom(1);
+        this.resetTransformation();
+    },
+
+    resetTransformation: function() {
         this.transformation = Physics.setRotation(this.transformation, 0, 0, 0, PIXELS_PER_AU); 
     },
     

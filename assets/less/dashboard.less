@@ -61,7 +61,7 @@ body {
 
 
 #tab-container  {
-  background:linear-gradient(to bottom, @color-glass 0%, @color-glass-dark 100%);
+  background:linear-gradient(to bottom, @color-glass-dark-opaque 50%, @color-glass-dark 100%);
   padding:50px;
   color:white;
 }
@@ -121,7 +121,7 @@ input[type=checkbox] {
 }
 
 .uk-tab .uk-active a {
-  background:@color-glass !important;
+  background:@color-glass-dark-opaque !important;
   color:@color-accent !important;
   border:none !important;
   text-shadow: none !important;
@@ -179,4 +179,20 @@ input[type=checkbox] {
 
 .logout-header {
   margin-bottom:80px;
+}
+
+canvas#cover {
+  position:fixed;
+  left:0px;
+  right:0px;
+  top:0px;
+  bottom:0px;
+  width:100%;
+  height:100%;
+}
+
+#container {
+  position:relative;
+  z-index:1;
+  margin:0 auto;
 }

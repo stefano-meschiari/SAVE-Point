@@ -179,6 +179,7 @@ html, body {
   margin:0 auto;
   margin-top:20px;
   box-shadow:0px 0px 10px silver;
+  padding:20px;
   .animation(bob 0.75s ease alternate infinite);
 }
 
@@ -317,7 +318,7 @@ left:430px;
   font-family: @font;
   font-weight:500;
   background:white;
-  background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(180, 180, 180) 100%); 
+  background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, rgb(150, 150, 150) 100%); 
   border-radius:3px;
   border:1px solid rgb(180, 180, 180);
   padding:10px;
@@ -865,31 +866,6 @@ td.td-val {
   text-align:center;
   line-height:100px;
   cursor:not-allowed;
-}
-
-.keyframes(~'bob, 0%{transform: scale(0.9); background-color:silver; } 100%{transform:scale(1.05)}');
-
-.mission-thumb-next {
-  background-color:white;
-  color:black;
-  cursor:pointer;
-  .animation(bob 0.75s ease alternate infinite);
-}
-
-.mission-thumb-completed {
-  background-color:white;
-  color:black;
-  cursor:pointer;
-}
-
-.mission-title {
-  font-weight:bold;
-  color:white;
-  text-shadow:0px 0px 5px black;
-}
-
-.mission-subtitle {
-  text-shadow:0px 0px 5px black;
 }
 
 

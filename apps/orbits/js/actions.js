@@ -4,7 +4,6 @@ var Actions = _.extend({}, Backbone.Events);
 
 Actions.listenTo(app, 'start', function() {
     var mission = app.mission();
-    console.log(this);
 
     this.actions = mission.get('trialActions');
     this.durations = mission.get('trialDurations');
