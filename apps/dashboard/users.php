@@ -122,7 +122,7 @@ include('canvas.html');
   </div>    
 </div>
 
-
+<?php write_js_requires($cfg); ?>
 <script>
 
  function validate() {
@@ -154,6 +154,6 @@ include('canvas.html');
 </script>
 
 <?php
-write_js_requires($cfg);
+
 write_footer($cfg);
 ?>

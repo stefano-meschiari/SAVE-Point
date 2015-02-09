@@ -22,11 +22,13 @@ foreach ($apps as $app) {
   $app_cfg = spyc_load_file("../" . $app . "/app.yaml");
   $app_missions = array();
   foreach ($app_cfg['missions'] as $mission)
-    $app_missions[] = $mission['title'];
+    if (!isset($mission['hidden']) && !$mission['hidden'])
+      $app_missions[$mission['name']] = $mission['title'];
   
   $head = array('Real name', 'Username', 'Stars earned');
   $head = array_merge($head, $app_missions);
   $data = db_instructor_report($app, $class_id);
+  
   $data_a = array();
   foreach ($data as $row) {
     $row_a = array();
@@ -36,11 +38,16 @@ foreach ($apps as $app) {
       $row_a[2] = $row['earned_stars'];
     else
       $row_a[2] = 0;
-    
+
     $game_data = json_decode($row['mission_data'], true);
+    $mission_data = $game_data['missions'];
     
-    foreach ($game_data as $mission) {
-      $row_a[] = $mission['stars'];
+    foreach (array_keys($app_missions) as $key) {
+      foreach ($mission_data as $mission) {
+        if (trim($mission['name']) == trim($key)) {
+          $row_a[] = $mission['stars'];
+        }
+      }
     }
     $data_a[] = $row_a;
   }
@@ -71,7 +78,7 @@ if ($_GET['out'] === 'csv') {
 
 
 function write_table($header, $data) {
-  echo '<table class="table table-striped table-bordered">';
+  echo '<table class="uk-table uk-table-striped ">';
   echo '<tr>';
   foreach ($header as $head) {
     echo "<th>" . $head . "</th>";
@@ -91,19 +98,34 @@ write_header($cfg);
 
 ?>
 <?php write_js_requires($cfg); ?>
-<div id="app-screen" class="white">
-  <div>
-    <span class="font-l">Report for class: <?= $_GET['classname'] ?></span>
-    <a href="/dashboard/" class="border pull-right">Back to dashboard</a>
+<style>
+ html {
+   background-color:white;
+   color:black;
+   user-select:all;
+   -webkit-user-select:all;
+ }
+ .uk-table {
+   white-space:nowrap;
+   font-size:0.7rem;
+ }
+ 
+</style>
+<div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom" id="container">
+  
+  <div class="uk-clearfix">
+    <a href="/dashboard/" class="uk-button primary-button uk-float-right">Back to dashboard</a>
   </div>
-  <div class="clear"></div>
-  <div class="separator">
+  <hr>
+  <div class="instructor-title">
+    <?= $_GET['classname'] ?>
   </div>
+  <hr>
   <?php
   foreach ($apps as $app) {
     echo "<h3>App: $app ";
     echo '(<a href="/dashboard/instructor_report.php?class=' . $_GET['class'] . '&out=csv&app=' . $app . '">Download Excel</a>)</h3>';
-    echo "<div class=scrollable>";
+    echo "<div class='uk-overflow-container'>";
     write_table($headers_all[$app], $data_all[$app]);
     echo "</div>";
   }
@@ -113,7 +135,7 @@ write_header($cfg);
   
   
 </div>
-
+</div>
 <?php
 write_footer($cfg);
 ?>

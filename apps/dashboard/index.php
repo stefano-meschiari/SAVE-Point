@@ -58,26 +58,26 @@ include('canvas.html');
 
         </div>    
       </div>
-      <div id="app-screen">
 
+      <?php
+      if (db_user_is_instructor(db_user())) {
+        $classes = db_instructor_classes(db_user());
+      ?>
+        <div class="separator-center margin-v-50"></div>
+      <div id="instructor">
+        <div class="instructor-title">Instructor report</div>
       
       <?php
-      if (db_user_is_instructor(db_user())) {   
-        $classes = db_instructor_classes(db_user());
         foreach ($classes as $class) {
       ?>
-        <div class="font-l">
-          Instructor reports
-        </div>
-        <div class="app-dashboard">
-          <a class="border" href="/dashboard/instructor_report.php?class=<?= $class['class_id'] ?>&classname=<?= urlencode($class['class_name']) ?>"><?= $class['class_name'] ?></a>
-        </div>
+        <a class="uk-button primary-button instructor-class" href="/dashboard/instructor_report.php?class=<?= $class['class_id'] ?>&classname=<?= urlencode($class['class_name']) ?>"><span class="fa fa-university"></span> <?= $class['class_name'] ?></a>
+        
       <?php
       }    
       }
       ?>
-      
-    </div>
+
+      </div>
   </div>
 </div>
 <?php

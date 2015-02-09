@@ -3,9 +3,18 @@
 @import (reference) "assets/less/lesshat";
 @import (reference) "assets/less/fonts";
 
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 html {
+  .noselect;
   width:100%;
-  background-size: 100%;
   font-family: "proxima-nova";
   font-size:24px;
   line-height:1.6;
@@ -28,7 +37,7 @@ body {
 }
 
 .brand-acronym {
-  font-size: 0.8rem;
+  font-size: 1rem; 
   font-variant:small-caps;
 }
 
@@ -175,6 +184,11 @@ input[type=checkbox] {
   margin-bottom:5px;  
 }
 
+.margin-v-50 {
+  margin-top:50px;
+  margin-bottom:50px;
+}
+
 .logout-header {
   margin-bottom:80px;
 }
@@ -206,4 +220,22 @@ canvas#cover {
   width:212px;
   margin:0px;
   height:212px;
+}
+
+#instructor {
+  color:white;
+}
+
+.instructor-title {
+  font-size:@font-l;
+  text-align:center;
+}
+
+.instructor-class {
+  width:600px;
+  display:block;
+  position:relative;
+  margin:0 auto;
+  margin-bottom:10px;
+  text-align:left;
 }

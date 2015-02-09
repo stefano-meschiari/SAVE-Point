@@ -29,7 +29,8 @@ avatars:
   @groknar: {img/groknar.min.gif width=150 class=avatar-left} @enter-avatar
   @boss: {img/boss.min.gif width=150 class=avatar-right} @enter-avatar
   @praetor: {img/praetor.png width=130 class=avatar-left} @enter-avatar
-  
+  @arkanid:
+    
 assets:
   music:
     default: sounds/level_v3.mp3
@@ -190,8 +191,11 @@ missions:
           @boss
           Good work, but we need you to train quickly!  We need to 
           engineer all of the new star systems forming in the Arcturus Nebula, and our 
-          customers are very... picky. You can practice your skills at any time using the
-          @icon-sandbox Practice Mode.
+          customers are very... picky.
+
+
+          You can practice your skills using the
+          @icon-sandbox *Practice Mode*.
 
       - on: lose
         message: |
@@ -357,6 +361,7 @@ missions:
         message: |
           @boss          
           You might want to try this out in the @icon-sandbox *Practice Mode* and come back to earn your star.
+          @practice-mode
 
   - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
@@ -385,23 +390,19 @@ missions:
 
       - on: lose
         message: |
-          @arkanid
-          The planet always needs to stay the same distance from the star for my chocolate pod plants to grow.
+          @arkanid The planet always needs to stay the same distance from the star for my chocolate pod plants to grow.
 
       - on: win1
         message: |
-          @arkanid
-          I got one lousy chocolate bar out of my crop this year.  Surely you can put us closer to the star so the plants don't freeze.
+          @arkanid I got one lousy chocolate bar out of my crop this year.  Surely you can put us closer to the star so the plants don't freeze.
       
       - on: win2
         message: |
-          @arkanid
-          This is barely tolerable, and my chocolate plants are looking pretty withered in all this heat.
+          @arkanid This is barely tolerable, and my chocolate plants are looking pretty withered in all this heat.
       
       - on: win3
         message: |
-          @arkanid
-          I am spending this year in a vat of molten chocolate thanks to your efforts!  Mmmmm... fresh chocolate...
+          @arkanid I am spending this year in a vat of molten chocolate thanks to your efforts!  Mmmmm... fresh chocolate...
 
 
 
@@ -438,8 +439,7 @@ missions:
            @hide-5
       - on: win3
         message: |
-          @arkanid
-          We will test to see if the growing conditions on this planet are acceptable.
+          @arkanid We will test to see if the growing conditions on this planet are acceptable.
 
     win: So circular!
     lose: The chocolate pod plants are ruined.  Try moving the planet to a different distance.
@@ -501,7 +501,7 @@ missions:
           @arkanid
           We think this planet should be perfect for our chocolate pod plants!
 
-  - title: The speed of planets/2
+  - title: The Speed of Planets/2
     enabled: true
     value: 1
     type: single-choice
@@ -513,7 +513,7 @@ missions:
     win: That's the right answer!
     lose: Not quite right.
     question: |
-      @boss @rotatable
+      @boss
       For planets in circular orbits, the speed of a planet orbiting far from the star is...
     choices:
       - faster 
@@ -531,10 +531,12 @@ missions:
       - on: lose
         message: |
           @boss
-          You might want to try this out in practice mode and then come back to earn your bonus star.
+          You might want to try this out in @icon-practice Practice Mode and then come back to earn your bonus star.
+          @practice-mode
 
   - title: The speed of planets/3
     enabled: true
+    hidden: true    
     value: 1
     type: drag-choice
     icon: icon-question
@@ -567,6 +569,7 @@ missions:
           You might want to practice this out a bit. How about taking the @icon-sandbox *Practice Mode* for a spin? 
 
   - title: Boss level
+    hidden: true
     subtitle: Boss level test
     name: boss_arcturus
     icon: icon-boss
@@ -575,6 +578,7 @@ missions:
     subtitle: Under construction...
     rule: nplanets > 0 
     name: multi-planet-test
+    hidden: true
     icon: icon-circ-rvs
     enabled: true
     win: So circular!
@@ -587,6 +591,7 @@ missions:
     rule: nplanets > 0 
     icon: icon-circ-rvs
     enabled: true
+    hidden: true
     name: barycentric
     win: So circular!
     lose: The orbit was not quite circular... Try moving the planet to a different distance.
