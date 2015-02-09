@@ -24,9 +24,9 @@ function is_registration_invalid($post) {
     return "USERNAME_EXISTS";
 
   $class = $_POST['class'];
-  if (!db_class_exists($class) && $class != "--" && $class != "")
-    return "CLASS_INVALID";
-
+  if (!db_class_exists($class))
+    $class = '--';
+    
   $password = $_POST['password'];
   $password2 = $_POST['password2'];
   if ($password != $password2)
@@ -66,7 +66,11 @@ if ($_GET['action'] == 'login') {
   if ($invalid === FALSE) {
 
     $password_hash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $classid = db_class_exists($_POST['class']);
+    $class = $_POST['class'];
+    if (!db_class_exists($class))
+      $class = '--';
+    
+    $classid = db_class_exists($class);
 
     
     $result = db_user_register(array(
