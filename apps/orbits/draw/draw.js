@@ -798,6 +798,7 @@ var Draw = Backbone.View.extend({
                             return;
                         if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
                             return;
+
                         
                         var point = event.point;
                         var bsize = body.bounds.width;
@@ -844,7 +845,7 @@ var Draw = Backbone.View.extend({
                     var mouseDown = function() {
                         if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
                             return;
-                        
+                        app.set('selectedPlanet', body.planetIndex + 1);
                         var center = body.bounds.center;
                         body.bounds.size = new Size(2*PLANET_DRAG_SIZE, 2*PLANET_DRAG_SIZE );
                         body.bounds.center = center;
@@ -995,6 +996,7 @@ var Draw = Backbone.View.extend({
 
                     });
                     vector.on("mousedown", function(event) {
+                        app.set('selectedPlanet', body.planetIndex + 1);
 //                        var center = vector.head.bounds.center;
 //                        vector.head.bounds.size = new Size(ARROW_DRAG_SIZE, ARROW_DRAG_SIZE);
 //                        vector.head.bounds.center = center;
@@ -1257,7 +1259,6 @@ var Draw = Backbone.View.extend({
             return;
         if (app.get('state') != PAUSED)
             return;
-        this.restoreSizes();
     },
 
     onMouseUp: function(event) {

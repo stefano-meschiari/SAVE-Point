@@ -34,7 +34,7 @@ var Mission = Backbone.ROComputedModel.extend({
     defaults: {
         completed: false,
         elapsed: -1,
-        elements: null,
+        elementsf: null,
         stars: 0,
         lastPlayed: null,
         name: '',
@@ -115,6 +115,8 @@ var App = Backbone.ROComputedModel.extend({
             collided:false,
             // physical vs cartoon sizes
             physicalSizes:false,
+            // selected planet
+            selectedPlanet: 0,
             // number of stars gained so far
             starsEarned:[],            
             maxAU: 1.5,
@@ -191,6 +193,7 @@ var App = Backbone.ROComputedModel.extend({
         this.ensureConstraintsForBody(this.get('nplanets')-1);        
         this.ctx.elements = null;
         this.trigger("addPlanet change:position change:velocity change:masses");
+        this.set('selectedPlanet', this.get('nplanets'));
         Physics.barycenter(this.ctx);
         return masses.length;
     },
@@ -222,6 +225,7 @@ var App = Backbone.ROComputedModel.extend({
         x[2] = position[(i+1)*NPHYS+Z];
         return x;
     },
+
 
     typeForBody: function(i) {
         return this.get('bodyTypes')[i+1];
@@ -575,7 +579,8 @@ var App = Backbone.ROComputedModel.extend({
             userStartTime: new Date(),
             userEndTime: null,
             invalid: defaults.invalid,
-            collided: defaults.collided
+            collided: defaults.collided,
+            selectedPlanet: defaults.selectedPlanet
         });
         this.ctx.elements = null;
         this.trigger('reset');
@@ -794,7 +799,7 @@ var AppView = Backbone.View.extend({
         var self = this;
 
         // Update information when planetary parameters change
-        self.listenTo(self.model, 'change:nplanets change:time change:position change:velocity change:elements', _.throttle(self.renderInfo, 200));
+        self.listenTo(self.model, 'change:nplanets change:time change:position change:velocity change:elements change:selectedPlanet', _.throttle(self.renderInfo, 200));
         
         self.listenTo(self.model, 'start change:missions reset', self.renderMission);
         self.listenTo(self.model, 'change:state', self.setVisibility);
@@ -873,24 +878,12 @@ var AppView = Backbone.View.extend({
         
         if (app.get('nplanets') > 0) {
             $("#time").text(this.model.get('time') + " days");
-
-            var els = app.elements();
-            var position = app.get('position');
-            var velocity = app.get('velocity');
-            var masses = app.get('masses');
+            var idx = app.get('selectedPlanet')-1;
+            var info = app.getHumanInfoForBody(idx);
             
-            var r = Math.sqrt((position[X]-position[NPHYS+X])*(position[X]-position[NPHYS+X]) +
-                              (position[Y]-position[NPHYS+Y])*(position[Y]-position[NPHYS+Y]) +
-                              (position[Z]-position[NPHYS+Z])*(position[Z]-position[NPHYS+Z]));
-
-            var v = Math.sqrt((velocity[X]-velocity[NPHYS+X])*(velocity[X]-velocity[NPHYS+X]) +
-                              (velocity[Y]-velocity[NPHYS+Y])*(velocity[Y]-velocity[NPHYS+Y]) +
-                              (velocity[Z]-velocity[NPHYS+Z])*(velocity[Z]-velocity[NPHYS+Z]));
-            
-            $("#distance").html((r * Units.RUNIT / (1e11)).toFixed(1) + " million km");
-            $("#speed").text((v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(1) + " km/s");           
-            $("#eccentricity").text(els[0].eccentricity.toFixed(2));
-            
+            $("#distance").html(info.distance);
+            $("#speed").text(info.speed);           
+            $(".val-planet").css("color", draw.color(TYPE_HALO, idx));
         } else {
             $("#distance").text("");
             $("#speed").text("");

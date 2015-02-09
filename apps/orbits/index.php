@@ -48,11 +48,11 @@ write_mission_rules($cfg);
         <table cols="2">
           <tr>
             <td class="td-label">Distance</td>
-            <td class="td-val" id="distance"></td>
+            <td class="td-val val-planet" id="distance"></td>
           </tr>
           <tr>
             <td class="td-label">Speed</td>
-            <td class="td-val" id="speed"></td>
+            <td class="td-val val-planet" id="speed"></td>
           </tr>
           <tr>
             <td class="td-label">Time</td>
