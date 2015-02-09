@@ -256,7 +256,7 @@ missions:
       - on: hint
         message: |
            @boss
-           Try giving the planet a little more speed.
+           Try to give the planet enough speed to leave the system — but only just enough!
            @hide-5
 
       - on: lose
