@@ -75,7 +75,7 @@ write_mission_rules($cfg);
       </div>
       
     </div>
-    <canvas id="canvas" resize keepalive="true" style="position:absolute"></canvas>
+    <canvas id="canvas" resize keepalive="false" style="position:absolute"></canvas>
   </div>
 
   <div id="sidebar">
