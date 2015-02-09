@@ -50,9 +50,6 @@ html {
   color: white;
   font-family: "Dosis";
 }
-.app-col img {
-  margin-bottom: 10px;
-}
 .app-col .app-title {
   font-size: 35px;
   font-weight: 700;
@@ -166,4 +163,16 @@ canvas#cover {
   position: relative;
   z-index: 1;
   margin: 0 auto;
+}
+.app-icon {
+  width: 192px;
+  height: 192px;
+  margin: 10px;
+}
+.app-icon:hover {
+  border: 10px solid white;
+  border-radius: 32px;
+  width: 212px;
+  margin: 0px;
+  height: 212px;
 }

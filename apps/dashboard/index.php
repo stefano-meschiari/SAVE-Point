@@ -31,7 +31,7 @@ include('canvas.html');
   <div id="content">
       <div class="uk-grid">
         <div class="app-col uk-width-1-3">
-          <a href="/orbits/"><img src="img/orbits.png" width="192" class="uk-animation-hover uk-animation-scale"></a>
+          <a href="/orbits/"><img src="img/orbits.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
           <div class="app-title">
             Orbits            
           </div>
@@ -40,7 +40,7 @@ include('canvas.html');
           </div>
         </div>
         <div class="app-col uk-width-1-3">
-          <a href="http://www.stefanom.org/spc"><img src="img/spc.png" width="192" class="uk-animation-hover uk-animation-scale"></a>
+          <a href="http://www.stefanom.org/spc"><img src="img/spc.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
           <div class="app-title">
             Super Planet Crash 
           </div>
@@ -49,7 +49,7 @@ include('canvas.html');
           </div>
         </div>
         <div class="app-col uk-width-1-3">
-          <a href="http://www.stefanom.org/systemic-online"><img src="img/systemic_live.png" width="192" class="uk-animation-hover uk-animation-scale"></a>
+            <a href="http://www.stefanom.org/systemic-online"><img src="img/systemic_live.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
           <div class="app-title">
             Systemic Live
           </div>
