@@ -23,7 +23,7 @@ backbone:
   - /share/backbone/backbone.js
 
 underscore:
-  - /share/underscore/underscore.js
+  - /share/underscore/underscore-min.js
 
 physics:
   - /share/js/math.js
@@ -50,7 +50,7 @@ animalese:
   - /share/animalese/animalese.js
   
 jsplumb:
-  - /share/jsplumb/dist/js/dom.jsPlumb-1.7.2.js
+  - /share/jsplumb/dist/js/dom.jsPlumb-1.7.2-min.js
 
 uikit:
   - /share/uikit/css/uikit.min.css

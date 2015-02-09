@@ -26,8 +26,8 @@ formulas:
   - starsrule
 
 avatars:
-  @groknar: {img/groknar.gif width=150 class=avatar-left} @enter-avatar
-  @boss: {img/boss.gif width=150 class=avatar-right} @enter-avatar
+  @groknar: {img/groknar.min.gif width=150 class=avatar-left} @enter-avatar
+  @boss: {img/boss.min.gif width=150 class=avatar-right} @enter-avatar
   @praetor: {img/praetor.png width=130 class=avatar-left} @enter-avatar
   
 assets:
@@ -626,6 +626,6 @@ missions:
 
           Press the @icon-missions *Mission menu* button to get back to the missions menu.
           @close
-      - on: change:state
+      - on: state:running
         message: |        
           @rotatable @hide

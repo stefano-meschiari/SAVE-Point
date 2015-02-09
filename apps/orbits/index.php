@@ -24,11 +24,6 @@ write_mission_rules($cfg);
  LOGGED_IN=<?= $logged_in ?>;
  APP_CFG.map = <?= json_encode(spyc_load_file("./map.yaml")); ?>;
 </script>
-<style>
- body, html {
-   overflow:hidden;
- }
-</style>
 
 <div id="app-modal" class="full-size" style="display:none">
   Hello!
@@ -173,7 +168,7 @@ write_mission_rules($cfg);
       <div class="clear"></div>
     </div>
     <div class="bubble-cont">
-      <img src="img/boss.gif" width="150" class="bubble-avatar">
+      <img src="img/boss.min.gif" width="150" class="bubble-avatar">
       <div class="bubble">
         <div id="bubble-text">
         </div>

@@ -25,8 +25,6 @@ Backbone.ROComputedModel = Backbone.Model.extend({
     }    
 });
 
-
-
 /*
  * The mission model. 
  */
@@ -762,8 +760,21 @@ var App = Backbone.ROComputedModel.extend({
      * object is used by the leapfrog function.
      */
     initialize: function() {
+        var self = this;
         this.ctx = {M:this.get('masses'), x: this.get('position'), v:this.get('velocity'), dt: 0.25 };
         this.listenTo(this, "planet:drag planet:dragvelocity", function() { this.elements(true); });
+
+        this.listenTo(this, "change:state", function() {
+            if (self.get('state') == PAUSED)
+                app.trigger('state:paused');
+            else if (self.get('state') == RUNNING)
+                app.trigger('state:running');
+            else if (self.get('state') == ROTATABLE)
+                app.trigger('state:rotatable');
+            else if (self.get('state') == MENU)
+                app.trigger('state:menu');
+        });
+        
     }
 });
 
@@ -1307,9 +1318,9 @@ var AppModalView = Backbone.View.extend({
         
         $("#app-modal").css("background-image", "url(" + map[0]['travel-bg'] + ")");
         $("#app-modal").css("background-size", "10%");
-        
-        $("#app-modal").html(_.template(this.loadingMessage, map[0]));
-        
+        console.log(map[0].world);
+        $("#app-modal").html(_.template(this.loadingMessage)(map[0]));
+
         $("#app").hide();
         this.$el.show();
         requestAnimationFrame(this.frame);

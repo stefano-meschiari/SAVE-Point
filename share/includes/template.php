@@ -10,7 +10,8 @@ function is_local() {
 
 // Renders the header using the given hash.
 function write_header($cfg) {
-  $m = new Mustache_Engine;
+  header('Content-Type: text/html; charset=UTF-8');
+  $m = new Mustache_Engine;  
   echo $m->render(file_get_contents(ROOT . "share/skeleton/header.html"), $cfg);
 };
 

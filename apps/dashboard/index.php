@@ -10,7 +10,6 @@ $cfg = init();
 write_header($cfg);
 include('canvas.html');
 ?>
-<?php write_js_requires($cfg); ?>
 <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom" id="container">
   
   <!--[if lt IE 7]>
@@ -82,5 +81,6 @@ include('canvas.html');
   </div>
 </div>
 <?php
+write_js_requires($cfg);
 write_footer($cfg);
 ?>

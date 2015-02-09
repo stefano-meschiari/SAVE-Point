@@ -66,8 +66,8 @@ var AppMenuView = Backbone.View.extend({
         
     },
 
-    DIV_THUMB: '<div class="<%= divclass %>"><button id="app-menu-mission-box-<%= name %>" class="app-menu-mission-box <%= icon %> <%= allowed %>" title="<%= title %>"  data-uk-tooltip="{pos: \'right\', offset:10}"></button></div>',
-    DIV_ROW: '<div class="app-menu-mission-row"><%= row %><div class="clear"></div></div>',
+    DIV_THUMB: _.template('<div class="<%= divclass %>"><button id="app-menu-mission-box-<%= name %>" class="app-menu-mission-box <%= icon %> <%= allowed %>" title="<%= title %>"  data-uk-tooltip="{pos: \'right\', offset:10}"></button></div>'),
+    DIV_ROW: _.template('<div class="app-menu-mission-row"><%= row %><div class="clear"></div></div>'),
     
     renderTree: function(rl, posx, posy, rows) {
         var app = this.model;
@@ -82,7 +82,7 @@ var AppMenuView = Backbone.View.extend({
 
         var selected = app.mission().get('name') === rl.get('name');
         
-        var div = _.template(this.DIV_THUMB, { divclass: 'box' + posx, name: rl.get('name'), icon: rl.get('icon') + '-b', allowed: (allowed ? '' : 'app-menu-mission-locked'), title: rl.get('title') } );
+        var div = this.DIV_THUMB({ divclass: 'box' + posx, name: rl.get('name'), icon: rl.get('icon') + '-b', allowed: (allowed ? '' : 'app-menu-mission-locked'), title: rl.get('title') } );
         if (rows[posy])
             rows[posy] += div;
         else
@@ -169,7 +169,7 @@ var AppMenuView = Backbone.View.extend({
 
             var t = '';
             _.each(rows, function(row) {
-                t += _.template(self.DIV_ROW, { row: row }) + '\n';
+                t += self.DIV_ROW({ row: row }) + '\n';
             });
 
             $("#app-menu-map-container").css("background-image", 'url(' + world_props.bg + ')');
