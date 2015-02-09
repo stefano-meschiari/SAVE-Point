@@ -671,11 +671,13 @@ var App = Backbone.ROComputedModel.extend({
         _.each(this.saveKeys, function(key) {
             this[key] = self.get(key);
         }, saveData);
-        
-        var data = JSON.stringify({
+
+        var dataDict = {
             missions: app.get('missions'),
-            saveData: app.get('saveData')
-        });
+            saveData: saveData
+        };
+        
+        var data = JSON.stringify(dataDict);
         var earned_stars = app.starsEarnedTotal();
         app.trigger('saving');
         $.post('php/gamedata.php?action=save', {
@@ -684,6 +686,7 @@ var App = Backbone.ROComputedModel.extend({
         }).done(function(data) {
             app.trigger('saved', data);
         });
+        return dataDict;
     },
 
     /*
