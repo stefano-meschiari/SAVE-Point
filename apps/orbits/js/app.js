@@ -360,7 +360,7 @@ var App = Backbone.ROComputedModel.extend({
         this.ctx.v = this.get('velocity');
         this.ctx.M = this.get('masses');
 
-        var dt = deltat;
+        var dt = deltat * SPEED;
         for (var i = 1; i <= app.get('nplanets'); i++) {
             var r = Math.sqrt(this.ctx.x[i*NPHYS+X] * this.ctx.x[i*NPHYS+X] +
                               this.ctx.x[i*NPHYS+Y] * this.ctx.x[i*NPHYS+Y]);
@@ -799,7 +799,7 @@ var AppView = Backbone.View.extend({
         "click #practice": function() { app.setMission('sandbox'); },
         "click #reset": function() { app.reset(); },
         "click #missions": function() { app.menu(); },
-        "click #dashboard": function() { location.href='../dashboard'; },
+        "click #dashboard": function() { location.href='../dashboard/'; },
         "click #sizes": function() { app.set('physicalSizes', !app.get('physicalSizes')); },
         "click #zoom-in": function() { draw.setZoom(draw.zoom*2); },
         "click #zoom-out": function() { draw.setZoom(draw.zoom/2); },

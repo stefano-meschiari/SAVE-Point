@@ -1,8 +1,9 @@
 // Number of stars
-STARS = 500;
+STARS = 250;
 CANVAS_ID = 'canvas';
 MAX_SEGMENTS = 700;
 SLOW_ENV = false;
+SPEED = 1;
 
 // Number of pixels corresponding to 1 length unit (1 AU)
 PIXELS_PER_AU = 200;
@@ -469,7 +470,7 @@ var Draw = Backbone.View.extend({
 
         
         var self = this;
-        var dI = 0.001;
+        var dI = 0.001 * SPEED;
         var interactivity = app.get('interactive');
         var scale = Math.pow(0.1, 4./120);
         
@@ -514,7 +515,7 @@ var Draw = Backbone.View.extend({
         this.cancelAnimation('fly');
         this.cancelAnimation('star');
         
-        var dI_start = 0.001;
+        var dI_start = 0.001 * SPEED;
         var frames = 120;
         var frame = 0;
         
@@ -1497,7 +1498,7 @@ function onResize(event) {
 
 var sampling = true;
 var samplingFrames = 0;
-var samplingFramesCount = 100;
+var samplingFramesCount = 30;
 var samplingStart;
 var targetFrameRate = 40;
 var trials = 0;
@@ -1518,6 +1519,7 @@ function onFrame(event) {
             } else {
                 STARS = (STARS * 0.5 * (1 + perf / targetFrameRate))|0;
                 MAX_SEGMENTS = (MAX_SEGMENTS * 0.5 * (1 + perf / targetFrameRate))|0;
+                SPEED = targetFrameRate / perf;
                 draw.createBackgroundStars();
                 console.log('STARS:', STARS, 'MAX_SEGMENTS', MAX_SEGMENTS);
                 
@@ -1526,7 +1528,6 @@ function onFrame(event) {
             }
             console.log(perf);
             trials++;
-            alert(perf);
         }
         samplingFrames++;
     }

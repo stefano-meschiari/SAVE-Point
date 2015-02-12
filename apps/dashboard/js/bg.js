@@ -10,6 +10,7 @@ var ctx;
 var dt = 0.5;
 var init = true;
 
+
 function nextFrame() {
     // If the document is not focused, do not refresh the animation.
     // Also, only animate every other frame.
