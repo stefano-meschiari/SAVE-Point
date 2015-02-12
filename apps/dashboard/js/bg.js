@@ -66,8 +66,8 @@ $(document).ready(function() {
     ctx = canvas.getContext('2d');
     canvas.style.width = $window.width() + "px";    
     canvas.style.height = $window.height() + "px";
-    canvas.width = "2000";
-    canvas.height = "2000";
+    canvas.width = "500";
+    canvas.height = "500";
 
 
     // Animation code

@@ -872,6 +872,9 @@ var AppView = Backbone.View.extend({
     renderMission: function() {
         // Check if the top banner is already expanded; if it is, hide it
         // temporarily and show it again.
+        if (app.state != PAUSED)
+            return;
+        
         var current = this.model.get('currentMission');
         var mission = this.model.get('missions').at(current);
         
@@ -979,7 +982,7 @@ var AppView = Backbone.View.extend({
         
     },
 
-    loseTemplate: _.template('<div class="subtitle"><%= lose %></div><div><button class="btn-jrs font-m" onClick="app.reset(); app.menuView.renderMission(); "><span class="icon-thumbs-up"></span> No worries! Retry mission</button></div>'),
+    loseTemplate: _.template('<div class="subtitle"><%= lose %></div><div><button class="btn-jrs font-m" onClick="app.reset(); app.mainView.renderMission(); "><span class="icon-thumbs-up"></span> No worries! Retry mission</button></div>'),
     
     renderLose: function() {
         var mission = app.get('missions').at(app.get('currentMission'));
@@ -1156,6 +1159,11 @@ var MessageView = Backbone.View.extend({
             app.set('interactive', true);
             app.resetFlags();
         });
+        _.defer(function() {
+            if (help && help.funcs)
+                for (var i = 0; i < help.funcs.length; i++)
+                    help.funcs[i]();
+        });
         
         $("#help-text").removeClass("expanded");
         
@@ -1176,6 +1184,7 @@ var MessageView = Backbone.View.extend({
             $("#help-next-mission").on("click", function() { self.model.nextMission(); } );
             
             $("#help-text").addClass("expanded");
+            app.trigger('show:help');
             app.mainView.renderInfo();
             if (help && help.funcs)
                 for (var i = 0; i < help.funcs.length; i++)

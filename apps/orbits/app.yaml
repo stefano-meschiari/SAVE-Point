@@ -132,13 +132,13 @@ missions:
            
       - on: change:nplanets
         message: >
-          @boss @disable-star @disable-velocity @disable-force @refresh
+          @boss @disable-star @disable-velocity @disable-force @refresh @validateplanetpositions
           That's your first planet! Now try to *@icon-drag drag the planet*
           to change its position.
 
       - on: planet:drag
         message: |
-          @boss @disable-star @disable-velocity @disable-force @refresh
+          @boss @disable-star @disable-velocity @disable-force @refresh @validateplanetpositions
           Great job, rookie! Lots of useful information about your planet is shown in the upper right, 
           such as its distance from the star and its speed.
           @proceed
@@ -174,13 +174,13 @@ missions:
           
       - on: proceed
         message: >
-          @disable-star @refresh @boss
+          @disable-star @refresh @boss  @validateplanetpositions
           Now try to @icon-drag *drag the head of the green speed arrow* to change the speed
           and direction of the planet, and see its speed change in the upper right. 
 
       - on: planet:dragvelocity
         message: |
-          @boss
+          @boss @validateplanetpositions
           As you change the position and speed of the planet, its orbital path will change.
 
           

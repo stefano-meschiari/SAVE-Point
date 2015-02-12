@@ -19,7 +19,7 @@ var Templates = Backbone.Model.extend({
         "@disable-velocity": function() { app.flags.disabledVelocity = true; },
         "@disable-force": function() { app.flags.disabledForce = true; },
         "@refresh": function() { app.trigger("refresh"); },
-        
+        "@validateplanetpositions": function() { draw.validatePlanetPositions(); },
         "@enter-avatar": function() {
             _.delay(function() {
                 $(".avatar-left").addClass("avatar-left-visible");
