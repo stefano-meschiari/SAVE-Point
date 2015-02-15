@@ -1498,11 +1498,11 @@ function onResize(event) {
 
 var sampling = true;
 var samplingFrames = 0;
-var samplingFramesCount = 30;
+var samplingFramesCount = 20;
 var samplingStart;
 var targetFrameRate = 40;
 var trials = 0;
-var maxTrials = 4;
+var maxTrials = 2;
 
 function onFrame(event) {
     if (sampling) {

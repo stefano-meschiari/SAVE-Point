@@ -1,5 +1,5 @@
 "use strict";
-
+/*
 $("#sidebar").append('<button id="debug-get-stars" class="btn btn-sm btn-danger">get all stars</button>', [
     '<button id="debug-reset-missions" class="btn btn-sm btn-danger">reset missions</button>',
     '<button id="debug-win1" class="btn btn-sm btn-danger">win 1 star</button>',
@@ -35,3 +35,4 @@ $("#debug-win2").click(function() { app.trigger('win2 win'); });
 $("#debug-win3").click(function() { app.trigger('win3 win'); });
 $("#debug-lose").click(function() { app.trigger('lose'); });
 
+*/

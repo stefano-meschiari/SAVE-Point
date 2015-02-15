@@ -545,7 +545,7 @@ var App = Backbone.ROComputedModel.extend({
         var mission = app.mission();
         var starsFormula = mission.get('starsrule');
         if (! _.isFunction(starsFormula)) {
-            return mission.get('value');
+            return mission.get('value') || 3;
         } else
             return starsFormula();
     },
@@ -872,7 +872,7 @@ var AppView = Backbone.View.extend({
     renderMission: function() {
         // Check if the top banner is already expanded; if it is, hide it
         // temporarily and show it again.
-        if (app.state != PAUSED)
+        if (app.get('state') != PAUSED)
             return;
         
         var current = this.model.get('currentMission');
@@ -1189,7 +1189,7 @@ var MessageView = Backbone.View.extend({
             if (help && help.funcs)
                 for (var i = 0; i < help.funcs.length; i++)
                     help.funcs[i]();
-        }, 500);
+        }, 200);
     },
 
     hide: function() {

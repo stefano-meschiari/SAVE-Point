@@ -29,7 +29,7 @@ avatars:
   @groknar: {img/groknar.min.gif width=150 class=avatar-left} @enter-avatar
   @boss: {img/boss.min.gif width=150 class=avatar-right} @enter-avatar
   @praetor: {img/praetor.png width=130 class=avatar-left} @enter-avatar
-  @arkanid:
+  @arkanid: {img/arkanid.gif width=120 class=avatar-right} @enter-avatar
     
 assets:
   music:
@@ -437,6 +437,7 @@ missions:
            @boss
            Keep an eye on your distance in the upper right box.  
            @hide-5
+
       - on: win3
         message: |
           @arkanid We will test to see if the growing conditions on this planet are acceptable.
@@ -513,7 +514,7 @@ missions:
     win: That's the right answer!
     lose: Not quite right.
     question: |
-      @boss
+      @boss @fly @noninteractive
       For planets in circular orbits, the speed of a planet orbiting far from the star is...
     choices:
       - faster 

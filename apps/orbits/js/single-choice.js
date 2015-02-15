@@ -10,13 +10,13 @@ var SingleChoice = Backbone.View.extend({
         var app = this.model;
         var mission = app.mission();
         var help = app.templates.template({ message: mission.get('question') });
-        help.message = _.template(this.QUESTION_TITLE, help);
+        help.message = _.template(this.QUESTION_TITLE)(help);
 
         var choices = mission.get('choices');
         for (var i = 0; i < choices.length; i++)
-            help.message += _.template(this.QUESTION_ITEM, { message: choices[i], index: i  });
-        help.message += _.template(this.QUESTION_BOTTOM, { message: mission.get('question-below') });
-        help.message = _.template(this.QUESTION_WRAPPER, help);
+            help.message += _.template(this.QUESTION_ITEM)({ message: choices[i], index: i  });
+        help.message += _.template(this.QUESTION_BOTTOM)({ message: mission.get('question-below') });
+        help.message = _.template(this.QUESTION_WRAPPER)(help);
         
         this.help = help;
         this.render();

@@ -25,6 +25,7 @@ write_mission_rules($cfg);
  APP_CFG.map = <?= json_encode(spyc_load_file("./map.yaml")); ?>;
 </script>
 
+
 <div id="app-modal" class="full-size" style="display:none">
   Hello!
 </div>
@@ -212,7 +213,8 @@ write_mission_rules($cfg);
    </div>
 
 
-  </div>
+ </div>
+ 
   <script type="text/javascript" src="../share/js/init.js"></script>
   
 <script type="text/javascript" src="js/app.js"></script>
