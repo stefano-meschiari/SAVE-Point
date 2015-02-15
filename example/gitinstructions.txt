@@ -6,3 +6,5 @@ git commit -am "changes to main.js file"
 git push
 
 open -a safari spring.html
+
+gifsicle -i --transparent "#1e1e1e" --loop --crop 1,1+-65x-1 arkanid*.gif > arkanid.gif 
