@@ -522,7 +522,7 @@ missions:
       - slower 
     question-below: |
       ...compared to a planet orbiting close to the star.
-    answer: 1
+    answer: 2
     help:
       - on: win
         message: |

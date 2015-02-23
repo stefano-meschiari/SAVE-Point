@@ -749,8 +749,10 @@ var Draw = Backbone.View.extend({
             else
                 forces[i].setVector(body.position, forceTo);
             
-            if (this.planets[i])
+            if (this.planets[i]) {
                 forces[i].insertBelow(body);
+                forces[i].show();
+            }
         }
     },
 
