@@ -1,14 +1,14 @@
 // Number of stars
-STARS = 250;
+STARS = 500;
 CANVAS_ID = 'canvas';
 MAX_SEGMENTS = 700;
 SLOW_ENV = false;
 SPEED = 1;
 
 // Number of pixels corresponding to 1 length unit (1 AU)
-PIXELS_PER_AU = 200;
+PIXELS_PER_AU = PIXELS_PER_AU_1 = 200;
 // Number of pixels corresponding to 1 speed unit (1 AU/day)
-PIXELS_PER_AUPDAY = 100 / Math.sqrt(K2);
+PIXELS_PER_AUPDAY = PIXELS_PER_AUPDAY_1 = 100 / Math.sqrt(K2);
 // Number of pixels corresponding to 1 force unit
 PIXELS_PER_FORCE = 200000;
 // Minimum size of drag target
@@ -164,6 +164,20 @@ var DrawUtils = {
             stem.insertBelow(head);
         };
 
+        g.insertAbove = function(body) {
+            head.insertAbove(body);
+            head2.insertAbove(body);
+            stem.insertAbove(head);
+        };
+
+        g.sendToBack = function(body) {
+            head.sendToBack();
+            head2.sendToBack();
+            stem.sendToBack();
+        };
+
+        
+
         g.show = function() {
             head.visible = true;
             head2.visible = true;
@@ -222,8 +236,8 @@ var Draw = Backbone.View.extend({
         zoom = ((zoom * 100)|0)/100;
         
         this.zoom = zoom;
-        PIXELS_PER_AU = 200 * zoom;
-        PIXELS_PER_AUPDAY = 100/Math.sqrt(K2) * zoom;
+        PIXELS_PER_AU = PIXELS_PER_AU_1 * zoom;
+        PIXELS_PER_AUPDAY = PIXELS_PER_AUPDAY_1 * zoom;
         
         if (this.transformation)
             this.transformation.stretch = PIXELS_PER_AU;
@@ -750,7 +764,8 @@ var Draw = Backbone.View.extend({
                 forces[i].setVector(body.position, forceTo);
             
             if (this.planets[i]) {
-                forces[i].insertBelow(body);
+                forces[i].sendToBack();
+                forces[i].insertAbove(this.star);
                 forces[i].show();
             }
         }
@@ -1113,48 +1128,59 @@ var Draw = Backbone.View.extend({
         this.hideForces();
     },
 
-    tick: 0,
-
+    ticks: [],
+    tickLengths:[],
+    targetArcSize: 200,
+    
     trailsUpdate: function() {
         if (!(app.get('state') == RUNNING || app.get('state') == ROTATABLE))
             return;
 
         var planets = this.planets;
+        var tickLengths = this.tickLengths;
+        
         if (planets.length == 0)
             return;
-        this.tick ++;
-
+        
         for (var i = 0; i < planets.length; i++) {
             var star = this.star;
             var tc = (this.trailSegments[i] || []);
             var tCoords = (this.trailCoords[i] || []);
+            var tickLength = tickLengths[i] || 5;
+            this.ticks[i] = this.ticks[i] || 0;
+            
             
             var planet = planets[i];
             
             if (this.trailThetaTotal[i] > 2.*Math.PI)
                 continue;
             
-            if (tc.length > MAX_SEGMENTS || this.tick % 3 != 0)
-                continue;
+            if (tc.length > MAX_SEGMENTS || this.ticks[i] % tickLength != 0) {
+                this.ticks[i]++;
+                continue;               
+            }
             
             var lastPos;
             var position = app.get('position');
             var theta = Math.atan2(position[(i+1)*NPHYS+Y], position[(i+1)*NPHYS+X]);
-            
+            var firstArc = false;
             if (tc.length == 0) {
                 lastPos = planet.position;
 
-                this.trailLastTheta[i] = theta;
+                this.trailLastTheta[i] = theta+0.001;
                 this.trailThetaTotal[i] = 0.;
+                firstArc = true;
             }
             else
                 lastPos = tc[tc.length-1].lastSegment.point;
 
             
             var dt = Math.abs(this.trailLastTheta[i] - theta);
+            if (dt == 0)
+                continue;
+            
             if (2 * Math.PI - dt < dt)
                 dt = 2 * Math.PI - dt;
-
             
             this.trailLastTheta[i] = theta;
             this.trailThetaTotal[i] += dt;
@@ -1165,6 +1191,21 @@ var Draw = Backbone.View.extend({
             var e = els[i].eccentricity;
             var r = position[(i+1)*NPHYS+X]*position[(i+1)*NPHYS+X] +
                     position[(i+1)*NPHYS+Y]*position[(i+1)*NPHYS+Y];
+
+            var arc2 = dt * dt * r * PIXELS_PER_AU_1 * PIXELS_PER_AU_1;
+            var pt = tickLengths[i];
+            if (!firstArc) {
+                if (Math.abs(arc2 - this.targetArcSize)/this.targetArcSize > 0.1) {
+                    if (arc2 - this.targetArcSize < 0)
+                        tickLength++;
+                    else
+                        tickLength--;
+                    
+                    this.ticks[i] = 1;
+                }
+                if (tickLength < 1) tickLength = 1;
+                tickLengths[i] = tickLength;
+            }
             
             var path = new Path(lastPos, planet.position);
             tCoords.push(
@@ -1173,11 +1214,14 @@ var Draw = Backbone.View.extend({
             
             path.strokeWidth = 3;
             path.strokeColor = this.color(TYPE_HALO, i);
-            path.opacity = Math.max((a * a * (1-e) * (1-e))/r, 0.4);
             path.insertBelow(planets[i]);
             tc.push(path);
+
+            
+            
             this.trailSegments[i] = tc;
             this.trailCoords[i] = tCoords;
+            this.ticks[i] ++;
         }
     },
 

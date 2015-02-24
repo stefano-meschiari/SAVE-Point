@@ -29,20 +29,21 @@ Backbone.ROComputedModel = Backbone.Model.extend({
  * The mission model. 
  */
 var Mission = Backbone.ROComputedModel.extend({
-    defaults: {
-        completed: false,
-        elapsed: -1,
-        elementsf: null,
-        stars: 0,
-        lastPlayed: null,
-        name: '',
-        trialDurations: [],
-        trialStars: [],
-        trialActions: [],
-        trialDates: [],
-        trialData: []
-    }, 
-
+    defaults: function() {
+        return {
+            completed: false,
+            elapsed: -1,
+            elementsf: null,
+            stars: 0,
+            lastPlayed: null,
+            name: '',
+            trialDurations: [],
+            trialStars: [],
+            trialActions: [],
+            trialDates: [],
+            trialData: []
+        };
+    },
 
     toJSON: function() {
         return _.pick(this.attributes, _.keys(this.defaults));
@@ -87,7 +88,7 @@ var App = Backbone.ROComputedModel.extend({
             // start at t = 0 days
             time:0,
             // each frame corresponds to these many days
-            deltat: 1.5,
+            deltat: 1,
             dt: 1.5,
             bodyTypes: [TYPE_STAR],
             // initial position of the star (AU/day). The vector contains the 3

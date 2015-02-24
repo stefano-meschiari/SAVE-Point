@@ -127,7 +127,6 @@ var AppMenuView = Backbone.View.extend({
         $("#app-menu-mission-box-" + name).addClass("app-menu-mission-box-selected");
 
         $("#app-menu-mission-title").html(mission.get('title'));
-        $("#app-menu-mission-subtitle").html(mission.get('subtitle'));
         $("#app-menu-mission-stars").html(app.templates.starsRepr(mission.get('stars'), mission.get('value')));
         var intro = '';
         if (mission.get('intro')) {

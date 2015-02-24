@@ -162,7 +162,6 @@ write_mission_rules($cfg);
 
     <div id="app-menu-text-top">
       <div id="app-menu-mission-title" class="title"></div>
-      <div id="app-menu-mission-subtitle" class="subtitle"></div>
       <div id="app-menu-mission-stars"></div>
       <div class="clear"></div>
     </div>
