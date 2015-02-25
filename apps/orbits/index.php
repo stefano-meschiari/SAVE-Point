@@ -145,11 +145,13 @@ write_mission_rules($cfg);
 
 <div id="app-menu" class="animated">
   <div id="app-menu-map-container">
-    <div id="app-menu-world">
-      <span id="app-menu-world-name">Hello!</span>
-      <div class="float-right">
-        <span class="icon-win-star color-accent"></span>&times;<span id="app-menu-stars-earned">20</span>
-      </div>
+      <div id="app-menu-world">
+          <div id="app-menu-world-stars"">
+              <span class="icon-win-star color-accent"></span>&times;<span id="app-menu-stars-earned">20</span>
+          </div>
+          <div id="app-menu-world-name">Hello!</div>
+
+      
     </div>
     <div id="app-menu-map">
       
