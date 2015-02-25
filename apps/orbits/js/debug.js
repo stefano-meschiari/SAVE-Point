@@ -1,4 +1,18 @@
 "use strict";
+
+window._debug = {
+    winAll: function() {
+         var missions = app.get('missions');
+
+        missions.each(function(mission) {
+            mission.set('stars', mission.get('value') || 3);
+            mission.set('completed', true);
+        });
+    
+        app.menu();
+    }
+};
+
 /*
 $("#sidebar").append('<button id="debug-get-stars" class="btn btn-sm btn-danger">get all stars</button>', [
     '<button id="debug-reset-missions" class="btn btn-sm btn-danger">reset missions</button>',

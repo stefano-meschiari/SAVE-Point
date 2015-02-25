@@ -239,3 +239,37 @@ canvas#cover {
   margin-bottom:10px;
   text-align:left;
 }
+
+.bubble-notice {
+  float:right;
+  overflow:hidden;
+}
+
+.bubble-notice img {
+  float:right;
+}
+
+.bubble {
+  background-color: white;
+  color:black;
+  font-size:@font-m;
+  font-family: @font-para;
+  padding:30px;
+  border-radius:6px;
+  min-height:100px;
+  width:200px;
+}
+
+.bubble:before
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 15px 0 15px 15px;
+border-color: transparent @color-glass;
+display: block;
+width: 0;
+z-index: 1;
+top: 50px;
+left:430px;
+}

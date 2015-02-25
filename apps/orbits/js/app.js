@@ -46,7 +46,7 @@ var Mission = Backbone.ROComputedModel.extend({
     },
 
     toJSON: function() {
-        return _.pick(this.attributes, _.keys(this.defaults));
+        return _.pick(this.attributes, _.keys(this.defaults()));
     }
 });
 
@@ -626,7 +626,8 @@ var App = Backbone.ROComputedModel.extend({
             .done(function(allData) {
                 if (allData.trim() != "") {
                     var data = JSON.parse(allData);
-
+                    console.log(data);
+                    
                     var missionsData = data.missions || [];
                     var saveData = data.saveData || {};
                     

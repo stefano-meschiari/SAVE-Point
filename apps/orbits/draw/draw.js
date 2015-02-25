@@ -1130,7 +1130,7 @@ var Draw = Backbone.View.extend({
 
     ticks: [],
     tickLengths:[],
-    targetArcSize: 200,
+    targetArcSize: 100,
     
     trailsUpdate: function() {
         if (!(app.get('state') == RUNNING || app.get('state') == ROTATABLE))
@@ -1146,7 +1146,7 @@ var Draw = Backbone.View.extend({
             var star = this.star;
             var tc = (this.trailSegments[i] || []);
             var tCoords = (this.trailCoords[i] || []);
-            var tickLength = tickLengths[i] || 5;
+            var tickLength = tickLengths[i] || 1;
             this.ticks[i] = this.ticks[i] || 0;
             
             
