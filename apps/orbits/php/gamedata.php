@@ -7,6 +7,9 @@ require('db.php');
 if (db_user_logged_in() === FALSE) {
   die();
 }
+if (db_is_demo_user()) {
+    die();
+}
 
 $user = db_user();
 $user_id = db_user_details($user)['id'];

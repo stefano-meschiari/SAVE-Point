@@ -2,14 +2,9 @@
 require($_SERVER['DOCUMENT_ROOT'] . '/../share/startup.php');
 require('db.php');
 
-if ($_GET['demo']) {
-  $user = 'Rookie';
-  $logged_in = 'false';
-} else {
-  db_ensure_logged_in();
-  $user = db_user();
-  $logged_in = 'true';
-}
+db_ensure_logged_in();
+$user = db_user();
+$logged_in = 'true';
 
 $cfg = init();
 write_header($cfg);
@@ -88,38 +83,38 @@ write_mission_rules($cfg);
     </div>
     
     <div class="sidebar-item">
-      <button id="missions" class="btn-jrs-ico icon-missions" title="Mission menu" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <button id="missions" class="btn-jrs-ico icon-missions" title="Mission menu" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Mission menu</div>
     </div>
     <div class="sidebar-item">
-      <button id="reset" class="btn-jrs-ico fa fa-undo"  title="Restart mission" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <button id="reset" class="btn-jrs-ico fa fa-undo"  title="Restart mission" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Restart mission</div>
     </div>
     <div class="sidebar-item">
-      <button id="practice" class="btn-jrs-ico icon-sandbox" title="Practice mode" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <button id="practice" class="btn-jrs-ico icon-sandbox" title="Practice mode" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Practice mode</div>
     </div>
     <div class="sidebar-item">
-      <button id="help" class="btn-jrs-ico fa fa-question-circle" title="Help" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <button id="help" class="btn-jrs-ico fa fa-question-circle" title="Help" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Help</div>
     </div>
 
     <div class="separator-center sidebar-item-disabled"></div>
     <div class="sidebar-item sidebar-item-disabled" id="sidebar-sizes">
-      <button id="sizes" class="btn-jrs-ico fa fa-arrows-alt"  title="Toggle physical size" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <button id="sizes" class="btn-jrs-ico fa fa-arrows-alt"  title="Toggle physical size" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Toggle physical size</div>
     </div>
-    <div class="sidebar-item sidebar-item-disabled"  title="Zoom" data-uk-tooltip="{pos: 'right', offset:20}" id="sidebar-zoom">
+    <div class="sidebar-item sidebar-item-disabled"  title="Zoom" data-tooltip-content="{pos: 'right', offset:20}" id="sidebar-zoom">
       <button id="zoom" class="btn-jrs-ico fa fa-search"></button>
       <div class="sidebar-title">Zoom</div>
     </div>
     <div class="separator-center"></div>
     <div class="sidebar-item">
-      <button class="settings btn-jrs-ico fa fa-sliders" data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <button class="settings btn-jrs-ico fa fa-sliders" data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Game settings</div>
     </div>
     <div class="sidebar-item">
-      <button id="dashboard" class="btn-jrs-ico icon-dashboard" title="Back to Dashboard" data-uk-tooltip="{pos: 'right', offset:20}"></button>
+      <button id="dashboard" class="btn-jrs-ico icon-dashboard" title="Back to Dashboard" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Back to dashboard</div>
     </div>
 
@@ -158,9 +153,9 @@ write_mission_rules($cfg);
     </div>
   </div>
   <div id="app-menu-text">
-    <button class="dashboard btn-jrs-ico icon-dashboard" title="Back to Dashboard" data-uk-tooltip="{pos: 'bottom', offset:20}" onClick="window.location.href='/';"></button>
-    <button class="settings btn-jrs-ico fa fa-sliders"  data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-uk-tooltip="{pos: 'bottom', offset:20}"></button>
-    <button class="settings btn-jrs-ico icon-sandbox" onClick='app.setMission("sandbox");' title="Practice Mode" data-uk-tooltip="{pos: 'bottom', offset: 20}"></button>
+    <button class="dashboard btn-jrs-ico icon-dashboard" title="Back to Dashboard" data-tooltip-content="{pos: 'bottom', offset:20}" onClick="window.location.href='/';"></button>
+    <button class="settings btn-jrs-ico fa fa-sliders"  data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-tooltip-content="{pos: 'bottom', offset:20}"></button>
+    <button class="settings btn-jrs-ico icon-sandbox" onClick='app.setMission("sandbox");' title="Practice Mode" data-tooltip-content="{pos: 'bottom', offset: 20}"></button>
 
     <div id="app-menu-text-top">
       <div id="app-menu-mission-title" class="title"></div>
@@ -235,7 +230,7 @@ write_mission_rules($cfg);
 
 <?php write_footer($cfg); ?>
 <?php
-if ($_GET['demo']) {
+if (db_is_god_user()) {
 ?>
   <script>
    $(document).ready(function() {

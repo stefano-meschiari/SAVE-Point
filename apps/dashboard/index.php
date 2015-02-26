@@ -16,16 +16,19 @@ include('canvas.html');
   <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-  <div class="uk-clearfix logout-header">
-    <div class="uk-float-right uk-button-dropdown" data-uk-dropdown>
-      <button class="uk-button primary-button"><i class="fa fa-user"></i> <?= db_user() ?> <i class="fa fa-caret-down"></i></button>
-      <div class="uk-dropdown uk-dropdown-small">
-        <ul class="uk-nav uk-nav-dropdown">
-          <li><a href="/dashboard/usermgmt.php?action=logout">Log out</a></li>
-        </ul>
-      </div>
+    <div class="uk-clearfix logout-header">
+        <?php if (!db_is_kiosk_user()) { ?>
+
+            <div class="uk-float-right uk-button-dropdown" data-uk-dropdown>
+                <button class="uk-button primary-button"><i class="fa fa-user"></i> <?= db_user() ?> <i class="fa fa-caret-down"></i></button>
+                <div class="uk-dropdown uk-dropdown-small">
+                    <ul class="uk-nav uk-nav-dropdown">
+                        <li><a href="/dashboard/usermgmt.php?action=logout">Log out</a></li>
+                    </ul>
+                </div>
+            </div>
+        <?php } ?>
     </div>
-  </div>
 
   <div id="content">
       <div class="uk-grid">

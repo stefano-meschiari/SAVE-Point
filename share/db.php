@@ -152,4 +152,35 @@ function db_get_game_data($game, $user) {
 }
 
 
+function db_login($user) {
+  $_SESSION['username'] = $user;
+  redirect_dashboard();
+}
+
+
+function db_is_demo_user($user) {
+    $demo_users = array('demo', 'kiosk', 'instructor-demo');
+    return in_array($user, $demo_users);
+}
+
+function db_is_kiosk_user() {
+    return db_user() == 'kiosk';
+}
+
+function db_is_god_user() {
+    return db_user() == 'instructor-demo';
+}
+
+
+function redirect_alert($alert, $tab) {
+  header('Location: users.php?alert=' . urlencode($alert) . "&show=" . urlencode($tab));
+  die();
+};
+
+function redirect_dashboard() {
+  header('Location: /dashboard/index.php');
+  die();
+}
+
+
 ?>

@@ -4,6 +4,16 @@ require_once('../../share/startup.php');
 require_once('db.php');
 require_once('messages.php');
 
+if (db_user_logged_in()) {
+    redirect_dashboard();
+    return;
+}
+if (isset($_GET['login']) && db_is_demo_user($_GET['login']) && !db_user_logged_in()) {
+    db_login($_GET['login']);
+    header('Location: /dashboard/users.php?a=a');
+    return;
+}
+
 $cfg = init();
 write_header($cfg);
 include('canvas.html');
@@ -20,6 +30,17 @@ include('canvas.html');
                 <span id="alert-message"><?= $ERROR_MESSAGES[$_GET['alert']] ?></span>
                 <hr>
                 <button type="button" class="uk-button uk-button-primary primary-button uk-modal-close">Close</button>
+            </div>
+        </div>
+    </div>
+    <div class="uk-modal" id="play-warning">
+        <div class="uk-modal-dialog">
+            <div class="modal-content">
+                    <div><span class="fa fa-warning"></span> You are about to play as a demo user. You will not be able to save your progress unless you register.</div>
+                    <div><span class="fa fa-warning"></span> If you are a student in a class, your grade will not be recorded unless you register!</div>
+                <hr>
+                <button type="button" id="play-anyway" class="uk-button primary-button">Play anyway</button>
+                <button type="button" class="uk-button uk-button-primary primary-button uk-modal-close">Close and register</button>
             </div>
         </div>
     </div>
@@ -70,6 +91,7 @@ include('canvas.html');
                                     </div>
                                     <div class="uk-form-row">
                                         <button type="submit" class="uk-button uk-button-primary primary-button" >Sign in</button>
+                                        <button type="button" id="play-demo" class="uk-button primary-button uk-float-right" >Play without registering</button>
                                     </div>
                                 </form>
                             </div>
@@ -150,7 +172,12 @@ include('canvas.html');
 
      // Attach submit handler
      $("#form-register").on("submit", validate);
-     
+     $("#play-demo").on("click", function() {
+         UIkit.modal('#play-warning').show();
+     });
+     $("#play-anyway").on("click", function() {
+         window.location = '/dashboard/users.php?login=demo';
+     });
 
      <?php
      if (isset($_GET['alert'])) {

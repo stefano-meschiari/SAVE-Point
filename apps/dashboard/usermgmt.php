@@ -4,15 +4,7 @@ require_once('../../share/startup.php');
 require_once('db.php');
 require_once('messages.php');
 
-function redirect_alert($alert, $tab) {
-  header('Location: users.php?alert=' . urlencode($alert) . "&show=" . urlencode($tab));
-  die();
-};
 
-function redirect_dashboard() {
-  header('Location: /dashboard/index.php');
-  die();
-}
 
 function is_registration_invalid($post) {
   $user = $_POST['username'];
@@ -42,11 +34,6 @@ function is_registration_invalid($post) {
   return FALSE;
 }
 
-function login($user) {
-  $_SESSION['username'] = $user;
-  redirect_dashboard();
-}
-
 if ($_GET['action'] == 'login') {
   $user = $_POST['username'];
   $password = $_POST['password'];
@@ -54,7 +41,7 @@ if ($_GET['action'] == 'login') {
   if ($details === FALSE || !password_verify($password, $details['password'])) {
     redirect_alert('LOGIN_NOT_VALID', 'login');
   } else {
-    login($user, $password);
+    db_login($user, $password);
   }
 } else if ($_GET['action'] == 'validate') {
   $invalid = is_registration_invalid();
