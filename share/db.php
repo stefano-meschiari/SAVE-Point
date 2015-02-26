@@ -168,7 +168,7 @@ function db_is_kiosk_user() {
 }
 
 function db_is_god_user() {
-    return db_user() == 'instructor-demo';
+    return (db_user() == 'instructor-demo') || (db_user == 'kiosk');
 }
 
 

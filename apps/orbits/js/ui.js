@@ -19,11 +19,11 @@
             var start = 0;
             document.getElementById('app-menu-map-container').addEventListener('touchstart', function(e) {
                 start = this.scrollTop + event.touches[0].pageY;
-                event.preventDefault();
+//                event.preventDefault();
             });
             document.getElementById('app-menu-map-container').addEventListener('touchmove', function(e) {
                 this.scrollTop = start - event.touches[0].pageY;
-                event.preventDefault();
+//                event.preventDefault();
             });
             
         }
