@@ -4,6 +4,7 @@ require_once('../../share/startup.php');
 require_once('db.php');
 require_once('messages.php');
 
+db_check_special_user();
 db_ensure_logged_in();
 
 $cfg = init();

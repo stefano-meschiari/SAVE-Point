@@ -4,15 +4,10 @@ require_once('../../share/startup.php');
 require_once('db.php');
 require_once('messages.php');
 
+db_check_special_user();
+
 if (db_user_logged_in()) {
     redirect_dashboard();
-    return;
-}
-if (isset($_GET['login']) && db_is_demo_user($_GET['login']) && !db_user_logged_in()) {
-    session_unset();
-    
-    db_login($_GET['login']);
-    header('Location: /dashboard/users.php');
     return;
 }
 

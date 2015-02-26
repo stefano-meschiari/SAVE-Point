@@ -171,6 +171,17 @@ function db_is_god_user() {
     return (db_user() == 'instructor-demo') || (db_user == 'kiosk');
 }
 
+function db_check_special_user() {
+    if (isset($_GET['login']) && db_is_demo_user($_GET['login']) && !db_user_logged_in()) {
+        session_unset();
+        
+        db_login($_GET['login']);
+        header('Location: /dashboard/users.php');
+        die();
+    }
+}
+
+
 
 function redirect_alert($alert, $tab) {
   header('Location: users.php?alert=' . urlencode($alert) . "&show=" . urlencode($tab));
