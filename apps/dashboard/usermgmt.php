@@ -80,6 +80,7 @@ if ($_GET['action'] == 'login') {
     redirect_alert($invalid, "register");
   } 
 } else if ($_GET['action'] == 'logout') {
+    unset($_SESSION['username']);
   session_unset();
   redirect_dashboard();
 }

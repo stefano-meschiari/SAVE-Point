@@ -9,8 +9,10 @@ if (db_user_logged_in()) {
     return;
 }
 if (isset($_GET['login']) && db_is_demo_user($_GET['login']) && !db_user_logged_in()) {
+    session_unset();
+    
     db_login($_GET['login']);
-    header('Location: /dashboard/users.php?a=a');
+    header('Location: /dashboard/users.php');
     return;
 }
 
