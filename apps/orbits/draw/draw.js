@@ -64,7 +64,7 @@ var DrawUtils = {
         var head2 = new Path.Circle({ center: to, radius: 2*arrowRadius });
         head2.fillColor = 'rgba(0, 0, 0, 0)';
         if (options.unclickable)
-            head2.hide();
+            head2.visible = false;
         
         var head;
         if (type == 'regular') {
@@ -1498,6 +1498,9 @@ var Draw = Backbone.View.extend({
             destination: star.halo.bounds.rightCenter
         };
         star.halo.insertBelow(star);
+
+        star.visible = false;
+        star.halo.visible = false;
         
         this.star = star;
         this.planets = [];
@@ -1511,7 +1514,6 @@ var Draw = Backbone.View.extend({
         this.resetView();
         this.animations = [];
         
-        this.animateStar();
 
         this.listenTo(this.model, "change:state", this.toggleState);
         this.listenTo(this.model, "refresh change:nplanets change:position change:velocity change:state", function() {
@@ -1534,6 +1536,8 @@ var Draw = Backbone.View.extend({
             this.recalculateSizes();
             this.restoreSizes();
         });
+
+        this.fly();
     }
 });
 

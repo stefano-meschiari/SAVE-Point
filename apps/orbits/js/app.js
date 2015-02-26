@@ -129,7 +129,7 @@ var App = Backbone.ROComputedModel.extend({
     saveKeys: ['musicVolume', 'effectsVolume'],
     components: {},
     flags: {},
-
+    loaded: false,
 
     resetFlags: function() {
         this.flags = {};
@@ -496,7 +496,7 @@ var App = Backbone.ROComputedModel.extend({
         
         this.set({ currentMission: mission });
         this.reset();
-
+        
         var missionObj = this.mission();
         this.sounds.playMusic(missionObj.get('music'));      
         
@@ -863,6 +863,9 @@ var AppView = Backbone.View.extend({
     topHideTimer: null,
 
     renderTopText: function(text, hide) {
+        if (!app.loaded)
+            return;
+        
         $("#text-top").html(text);
         $("#text-top").addClass("expanded");
         $("#text-top").removeClass("in-front");
@@ -1376,7 +1379,7 @@ $(document).ready(function() {
 
     app.once('load', function() {
         app.sounds.playMusic('level');
-        
+        app.loaded = true;
         if (_.parameter('mission') != null) {
             _.defer(function() {
                 app.setMission(_.parameter('mission'));
