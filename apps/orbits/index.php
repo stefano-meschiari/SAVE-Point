@@ -17,6 +17,7 @@ write_mission_rules($cfg);
 <script>
  LOGGED_USER='<?= $user ?>';
  LOGGED_IN=<?= $logged_in ?>;
+ EPHEMERAL_USER=<?= (db_is_demo_user(db_user()) ? 'true' : 'false')  ?>;
  APP_CFG.map = <?= json_encode(spyc_load_file("./map.yaml")); ?>;
 </script>
 

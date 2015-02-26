@@ -620,6 +620,14 @@ var App = Backbone.ROComputedModel.extend({
      */
     loadMissionData: function() {
         this.trigger('loading');
+
+        if (EPHEMERAL_USER) {
+            _.defer(function() {
+                app.trigger('load');
+                app.menu();
+            });
+            return;
+        }
         var self = this;
         _.defer(function() {
             $.get('php/gamedata.php?action=load')
