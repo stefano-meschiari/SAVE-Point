@@ -1230,6 +1230,8 @@ var Draw = Backbone.View.extend({
             if (this.trailSegments[j])
                 for (var i = 0; i < this.trailSegments[j].length; i++) 
                     this.trailSegments[j][i].remove();
+        this.ticks = [];
+        this.tickLengths = [];
         this.trailSegments = [];
         this.trailCoords = [];
         this.trailCenter = null;

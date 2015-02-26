@@ -658,9 +658,7 @@ var App = Backbone.ROComputedModel.extend({
                     
                     _.each(saveData, function(value, key) {
                         self.set(value, key);
-                    });
-
-                    
+                    });                    
                 }
                 _.delay(function() {
                     app.trigger('load');
