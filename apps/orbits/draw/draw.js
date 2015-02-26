@@ -759,7 +759,7 @@ var Draw = Backbone.View.extend({
             
             if (forces[i] == null)
                 forces[i] = DrawUtils.createArrow(body.position, forceTo, FORCE_COLOR, FORCE_ARROW_SIZE,
-                                                  FORCE_ARROW_STEM_SIZE, {static: true, unclickable: false});
+                                                  FORCE_ARROW_STEM_SIZE, {static: true, unclickable: true});
             else
                 forces[i].setVector(body.position, forceTo);
             
