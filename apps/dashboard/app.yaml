@@ -6,6 +6,7 @@ requires:
   - underscore
   - underscore.string
   - uikit
+  - device
 
 apps:
   - orbits

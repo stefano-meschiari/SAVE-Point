@@ -20,7 +20,12 @@ write_mission_rules($cfg);
  APP_CFG.map = <?= json_encode(spyc_load_file("./map.yaml")); ?>;
 </script>
 
-
+<div id="app-rotate">
+    Hold your device in landscape orientation.
+    <div>
+        <img src="/share/img/ipad.png" class="uk-align-center">
+    </div>
+</div>
 <div id="app-modal" class="full-size" style="display:none">
   Hello!
 </div>

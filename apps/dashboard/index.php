@@ -10,6 +10,14 @@ $cfg = init();
 write_header($cfg);
 include('canvas.html');
 ?>
+
+<div id="app-rotate">
+    Hold your device in landscape orientation.
+    <div>
+        <img src="/share/img/ipad.png" class="uk-align-center">
+    </div>
+</div>
+
 <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom" id="container">
   
   <!--[if lt IE 7]>

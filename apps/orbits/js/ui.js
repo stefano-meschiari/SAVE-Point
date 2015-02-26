@@ -13,7 +13,7 @@
 
     $(document).ready(function() {
         if (device.ios() || device.mobile()) {
-            setInterval(function() { window.scrollTop(0, 0); }, 500);
+            setInterval(function() { window.scrollTo(0, 0); }, 500);
         }
         if (device.ios() || device.mobile()) {
             var start = 0;
