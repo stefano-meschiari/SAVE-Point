@@ -23,6 +23,10 @@ var AppMenuView = Backbone.View.extend({
         var missions = this.model.get('missions');
         this.selectedMission = this.model.mission().get('name');
         this.setupMaps(maps, missions);
+
+        if (device.ios() || device.mobile()) {
+            this.DIV_THUMB = this.DIV_THUMB_MOBILE;
+        }
     },
 
     start: function() {
@@ -66,7 +70,9 @@ var AppMenuView = Backbone.View.extend({
         
     },
 
-    DIV_THUMB: _.template('<div class="<%= divclass %>"><button id="app-menu-mission-box-<%= name %>" class="app-menu-mission-box <%= icon %> <%= allowed %>" title="<%= title %>"  data-uk-tooltip="{pos: \'right\', offset:10}"></button></div>'),
+    
+    DIV_THUMB: _.template('<div class="<%= divclass %>"><button id="app-menu-mission-box-<%= name %>" class="app-menu-mission-box <%= icon %> <%= allowed %>" title="<%= title %>" data-uk-tooltip="{pos: \'right\', offset:10}"></button></div>'),
+    DIV_THUMB_MOBILE: _.template('<div class="<%= divclass %>"><button id="app-menu-mission-box-<%= name %>" class="app-menu-mission-box <%= icon %> <%= allowed %>" title="<%= title %>"></button></div>'),
     DIV_ROW: _.template('<div class="app-menu-mission-row"><%= row %><div class="clear"></div></div>'),
     
     renderTree: function(rl, posx, posy, rows) {
