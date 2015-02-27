@@ -749,9 +749,12 @@ var App = Backbone.ROComputedModel.extend({
 
 
     getHumanInfoForBody: function(body) {
+        if (body < 0)
+            return {};
         body += 1;
         var position = this.get('position');
         var velocity = this.get('velocity');
+        var els = this.elements();
         var r = Math.sqrt((position[X]-position[body*NPHYS+X])*(position[X]-position[body*NPHYS+X]) +
                           (position[Y]-position[body*NPHYS+Y])*(position[Y]-position[body*NPHYS+Y]) +
                           (position[Z]-position[body*NPHYS+Z])*(position[Z]-position[body*NPHYS+Z]));
@@ -759,10 +762,10 @@ var App = Backbone.ROComputedModel.extend({
         var v = Math.sqrt((velocity[X]-velocity[body*NPHYS+X])*(velocity[X]-velocity[body*NPHYS+X]) +
                           (velocity[Y]-velocity[body*NPHYS+Y])*(velocity[Y]-velocity[body*NPHYS+Y]) +
                           (velocity[Z]-velocity[body*NPHYS+Z])*(velocity[Z]-velocity[body*NPHYS+Z]));
-
         return {
             distance: (r * Units.RUNIT / (1e11)).toFixed(1) + " million km",
-            speed: (v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(1) + " km/s"
+            speed: (v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(1) + " km/s",
+            period: els[body-1].period.toFixed(1) + " days"
         };
     },
     
@@ -905,18 +908,19 @@ var AppView = Backbone.View.extend({
     renderInfo: function() {
         
         if (app.get('nplanets') > 0) {
-            $("#time").text(this.model.get('time') + " days");
             var idx = app.get('selectedPlanet')-1;
             var info = app.getHumanInfoForBody(idx);
             
             $("#distance").html(info.distance);
-            $("#speed").text(info.speed);           
+            $("#speed").text(info.speed);
+            $("#period").text(info.period);
+
             $(".val-planet").css("color", draw.color(TYPE_HALO, idx));
         } else {
             $("#distance").text("");
             $("#speed").text("");
             $("#eccentricity").text("");
-            $("#time").text("");
+            $("#period").text("");
         }
     },
 

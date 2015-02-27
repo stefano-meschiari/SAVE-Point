@@ -97,7 +97,7 @@ var AppMenuView = Backbone.View.extend({
         if (allowed)
             _.defer(function() {
                 $("#app-menu-mission-box-" + rl.get('name')).on("click", function() {
-                    self.select(rl.get('name'));
+                    self.select(rl.get('name'), false);
                 });
             });
         
@@ -126,12 +126,16 @@ var AppMenuView = Backbone.View.extend({
 
     },
 
-    select: function(name) {
+    select: function(name, fromCode) {
         var app = this.model;
         var mission = app.mission(name);
         $(".app-menu-mission-box").removeClass("app-menu-mission-box-selected");
-        $("#app-menu-mission-box-" + name).addClass("app-menu-mission-box-selected");
-
+        var divId = "#app-menu-mission-box-" + name;
+        $(divId).addClass("app-menu-mission-box-selected");
+        if (fromCode)
+            $("#app-menu-map-container")[0].scrollTop = $(divId).position().top-200;
+        
+        
         $("#app-menu-mission-title").html(mission.get('title'));
         $("#app-menu-mission-stars").html(app.templates.starsRepr(mission.get('stars'), mission.get('value')));
         var intro = '';
@@ -142,6 +146,7 @@ var AppMenuView = Backbone.View.extend({
         }
         
         $("#bubble-text").html(intro);
+        $(divId)[0].blur();
         this.selectedMission = name;        
     },
 

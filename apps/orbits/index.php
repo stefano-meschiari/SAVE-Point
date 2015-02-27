@@ -52,8 +52,8 @@ write_mission_rules($cfg);
             <td class="td-val val-planet" id="speed"></td>
           </tr>
           <tr>
-            <td class="td-label">Time</td>
-            <td class="td-val" id="time"></td>
+            <td class="td-label">Time to orbit</td>
+            <td class="td-val val-planet" id="period"></td>
           </tr>
           <tr>
             <td class="td-stars" colspan="2">

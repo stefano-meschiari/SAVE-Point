@@ -180,7 +180,8 @@ var DrawUtils = {
 
         g.show = function() {
             head.visible = true;
-            head2.visible = true;
+            if (!options.unclickable)
+                head2.visible = true;
             stem.visible = true;
         };
 
@@ -486,7 +487,7 @@ var Draw = Backbone.View.extend({
         var self = this;
         var dI = 0.001 * SPEED;
         var interactivity = app.get('interactive');
-        var scale = Math.pow(0.1, 4./120);
+        var scale = Math.pow(0.1, 4./50);
         
         this.cancelAnimation('cancel-fly');
         this.cancelAnimation('star');
@@ -1264,7 +1265,7 @@ var Draw = Backbone.View.extend({
 
     animateStar: function() {
         var start = 5;
-        var N = 50;
+        var N = 20;
         var dx = (2*STAR_SIZE-start)/N;
         var i = 1;
         var star = this.star;
