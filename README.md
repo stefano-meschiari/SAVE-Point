@@ -268,3 +268,21 @@ level. For example:
 intro: |
       The people of Selia Prime are bored with always orbiting between the same planets.  Now they want to resettle on a world that gently tours both the inner and outer solar system at different times of year. High Councilor Zeniak pulls out his cyber binoculars eagerly and awaits a fresh night sky.
 ```
+
+# The iOS application
+The iOS app will power the kiosk. Eventually, games should be
+broken up and published as their own apps.
+
+The iOS app is a simple container for WKWebView (the component which
+powers Safari). The data still resides remotely on the server. The
+container displays the website logged in as the special user
+"kiosk". No data is retained for this user (although we should
+definitely record some kind of usage data!), and all missions are
+available.
+
+The Kiosk dashboard will also have some kind of "slideshow", which
+will be launched whenever some inactivity time has been reached (say,
+1 minute).
+
+## Building the iOS app
+The app container is built using Apache Cordova. 

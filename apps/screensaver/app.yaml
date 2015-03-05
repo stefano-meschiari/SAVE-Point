@@ -1,0 +1,9 @@
+---
+description: Kiosk screen saver
+title: Screen Saver
+requires:
+  - jquery
+  - underscore
+  - underscore.string
+  - uikit
+  - device

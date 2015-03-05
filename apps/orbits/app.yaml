@@ -43,6 +43,7 @@ assets:
     creep: sounds/creep_v2.mp3
     bloop: sounds/bloop-dungeon_v3.mp3
     lurk: sounds/lurk_v3.mp3
+    tittery: sounds/tittery.mp3
   effects:
     lose: sounds/lose.wav
     win: sounds/win.wav
@@ -335,6 +336,7 @@ missions:
     type: single-choice
     icon: icon-question
     name: elliptical_question
+    music: tittery
     subtitle: Earn an extra star by answering this question!
     intro: |
       @boss
@@ -369,7 +371,7 @@ missions:
       (elements[0].sma > 2 ? 1 : (elements[0].sma < 1 ? 2 : 3))
     enabled: true
     name: circular
-    music: triumph
+    music: standard
     subtitle: Add a planet in a circular orbit.
     win: Sweet! That's... pretty circular!
     lose: That orbit is not very circular.
@@ -411,7 +413,7 @@ missions:
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs
     colors: blue
-    music: level
+    music: lurk
     name: speed_vs_distance_40
     constraints:
       speed: 40
@@ -449,7 +451,7 @@ missions:
     subtitle: Add a planet in a circular orbit at 30 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs
-    music: level    
+    music: lurk
     name: speed_vs_distance_30
     colors: blue
     constraints:
@@ -480,6 +482,7 @@ missions:
     icon: icon-circ-rvs    
     colors: blue
     name: speed_vs_distance_25
+    music: lurk
     constraints:
       speed: 25
       direction: perpendicular
@@ -507,6 +510,7 @@ missions:
     value: 1
     type: single-choice
     icon: icon-question
+    music: tittery
     name: circular_question
     subtitle: Earn an extra star by answering this question!
     intro: |

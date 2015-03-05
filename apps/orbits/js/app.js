@@ -68,6 +68,7 @@ var TYPE_PLANET = 1;
 var TYPE_STAR_FIXED = 2;
 var TYPE_PLANET_FIXED = 3;
 var TYPE_HALO = 4;
+var TYPE_OUTLINE = 5;
 
 var App = Backbone.ROComputedModel.extend({
     defaults: function() {
@@ -88,7 +89,7 @@ var App = Backbone.ROComputedModel.extend({
             // start at t = 0 days
             time:0,
             // each frame corresponds to these many days
-            deltat: 1,
+            deltat: 1.5,
             dt: 1.5,
             bodyTypes: [TYPE_STAR],
             // initial position of the star (AU/day). The vector contains the 3
@@ -754,7 +755,6 @@ var App = Backbone.ROComputedModel.extend({
         body += 1;
         var position = this.get('position');
         var velocity = this.get('velocity');
-        var els = this.elements();
         var r = Math.sqrt((position[X]-position[body*NPHYS+X])*(position[X]-position[body*NPHYS+X]) +
                           (position[Y]-position[body*NPHYS+Y])*(position[Y]-position[body*NPHYS+Y]) +
                           (position[Z]-position[body*NPHYS+Z])*(position[Z]-position[body*NPHYS+Z]));
@@ -762,10 +762,24 @@ var App = Backbone.ROComputedModel.extend({
         var v = Math.sqrt((velocity[X]-velocity[body*NPHYS+X])*(velocity[X]-velocity[body*NPHYS+X]) +
                           (velocity[Y]-velocity[body*NPHYS+Y])*(velocity[Y]-velocity[body*NPHYS+Y]) +
                           (velocity[Z]-velocity[body*NPHYS+Z])*(velocity[Z]-velocity[body*NPHYS+Z]));
+
+        var period;
+        if (app.get('state') == PAUSED) {
+            period = '';
+        } else {
+            var els = this.elements();
+            period = els[body-1].period;
+            if (isNaN(period)) {
+                period = 'Ejected';
+            } else {
+                var time = this.get('time');
+                period = Math.min(period, time).toFixed(1) + " days";                
+            }
+        }
         return {
             distance: (r * Units.RUNIT / (1e11)).toFixed(1) + " million km",
             speed: (v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(1) + " km/s",
-            period: els[body-1].period.toFixed(1) + " days"
+            period: period
         };
     },
     
@@ -847,8 +861,21 @@ var AppView = Backbone.View.extend({
 
             if (self.validateTimer)
                 clearTimeout(self.validateTimer);
+
+            var els = app.elements();
+            var deltat = app.get('deltat');
+            var Pmax = _.reduce(els, function(memo, el) {
+                return Math.max(memo, el.period);
+            }, 0);
+
+            var secs = 7000;
+            if (! isNaN(Pmax)) {
+                secs = Pmax / deltat * (1/60) * 1000;
+            }
             
-            self.validateTimer = _.delay(_.bind(self.validate, self), 5000);
+            var wait = Math.min(secs, 7000);
+            console.log(Pmax, secs);
+            self.validateTimer = _.delay(_.bind(self.validate, self), secs);
         });
     },
 
@@ -987,11 +1014,13 @@ var AppView = Backbone.View.extend({
         
         winDelay = Math.max(4000, winDelay);
 
+        /*
         this.renderTopText(this.winTemplate({
             win: mission.get('win'),
             stars: app.templates.starsRepr(app.stars(), app.mission().get('value'))
         }), false);
         $("#text-top").addClass("in-front");
+        */
 
         app.set('state', ROTATABLE);
         

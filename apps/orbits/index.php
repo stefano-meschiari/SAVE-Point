@@ -17,12 +17,13 @@ write_mission_rules($cfg);
 <script>
  LOGGED_USER='<?= $user ?>';
  LOGGED_IN=<?= $logged_in ?>;
+ IS_KIOSK=<?= (db_is_kiosk_user() ? 'true' : 'false') ?>;
  EPHEMERAL_USER=<?= (db_is_demo_user(db_user()) ? 'true' : 'false')  ?>;
  APP_CFG.map = <?= json_encode(spyc_load_file("./map.yaml")); ?>;
 </script>
 
 <div id="app-rotate">
-    Hold your device in landscape orientation.
+    Please rotate your device.
     <div>
         <img src="/share/img/ipad.png" class="uk-align-center">
     </div>

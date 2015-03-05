@@ -155,6 +155,7 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
     els.v0 = [u, v, w];
     els.R = R;
     els.V = V;
+    els.hs = hs;
     return els;
 };
 
