@@ -856,10 +856,12 @@ td.td-val {
 
 #text-top {
   width:100%;
-  left:150px;
   position:absolute;
-  text-align:left;
-  margin-top:-50px;
+  text-align:center;
+  margin-top:-60px;
+  top:50%;
+  background-color:@color-glass;
+  background:linear-gradient(to right, rgba(140,140,140,0) 0%,rgba(140,140,140,0.4) 30%,rgba(140,140,140,0.4) 70%, rgba(140,140,140,0) 100%);
   opacity:0;
   visibility:hidden;
   .transition(0.5s, ease-in);
@@ -882,7 +884,6 @@ td.td-val {
 #text-top.expanded {
   opacity:1;
   visibility:visible;
-  margin-top:10px;
   .transition(0.5s, ease-in);
 }
 

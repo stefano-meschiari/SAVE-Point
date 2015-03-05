@@ -6,6 +6,7 @@ var RUNNING = 0;
 var PAUSED = 1;
 var MENU = 2;
 var ROTATABLE = 3;
+var TITLE = 4;
 
 // Paper.js font styles
 

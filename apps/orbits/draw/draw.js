@@ -5,6 +5,10 @@ MAX_SEGMENTS = 700;
 SLOW_ENV = false;
 SPEED = 1;
 
+CLUSTERS = 40;
+CLUSTER_SIZE = window.innerWidth / 4;
+CLUSTER_COMP = 8;
+
 // Number of pixels corresponding to 1 length unit (1 AU)
 PIXELS_PER_AU = PIXELS_PER_AU_1 = 200;
 // Number of pixels corresponding to 1 speed unit (1 AU/day)
@@ -103,6 +107,12 @@ var DrawUtils = {
 
         head2.position = head.position;
 
+        if (options.unclickable) {
+            stem.locked = true;
+            head.locked = true;
+            head2.locked = true;
+        }
+        
         var g = {};
         g.last = tdeg;
 
@@ -330,6 +340,13 @@ var Draw = Backbone.View.extend({
         PLANET_DRAG_SIZE = Math.max(0.5*DRAG_TARGET_MIN_SIZE, 2*PLANET_SIZE);
         PLANET_HALO_DRAG_SIZE = 1.1*PLANET_DRAG_SIZE;
     },
+
+    randomColor: function(rgb, alpha) {
+        return "rgba(" + 
+            ((rgb[0][0] + Math.random() * (rgb[1][0] - rgb[0][0]))|0) + "," +
+            ((rgb[0][1] + Math.random() * (rgb[1][1] - rgb[0][1]))|0) + "," +
+            ((rgb[0][2] + Math.random() * (rgb[1][2] - rgb[0][2]))|0) + "," + alpha + ")";
+    },
     
     createBackgroundStars: function() {
         var R = 0.75*Math.max(view.bounds.width, view.bounds.height);        
@@ -338,6 +355,7 @@ var Draw = Backbone.View.extend({
         
         for (i = 0; i < this.backgroundStars.length; i++)
             this.backgroundStars[i].remove();
+        
         this.backgroundStars = [];
         
         for (i = 1; i <= 3; i++) {
@@ -346,7 +364,7 @@ var Draw = Backbone.View.extend({
             symbols[i] = new Symbol(path);
         }
 
-        for (i = 0; i < STARS; i++) {
+        for (i = 0; i < STARS - CLUSTERS * CLUSTER_COMP; i++) {
             var u = 1-2*Math.random();
             var t = Math.random() * 2 * Math.PI;
             
@@ -363,7 +381,56 @@ var Draw = Backbone.View.extend({
                 s.visible = false;
             this.backgroundStars.push(s);
         }
-    
+
+        var COLOR_RANGES = [
+            [ [ 191, 137, 197 ], [184, 131, 105] ],
+            [ [ 66, 132, 191 ], [57, 140, 136] ],
+            [ [174, 72, 87], [169, 128, 130] ],
+            [ [169, 180, 143], [66, 144, 102]]
+        ];
+
+
+        for (i = 0; i < CLUSTERS; i++) {
+            u = 1-2*Math.random();
+            t = Math.random() * 2 * Math.PI;
+            
+            x = R*Math.sqrt(1-u*u) * Math.cos(t);
+            y = R*Math.sqrt(1-u*u) * Math.sin(t);
+            z = R*u;
+            var s = Math.random();
+            var crange = _.sample(COLOR_RANGES, 1)[0];
+            console.log(s);
+            for (var j = 0; j < CLUSTER_COMP; j++) {
+                var t2 = Math.random() * 2 * Math.PI;
+                var r2 = Math.pow(Math.random(), 0.2) * CLUSTER_SIZE;
+                var x2 = x + r2 * Math.cos(t2) * s * s;
+                var y2 = y + r2 * Math.sin(t2) * (1-s * s);
+                var z2 = z + r2 * Math.random();
+                var cr = ((0.4 + 0.6 * Math.random()) * CLUSTER_SIZE)|0; 
+
+                
+                var blob = new Path.Circle(new Point(x2, y2) + view.center, cr);
+                var c = this.randomColor(crange, 0.1);
+                blob.fillColor = {
+                    gradient: {
+                        stops:[[c, 0.3], ['rgba(0, 0, 0, 0)', 1]],
+                        radial:true
+                    },
+                    origin: blob.position,
+                    destination: blob.bounds.rightCenter
+                };
+                blob.locked = true;
+
+                if (z < 0)
+                    blob.visible = false;
+                blob.coords = {x: x2, y: y2, z: z2, f: 1 };
+                blob.sendToBack();
+                this.backgroundStars.push(blob);
+            }
+            
+        }
+        
+        
     },
 
     rotateBackgroundStars:function(fix) {
@@ -539,6 +606,7 @@ var Draw = Backbone.View.extend({
                 self.star.halo.visible = false;
             }
             if (arg == 'cancel') {
+                console.log('interactive', interactivity);
                 app.set('interactive', interactivity);
                 
                 return false;
@@ -1180,6 +1248,8 @@ var Draw = Backbone.View.extend({
                 var tc = [];
                 var a = els.sma;
                 var e = els.eccentricity;
+                if (e > 0.98)
+                    continue;
                 var r0 = els.r0;
                 var lop = els.longPeri;
                 var p = Math.abs(els.sma * (1-els.eccentricity * els.eccentricity));
@@ -1209,7 +1279,7 @@ var Draw = Backbone.View.extend({
                     }
                     if (lastr) {
                         dtheta = dtheta * 10/(Math.abs(r-lastr) * PIXELS_PER_AU);
-                        if (dtheta < 0.025) dtheta = 0.025;
+                        if (dtheta < 0.01) dtheta = 0.01;
                         if (dtheta > 0.1) dtheta = 0.1;
                     }
 
@@ -1572,6 +1642,10 @@ var Draw = Backbone.View.extend({
                 }            
             }
         }, this);
+
+        _.each(this.backgroundStars, function(s) {
+            s.sendToBack();
+        });
         this.transformation.stretch = PIXELS_PER_AU;
 
 
@@ -1584,11 +1658,11 @@ var Draw = Backbone.View.extend({
         
         if (app.get('state') == RUNNING)
             this.bobStar();
-
+        
         if (app.get('state') == MENU) {
             this.fly();
-        } else if (app.get('state') == PAUSED)
-            this.cancelFly();
+        }
+        
     },
 
     resetView: function() {
@@ -1661,9 +1735,10 @@ var Draw = Backbone.View.extend({
 
         this.listenTo(this.model, "reset start", function() {           
             this.resetView();
+        });
+        this.listenTo(this.model, "startLevel", function() {
             this.cancelFly();
         });
-
 
         this.listenTo(this.model, "change:currentMission", this.animateTravel);
         //        this.listenTo(this.model, "change:state change:elements", this.trailsUpdate);
@@ -1690,7 +1765,7 @@ var samplingFramesCount = 20;
 var samplingStart;
 var targetFrameRate = 40;
 var trials = 0;
-var maxTrials = 2;
+var maxTrials = 1;
 
 function onFrame(event) {
     if (sampling) {

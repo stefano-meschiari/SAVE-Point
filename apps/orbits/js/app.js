@@ -889,7 +889,7 @@ var AppView = Backbone.View.extend({
      */
     
     missionTemplate: _.template('<div class="title"><%= title %></div><div class="subtitle"><%= subtitle %></div>'),
-    missionDelay: 7000,
+    missionDelay: 6000,
     topHideTimer: null,
 
     renderTopText: function(text, hide) {
@@ -900,14 +900,28 @@ var AppView = Backbone.View.extend({
         $("#text-top").addClass("expanded");
         $("#text-top").removeClass("in-front");
 
+        $("#sidebar").hide();
+        $("#help-text").removeClass("expanded");
+        $("#info-top").hide();
+        draw.fly();
+        app.set('interactive', false);
+        
         if (this.topHideTimer)
             clearTimeout(this.topHideTimer);
 
-        if (hide)
-            this.topHideTimer = _.delay(function() {
-                $("#text-top").removeClass("expanded");
-                $("#text-top").removeClass("in-front");        
-            }, this.missionDelay);
+        console.log('interactive', app.get('interactive'));
+        this.topHideTimer = _.delay(function() {
+            $("#text-top").removeClass("expanded");
+            $("#text-top").removeClass("in-front");
+            if (app.get('state') != MENU) {
+                $("#sidebar").show();
+                $("#info-top").show();
+            }
+
+            app.set('interactive', true);
+            console.log('interactive', app.get('interactive'));
+            app.trigger('startLevel');
+        }, this.missionDelay);
     },
     
     renderMission: function() {
@@ -1200,7 +1214,6 @@ var MessageView = Backbone.View.extend({
         self.lastHelp = helpText;
         
         _.defer(function() {
-            app.set('interactive', true);
             app.resetFlags();
         });
         _.defer(function() {

@@ -74,7 +74,7 @@ missions:
     constraints:
       nplanets: 1
     help:      
-      - on: start
+      - on: startLevel
         message: |          
           @fly @noninteractive @groknar
           "I quit!" said Groknar, Lead Engineer of Nova Planetia and head of planetary development, 
@@ -408,7 +408,7 @@ missions:
 
 
 
-  - title: Speed vs. distance (40 km/s)
+  - title: Speed vs. distance 1
     subtitle: Add a planet in a circular orbit at 40 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs
@@ -425,7 +425,7 @@ missions:
       It turns out that the Arkanids didn't like the first planet.  Perhaps the shadows were wrong.  Now the 
       Arkanids DEMAND that you make a new system with their planet moving at a very specific speed.
     help:
-      - on: start
+      - on: startLevel
         message: >
           In this mission, your planet will have a *fixed speed (40 km/s)*
           and a *fixed direction* (perpendicular to the direction towards the star).
@@ -447,7 +447,7 @@ missions:
     win: So circular!
     lose: The chocolate pod plants are ruined.  Try moving the planet to a different distance.
 
-  - title: Speed vs. distance (30 km/s)
+  - title: Speed vs. distance 2
     subtitle: Add a planet in a circular orbit at 30 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs
@@ -476,7 +476,7 @@ missions:
           @arkanid
           This planet looks better than the last one you made, but we still need to test the growing conditions.
 
-  - title: Speed vs. distance (25 km/s)
+  - title: Speed vs. distance 3
     subtitle: Add a planet in a circular orbit at 25 km/s.
     rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs    
@@ -505,7 +505,7 @@ missions:
           @arkanid
           We think this planet should be perfect for our chocolate pod plants!
 
-  - title: The Speed of Planets/2
+  - title: The Speed of Planets 2
     enabled: true
     value: 1
     type: single-choice
@@ -626,7 +626,7 @@ missions:
     enabled: true
     hidden: true
     help:
-      - on: start
+      - on: startLevel
         showOnce: true
         message: |          
           @boss
