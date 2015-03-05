@@ -5,8 +5,8 @@ MAX_SEGMENTS = 700;
 SLOW_ENV = false;
 SPEED = 1;
 
-CLUSTERS = 40;
-CLUSTER_SIZE = window.innerWidth / 4;
+CLUSTERS = 20;
+CLUSTER_SIZE = window.innerWidth / 6;
 CLUSTER_COMP = 8;
 
 // Number of pixels corresponding to 1 length unit (1 AU)
@@ -410,10 +410,10 @@ var Draw = Backbone.View.extend({
 
                 
                 var blob = new Path.Circle(new Point(x2, y2) + view.center, cr);
-                var c = this.randomColor(crange, 0.1);
+                var c = this.randomColor(crange, 0.2);
                 blob.fillColor = {
                     gradient: {
-                        stops:[[c, 0.3], ['rgba(0, 0, 0, 0)', 1]],
+                        stops:[[c, 0.], ['rgba(0, 0, 0, 0)', 1]],
                         radial:true
                     },
                     origin: blob.position,
