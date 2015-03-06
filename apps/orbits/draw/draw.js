@@ -1248,7 +1248,7 @@ var Draw = Backbone.View.extend({
                 var tc = [];
                 var a = els.sma;
                 var e = els.eccentricity;
-                if (e > 0.98)
+                if (e > 0.98 && e < 1.01)
                     continue;
                 var r0 = els.r0;
                 var lop = els.longPeri;
@@ -1765,7 +1765,7 @@ var samplingFramesCount = 20;
 var samplingStart;
 var targetFrameRate = 40;
 var trials = 0;
-var maxTrials = 1;
+var maxTrials = 3;
 
 function onFrame(event) {
     if (sampling) {

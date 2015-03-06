@@ -720,6 +720,18 @@ td.td-val {
   }
 }
 
+.star-rotate {
+  0% { transform:scale(1.2); }
+  100% { transform:scale(0.8); }
+}
+
+@-webkit-keyframes rotate-star {
+  .star-rotate;
+}
+@keyframes rotate-star {
+  .star-rotate;
+}
+  
 .icon-win {
   .fa;
   &:before {
@@ -728,6 +740,10 @@ td.td-val {
 }
 
 .icon-win-star {
+  -webkit-animation: rotate-star 1s infinite;
+  -webkit-animation-direction:alternate;
+  animation: rotate-star 1s infinite;  
+  animation-direction:alternate;
   .fa;
   &:before {
     content: @fa-var-star;
@@ -735,6 +751,10 @@ td.td-val {
 }
 
 .icon-win-star-o {
+  -webkit-animation: rotate-star 1s infinite;
+  -webkit-animation-direction:alternate;
+  animation: rotate-star 1s infinite;  
+  animation-direction:alternate;
   .fa;
   &:before {
     content: @fa-var-star-o;

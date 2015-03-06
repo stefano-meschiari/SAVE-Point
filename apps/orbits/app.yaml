@@ -171,7 +171,7 @@ missions:
           draw.showForces(0);
           }, function() { draw.hideForces(); app.setPositionForBody(0, window.ORIGINAL_X); }, 1000);
           });
-          _.delay(function() { $("#help-next").fadeIn();  }, 15000);
+          _.delay(function() { $("#help-next").fadeIn();  }, 5000);
           
       - on: proceed
         message: >
