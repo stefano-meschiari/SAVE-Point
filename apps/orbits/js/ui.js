@@ -1,6 +1,6 @@
 "use strict";
 
-(function() {
+var UI = (function() {
 
     // Init tooltips
     if (device.desktop()) {
@@ -19,13 +19,31 @@
             var start = 0;
             document.getElementById('app-menu-map-container').addEventListener('touchstart', function(e) {
                 start = this.scrollTop + event.touches[0].pageY;
-//                event.preventDefault();
             });
             document.getElementById('app-menu-map-container').addEventListener('touchmove', function(e) {
                 this.scrollTop = start - event.touches[0].pageY;
-//                event.preventDefault();
             });
             
         }
-    });    
+    });
+
+    var touchDevice = device.tablet() || device.mobile();
+    return {
+        touchDevice: touchDevice,
+        clickEvent: (touchDevice ? "touchstart" : "click"),
+
+        makeEventTable: function(table) {
+            if (!touchDevice)
+                return table;
+            
+            var ret = {};
+
+            _.each(table, function(value, key) {
+                ret[key.replace("click", "touchstart")] = value;
+            });
+
+            return ret;
+        }
+        
+    };
 })();

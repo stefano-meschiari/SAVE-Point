@@ -1,5 +1,6 @@
 ---
-- world: Arcturus Nebula
+- world: Kepler Nebula
+  num: 1
   bg: img/arcturus.jpg
   travel-bg: img/arcturus_travel.jpg
   levels:

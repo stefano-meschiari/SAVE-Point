@@ -121,7 +121,7 @@ write_mission_rules($cfg);
       <div class="sidebar-title">Game settings</div>
     </div>
     <div class="sidebar-item">
-      <button id="dashboard" class="btn-jrs-ico icon-dashboard" title="Back to Dashboard" data-tooltip-content="{pos: 'right', offset:20}"></button>
+      <button id="dashboard" class="dashboard btn-jrs-ico icon-dashboard" title="Back to Dashboard" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Back to dashboard</div>
     </div>
 
@@ -135,34 +135,23 @@ write_mission_rules($cfg);
   </div>
 </div>
 
-<div id="app-message" style="display:none">
-  <div id="app-message-container">
-    <div id="app-message-body">
-      
-    </div>
-    <div id="app-message-close" class="btn-jrs-ico fa fa-close" onClick="$('#app-message').hide();"></div>
-  </div>
-</div>
-
-
 <div id="app-menu" class="animated">
   <div id="app-menu-map-container">
       <div id="app-menu-world">
-          <div id="app-menu-world-stars"">
+          <div id="app-menu-world-stars">
               <span class="icon-win-star color-accent"></span>&times;<span id="app-menu-stars-earned">20</span>
           </div>
-          <div id="app-menu-world-name">Hello!</div>
-
-      
-    </div>
+          <div id="app-menu-world-name">
+          </div>
+      </div>
     <div id="app-menu-map">
       
     </div>
   </div>
   <div id="app-menu-text">
-    <button class="dashboard btn-jrs-ico icon-dashboard" title="Back to Dashboard" data-tooltip-content="{pos: 'bottom', offset:20}" onClick="window.location.href='/';"></button>
+    <button id="menu-dashboard" class="dashboard btn-jrs-ico icon-dashboard" title="Back to Dashboard" data-tooltip-content="{pos: 'bottom', offset:20}"></button>
     <button class="settings btn-jrs-ico fa fa-sliders"  data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-tooltip-content="{pos: 'bottom', offset:20}"></button>
-    <button class="settings btn-jrs-ico icon-sandbox" onClick='app.setMission("sandbox");' title="Practice Mode" data-tooltip-content="{pos: 'bottom', offset: 20}"></button>
+    <button class="settings btn-jrs-ico icon-sandbox" id="menu-practice" title="Practice Mode" data-tooltip-content="{pos: 'bottom', offset: 20}"></button>
 
     <div id="app-menu-text-top">
       <div id="app-menu-mission-title" class="title"></div>
@@ -219,7 +208,8 @@ write_mission_rules($cfg);
  </div>
  
   <script type="text/javascript" src="../share/js/init.js"></script>
-  
+
+  <script type="text/javascript" src="js/ui.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/templates.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
@@ -227,7 +217,6 @@ write_mission_rules($cfg);
 <script type="text/javascript" src="js/drag-choice.js"></script>
 <script type="text/javascript" src="js/speech.js"></script>
 <script type="text/javascript" src="js/settings.js"></script>
-<script type="text/javascript" src="js/ui.js"></script>
 <script type="text/javascript" src="js/actions.js"></script>
 <script type="text/javascript" src="js/debug.js"></script>
 

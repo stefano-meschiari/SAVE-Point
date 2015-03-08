@@ -12,9 +12,11 @@ var AppMenuView = Backbone.View.extend({
     currentWorld: 0,
     currentWorldName: null,
     
-    events: {
-        "click #app-menu-start": function() { this.start(); }
-    },
+    events: UI.makeEventTable({
+        "click #app-menu-start": function() { this.start(); },
+        "click #menu-dashboard": function() { location.href='/'; },
+        "click #menu-practice": function() { app.setMission('sandbox'); }
+    }),
     
     initialize: function() {
         this.listenTo(this.model, "change:state", this.render);
@@ -96,7 +98,7 @@ var AppMenuView = Backbone.View.extend({
 
         if (allowed)
             _.defer(function() {
-                $("#app-menu-mission-box-" + rl.get('name')).on("click", function() {
+                $("#app-menu-mission-box-" + rl.get('name')).on(UI.clickEvent, function() {
                     self.select(rl.get('name'), false);
                 });
             });

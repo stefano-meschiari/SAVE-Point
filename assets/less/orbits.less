@@ -287,7 +287,7 @@ left:430px;
 #canvas-container {
   //background:url('../img/bg.jpg')
   background-color:black;
-  background-image: linear-gradient(to bottom, rgb(0, 0, 0) 0%, rgb(40, 40, 40) 100%); 
+//  background-image: linear-gradient(to bottom, rgb(0, 0, 0) 0%, rgb(40, 40, 40) 100%); 
 }
 
 #canvas {
@@ -721,8 +721,10 @@ td.td-val {
 }
 
 .star-rotate {
-  0% { transform:scale(1.2); }
-  100% { transform:scale(0.8); }
+  0% { transform:scale(0.8) }
+  25% { transform:scale(1.2) }
+  50% { transform: scale(0.8) }
+  100% { transform: scale(0.8) }
 }
 
 @-webkit-keyframes rotate-star {
@@ -744,6 +746,7 @@ td.td-val {
   -webkit-animation-direction:alternate;
   animation: rotate-star 1s infinite;  
   animation-direction:alternate;
+  
   .fa;
   &:before {
     content: @fa-var-star;

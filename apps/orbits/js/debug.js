@@ -10,6 +10,16 @@ window._debug = {
         });
     
         app.menu();
+    },
+    loseAll: function() {
+        var missions = app.get('missions');
+
+        missions.each(function(mission) {
+            mission.set('stars', 0);
+            mission.set('completed', false);
+        });
+    
+        app.menu();
     }
 };
 

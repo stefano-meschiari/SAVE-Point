@@ -6,8 +6,8 @@ SLOW_ENV = false;
 SPEED = 1;
 
 CLUSTERS = 20;
-CLUSTER_SIZE = window.innerWidth / 6;
-CLUSTER_COMP = 8;
+CLUSTER_SIZE = window.innerWidth / 10;
+CLUSTER_COMP = 4;
 
 // Number of pixels corresponding to 1 length unit (1 AU)
 PIXELS_PER_AU = PIXELS_PER_AU_1 = 200;
@@ -341,11 +341,11 @@ var Draw = Backbone.View.extend({
         PLANET_HALO_DRAG_SIZE = 1.1*PLANET_DRAG_SIZE;
     },
 
-    randomColor: function(rgb, alpha) {
+    randomColor: function(rgb) {
         return "rgba(" + 
             ((rgb[0][0] + Math.random() * (rgb[1][0] - rgb[0][0]))|0) + "," +
             ((rgb[0][1] + Math.random() * (rgb[1][1] - rgb[0][1]))|0) + "," +
-            ((rgb[0][2] + Math.random() * (rgb[1][2] - rgb[0][2]))|0) + "," + alpha + ")";
+            ((rgb[0][2] + Math.random() * (rgb[1][2] - rgb[0][2]))|0) + ",";
     },
     
     createBackgroundStars: function() {
@@ -364,6 +364,8 @@ var Draw = Backbone.View.extend({
             symbols[i] = new Symbol(path);
         }
 
+        
+        
         for (i = 0; i < STARS - CLUSTERS * CLUSTER_COMP; i++) {
             var u = 1-2*Math.random();
             var t = Math.random() * 2 * Math.PI;
@@ -389,38 +391,44 @@ var Draw = Backbone.View.extend({
             [ [169, 180, 143], [66, 144, 102]]
         ];
 
+        symbols = [];
+        for (i = 0; i < CLUSTER_COMP; i++) {
+            var cr = ((0.2 + 0.8 * Math.random()) * CLUSTER_SIZE)|0; 
+            
+            var blob = new Path.Circle(new Point(0, 0), cr);
+            var crange = _.sample(COLOR_RANGES, 1)[0];
+            var c = this.randomColor(crange);
+            blob.fillColor = {
+                gradient: {
+                    stops:[[c + "0.3)", 0.], [c + "0)", 1]],
+                    radial:true
+                },
+                origin: blob.position,
+                destination: blob.bounds.rightCenter
+            };
+            blob.locked = true;
+
+            symbols[i] = new Symbol(blob);
+        }
 
         for (i = 0; i < CLUSTERS; i++) {
             u = 1-2*Math.random();
             t = Math.random() * 2 * Math.PI;
+            var fac = (i == 0 ? 0.1 : 1);
             
             x = R*Math.sqrt(1-u*u) * Math.cos(t);
             y = R*Math.sqrt(1-u*u) * Math.sin(t);
             z = R*u;
-            var s = Math.random();
-            var crange = _.sample(COLOR_RANGES, 1)[0];
-            console.log(s);
+            var s = Math.random() + 0.1;
             for (var j = 0; j < CLUSTER_COMP; j++) {
                 var t2 = Math.random() * 2 * Math.PI;
                 var r2 = Math.pow(Math.random(), 0.2) * CLUSTER_SIZE;
                 var x2 = x + r2 * Math.cos(t2) * s * s;
                 var y2 = y + r2 * Math.sin(t2) * (1-s * s);
                 var z2 = z + r2 * Math.random();
-                var cr = ((0.4 + 0.6 * Math.random()) * CLUSTER_SIZE)|0; 
 
-                
-                var blob = new Path.Circle(new Point(x2, y2) + view.center, cr);
-                var c = this.randomColor(crange, 0.2);
-                blob.fillColor = {
-                    gradient: {
-                        stops:[[c, 0.], ['rgba(0, 0, 0, 0)', 1]],
-                        radial:true
-                    },
-                    origin: blob.position,
-                    destination: blob.bounds.rightCenter
-                };
-                blob.locked = true;
-
+                var idx = (symbols.length*Math.random())|0;
+                blob = symbols[idx].place(new Point(x2, y2) + view.center);
                 if (z < 0)
                     blob.visible = false;
                 blob.coords = {x: x2, y: y2, z: z2, f: 1 };
@@ -550,7 +558,6 @@ var Draw = Backbone.View.extend({
     },
 
     pushAnimation: function(name, fun) {
-        console.log(name);
         var f = {f: _.bind(fun, this), name: name};
         this.animations.push(f);
     },
@@ -560,7 +567,6 @@ var Draw = Backbone.View.extend({
             if (this.animations[i].name == name) {
                 this.animations[i].f('cancel');
                 this.animations.splice(i, 1);
-                console.log('Canceling', name);        
             }
         }
     },
@@ -606,7 +612,6 @@ var Draw = Backbone.View.extend({
                 self.star.halo.visible = false;
             }
             if (arg == 'cancel') {
-                console.log('interactive', interactivity);
                 app.set('interactive', interactivity);
                 
                 return false;
@@ -804,7 +809,6 @@ var Draw = Backbone.View.extend({
 
     restoreSizes: function() {
         var star = this.star;
-        console.log("Restoring sizes");
         star.bounds.width = 2*STAR_SIZE;
         star.bounds.height = 2*STAR_SIZE;
         star.halo.bounds.width = 2*STAR_HALO_SIZE;
@@ -915,12 +919,10 @@ var Draw = Backbone.View.extend({
                 trials++;
                 if (trials > 5)
                     break;
-                console.log(point.x, point.y, blocked, changed, trials);
             }
 
             if (changed) {
                 var c = [(point.x - this.star.position.x)/PIXELS_PER_AU, (point.y - this.star.position.y) / PIXELS_PER_AU, 0];
-                console.log(c);
                 app.setPositionForBody(i, c);                
             }
         }
@@ -1777,6 +1779,8 @@ function onFrame(event) {
             samplingStart = new Date();
         else if (samplingFrames == 100) {
             var perf = samplingFrames / (new Date() - samplingStart) * 1000;
+            console.log(perf, STARS, MAX_SEGMENTS);
+
             if (perf >= targetFrameRate) {
                 sampling = false;
             } else {
@@ -1784,12 +1788,10 @@ function onFrame(event) {
                 MAX_SEGMENTS = (MAX_SEGMENTS * 0.5 * (1 + perf / targetFrameRate))|0;
                 SPEED = targetFrameRate / perf;
                 draw.createBackgroundStars();
-                console.log('STARS:', STARS, 'MAX_SEGMENTS', MAX_SEGMENTS);
                 
                 samplingFrames = 0;
                 samplingStart = new Date();
             }
-            console.log(perf);
             trials++;
         }
         samplingFrames++;

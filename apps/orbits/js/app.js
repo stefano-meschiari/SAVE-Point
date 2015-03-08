@@ -10,6 +10,8 @@
 
 "use strict";
 
+
+
 /* Read-only computed properties. */
 Backbone.ROComputedModel = Backbone.Model.extend({
     /*
@@ -813,30 +815,33 @@ var app = new App();
  * The top-level view object. It manages updates to the interface due to model events,
  * and binds to events within the #app div element (e.g. button clicks).
  */
+
+
+
 var AppView = Backbone.View.extend({
     // Top-level container
     el: $("#app"),
 
     // Events table mapping button to UI updates.
-    events: {
+    events: UI.makeEventTable({
         "click #menu": function() { $("#sidebar").toggleClass("expanded"); },
-        "click #help": function() { this.renderMission(); app.trigger('hint'); },
+        "click #help": function() { app.mainView.renderMission(); app.trigger('hint'); },
         "click #practice": function() { app.setMission('sandbox'); },
         "click #reset": function() { app.reset(); },
         "click #missions": function() { app.menu(); },
-        "click #dashboard": function() { location.href='../dashboard/'; },
         "click #sizes": function() { app.set('physicalSizes', !app.get('physicalSizes')); },
         "click #zoom-in": function() { draw.setZoom(draw.zoom*2); },
         "click #zoom-out": function() { draw.setZoom(draw.zoom/2); },
         "click #zoom": function() { $("#toolbar-zoom").addClass("expanded").removeClass("hidden"); },
         "click #zoom-close": function() { $("#toolbar-zoom").removeClass("expanded").addClass("hidden"); }
-        
-    },
+    }),
 
     // Binds functions to change events in the model.
     initialize: function() {
         var self = this;
 
+        
+        
         // Update information when planetary parameters change
         self.listenTo(self.model, 'change:nplanets change:time change:position change:velocity change:elements change:selectedPlanet', _.throttle(self.renderInfo, 200));
         
@@ -1150,7 +1155,7 @@ var MessageView = Backbone.View.extend({
         
         this.listenTo(this.model, "win lose", function() { self.render(null); });
         var self = this;
-        $("#help-next").on("click", function() { self.model.proceed(); });
+        $("#help-next").on(UI.clickEvent, function() { self.model.proceed(); });
     },
 
 
@@ -1236,9 +1241,9 @@ var MessageView = Backbone.View.extend({
             self.$el.html(helpText);
             self.shown[help.id] = true;
             var plainText = self.plainText(helpText);
-            $("#help-next").on("click", function() { self.listener.proceed(); } );
-            $("#help-close").on("click", function() { self.hide(); });
-            $("#help-next-mission").on("click", function() { self.model.nextMission(); } );
+            $("#help-next").on(UI.clickEvent, function() { self.listener.proceed(); } );
+            $("#help-close").on(UI.clickEvent, function() { self.hide(); });
+            $("#help-next-mission").on(UI.clickEvent, function() { self.model.nextMission(); } );
             
             $("#help-text").addClass("expanded");
             app.trigger('show:help');
