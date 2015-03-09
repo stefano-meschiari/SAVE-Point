@@ -1026,6 +1026,7 @@ var AppView = Backbone.View.extend({
 
         if (state == MENU) {
             $("#sidebar").hide();
+            $("#sidebar").removeClass("expanded");
             $("#help-text").removeClass("expanded");
             $("#help-text").removeClass("large");
             
