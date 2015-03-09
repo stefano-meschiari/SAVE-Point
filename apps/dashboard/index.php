@@ -42,7 +42,7 @@ include('canvas.html');
   <div id="content">
       <div class="uk-grid">
         <div class="app-col uk-width-1-3">
-          <a href="/orbits/?mission=quickgravity"><img src="img/orbits.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
+          <a href="/orbits/?mission=quickgravity"><img src="img/gravity.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
           <div class="app-title">
             Gravity           
           </div>
