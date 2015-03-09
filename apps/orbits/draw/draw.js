@@ -1,5 +1,5 @@
 // Number of stars
-STARS = 500;
+STARS = 300;
 CANVAS_ID = 'canvas';
 MAX_SEGMENTS = 700;
 SLOW_ENV = false;
@@ -1770,9 +1770,14 @@ var trials = 0;
 var maxTrials = 3;
 
 function onFrame(event) {
+    if (!app.get('alive')) {
+        return;
+    }
+    
     if (sampling) {
         if (trials > maxTrials) {
             sampling = false;
+            app.trigger('sampled');
             SLOW_ENV = true;
         }
         if (samplingFrames == 0)
@@ -1783,6 +1788,7 @@ function onFrame(event) {
 
             if (perf >= targetFrameRate) {
                 sampling = false;
+                app.trigger('sampled');
             } else {
                 STARS = (STARS * 0.5 * (1 + perf / targetFrameRate))|0;
                 MAX_SEGMENTS = (MAX_SEGMENTS * 0.5 * (1 + perf / targetFrameRate))|0;

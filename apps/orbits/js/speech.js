@@ -23,13 +23,12 @@ var SoundEngine = Backbone.ROComputedModel.extend({
             this.musicPlayer.volume = app.get('musicVolume');
         });
 
-        window.onfocus = function() {
-            self.musicPlayer.volume = app.get('musicVolume');
-        };
-
-        window.onblur = function() {
-            self.musicPlayer.volume = 0.;
-        };
+        this.listenTo(app, "change:alive", function() {
+            if (app.get('alive'))
+                self.musicPlayer.volume = app.get('musicVolume');
+            else
+                self.musicPlayer.volume = 0;
+        });
         
     },
 

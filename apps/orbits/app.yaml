@@ -43,7 +43,7 @@ assets:
     creep: sounds/creep_v2.mp3
     bloop: sounds/bloop-dungeon_v3.mp3
     lurk: sounds/lurk_v3.mp3
-    tittery: sounds/tittery.mp3
+    titter: sounds/titter.mp3
   effects:
     lose: sounds/lose.wav
     win: sounds/win.wav
@@ -128,13 +128,13 @@ missions:
           
       - on: proceed
         message: >
-          @boss @disable-star  @disable-planet-drag @disable-velocity @disable-force
+          @boss @disable-star  @disable-planet-drag @disable-velocity @disable-force @interactive
           First, *@icon-tap tap anywhere* to add a new planet. 
            
       - on: change:nplanets
         message: >
-          @boss @disable-star @disable-velocity @disable-force @refresh @validateplanetpositions
-          That's your first planet! Now try to *@icon-drag drag the planet*
+          @boss @disable-star @disable-velocity @disable-force @refresh @validateplanetpositions  @interactive
+          That's your first planet! Now try to *@icon-drag @color-cyan{drag the planet}*
           to change its position.
 
       - on: planet:drag
@@ -147,7 +147,7 @@ missions:
       - on: proceed
         message: |
           @boss @disable-star @disable-planet-drag @disable-velocity
-          *Check out that yellow arrow!*
+          *Check out that @color-force{yellow arrow}!*
 
 
           As you move the planet closer and further away from the star, the force of gravity from the star pulling on the planet gets stronger and weaker.  The yellow arrow represents the amount of force pulling on the planet.
@@ -176,7 +176,7 @@ missions:
       - on: proceed
         message: >
           @disable-star @refresh @boss  @validateplanetpositions
-          Now try to @icon-drag *drag the head of the green speed arrow* to change the speed
+          Now try to @icon-drag *drag the @color-cyan{head of the green speed arrow}* to change the speed
           and direction of the planet, and see its speed change in the upper right. 
 
       - on: planet:dragvelocity
@@ -211,7 +211,7 @@ missions:
     enabled: true
     subtitle: Make your planet collide with the star.
     win: Those were impressive fireworks!
-    lose: You avoided crashing into the star.  Try again.
+    lose: You avoided crashing into the star.
     icon: icon-crash
     music: groove
     colors: red
@@ -240,11 +240,11 @@ missions:
       
 
   - title: Ejected!
-    rule: nplanets > 0 && elements[0].eccentricity > 0.9 && !collided
+    rule: nplanets > 0 && elements[0].eccentricity > 1. && !collided
     name: ejected
     colors: orange
     starsrule: |
-      (elements[0].eccentricity < 1.25 ? 3 : (elements[0].eccentricity < 1.75 ? 2 : 1))
+      (elements[0].eccentricity < 2 ? 3 : (elements[0].eccentricity < 5 ? 2 : 1))
     enabled: true
     music: sad
     subtitle: Add a planet that escapes the pull of its star.
@@ -336,7 +336,7 @@ missions:
     type: single-choice
     icon: icon-question
     name: elliptical_question
-    music: tittery
+    music: titter
     subtitle: Earn an extra star by answering this question!
     intro: |
       @boss
@@ -366,7 +366,7 @@ missions:
           @practice-mode
 
   - title: Circular Orbit
-    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
+    rule: nplanets > 0 && elements[0].eccentricity < 0.2 && elements[0].eccentricity > -0.001 && !collided
     starsrule: |
       (elements[0].sma > 2 ? 1 : (elements[0].sma < 1 ? 2 : 3))
     enabled: true
@@ -410,7 +410,7 @@ missions:
 
   - title: Speed vs. distance 1
     subtitle: Add a planet in a circular orbit at 40 km/s.
-    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
+    rule: nplanets > 0 && elements[0].eccentricity < 0.2 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs
     colors: blue
     music: lurk
@@ -449,7 +449,7 @@ missions:
 
   - title: Speed vs. distance 2
     subtitle: Add a planet in a circular orbit at 30 km/s.
-    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
+    rule: nplanets > 0 && elements[0].eccentricity < 0.2 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs
     music: lurk
     name: speed_vs_distance_30
@@ -478,7 +478,7 @@ missions:
 
   - title: Speed vs. distance 3
     subtitle: Add a planet in a circular orbit at 25 km/s.
-    rule: nplanets > 0 && elements[0].eccentricity < 0.15 && elements[0].eccentricity > -0.001 && !collided
+    rule: nplanets > 0 && elements[0].eccentricity < 0.2 && elements[0].eccentricity > -0.001 && !collided
     icon: icon-circ-rvs    
     colors: blue
     name: speed_vs_distance_25
@@ -510,7 +510,7 @@ missions:
     value: 1
     type: single-choice
     icon: icon-question
-    music: tittery
+    music: titter
     name: circular_question
     subtitle: Earn an extra star by answering this question!
     intro: |

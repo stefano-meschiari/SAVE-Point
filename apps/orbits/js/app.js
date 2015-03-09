@@ -111,6 +111,7 @@ var App = Backbone.ROComputedModel.extend({
             missions: null,
             // interactive?
             interactive: true,
+            alive: true,
             // invalid?
             invalid:false,
             // has a collision happened?
@@ -352,7 +353,7 @@ var App = Backbone.ROComputedModel.extend({
      * of all bodies.
      */
     tick: function() {
-        if (this.get('invalid') || this.get('state') == MENU)
+        if (this.get('invalid') || this.get('state') == MENU || !this.get('alive'))
             return;
         
         var t = this.get('time');
@@ -464,7 +465,6 @@ var App = Backbone.ROComputedModel.extend({
         mission.set('elements', this.elements());
         mission.set('lastPlayed', new Date());
 
-        
         this.trigger('win' + this.stars());
         this.trigger('win');
         app.saveMissionData();
@@ -655,6 +655,8 @@ var App = Backbone.ROComputedModel.extend({
                             console.error("Mission named " + missionsData[i].name + " has either 0 or multiple corresponding missions in the configuration file.");
                             continue;
                         }
+
+                        
                         
                         which[0].set(missionsData[i]);
                     }
@@ -825,7 +827,7 @@ var AppView = Backbone.View.extend({
     // Events table mapping button to UI updates.
     events: UI.makeEventTable({
         "click #menu": function() { $("#sidebar").toggleClass("expanded"); },
-        "click #help": function() { app.mainView.renderMission(); app.trigger('hint'); },
+        "click #help": function() { app.mainView.renderMission(true); app.trigger('hint'); },
         "click #practice": function() { app.setMission('sandbox'); },
         "click #reset": function() { app.reset(); },
         "click #missions": function() { app.menu(); },
@@ -833,7 +835,8 @@ var AppView = Backbone.View.extend({
         "click #zoom-in": function() { draw.setZoom(draw.zoom*2); },
         "click #zoom-out": function() { draw.setZoom(draw.zoom/2); },
         "click #zoom": function() { $("#toolbar-zoom").addClass("expanded").removeClass("hidden"); },
-        "click #zoom-close": function() { $("#toolbar-zoom").removeClass("expanded").addClass("hidden"); }
+        "click #zoom-close": function() { $("#toolbar-zoom").removeClass("expanded").addClass("hidden"); },
+        "click #dashboard": function() { location.href = "/"; }
     }),
 
     // Binds functions to change events in the model.
@@ -869,17 +872,24 @@ var AppView = Backbone.View.extend({
 
             var els = app.elements();
             var deltat = app.get('deltat');
-            var Pmax = _.reduce(els, function(memo, el) {
-                return Math.max(memo, el.period);
+            var Pmin = _.reduce(els, function(memo, el) {
+                return Math.min(memo, el.period);
+            }, 1e10);
+            var emax = _.reduce(els, function(memo, el) {
+                return Math.max(memo, el.eccentricity);
             }, 0);
+            
 
             var secs = 7000;
-            if (! isNaN(Pmax)) {
-                secs = Pmax / deltat * (1/60) * 1000;
+            if (app.get('collided') || emax > 0.99)
+                secs = Pmin/4; // temporary
+
+            if (! isNaN(Pmin)) {
+                secs = Pmin / deltat * (1/60) * 1000;
             }
             
+            
             var wait = Math.min(secs, 7000);
-            console.log(Pmax, secs);
             self.validateTimer = _.delay(_.bind(self.validate, self), secs);
         });
     },
@@ -893,10 +903,7 @@ var AppView = Backbone.View.extend({
      * and icons of the missions.
      */
     
-    missionTemplate: _.template('<div class="title"><%= title %></div><div class="subtitle"><%= subtitle %></div>'),
-    missionDelay: 6000,
-    topHideTimer: null,
-
+    /*
     renderTopText: function(text, hide) {
         if (!app.loaded)
             return;
@@ -927,18 +934,59 @@ var AppView = Backbone.View.extend({
             console.log('interactive', app.get('interactive'));
             app.trigger('startLevel');
         }, this.missionDelay);
-    },
-    
-    renderMission: function() {
+    },*/
+
+    missionTemplate: _.template('<div class="title"><%= title %></div><div class="subtitle"><%= subtitle %></div>'),
+    missionDelay: 6000,
+    missionQuickDelay: 2000,
+
+    renderMission: function(hint) {
         // Check if the top banner is already expanded; if it is, hide it
         // temporarily and show it again.
-        if (app.get('state') != PAUSED)
+        if (app.get('state') != PAUSED || !app.loaded || this.missionBannerShowing)
             return;
-        
         var current = this.model.get('currentMission');
         var mission = this.model.get('missions').at(current);
         
-        this.renderTopText(this.missionTemplate(mission.attributes), true);        
+        $("#text-top").html(this.missionTemplate(mission.attributes));
+        $("#text-top").addClass("expanded");
+        $("#text-top").removeClass("in-front");
+
+        $("#sidebar").hide();
+
+        if (!hint) {
+            draw.fly();
+            app.set('interactive', false);
+            $("#help-text").removeClass("expanded");
+            $("#info-top").hide();
+        }
+
+
+        var delay = this.missionDelay;
+        if (this.lastMission == mission)
+            delay = this.missionQuickDelay;
+
+        this.lastMission = mission;
+        this.missionBannerShowing = true;
+
+        var self = this;
+        this.missionHideTimer = _.delay(function() {
+            if (app.get('state') != MENU) {
+                $("#sidebar").show();
+                $("#info-top").show();
+            }
+
+            $("#text-top").removeClass("expanded");
+            $("#text-top").removeClass("in-front");
+            
+            if (!hint) {
+                app.set('interactive', true);
+                app.trigger('startLevel');
+            }
+            
+            self.missionBannerShowing = false;
+        }, delay);
+
     },
 
     els: {},
@@ -979,6 +1027,8 @@ var AppView = Backbone.View.extend({
         if (state == MENU) {
             $("#sidebar").hide();
             $("#help-text").removeClass("expanded");
+            $("#help-text").removeClass("large");
+            
             $("#info-top").hide();
             $("#help").hide();
             $("#text-top").removeClass("expanded");
@@ -1018,41 +1068,12 @@ var AppView = Backbone.View.extend({
     /*
      * Render win.
      */
-
-    winTemplate: _.template('<div class="font-l"><%= win %></div><div class="font-l"><div class="color-accent"><%= stars %></div><button class="btn-jrs font-m" onClick="app.menuView.selectNextMission(); app.menu();"><span class="fa fa-graduation-cap"></span> Go to the next mission!</button></div>'),
-    defaultEncouragement: 'Good job!',
-    winDelayMax: 10000,
-    approxFrameRate: 1/60.,
     
     renderWin: function() {
-        var mission = app.mission();
-        var els = app.get('elements');
-        var winDelay = 0;
-        if (els.length > 0 && !isNaN(els[0].period))
-            winDelay = Math.min(this.winDelayMax, els[0].period / app.get('deltat') * this.approxFrameRate * 1000);
-        
-        winDelay = Math.max(4000, winDelay);
-
-        /*
-        this.renderTopText(this.winTemplate({
-            win: mission.get('win'),
-            stars: app.templates.starsRepr(app.stars(), app.mission().get('value'))
-        }), false);
-        $("#text-top").addClass("in-front");
-        */
-
-        app.set('state', ROTATABLE);
-        
+        app.set('state', ROTATABLE);        
     },
-
-    loseTemplate: _.template('<div class="subtitle"><%= lose %></div><div><button class="btn-jrs font-m" onClick="app.reset(); app.mainView.renderMission(); "><span class="icon-thumbs-up"></span> No worries! Retry mission</button></div>'),
     
-    renderLose: function() {
-        var mission = app.get('missions').at(app.get('currentMission'));
-        
-        $("#text-top").html(this.loseTemplate(mission.attributes));
-        $("#text-top").addClass("expanded");
-        $("#text-top").addClass("in-front");
+    renderLose: function() {        
         app.set('state', ROTATABLE);
     },
     
@@ -1144,7 +1165,7 @@ var MessageView = Backbone.View.extend({
     
     
     initialize: function() {        
-        this.listenToOnce(this.model, "start", function() {
+        this.listenToOnce(this.model, "load", function() {
             this.setupTemplates();
         });
         
@@ -1171,11 +1192,21 @@ var MessageView = Backbone.View.extend({
         for (var i = 0; i < missions.length; i++) {
             var m = missions.at(i);
             var help = m.get('help');
-            if (!help)
-                continue;
+            if (!help) 
+                help = [];
+
+            var events = _.pluck(help, 'on');
+            if (! _.contains(events, 'win') && ! _.contains(events, 'win1') && ! _.contains(events, "win2") && !_.contains(events, "win3")) {
+                help.push({ on: 'win', message: "" });
+                console.warn(m.get('name'), 'does not have a win message.');
+            }
+            if (! _.contains(events, 'lose')) {
+                help.push({ on: 'lose', message: "" });
+                console.warn(m.get('name'), 'does not have a lose message.');                
+            }
             
             for (var j = 0; j < help.length; j++) {
-                app.templates.template(help[j]);
+                app.templates.template(help[j], m);
                 help[j].id = id;
                 id++;
             };
@@ -1208,7 +1239,9 @@ var MessageView = Backbone.View.extend({
         
         var self = this;
         if (helpText && self.lastHelp == helpText) {
-            $("#help-text").addClass("expanded");        
+            $("#help-text").removeClass("large");
+            $("#help-text").addClass("expanded");
+
             return;
         }
 
@@ -1228,7 +1261,8 @@ var MessageView = Backbone.View.extend({
         });
         
         $("#help-text").removeClass("expanded");
-        
+        $("#help-text").removeClass("large");
+            
         if (!helpText) {
             $("#help-body").html("");
             return;
@@ -1246,6 +1280,8 @@ var MessageView = Backbone.View.extend({
             $("#help-next-mission").on(UI.clickEvent, function() { self.model.nextMission(); } );
             
             $("#help-text").addClass("expanded");
+            $("#help-text").removeClass("large");
+                        
             app.trigger('show:help');
             app.mainView.renderInfo();
             if (help && help.funcs)
@@ -1371,15 +1407,15 @@ var AppModalView = Backbone.View.extend({
     
     initialize: function() {
         this.listenTo(this.model, "loading", this.renderLoading);
-        this.listenTo(this.model, "load", this.renderLoad);
+        this.listenTo(this.model, "load sampled", this.renderLoad);
         this.frame = _.bind(this.frame, this);
     },
 
-    loadingMessage: 'Traveling to the <%= world %>...<p><i class="fa fa-circle-o-notch fa-spin"></i>',
+    loadingMessage: '<img src="img/logo.png"><div class="flash">Traveling to the <%= world %>...</div><i class="fa fa-circle-o-notch fa-spin"></i>',
 
     frame: function() {
         this.size = this.size * 1.01;
-        $("#app-modal").css("background-size", this.size + "%");
+//        $("#app-modal").css("background-size", this.size + "%");
         
         if (this.animate)
             requestAnimationFrame(this.frame);
@@ -1390,9 +1426,8 @@ var AppModalView = Backbone.View.extend({
         this.animate = true;
         this.size = 10;
         
-        $("#app-modal").css("background-image", "url(" + map[0]['travel-bg'] + ")");
-        $("#app-modal").css("background-size", "10%");
-        console.log(map[0].world);
+//        $("#app-modal").css("background-image", "url(" + map[0]['travel-bg'] + ")");
+//        $("#app-modal").css("background-size", "10%");
         $("#app-modal").html(_.template(this.loadingMessage)(map[0]));
 
         $("#app").hide();
@@ -1400,6 +1435,7 @@ var AppModalView = Backbone.View.extend({
         requestAnimationFrame(this.frame);
     },
 
+    loadedEvents: 0,
     renderLoad: function() {
         $("#app").show();
         this.animate = false;

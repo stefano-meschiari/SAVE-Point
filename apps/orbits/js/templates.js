@@ -13,6 +13,7 @@ var Templates = Backbone.Model.extend({
         "@icon-([\\w\\-]+)": '<span class="icon-$1"></span>',
         "@color-([\\w\\-]+)\\{(.+?)\\}": '<span class="color-$1">$2</span>',
         "@noninteractive": function() { app.set("interactive", false); },
+        "@interactive": function() { app.set("interactive", true); },
         "@disable-star": function() { app.flags.disabledStar = true; },
         "@disable-planet-drag": function() { app.flags.disabledPlanetDrag = true; },
         "@disable-velocity-drag": function() { app.flags.disabledVelocityDrag = true; },
@@ -51,6 +52,12 @@ var Templates = Backbone.Model.extend({
         "@wait-5": function() {  _.delay(function(self) {  self.listener.proceed(); }, 5000, this); }
     },
 
+    winTemplate: _.template('<div id="win-stars"></div><div class="win-title"><%= win %></div><div class="win-message"><%= message %></div><div class="win-toolbar"><button class="btn-jrs btn-lg btn-throb" on' + UI.clickEvent + '="app.menuView.selectNextMission(); app.menu();"><span class="fa fa-rocket"></span> Next Mission</button></div>'),
+    loseTemplate: _.template('<div id="win-stars"></div><div class="win-title"><%= lose %></div><div class="win-message"><%= message %></div><div class="win-toolbar"><button class="btn-jrs btn-lg btn-throb" on' + UI.clickEvent + '="app.reset()"><span class="fa fa-undo"></span> Retry</button></div>'),
+    
+    winDefaultEncouragement: '@boss\nGood job, rookie!',
+    loseDefaultEncouragement: '@boss\nToo bad! Give it another try?',
+    
     /*
      Takes an object containing a "message" field, and returns the object with the translated message
      and any functions to be run when the help is shown (field "funcs").
@@ -58,7 +65,7 @@ var Templates = Backbone.Model.extend({
      The "this" argument for the functions created in field "funcs" will be either this object, or the bindTo parameter if different from null. 
      */
     firstRun: true,
-    template: function(help, bindTo) {
+    template: function(help, mission) {
         if (this.firstRun) {
             this.templates = _.extend(this.templates, app.get('avatars'));
             this.firstRun = false;
@@ -66,7 +73,7 @@ var Templates = Backbone.Model.extend({
         
         var msg = help.message;
         var templates = this.templates;
-        bindTo = bindTo || this;
+        var bindTo = this;
         
         help.old_message = msg;
         
@@ -90,6 +97,26 @@ var Templates = Backbone.Model.extend({
                 msg = msg_new;
         }
 
+        if (help.on == "win" || help.on == "win1" || help.on == "win2" || help.on == "win3") {
+            msg = this.winTemplate({
+                win: mission.attributes.win || this.winDefaultEncouragement,
+                message: msg
+            });
+            
+            help.funcs.push(function() {
+                $("#win-stars").html(bindTo.starsRepr(app.stars(), app.mission().get('value')));
+            });
+        } else if (help.on == "lose") {
+            msg = this.loseTemplate({
+                lose: mission.attributes.lose || this.loseDefaultEncouragement,
+                message: msg
+            });
+            
+            help.funcs.push(function() {
+                $("#win-stars").html(bindTo.starsRepr(0, 0));
+            });            
+        }
+        
         help.message = msg;
         return help;
     },

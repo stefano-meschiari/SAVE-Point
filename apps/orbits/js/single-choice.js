@@ -7,6 +7,7 @@ var SingleChoice = Backbone.View.extend({
     QUESTION_WRAPPER: '<div class="question"><%= message %></div>',
     
     initialize: function() {
+        var self = this;
         var app = this.model;
         var mission = app.mission();
         var help = app.templates.template({ message: mission.get('question') });
@@ -19,7 +20,10 @@ var SingleChoice = Backbone.View.extend({
         help.message = _.template(this.QUESTION_WRAPPER)(help);
         
         this.help = help;
-        this.render();
+
+        this.listenToOnce(app, "startLevel", function() {
+            self.render();
+        });
         $("#info-top").hide();
 
         this.listenTo(this.model, 'answer', this.answer);

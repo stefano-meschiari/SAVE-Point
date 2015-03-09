@@ -27,6 +27,15 @@ var UI = (function() {
         }
     });
 
+
+    window.onfocus = function() {
+        app.set('alive', true);
+    };
+
+    window.onblur = function() {
+        app.set('alive', false);
+    };
+    
     var touchDevice = device.tablet() || device.mobile();
     return {
         touchDevice: touchDevice,
@@ -47,3 +56,4 @@ var UI = (function() {
         
     };
 })();
+

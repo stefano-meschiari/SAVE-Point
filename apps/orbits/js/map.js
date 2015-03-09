@@ -20,6 +20,10 @@ var AppMenuView = Backbone.View.extend({
     
     initialize: function() {
         this.listenTo(this.model, "change:state", this.render);
+        this.listenTo(this.model, "win", function() {
+            this.selectNextMission();
+        });
+        
         var maps = this.model.get('map');
         this.currentWorldName = this.model.get('map')[this.currentWorld].world;
         var missions = this.model.get('missions');
@@ -99,7 +103,7 @@ var AppMenuView = Backbone.View.extend({
         if (allowed)
             _.defer(function() {
                 $("#app-menu-mission-box-" + rl.get('name')).on(UI.clickEvent, function() {
-                    self.select(rl.get('name'), false);
+                    self.select(rl.get('name'));
                 });
             });
         
@@ -157,10 +161,12 @@ var AppMenuView = Backbone.View.extend({
         var mission = app.mission();
         if (!mission.get('next'))
             return;
-        else
+        else {
             this.selectedMission = mission.get('next')[0];
+            this.select(this.selectedMission, true);
+        }
     },
-    
+        
     render: function() {
         var self = this;
         var app = this.model;

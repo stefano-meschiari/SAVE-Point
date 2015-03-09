@@ -36,6 +36,7 @@ var Colors = {
     green: base0d,
     accent: 'rgb(102, 204, 255)',
     white: 'white',
+    force: 'rgba(214, 197, 0, 1)',
     darkGlass: 'rgba(140, 140, 140, 0.4)',
     glass: 'rgba(140, 140, 140, 0.2)'    
 };
