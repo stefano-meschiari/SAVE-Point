@@ -22,6 +22,6 @@ download_db:
 	dropdb `whoami`
 	heroku pg:pull DATABASE_URL `whoami` --app save-point
 
-kiosk:
+kiosk: orbits
 	cd kiosk; cordova build
 
