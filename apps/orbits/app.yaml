@@ -627,23 +627,20 @@ missions:
     help:
       - on: startLevel
         message: |
-          @dark-help
-          @disable-force
-          @large{@icon-tap} Tap anywhere to add new planets.
+          @dark-help @disable-force
+          @icon-tap Tap anywhere to add new planets.
 
-          @large{@icon-drag} Drag the planets and the arrows to change their positions and speeds.
+          @icon-drag Drag the planets and the arrows to change their positions and speeds.
 
-          @large{@icon-sun} Tap on the star to let the planets orbit!
+          @icon-sun Tap on the star to let the planets orbit!
 
       - on: change:nplanets
         message: |
-          @disable-force
-          @center{@play}
+          @disable-force @center{@play}
           
       - on: state:running
         message: |        
-          @rotatable
-          @center{@restart @spacer{20px} @dashboard}
+          @rotatable @center{@restart @spacer{20px} @dashboard}
     
   - title: Practice Mode
     subtitle: Practice your moves.

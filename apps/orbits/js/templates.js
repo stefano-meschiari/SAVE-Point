@@ -34,7 +34,7 @@ var Templates = Backbone.Model.extend({
         "@hide-10": function() {  _.delay(function(self) { app.messageView.hide(); }, 10000, this); },
         "@hide-5": function() {  _.delay(function(self) {  app.messageView.hide(); }, 5000, this); },
         "@hide": function() { app.messageView.hide();  },
-        "@large{(.+)}": "<span class='font-l'>$1</span>",
+        "@large{(.+)}": "<span class='font-M'>$1</span>",
         
         "\\*(.+?)\\*": "<strong>$1</strong>",
         "\\{(.+?)\\}": '<img src=$1>',
