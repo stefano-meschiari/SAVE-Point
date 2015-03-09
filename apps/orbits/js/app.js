@@ -972,8 +972,7 @@ var AppView = Backbone.View.extend({
         var self = this;
         this.missionHideTimer = _.delay(function() {
             if (app.get('state') != MENU) {
-                $("#sidebar").show();
-                $("#info-top").show();
+                self.setVisibility();
             }
 
             $("#text-top").removeClass("expanded");
@@ -1024,7 +1023,7 @@ var AppView = Backbone.View.extend({
     setVisibility: function() {
         var state = app.get('state');
 
-        if (state == MENU) {
+        if (state == MENU || app.mission().get('hideui')) {
             $("#sidebar").hide();
             $("#sidebar").removeClass("expanded");
             $("#help-text").removeClass("expanded");
@@ -1037,7 +1036,9 @@ var AppView = Backbone.View.extend({
             $("#sidebar").show();
             $("#info-top").show();
             $("#help").show();
-        }        
+        }
+        if (state != MENU)
+            $("#info-top").show();
     },
 
     /*

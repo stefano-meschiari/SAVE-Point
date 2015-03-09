@@ -606,6 +606,45 @@ missions:
         v: 0.017
         z: 0
 
+  - title: My Solar System
+    subtitle: Create your own Solar System.
+    name: quickgravity
+    value: 0
+    colors: 
+      - cyan
+      - red
+      - gold
+      - blue
+      - orange
+      - green
+    constraints:
+      nplanets: 6
+    music: level
+    hideui: true
+    enabled: true
+
+    hidden: true
+    help:
+      - on: startLevel
+        message: |
+          @dark-help
+          @disable-force
+          @large{@icon-tap} Tap anywhere to add new planets.
+
+          @large{@icon-drag} Drag the planets and the arrows to change their positions and speeds.
+
+          @large{@icon-sun} Tap on the star to let the planets orbit!
+
+      - on: change:nplanets
+        message: |
+          @disable-force
+          @center{@play}
+          
+      - on: state:running
+        message: |        
+          @rotatable
+          @center{@restart @spacer{20px} @dashboard}
+    
   - title: Practice Mode
     subtitle: Practice your moves.
     name: sandbox
@@ -636,3 +675,4 @@ missions:
       - on: state:running
         message: |        
           @rotatable @hide
+

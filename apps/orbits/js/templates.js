@@ -12,6 +12,7 @@ var Templates = Backbone.Model.extend({
         "@separator": '<div class="separator"></div>',
         "@icon-([\\w\\-]+)": '<span class="icon-$1"></span>',
         "@color-([\\w\\-]+)\\{(.+?)\\}": '<span class="color-$1">$2</span>',
+        "@center{(.+)}": '<div class="center">$1</div>',
         "@noninteractive": function() { app.set("interactive", false); },
         "@interactive": function() { app.set("interactive", true); },
         "@disable-star": function() { app.flags.disabledStar = true; },
@@ -29,9 +30,11 @@ var Templates = Backbone.Model.extend({
         },
         "@stop-fly": function() { draw.cancelFly(); console.log('Cancel Fly!'); },   
         "@fly": function() { draw.fly(); console.log('Fly!'); },
+        "@spacer{(.+)}": "<span style='width:$1; display:inline-block'></span>",
         "@hide-10": function() {  _.delay(function(self) { app.messageView.hide(); }, 10000, this); },
         "@hide-5": function() {  _.delay(function(self) {  app.messageView.hide(); }, 5000, this); },
         "@hide": function() { app.messageView.hide();  },
+        "@large{(.+)}": "<span class='font-l'>$1</span>",
         
         "\\*(.+?)\\*": "<strong>$1</strong>",
         "\\{(.+?)\\}": '<img src=$1>',
@@ -46,8 +49,14 @@ var Templates = Backbone.Model.extend({
         "@eccentricity": '<span id="eccentricity"></span>',
         "@name": LOGGED_USER,
         "@run": function() { app.set('state', RUNNING); },
-        "@rotatable": function() { app.set('state', ROTATABLE); },
         
+        "@rotatable": function() { app.set('state', ROTATABLE); },
+        "@restart": '<button class="btn btn-jrs btn-throb font-l" on' + UI.clickEvent + '="app.reset();"><span class="fa fa-undo"></span> Start from scratch</button>',
+        "@play": '<button class="btn btn-jrs btn-throb font-l" on' + UI.clickEvent + '="app.set(\'state\', RUNNING);"><span class="fa fa-rocket"></span> Start orbiting!</button>',
+        "@dashboard": '<button class="btn btn-jrs btn-throb font-l" on' + UI.clickEvent + '="location.href=\'/\';"><span class="fa fa-times"></span> Exit</button>',
+        "@dark-help": function() {
+            $("#help-text").addClass("dark");
+        },
         "@wait-10": function() {  _.delay(function(self) { self.listener.proceed(); }, 10000, this); },
         "@wait-5": function() {  _.delay(function(self) {  self.listener.proceed(); }, 5000, this); }
     },
