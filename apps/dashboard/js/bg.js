@@ -70,7 +70,7 @@ $(document).ready(function() {
     canvas.width = "500";
     canvas.height = "500";
 
-    
+    if (IS_KIOSK) {
     $(".app-launcher").each(function() {
         var s = $(this);
         var h = s.attr('href');
@@ -83,7 +83,7 @@ $(document).ready(function() {
             return false;
         }); 
     });
-    
+    }
     // Animation code
     window.requestAnimationFrame(nextFrame);
 });

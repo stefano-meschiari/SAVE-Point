@@ -53,6 +53,13 @@ include('canvas.html');
                 </div>
             </div>-->
             <div class="brand">
+                <div class="uk-float-right">
+                    <img class="app-icon-preview" src="img/gravity.png" width="100">
+                    <img class="app-icon-preview" src="img/orbits.png" width="100">
+                    <img class="app-icon-preview" src="img/spc.png" width="100">
+                    <img class="app-icon-preview" src="img/systemic_live.png" width="100">                    
+                </div>
+
                 <span class="heavy">SAVE</span><span class="sep">/</span><span class="light">Point</span>
                 <div class="brand-acronym">
                     <span class="sep">S</span>ociety for <span class="sep">A</span>stronomy

@@ -52,6 +52,11 @@ var UI = (function() {
             });
 
             return ret;
+        },
+
+        animate: function(el, animation) {
+            animation = animation || 'shake';
+            $(el).removeClass('uk-animation-' + animation).addClass('uk-animation-' + animation);
         }
         
     };

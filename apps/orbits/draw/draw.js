@@ -723,6 +723,8 @@ var Draw = Backbone.View.extend({
             else
                 return true;
         });
+
+        UI.animate('#canvas');
     },
     
     animateTravel: function() {
