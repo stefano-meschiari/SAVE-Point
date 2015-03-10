@@ -18,7 +18,9 @@ html {
   font-family: "proxima-nova";
   font-size:24px;
   line-height:1.6;
-  background:black;
+  background-color:black;
+  background-image:url('../img/bg2.jpg');
+  background-repeat-y:no-repeat;
 }
 
 body {
@@ -85,13 +87,15 @@ body {
 .app-col .app-title {
   font-size: @font-l;
   font-weight:500;
-  font-variant: small-caps;
+  line-height:1.1;
+  margin-bottom:10px;
 }
 
 .app-col .app-subtitle {
   font-size: @font-m;
   color:silver;
   font-weight:400;
+  font-family: proxima-nova;
   line-height:1;
 }
 
@@ -274,6 +278,20 @@ top: 50px;
 left:430px;
 }
 
+#app-launching {
+  background-color:black;
+  color:white;
+  font-size:@font-xl;
+  text-align:center;
+  padding:40px;
+  display:none;
+  height:100%;
+  width:100%;
+  position:absolute;
+  z-index:20;
+  left:0;
+  top:0;
+}
 #app-rotate {
   background-color:black;
   color:white;
