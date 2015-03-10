@@ -183,10 +183,11 @@ var App = Backbone.ROComputedModel.extend({
             types.push(TYPE_PLANET);
         
         var v = Math.sqrt(K2);
+        var r = Math.sqrt(x[0] * x[0] + x[1] * x[1]);
+        
         if (! (options && options.circular)) {
-            velocity.push(v, 0, 0);
+            velocity.push(v * (-x[1]/r), v * (x[0]/r), 0);
         } else {
-            var r = Math.sqrt(x[0] * x[0] + x[1] * x[1]);
             v = Math.sqrt(K2/r);
             velocity.push(v * (-x[1]/r), v * (x[0]/r), 0);
         }

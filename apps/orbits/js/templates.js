@@ -30,7 +30,7 @@ var Templates = Backbone.Model.extend({
         },
         "@stop-fly": function() { draw.cancelFly(); console.log('Cancel Fly!'); },   
         "@fly": function() { draw.fly(); console.log('Fly!'); },
-        "@spacer{(.+)}": "<span style='width:$1; display:inline-block'></span>",
+        "@spacer{(.+?)}": "<span style='width:$1; display:inline-block'></span>",
         "@hide-10": function() {  _.delay(function(self) { app.messageView.hide(); }, 10000, this); },
         "@hide-5": function() {  _.delay(function(self) {  app.messageView.hide(); }, 5000, this); },
         "@hide": function() { app.messageView.hide();  },

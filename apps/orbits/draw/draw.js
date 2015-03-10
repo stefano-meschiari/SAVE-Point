@@ -1250,8 +1250,12 @@ var Draw = Backbone.View.extend({
                 var tc = [];
                 var a = els.sma;
                 var e = els.eccentricity;
-                if (e > 0.98 && e < 1.01)
+                if (e > 0.98 && e < 1.01) {
+                    this.computedTrailSegments[i] = [];
+                    this.computedTrailCoords[i] = [];
+                    
                     continue;
+                }
                 var r0 = els.r0;
                 var lop = els.longPeri;
                 var p = Math.abs(els.sma * (1-els.eccentricity * els.eccentricity));
@@ -1269,6 +1273,9 @@ var Draw = Backbone.View.extend({
                     var y = r * Math.sin(theta);
                     var z = 0;
                     tc.push({ x : x, y : y, z : z});
+                    if (isNaN(x) || isNaN(y)) {
+                        console.warn('x and y are NaN', x, y, r, theta, p, e, lop);
+                    }
                     var pos = new Point(x * PIXELS_PER_AU, y * PIXELS_PER_AU) + this.star.position;
                     
                     if (lastp) {

@@ -632,15 +632,13 @@ missions:
 
           @icon-drag Drag the planets and the arrows to change their positions and speeds.
 
-          @icon-sun Tap on the star to let the planets orbit!
-
       - on: change:nplanets
         message: |
           @disable-force @center{@play}
           
       - on: state:running
         message: |        
-          @rotatable @center{@restart @spacer{20px} @dashboard}
+          @rotatable @center{@icon-drag Drag to rotate the view! @spacer{20px} @restart @spacer{20px} @dashboard}
     
   - title: Practice Mode
     subtitle: Practice your moves.

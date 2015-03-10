@@ -96,12 +96,13 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
     var h = Math.sqrt(h_X*h_X + h_Y*h_Y + h_Z*h_Z);
     var hs = Math.sign(h_Z);
     var Rs = Math.sign(x*u + y*v + z*w);
-    var Rd = Rs * Math.sqrt(V*V - h*h/(R*R));
-    console.log(hs, h_Z);
+    var Rd = Rs * Math.sqrt(Math.abs(V*V - h*h/(R*R)));
+
     var a = 1./(2./R - V*V/GMm);
     var e = Math.sqrt(1 - (h*h)/(GMm*a));
     var f = Math.atan2(a*(1-e*e)/(h*e) * Rd, 1/e*(a*(1-e*e)/R -1)) * Math.sign(h_Z);
-
+    if (isNaN(f))
+        console.error(a*(1-e*e)/(h*e) * Rd, 1/e*(a*(1-e*e)/R -1), Rd, h, e, R, V*V - h*h/(R*R));
     var i, O, E, lop, sini;
 
     if (s.twoD) {
@@ -119,12 +120,14 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
     
     if (e > 1e-6) {
         var cosE = (1-R/a)/e;
-        if (cosE < -1.) cosE = -1.;
-        if (cosE > 1.) cosE = 1.;
+        var flag = false;
+        if (cosE < -1.) { cosE = -1.; flag = true; }
+        if (cosE > 1.) { cosE = 1.; flag = true; };
         E = Math.acos(cosE);
         if (f > Math.PI)
             E = 2.*Math.PI - E;
         M = E - e*Math.sin(E);
+
 
         if (i > 1e-6) {
             var sinof = z/(R * sini);
@@ -135,6 +138,7 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
             var theta = Math.atan2(y/R, x/R);
             lop = theta - f;
         }
+
         
     } else {
         E = M = f;
