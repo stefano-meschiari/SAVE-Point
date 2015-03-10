@@ -1770,8 +1770,11 @@ function onResize(event) {
 
 
 var sampling = true;
-if (IS_KIOSK)
+if (IS_KIOSK) {
     sampling = false;
+    STARS = 150;
+    draw.createBackgroundStars();
+}
 var samplingFrames = 0;
 var samplingFramesCount = 20;
 var samplingStart;
