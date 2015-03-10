@@ -1761,7 +1761,10 @@ function onResize(event) {
     draw.resize();
 };
 
+
 var sampling = true;
+if (IS_KIOSK)
+    sampling = false;
 var samplingFrames = 0;
 var samplingFramesCount = 20;
 var samplingStart;

@@ -1445,7 +1445,7 @@ var AppModalView = Backbone.View.extend({
     }
 });
 
-$(document).ready(function() {
+$(window).load(function() {
     app.mainView = new AppView({ model: app });
     
     // APP_CFG is an object created statically by the backend and inserted in

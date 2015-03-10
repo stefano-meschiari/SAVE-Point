@@ -10,6 +10,8 @@ db_ensure_logged_in();
 $cfg = init();
 write_header($cfg);
 include('canvas.html');
+write_cfg_json($cfg);
+
 ?>
 
 <div id="app-rotate">

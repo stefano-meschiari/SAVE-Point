@@ -9,4 +9,27 @@ requires:
   - device
 
 apps:
-  - orbits
+  - title: Gravity
+    subtitle: Create your own planetary system.
+    icon: gravity.png
+    href: /orbits/?mission=quickgravity
+    kiosk: true
+    
+  - title: Orbits
+    subtitle: Help an alien civilization design new planetary systems.
+    icon: orbits.png
+    href: /orbits/
+    kiosk: true
+    
+  - title: Super Planet Crash
+    subtitle: Create and destroy your own Solar System.
+    icon: spc.png
+    href: http://www.stefanom.org/spc
+
+  - title: Systemic Live
+    subtitle: Discover planets around other stars.
+    icon: systemic_live.png
+    href: http://www.stefanom.org/systemic-online
+
+
+  
