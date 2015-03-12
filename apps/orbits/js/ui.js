@@ -56,7 +56,7 @@ var UI = (function() {
 
         animate: function(el, animation) {
             animation = animation || 'shake';
-            $el = $(el);
+            var $el = $(el);
             $el.removeClass('uk-animation-' + animation);
             _.defer(function() {
                 $el.addClass('uk-animation-' + animation);
