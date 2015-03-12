@@ -236,6 +236,8 @@ if (db_is_god_user()) {
         mission.set('stars', mission.get('value') || 3);
         mission.set('completed', true);
     });
+
+       $("#menu-dashboard").html("&nbsp;EXIT");
     console.log('done');
    });
   </script>
