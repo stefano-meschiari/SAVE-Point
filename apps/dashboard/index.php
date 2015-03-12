@@ -48,12 +48,12 @@ write_cfg_json($cfg);
   <div id="content">
       <div class="uk-grid">
         <div class="app-col uk-width-1-3">
-          <a class="app-launcher" href="/orbits/?mission=quickgravity"><img src="img/gravity.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
+          <a class="app-launcher" href="/orbits/?mission=gravitykit"><img src="img/gravity.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
           <div class="app-title">
-            Gravity           
+            GravityKit           
           </div>
           <div class="app-subtitle">
-              Create your own planetary system.
+              See how gravity affects the motion of planets.
           </div>
         </div>
         <div class="app-col uk-width-1-3">
@@ -66,7 +66,7 @@ write_cfg_json($cfg);
           </div>
         </div>
         <div class="app-col uk-width-1-3">
-          <a class="app-launcher" href="http://www.stefanom.org/spc"><img src="img/spc.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
+          <a class="app-launcher" href="http://www.stefanom.org/spc/?kiosk=true"><img src="img/spc.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
           <div class="app-title">
             Super Planet Crash 
           </div>
@@ -74,6 +74,7 @@ write_cfg_json($cfg);
             Create and destroy your own Solar System.
           </div>
         </div>
+        <!-- 
         <div class="app-col uk-width-1-3">
             <a class="app-launcher" href="http://www.stefanom.org/systemic-online"><img src="img/systemic_live.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
           <div class="app-title">
@@ -83,7 +84,8 @@ write_cfg_json($cfg);
             Discover planets around other stars.
           </div>
 
-        </div>    
+        </div>
+        -->
       </div>
 
       <?php

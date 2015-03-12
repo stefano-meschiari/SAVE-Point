@@ -229,7 +229,7 @@ write_mission_rules($cfg);
 if (db_is_god_user()) {
 ?>
   <script>
-   $(document).ready(function() {
+   $(window).load(function() {
      var missions = app.get('missions');
 
     missions.each(function(mission) {

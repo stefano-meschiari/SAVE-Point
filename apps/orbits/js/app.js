@@ -956,7 +956,8 @@ var AppView = Backbone.View.extend({
         $("#sidebar").hide();
 
         if (!hint) {
-            draw.fly();
+            if (window.draw)
+                draw.fly();
             app.set('interactive', false);
             $("#help-text").removeClass("expanded");
             $("#info-top").hide();

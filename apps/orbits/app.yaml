@@ -26,10 +26,10 @@ formulas:
   - starsrule
 
 avatars:
-  @groknar: {img/groknar.min.gif width=150 class=avatar-left} @enter-avatar
-  @boss: {img/boss.min.gif width=150 class=avatar-right} @enter-avatar
+  @groknar: {img/groknar.min.gif width=150 class=avatar-right} @enter-avatar
+  @boss: {img/boss.min.gif width=150 class=avatar-left} @enter-avatar
   @praetor: {img/praetor.png width=130 class=avatar-left} @enter-avatar
-  @arkanid: {img/arkanid.gif width=120 class=avatar-right} @enter-avatar
+  @arkanid: {img/arkanid.gif width=120 class=avatar-left} @enter-avatar
     
 assets:
   music:
@@ -44,6 +44,7 @@ assets:
     bloop: sounds/bloop-dungeon_v3.mp3
     lurk: sounds/lurk_v3.mp3
     titter: sounds/titter.mp3
+    gravitykit: sounds/gravitykit.mp3
   effects:
     lose: sounds/lose.wav
     win: sounds/win.wav
@@ -606,9 +607,9 @@ missions:
         v: 0.017
         z: 0
 
-  - title: My Solar System
+  - title: GravityKit
     subtitle: Create your own Solar System.
-    name: quickgravity
+    name: gravitykit
     value: 0
     colors: 
       - cyan
@@ -619,10 +620,9 @@ missions:
       - green
     constraints:
       nplanets: 6
-    music: level
+    music: gravitykit
     hideui: true
     enabled: true
-
     hidden: true
     help:
       - on: startLevel
@@ -634,7 +634,7 @@ missions:
 
       - on: change:nplanets
         message: |
-          @disable-force @center{@play}
+          @disable-force @center{Add more planets or @spacer{20px} @play}
           
       - on: state:running
         message: |        
