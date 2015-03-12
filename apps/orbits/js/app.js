@@ -938,7 +938,7 @@ var AppView = Backbone.View.extend({
     },*/
 
     missionTemplate: _.template('<div class="title"><%= title %></div><div class="subtitle"><%= subtitle %></div>'),
-    missionDelay: 6000,
+    missionDelay: 5000,
     missionQuickDelay: 2000,
 
     renderMission: function(hint) {
