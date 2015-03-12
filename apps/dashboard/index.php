@@ -13,6 +13,14 @@ include('canvas.html');
 write_cfg_json($cfg);
 
 ?>
+<?php if (db_is_kiosk_user()) { ?>
+<style>
+    body, html {
+    overflow:hidden;
+    }
+</style>
+<?php } ?>
+
 <script>
      IS_KIOSK=<?= (db_is_kiosk_user() ? 'true' : 'false') ?>;
 </script>
