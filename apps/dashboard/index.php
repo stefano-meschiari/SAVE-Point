@@ -58,7 +58,7 @@ write_cfg_json($cfg);
         <div class="app-col uk-width-1-3">
           <a class="app-launcher" href="/orbits/?mission=gravitykit"><img src="img/gravity.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
           <div class="app-title">
-            GravityKit           
+            GravityKit <div class="uk-badge uk-badge-danger">BETA</div>
           </div>
           <div class="app-subtitle">
               See how gravity affects the motion of planets.
@@ -67,7 +67,7 @@ write_cfg_json($cfg);
         <div class="app-col uk-width-1-3">
           <a class="app-launcher" href="/orbits/"><img src="img/orbits.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
           <div class="app-title">
-            Orbits            
+            Orbits <div class="uk-badge uk-badge-danger">BETA</div>
           </div>
           <div class="app-subtitle">
             Help an alien civilization design new planetary systems.
@@ -82,9 +82,9 @@ write_cfg_json($cfg);
             Create and destroy your own Solar System.
           </div>
         </div>
-        <!-- 
+        
         <div class="app-col uk-width-1-3">
-            <a class="app-launcher" href="http://www.stefanom.org/systemic-online/?kiosk=true"><img src="img/systemic_live.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
+            <img src="img/systemic_live.png" width="192" class="uk-animation-hover uk-animation-scale app-icon" onClick="alert('Sorry, this is not available for the iPad yet!');">
           <div class="app-title">
             Systemic Live
           </div>
@@ -93,7 +93,7 @@ write_cfg_json($cfg);
           </div>
 
         </div>
-        -->
+        
       </div>
 
       <?php
