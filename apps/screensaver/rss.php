@@ -12,6 +12,8 @@ function download($urls) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 40);
 
         $data = curl_exec($ch);
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -43,13 +45,14 @@ if ($last_saved_diff > 3600 || !file_exists('slides.txt')) {
     $feed_list = $cfg['feeds'];
 
     foreach ($feed_list as $feed) {
-        $content = str_replace("stsci:", "", file_get_contents($feed['url']));
-        
-        $xml = simplexml_load_string($content);
+        error_log($feed['url']);
+        $content = str_replace("stsci:", "", download(array($feed['url'])));
+        $xml = simplexml_load_string($content, null, LIBXML_NOCDATA);
         $json = json_encode($xml);
         $array = json_decode($json,TRUE);
         $items = $array['channel']['item'];
 
+        
         foreach ($items as $item) {
             $slide = array();
             $slide['title'] = $item['title'];
@@ -57,15 +60,26 @@ if ($last_saved_diff > 3600 || !file_exists('slides.txt')) {
             if (isset($item['thumbnailImageURL']))
                 $imageURL = $item['thumbnailImageURL'];
 
-            if ($imageURL === FALSE) {
-                $content = file_get_contents($item['link']);
-                error_log($item['link']);
-                error_log($content);
-                if (preg_match('/img src="(.+?)"/i', $content, $matches) > 0) {
-                    $imageURL = $matches[1];
-                    if (isset($feed['base']))
-                        $imageURL = $feed['base'] . $imageURL;
-                    error_log($imageURL);
+            if ($feed['transform'] === 'photojournal') {
+                if (preg_match("/Object=(.+?)\"/", $item['description'], $matches) > 0) {
+
+                    $slide['title'] = $matches[1] . " &mdash; " . preg_replace("/(PIA[0-9]+)/i", "", $slide['title']);
+                }
+
+                if (preg_match("/(PIA[0-9]+?).jpg/i", $item['description'], $matches) > 0) {
+                    $imageURL = $feed['base'] . $matches[1] . "_modest.jpg";
+                }
+
+                error_log($imageURL);
+            } else { 
+                if ($imageURL === FALSE) {
+                    $content = file_get_contents($item['link']);
+                    if (preg_match('/img src="(.+?)"/i', $content, $matches) > 0) {
+                        $imageURL = $matches[1];
+                        if (isset($feed['base']))
+                            $imageURL = $feed['base'] . $imageURL;
+                        error_log($imageURL);
+                    }
                 }
             }
             

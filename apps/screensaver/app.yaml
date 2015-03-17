@@ -10,6 +10,11 @@ requires:
 
 
 feeds:
+  - url: http://photojournal.jpl.nasa.gov/rss/new 
+    attrib: NASA PhotoJournal &mdash; photojournal.jpl.nasa.gov
+    base: http://photojournal.jpl.nasa.gov/jpegMod/
+    transform: photojournal
+
   - url: http://hubblesite.org/newscenter/newscenter_rss.php
     attrib: HubbleSite &mdash; www.hubblesite.org
 
@@ -17,9 +22,13 @@ feeds:
     attrib: Astronomy Picture of the Day &mdash; apod.nasa.gov
     base: http://apod.nasa.gov/apod/
 
+
 blacklisted:
   - hs-2015-07-a-thumb.jpg
-    
+  - PIA19059_modest.jpg
+  - PIA19242_modest.jpg
+  - PIA19244_modest.jpg
+  
 slides:
   - title: <strong>Tap</strong> and <strong>drag</strong> to interact with the apps.
     img: img/tap_and_drag.png
@@ -44,5 +53,26 @@ slides:
   - title: The Hobby-Eberle Telescope
     img: img/het.jpg
     attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
-
   
+  - title: Saturn\'s Rings in Ultraviolet Light
+    img: img/hs-2003-23-b-full_jpg.jpg
+    attrib: HubbleSite &mdash; www.hubblesite.org
+
+  - title: Hubble Catches Jupiter Changing Its Stripes
+    img: img/hs-2007-25-d-large_web.jpg
+    attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA, ESA, and A. Simon-Miller (NASA Goddard Space Flight Center)
+
+  - title: Hubble Finds Many Bright Clouds on Uranus
+    img: img/hs-1998-35-a-full_jpg.jpg
+    attrib: HubbleSite &mdash; www.hubblesite.org &mdash; Erich Karkoschka (University of Arizona) and NASA
+
+  - title: Mars at 43 Million Miles From Earth
+    img: img/hs-2001-24-a-full_jpg.jpg
+    attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA and The Hubble Heritage Team (STScI/AURA)
+
+  - title: Pluto
+    img: img/hs-2010-06-d-full_jpg.jpg
+    attrib: HubbleSite &mdash; www.hubblesite.org &mdash;  NASA, ESA, and M. Buie (Southwest Research Institute)
+
+
+

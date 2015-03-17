@@ -101,9 +101,8 @@ $(document).ready(function() {
         $("body").addClass("show-overflow");       
     } else {
         Slides.run(0);
-//        $("#screen").on("mousedown", Slides.clicked);
+        $("#screen").on("mousedown", Slides.clicked);
         $("#screen").on("touchstart", Slides.clicked);
-
     }
      
     
