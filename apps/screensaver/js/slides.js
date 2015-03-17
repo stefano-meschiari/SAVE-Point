@@ -35,10 +35,14 @@ var Slides = (function() {
 $("#slide0").addClass("slide-expanded");
 
 $(document).ready(function() {
-    Slides.run(0);
+    if (_.parameter("showall")) {
+        $("body").addClass("show-overflow");       
+    } else {
+        Slides.run(0);
+        $("#screen").on("mousedown", Slides.clicked);
+        $("#screen").on("touchstart", Slides.clicked);
 
-    $("#screen").on("mousedown", Slides.clicked);
-    $("#screen").on("touchstart", Slides.clicked);
+    }
      
     
 });

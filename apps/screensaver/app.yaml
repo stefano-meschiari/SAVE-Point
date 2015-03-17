@@ -4,8 +4,8 @@ title: Screen Saver
 requires:
   - jquery
   - underscore
-  - underscore.string
   - uikit
+  - utils
   - device
 
 

@@ -103,14 +103,26 @@ if ($last_saved_diff > 3600 || !file_exists('slides.txt')) {
 $slides = unserialize(file_get_contents('slides.txt'));
 $slides = array_merge($cfg['slides'], $slides);
 
-echo "<div class='slide-container'>";
-foreach ($slides as $idx => $slide) {
-    echo "<div class='slide' id='slide" . $idx . "' style='background: url(" . $slide['img'] . ") no-repeat center center fixed; background-size:contain'>";
-    echo "<div class='slide-title'>";
-    echo "<div class='attrib'>" . $slide['attrib'] . "</div>";
-    echo $slide['title'] . "</div>\n";
+if (!isset($_GET['showall'])) {
+    echo "<div class='slide-container'>";
+    foreach ($slides as $idx => $slide) {
+        echo "<div class='slide' id='slide" . $idx . "' style='background: url(" . $slide['img'] . ") no-repeat center center fixed; background-size:contain'>";
+        echo "<div class='slide-title'>";
+        echo "<div class='attrib'>" . $slide['attrib'] . "</div>";
+        echo $slide['title'] . "</div>\n";
+        echo "</div>";
+    }
     echo "</div>";
+
+} else {
+    echo "<center>";
+    foreach ($slides as $idx => $slide) {
+
+        echo "<h1>" . $slide['title'] . "</h1>";
+        echo "<h3>" . $slide['attrib'] . "</h3>";
+        echo "<img src='" . $slide['img'] . "'>";
+    }
+    echo "</center>";
 }
-echo "</div>";
 echo "<script>\nSLIDES = " . count($slides) . ";\n</script>";
 ?>
