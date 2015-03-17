@@ -10,11 +10,10 @@ requires:
 
 
 feeds:
-  - url: http://photojournal.jpl.nasa.gov/rss/new 
-    attrib: NASA PhotoJournal &mdash; photojournal.jpl.nasa.gov
-    base: http://photojournal.jpl.nasa.gov/jpegMod/
-    transform: photojournal
-
+#  - url: http://photojournal.jpl.nasa.gov/rss/new 
+#    attrib: NASA PhotoJournal &mdash; photojournal.jpl.nasa.gov
+#    base: http://photojournal.jpl.nasa.gov/jpegMod/
+#    transform: photojournal
   - url: http://hubblesite.org/newscenter/newscenter_rss.php
     attrib: HubbleSite &mdash; www.hubblesite.org
 
@@ -74,5 +73,27 @@ slides:
     img: img/hs-2010-06-d-full_jpg.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash;  NASA, ESA, and M. Buie (Southwest Research Institute)
 
+  - title: Ceres seen from NASA\'s Dawn spacecraft
+    img: img/ceres.gif
+    fixed: true
+    attrib: NASA PhotoJournal &mdash; http://photojournal.jpl.nasa.gov &mdash; NASA/JPL-Caltech/UCLA/MPS/DLR/IDA/PSI
 
+  - title: Bright Clouds on Uranus
+    img: img/hs-1998-35-a-full_jpg-1.jpg
+    attrib: HubbleSite &mdash; www.hubblesite.org &mdash; Erich Karkoschka (University of Arizona) and NASA
 
+  - title: Neptune\'s Anniversary Portraits
+    img: img/hs-2011-19-a-large_web.jpg
+    attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA, ESA, and the Hubble Heritage Team (STScI/AURA)
+    
+  - title: Saturn Aurora
+    img: img/hs-2005-06-b-large_web.jpg
+    attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA, ESA, J. Clarke (Boston University), and Z. Levay (STScI)
+    
+  - title: NASA\'s Hubble Space Telescope Reveals the Ring Nebula\'s True Shape
+    img: img/hs-2013-13-b-large_web.jpg
+    attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA, ESA, and the Hubble Heritage (STScI/AURA)-ESA/Hubble Collaboration
+
+  - title: Saturn
+    img: img/hs-2001-15-c-large_web.jpg
+    attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA and the Hubble Heritage (STScI/AURA)
