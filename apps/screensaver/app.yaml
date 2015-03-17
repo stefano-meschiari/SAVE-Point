@@ -42,7 +42,7 @@ slides:
     img: img/star-disruption-combo.jpg
     attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
 
-  - title: An artist\'s concept of the Giant Magellan Telescope.
+  - title: An artist''s concept of the Giant Magellan Telescope.
     img: img/gmt1.jpg
     attrib: Todd Mason/GMT Consortium/Carnegie Observatories
 
@@ -54,7 +54,7 @@ slides:
     img: img/het.jpg
     attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
   
-  - title: Saturn\'s Rings in Ultraviolet Light
+  - title: Saturn''s Rings in Ultraviolet Light
     img: img/hs-2003-23-b-full_jpg.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org
 
@@ -73,11 +73,6 @@ slides:
   - title: Pluto
     img: img/hs-2010-06-d-full_jpg.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash;  NASA, ESA, and M. Buie (Southwest Research Institute)
-
-  - title: Ceres seen from NASA\'s Dawn spacecraft
-    img: img/ceres.gif
-    fixed: true
-    attrib: NASA PhotoJournal &mdash; http://photojournal.jpl.nasa.gov &mdash; NASA/JPL-Caltech/UCLA/MPS/DLR/IDA/PSI
 
   - title: Uranus
     img: img/hs-1998-35-a-full_jpg-1.jpg
@@ -98,3 +93,38 @@ slides:
   - title: Saturn
     img: img/hs-2001-15-c-large_web.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA and the Hubble Heritage (STScI/AURA)
+
+  - title: Europa
+    img: img/pia19048_732.jpg
+    attrib: NASA PhotoJournal &mdash; photojournal.jpl.nasa.gov
+
+  - title: Triton
+    img: img/P353171_732.jpg
+    attrib: NASA PhotoJournal &mdash; photojournal.jpl.nasa.gov
+
+  - title: "Rosetta's Comet From 177 Miles"
+    img: img/comet_on_3_august_2014_732.png
+    attrib: NASA PhotoJournal &mdash; photojournal.jpl.nasa.gov
+    
+  - title: Mercury
+    img: img/PIA15160_br.jpg
+    attrib: NASA PhotoJournal &mdash; photojournal.jpl.nasa.gov
+        
+  - title: Comet Hale-Bopp
+    img: img/104_hb_mai_732.jpg
+    attrib: NASA PhotoJournal &mdash; photojournal.jpl.nasa.gov
+    
+  - title: Venus
+    img: img/Venus_Clouds_br.jpg
+    attrib: NSSDC Photo Gallery
+
+  - title: Volcanic Activity on Io
+    img: img/Clouds_br.jpg
+    attrib: NASA/JPL
+
+  - title: The Crab Nebula
+    img: img/crab_vlt_big_732X520.jpg
+    attrib: VLT
+
+  
+    
