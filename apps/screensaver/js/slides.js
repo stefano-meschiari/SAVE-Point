@@ -8,7 +8,7 @@ var Slides = (function() {
 
     var currentSlide = -1;
     var delay = 15000;
-    var rate = 120/1000;
+    var rate = 40/1000;
     var timer;
     
     return {
@@ -48,22 +48,10 @@ var Slides = (function() {
                     prop = 'top';
                     wdim = window.innerHeight - $img.attr('height');
                 }
-                
-                var val = 0;
-                var frames = (delay*rate) | 0;
-                var step = wdim / frames;
-                var frame = 0;
-                console.log(frames);
-                console.log(wdim);
 
-                var timer = window.setInterval(function() {
-                    val = val + step;
-                    $img.css(prop, val | 0);
-
-                    frame++;
-                    if (frame == frames)
-                        window.clearInterval(timer);
-                }, 1./rate);  
+                var anim = {};
+                anim[prop] = wdim;
+                $img.transit(anim, delay);
             }
         },
         run: function(slide) {

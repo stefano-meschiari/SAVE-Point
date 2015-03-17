@@ -6,6 +6,7 @@ requires:
   - underscore
   - uikit
   - utils
+  - transit
   - device
 
 
@@ -41,7 +42,7 @@ slides:
     img: img/star-disruption-combo.jpg
     attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
 
-  - title: An artist's concept of the Giant Magellan Telescope.
+  - title: An artist\'s concept of the Giant Magellan Telescope.
     img: img/gmt1.jpg
     attrib: Todd Mason/GMT Consortium/Carnegie Observatories
 
@@ -57,15 +58,15 @@ slides:
     img: img/hs-2003-23-b-full_jpg.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org
 
-  - title: Hubble Catches Jupiter Changing Its Stripes
+  - title: Jupiter
     img: img/hs-2007-25-d-large_web.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA, ESA, and A. Simon-Miller (NASA Goddard Space Flight Center)
 
-  - title: Hubble Finds Many Bright Clouds on Uranus
+  - title: Uranus
     img: img/hs-1998-35-a-full_jpg.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash; Erich Karkoschka (University of Arizona) and NASA
 
-  - title: Mars at 43 Million Miles From Earth
+  - title: Mars
     img: img/hs-2001-24-a-full_jpg.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA and The Hubble Heritage Team (STScI/AURA)
 
@@ -78,11 +79,11 @@ slides:
     fixed: true
     attrib: NASA PhotoJournal &mdash; http://photojournal.jpl.nasa.gov &mdash; NASA/JPL-Caltech/UCLA/MPS/DLR/IDA/PSI
 
-  - title: Bright Clouds on Uranus
+  - title: Uranus
     img: img/hs-1998-35-a-full_jpg-1.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash; Erich Karkoschka (University of Arizona) and NASA
 
-  - title: Neptune\'s Anniversary Portraits
+  - title: Neptune
     img: img/hs-2011-19-a-large_web.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA, ESA, and the Hubble Heritage Team (STScI/AURA)
     
@@ -90,7 +91,7 @@ slides:
     img: img/hs-2005-06-b-large_web.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA, ESA, J. Clarke (Boston University), and Z. Levay (STScI)
     
-  - title: NASA\'s Hubble Space Telescope Reveals the Ring Nebula\'s True Shape
+  - title: The Ring Nebula
     img: img/hs-2013-13-b-large_web.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA, ESA, and the Hubble Heritage (STScI/AURA)-ESA/Hubble Collaboration
 

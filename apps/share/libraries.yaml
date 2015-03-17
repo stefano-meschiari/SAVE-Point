@@ -63,3 +63,6 @@ uikit:
 rangeslider:
   - /share/rangeslider.js/dist/rangeslider.min.js
   - /share/rangeslider.js/dist/rangeslider.css
+
+transit:
+  - /share/js/jquery.transit.min.js
