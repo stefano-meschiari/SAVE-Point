@@ -2,10 +2,6 @@
 require($_SERVER['DOCUMENT_ROOT'] . '/../share/startup.php');
 require('db.php');
 
-db_ensure_logged_in();
-$user = db_user();
-$logged_in = 'true';
-
 $cfg = init();
 write_header($cfg);
 write_cfg_json($cfg);
@@ -15,12 +11,6 @@ include('rss.php');
 ?>
 
 <?php write_js_requires($cfg); ?>
-
-<script>
- LOGGED_USER='<?= $user ?>';
- LOGGED_IN=<?= $logged_in ?>;
- IS_KIOSK=<?= (db_is_kiosk_user() ? 'true' : 'false') ?>;
-</script>
 
 <?php
 
