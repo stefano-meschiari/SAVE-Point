@@ -23,6 +23,7 @@ blacklisted:
 slides:
   - title: <strong>Tap</strong> and <strong>drag</strong> to interact with the apps.
     img: img/tap_and_drag.png
+    fixed: true
 
   - title: Astronomers Discover Ancient Solar System with Five Earth-sized Planets
     img: img/Kepler444_Illo.jpg

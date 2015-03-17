@@ -106,7 +106,8 @@ $slides = array_merge($cfg['slides'], $slides);
 if (!isset($_GET['showall'])) {
     echo "<div class='slide-container'>";
     foreach ($slides as $idx => $slide) {
-        echo "<div class='slide' id='slide" . $idx . "' style='background: url(" . $slide['img'] . ") no-repeat center center fixed; background-size:contain'>";
+        echo "<div class='slide' id='slide" . $idx . "'>";
+        echo "<img src='" . $slide['img'] . "' id='img" . $idx . "'>";
         echo "<div class='slide-title'>";
         echo "<div class='attrib'>" . $slide['attrib'] . "</div>";
         echo $slide['title'] . "</div>\n";
@@ -124,5 +125,5 @@ if (!isset($_GET['showall'])) {
     }
     echo "</center>";
 }
-echo "<script>\nSLIDES = " . count($slides) . ";\n</script>";
+echo "<script>\nSLIDES = " . json_encode($slides) . ";\n</script>";
 ?>
