@@ -7,3 +7,6 @@ apps/gravity/js/debug.js
 .DS_Store
 apps/share/.DS_Store
 debug
+apps/screensaver/assets/*
+apps/screensaver/slides.txt
+apps/screensaver/last_*

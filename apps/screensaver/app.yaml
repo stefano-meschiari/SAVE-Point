@@ -7,3 +7,41 @@ requires:
   - underscore.string
   - uikit
   - device
+
+
+feeds:
+  - url: http://hubblesite.org/newscenter/newscenter_rss.php
+    attrib: HubbleSite &mdash; www.hubblesite.org
+
+  - url: http://apod.nasa.gov/apod.rss
+    attrib: Astronomy Picture of the Day &mdash; apod.nasa.gov
+    base: http://apod.nasa.gov/apod/
+
+blacklisted:
+  - hs-2015-07-a-thumb.jpg
+    
+slides:
+  - title: <strong>Tap</strong> and <strong>drag</strong> to interact with the apps.
+    img: img/tap_and_drag.png
+
+  - title: Astronomers Discover Ancient Solar System with Five Earth-sized Planets
+    img: img/Kepler444_Illo.jpg
+    attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
+
+  - title: Black Hole Chokes on a Swallowed Star
+    img: img/star-disruption-combo.jpg
+    attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
+
+  - title: An artist's concept of the Giant Magellan Telescope.
+    img: img/gmt1.jpg
+    attrib: Todd Mason/GMT Consortium/Carnegie Observatories
+
+  - title: McDonald Observatory Domes
+    img: img/domes.jpg
+    attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
+
+  - title: The Hobby-Eberle Telescope
+    img: img/het.jpg
+    attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
+
+  

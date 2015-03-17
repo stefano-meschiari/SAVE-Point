@@ -71,18 +71,22 @@ $(document).ready(function() {
     canvas.height = "500";
 
     if (IS_KIOSK) {
-    $(".app-launcher").each(function() {
-        var s = $(this);
-        var h = s.attr('href');
-        s.on("click", function(e) {
-            var href = h;
-            $("#app-launching").show();
-            _.defer(function() {
-                location.href = href;
-            });
-            return false;
-        }); 
-    });
+        $(".app-launcher").each(function() {
+            var s = $(this);
+            var h = s.attr('href');
+            s.on("click", function(e) {
+                var href = h;
+                $("#app-launching").show();
+                _.defer(function() {
+                    location.href = href;
+                });
+                return false;
+            });            
+        });
+
+        _.delay(function() {
+            location.href = "/screensaver/";
+        }, 30000);
     }
     // Animation code
     window.requestAnimationFrame(nextFrame);

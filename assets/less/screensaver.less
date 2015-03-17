@@ -1,0 +1,126 @@
+@import (reference) "assets/less/colors";
+@import (reference) "apps/share/font-awesome/less/font-awesome";
+@import (reference) "assets/less/lesshat";
+@import (reference) "assets/less/fonts";
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+html {
+  .noselect;
+  width:100%;
+  font-family: "Dosis";
+  font-size:24px;
+  line-height:1.2;
+}
+
+body {
+  overflow:hidden;  
+}
+
+.slide {
+  visibility:hidden;
+  opacity:0;
+  .transition(0.5s, ease-in);  
+
+  position:absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  .transition(0.5s, ease-in);  
+}
+
+.slide-expanded {
+  visibility:visible;
+  opacity:1;
+  .transition(0.5s, ease-in);  
+}
+
+.big-shadow {
+  text-shadow:0px 0px 30px black, -10px 0px 30px black, 10px 0px 30px black, 0px -10px 30px black,
+  0px 10px 30px black;
+}
+.slide-title {
+  position:absolute;
+  top:0;
+  text-align:center;
+  overflow:hidden;
+  color:white;
+  width:100%;
+  font-size:2rem;
+  padding:30px;
+  box-sizing: border-box;
+  font-family:"Dosis";
+  font-weight:100;  
+  .big-shadow;
+}
+
+.attrib {
+  color:silver;
+  font-size:0.7rem;
+}
+
+.slide-container {
+  background:radial-gradient(circle, rgba(60,60,60,1),rgba(0,0,0,1));
+  width:100%;
+  height:100%;
+  position:absolute;
+}
+
+.flash-animation {
+  0% { opacity:0 }
+  25% { opacity:1 }
+  50% { opacity:1 }
+  75% { opacity:1 }
+  100% { opacity:0 }
+}
+
+@-webkit-keyframes flash-animation {
+  .flash-animation;
+}
+
+@keyframes flash-animation {
+  .flash-animation;
+}
+
+#footer {
+  position:absolute;
+  left:0;
+  bottom:0;
+  right:0;  
+}
+
+#footer-text {
+  position:relative;
+  width:intrinsic;
+  text-transform:lowercase;
+  font-variant:small-caps;
+  font-weight:100;
+  left:0;
+  right:0;
+  margin:auto;
+  margin-bottom:10px;
+  padding:20px;
+  font-weight:400;
+  text-align:center;
+  color:white;
+  font-size:1.5em;
+  background:linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(50,50,50,0.5));
+  -webkit-animation: flash-animation 5s infinite;
+  border-radius:50px;
+}
+
+#screen {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}

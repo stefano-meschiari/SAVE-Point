@@ -4,6 +4,7 @@ all: css colors orbits
 css:
 	lessc -x assets/less/orbits.less >apps/orbits/css/app.css
 	lessc -x assets/less/dashboard.less >apps/dashboard/css/app.css
+	lessc -x assets/less/screensaver.less >apps/screensaver/css/app.css
 
 colors:
 	sed -n -e 's/@//' -e 's/:/ =/' -e 's/[#]/"#/' -e 's/;/";/p' assets/less/colors.less >apps/share/js/colors.js
