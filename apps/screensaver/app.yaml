@@ -42,7 +42,7 @@ slides:
     img: img/star-disruption-combo.jpg
     attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
 
-  - title: An artist''s concept of the Giant Magellan Telescope.
+  - title: "An artist's concept of the Giant Magellan Telescope."
     img: img/gmt1.jpg
     attrib: Todd Mason/GMT Consortium/Carnegie Observatories
 
@@ -54,7 +54,7 @@ slides:
     img: img/het.jpg
     attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
   
-  - title: Saturn''s Rings in Ultraviolet Light
+  - title: "Saturn's Rings in Ultraviolet Light"
     img: img/hs-2003-23-b-full_jpg.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org
 
@@ -119,12 +119,22 @@ slides:
     attrib: NSSDC Photo Gallery
 
   - title: Volcanic Activity on Io
-    img: img/Clouds_br.jpg
+    img: img/Voyager_Io_732X520.jpg
     attrib: NASA/JPL
 
   - title: The Crab Nebula
     img: img/crab_vlt_big_732X520.jpg
     attrib: VLT
+
+  - title: Panoramic Hubble Picture Surveys Star Birth, Proto-Planetary Systems in the Great Orion Nebula
+    img: img/hs-1995-45-a-large_web.jpg
+    attrib: HubbleSite &mdash; www.hubblesite.org &mdash;  NASA, C.R. O'Dell and S.K. Wong (Rice University)
+
+  - title: "Cone Nebula (NGC 2264): Star-Forming Pillar of Gas and Dust"
+    img: img/hs-2002-11-b-large_web.jpg
+    attrib: HubbleSite &mdash; www.hubblesite.org &mdash;  NASA, H. Ford (JHU), G. Illingworth (UCSC/LO), M.Clampin (STScI), G. Hartig (STScI), the ACS Science Team, and ESA
+
+
 
   
     

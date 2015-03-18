@@ -42,16 +42,16 @@ var Slides = (function() {
 
 
                 if ($img.attr('width') > window.innerWidth) {
-                    prop = 'left';
+                    prop = 'x';
                     wdim = window.innerWidth - $img.attr('width');
                 } else {
-                    prop = 'top';
+                    prop = 'y';
                     wdim = window.innerHeight - $img.attr('height');
                 }
 
                 var anim = {};
                 anim[prop] = wdim;
-                $img.transit(anim, delay);
+                $img.transition(anim, delay);
             }
         },
         run: function(slide) {
