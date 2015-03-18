@@ -203,7 +203,7 @@ missions:
           
                   
   - title: Crash & Burn
-    rule: nplanets > 0 && collided
+    rule: nplanets > 0 && (collided || elements[0].sma * (1-elements[0].eccentricity) < app.get('minAU') )
     name: crash
     starsrule: 3
     enabled: true

@@ -261,51 +261,7 @@ var Draw = Backbone.View.extend({
         this.handlesUpdate();
         var ret = {};
 
-        
-        if (this.trailSegments) {
-
-            for (j = 0; j < this.trailSegments.length; j++) {
-                var tc = this.trailSegments[j];
-                var tC = this.trailCoords[j];
-                
-                for (i = 0; i < tc.length; i++) {
-                    var c = tc[i];
-                    var C0 = (i > 0 ? tC[i-1] : tC[i]);
-                    var C1 = tC[i];
-                    
-                    Physics.applyRotation(this.transformation, C0, ret);                
-                    c.segments[0].point.x = ret.x + view.center.x;
-                    c.segments[0].point.y = ret.y + view.center.y;
-                    
-                    Physics.applyRotation(this.transformation, C1, ret);
-                    c.segments[1].point.x = ret.x + view.center.x;
-                    c.segments[1].point.y = ret.y + view.center.y;
-                    
-                }            
-            }
-        }
-        if (this.computedTrailSegments) {            
-            for (j = 0; j < this.computedTrailSegments.length; j++) {
-                var tc = this.computedTrailSegments[j];
-                var tC = this.computedTrailCoords[j];
-                
-                for (i = 0; i < tc.length; i++) {
-                    var c = tc[i];
-                    var C0 = (i > 0 ? tC[i-1] : tC[i]);
-                    var C1 = tC[i];
-                    
-                    Physics.applyRotation(this.transformation, C0, ret);                
-                    c.segments[0].point.x = ret.x + view.center.x;
-                    c.segments[0].point.y = ret.y + view.center.y;
-                    
-                    Physics.applyRotation(this.transformation, C1, ret);
-                    c.segments[1].point.x = ret.x + view.center.x;
-                    c.segments[1].point.y = ret.y + view.center.y;
-                    
-                }            
-            }
-
-        }
+        this.update3DOrbits();
         //this.destroyTrails();
     },
     
@@ -1248,7 +1204,6 @@ var Draw = Backbone.View.extend({
 
             for (var i = 0; i < planets.length; i++) {
                 var els = allEls[i];
-                var ts = [];
                 var tc = [];
                 var a = els.sma;
                 var e = els.eccentricity;
@@ -1269,11 +1224,19 @@ var Draw = Backbone.View.extend({
                 var theta = theta0;
                 var last = false;
                 var hs = els.hs;
+
+                var orbit = new Path();
+                orbit.strokeWidth = 1;
+                orbit.strokeColor = this.color(TYPE_OUTLINE, i);
+                orbit.insertBelow(planets[i]);
+                orbit.opacity = 0;
+                
                 while (Math.abs(theta - theta0) <= 2 * Math.PI) {                 
                     var r = p / (1 + e * Math.cos(theta - lop));
                     var x = r * Math.cos(theta);
                     var y = r * Math.sin(theta);
                     var z = 0;
+                    
                     tc.push({ x : x, y : y, z : z});
                     if (isNaN(x) || isNaN(y)) {
                         console.warn('x and y are NaN', x, y, r, theta, p, e, lop);
@@ -1281,12 +1244,7 @@ var Draw = Backbone.View.extend({
                     var pos = new Point(x * PIXELS_PER_AU, y * PIXELS_PER_AU) + this.star.position;
                     
                     if (lastp) {
-                        var path = new Path(lastp, pos);                         
-                        path.strokeWidth = 1;
-                        path.strokeColor = this.color(TYPE_OUTLINE, i);
-                        path.insertBelow(planets[i]);
-                        path.opacity = 0;
-                        ts.push(path);
+                        orbit.add(pos);
                     }
                     if (lastr) {
                         dtheta = dtheta * 10/(Math.abs(r-lastr) * PIXELS_PER_AU);
@@ -1308,10 +1266,10 @@ var Draw = Backbone.View.extend({
                     theta += hs * dtheta;
                 }
                 if (e >= 1) {
-                    ts.pop().remove();
-                    tc.pop();
+//                    ts.pop().remove();
+//                    tc.pop();
                 }
-                this.computedTrailSegments[i] = ts;
+                this.computedTrailSegments[i] = orbit;
                 this.computedTrailCoords[i] = tc;
                 
             }
@@ -1329,8 +1287,7 @@ var Draw = Backbone.View.extend({
                     opacity = Math.min(1, opacity += 1/20);
 
                 for (var i = 0; i < this.computedTrailSegments.length; i++)
-                    for (var j = 0; j < this.computedTrailSegments[i].length; j++)
-                        this.computedTrailSegments[i][j].opacity = opacity;
+                    this.computedTrailSegments[i].opacity = opacity;
 
                 if (f > 20 || arg == 'cancel')
                     return false;
@@ -1342,12 +1299,8 @@ var Draw = Backbone.View.extend({
         
         for (i = 0; i < planets.length; i++) {
             var star = this.star;
-            var tc = (this.trailSegments[i] || []);
+            
             var tCoords = (this.trailCoords[i] || []);
-
-            
-            
-
             
             var tickLength = tickLengths[i] || 1;
             this.ticks[i] = this.ticks[i] || 0;
@@ -1358,7 +1311,7 @@ var Draw = Backbone.View.extend({
             if (this.trailThetaTotal[i] > 2.*Math.PI)
                 continue;
             
-            if (tc.length > MAX_SEGMENTS || this.ticks[i] % tickLength != 0) {
+            if (tCoords.length > MAX_SEGMENTS || this.ticks[i] % tickLength != 0) {
                 this.ticks[i]++;
                 continue;               
             }
@@ -1367,7 +1320,8 @@ var Draw = Backbone.View.extend({
             var position = app.get('position');
             var theta = Math.atan2(position[(i+1)*NPHYS+Y], position[(i+1)*NPHYS+X]);
             var firstArc = false;
-            if (tc.length == 0) {
+            
+            if (tCoords.length == 0) {
                 lastPos = planet.position;
 
                 this.trailLastTheta[i] = theta+0.001;
@@ -1375,8 +1329,7 @@ var Draw = Backbone.View.extend({
                 firstArc = true;
             }
             else
-                lastPos = tc[tc.length-1].lastSegment.point;
-
+                lastPos = tCoords.point;
             
             var dt = Math.abs(this.trailLastTheta[i] - theta);
             if (dt == 0)
@@ -1410,19 +1363,13 @@ var Draw = Backbone.View.extend({
                 tickLengths[i] = tickLength;
             }
             
-            var path = new Path(lastPos, planet.position);
             tCoords.push(
                 { x: position[(i+1)*NPHYS+X], y: position[(i+1)*NPHYS+Y], z:position[(i+1)*NPHYS+Z]}
             );
             
-            path.strokeWidth = 3;
-            path.strokeColor = this.color(TYPE_HALO, i);
-            path.insertBelow(planets[i]);
-            tc.push(path);
-
+            orbit.add(planet.position);            
             
-            
-            this.trailSegments[i] = tc;
+            this.trailSegments[i] = orbit;
             this.trailCoords[i] = tCoords;
             this.ticks[i] ++;
         }
@@ -1431,15 +1378,13 @@ var Draw = Backbone.View.extend({
     destroyTrails: function() {
         for (var j = 0; j < this.trailSegments.length; j++) {
             if (this.trailSegments[j])
-                for (var i = 0; i < this.trailSegments[j].length; i++) 
-                    this.trailSegments[j][i].remove();
+                this.trailSegments[j].remove();
             if (this.computedTrailSegments && this.computedTrailSegments[j])
-                for (i = 0; i < this.computedTrailSegments[j].length; i++)
-                    this.computedTrailSegments[j][i].remove();
+                this.computedTrailSegments[j].remove();
         }
         this.ticks = [];
         this.tickLengths = [];
-        this.trailSegments = [];
+        this.trailPaths = [];
         this.trailCoords = [];
         this.trailCenter = null;
         this.trailThetaTotal = _m.zeros(20);
@@ -1630,26 +1575,20 @@ var Draw = Backbone.View.extend({
                 var tc = obj.trailSegments[j];
                 var tC = obj.trailCoords[j];
                 
-                for (i = 0; i < tc.length; i++) {
-                    var c = tc[i];
-                    var C0 = (i > 0 ? tC[i-1] : tC[i]);
+                for (i = 0; i < tc.segments.length; i++) {
+                    console.log(i);
+                    var c = tc.segments[i];
                     var C1 = tC[i];
-                    
-                    Physics.applyRotation(this.transformation, C0, ret);                
-                    c.segments[0].point.x = ret.x + view.center.x;
-                    c.segments[0].point.y = ret.y + view.center.y;
-                    
+                                        
                     Physics.applyRotation(this.transformation, C1, ret);
-                    c.segments[1].point.x = ret.x + view.center.x;
-                    c.segments[1].point.y = ret.y + view.center.y;
+                    c.point.x = ret.x + view.center.x;
+                    c.point.y = ret.y + view.center.y;
 
                     if (ret.z < 0) {
                         c.sendToBack();
                     } else {
                         c.bringToFront();
-                    }
-                    
-                    
+                    }                    
                 }            
             }
         }, this);
