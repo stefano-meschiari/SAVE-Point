@@ -39,7 +39,8 @@ write_cfg_json($cfg);
   <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-    <div class="uk-clearfix logout-header">
+  <div class="uk-clearfix logout-header">
+
         <?php if (!db_is_kiosk_user()) { ?>
 
             <div class="uk-float-right uk-button-dropdown" data-uk-dropdown>
@@ -51,6 +52,8 @@ write_cfg_json($cfg);
                 </div>
             </div>
         <?php } ?>
+        <div class="uk-float-right">
+        </div>
     </div>
 
   <div id="content">
@@ -94,10 +97,8 @@ write_cfg_json($cfg);
 
         </div>
         <div class="app-col uk-width-1-3">
-        </div>
-        <div class="app-col uk-width-1-3">
             <button id="help" class="uk-animation-hover uk-animation-scale">
-                ?
+              <span class="fa fa-question-circle"></span>
             </button>
             <div class="app-title">Help & Credits</div>
         </div>

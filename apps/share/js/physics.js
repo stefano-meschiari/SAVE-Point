@@ -165,10 +165,10 @@ Physics.x2el = function(s, t, M, x, y, z, u, v, w, els) {
 
 
 
-Physics.barycenter = function(ctx) {
+Physics.barycenter = function(ctx, subtract) {
     var M = ctx.M;
     var x = ctx.x;
-    var N = x.length;
+    var N = M.length;
     var Mtot = M[0];
     ctx.bary = ctx.bary || [0, 0, 0];
     
@@ -176,16 +176,17 @@ Physics.barycenter = function(ctx) {
     ctx.bary[Y] = M[0] * x[Y];
     ctx.bary[Z] = M[0] * x[Z];
     
-    for (var i = NPHYS; i < N; i+= NPHYS) {
-        ctx.bary[X] += M[i] * x[i+X];
-        ctx.bary[Y] += M[i] * x[i+Y];
-        ctx.bary[Z] += M[i] * x[i+Z];
+    for (var i = 1; i < N; i++) {
+        ctx.bary[X] += M[i] * x[i*NPHYS+X];
+        ctx.bary[Y] += M[i] * x[i*NPHYS+Y];
+        ctx.bary[Z] += M[i] * x[i*NPHYS+Z];
         Mtot += M[i];
     }
 
     ctx.bary[X] /= Mtot;
     ctx.bary[Y] /= Mtot;
     ctx.bary[Z] /= Mtot;
+    ctx.bary[Z+1] = Mtot;
 };
 
 /*

@@ -1,5 +1,5 @@
 
-all: css colors orbits
+all: css colors #orbits
 
 css:
 	lessc -x assets/less/orbits.less >apps/orbits/css/app.css
@@ -16,8 +16,8 @@ devserver:
 	sleep 2 && open http://localhost:8800 &
 	cd apps; /opt/local/bin/php55 -S localhost:8800 
 
-orbits: apps/orbits/js/*.js
-	cd apps/orbits/js; uglifyjs app.js -o app.min.js --source-map app_source_map -c -m
+#orbits: apps/orbits/js/*.js
+#	cd apps/orbits/js; uglifyjs app.js -o app.min.js --source-map app_source_map -c -m
 
 download_db:
 	dropdb `whoami`

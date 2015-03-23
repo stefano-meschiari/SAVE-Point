@@ -1,3 +1,4 @@
+
 "use strict";
 
 function getRandomInt(min, max) {
@@ -23,7 +24,7 @@ var Slides = (function() {
                 var width = $img[0].naturalWidth;
                 var height = $img[0].naturalHeight;
                 var r = width/height;
-
+                $img.attr("style", "");
                 console.log(width, height, window.innerWidth, window.innerHeight);
                 var prop;
                 var wdim;

@@ -13,10 +13,10 @@ var AppSettings = Backbone.View.extend({
     },
     
     initialize: function() {
-        $('input[type="range"]').rangeslider({ polyfill: false });
+        $('input.settings-slider').rangeslider({ polyfill: false });
         var self = this;
         
-        $('input[type="range"]').on('change', function(a, b, c) {
+        $('input.settings-slider').on('change', function(a, b, c) {
             $(this).parent().find("output").text($(this).val());
             var attr = $(this).data('property');
             self.model.set(attr, ($(this).val() | 0)/self.soundMultiplier);

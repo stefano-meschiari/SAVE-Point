@@ -480,7 +480,8 @@ left:430px;
 /* Info-top styles */
 #info-top {
   position:absolute;
-  min-width:250px;
+  z-index:10;
+  min-width:300px;
   right:0px;
   top:0px;
   font-size:18px;
@@ -491,10 +492,9 @@ left:430px;
 #info-table-container {
   background:@color-glass;
   padding:10px;
-  font-size:22px;
+  font-size:18px;
   font-weight:200;
   color:white;
-  
 }
 
 #info-top table {
@@ -538,6 +538,7 @@ td.td-label {
   cellmargin-left:5px;
   text-transform:uppercase;
   padding-right:10px;
+  height:30px;
 }
 
 td.td-val {
@@ -551,6 +552,11 @@ td.td-val button {
   font-weight:bold;
 }
 
+td.td-2col {
+  text-align:center;
+  border-bottom:1px solid white;
+  padding-bottom:10px;
+}
 
 #help-text {
   width:50%;
@@ -1235,6 +1241,27 @@ html.tablet div.mobile-only {
   background:none;
   width:100%;
   text-align:right;
+  line-height:1.5;
+}
+
+.glass-btn {
+  background-color:@color-glass;
+  border-radius:30px;
+  float:right;
+  height:30px;
+  width:30px;
+  margin-left:10px;
+  border:0px;
+  color:white;
+}
+
+.toolbar-title {
+  border-bottom:1px solid white;
+  padding-bottom:10px;
+  margin-bottom:20px;
+  text-transform:uppercase;
+  text-align:left;
+  font-size:22px;
 }
 
 #mass-selector .change {
@@ -1248,39 +1275,29 @@ html.tablet div.mobile-only {
   line-height:30px;
   font-size:18px;
   font-variant:small-caps;
+    -webkit-animation: throbshadow 1s infinite;
+  -webkit-animation-direction: alternate;
+  animation: throbshadow 1s infinite;
+  animation-direction: alternate;
+
 }
 
 .planet {
   margin:0 auto;
-  margin-bottom:10px;
-  background:radial-gradient(circle at 0px 0px, rgba(0, 0, 0, 0) 0%, black 100%);
+  width:40px;
+  height:40px;
+  background:radial-gradient(circle at 0px 0px, rgba(0, 0, 0, 0) 0%, black 90%);
+  border:none;
+  border-radius:40px;
+  display:none;
 }
 
-.earth .planet {
-  width:20px;
-  height:20px;
-  background-color:red;
-  border-radius:10px;
+.planet-selected {
+  border:3px solid white;
 }
 
-.neptune .planet {
-  width:35px;
-  height:35px;
-  background-color:red;
-  border-radius:35px;
-}
-
-.jupiter .planet {
-  width:60px;
-  height:60px;
-  background-color:red;
-  border-radius:60px;
-}
-
-.planet-select {
-  height:120px;
-  width:100px;
-  margin:2px;
+#mass-slider-container {
+  margin:10px;
 }
 
 
@@ -1300,6 +1317,11 @@ html.can-select-mass #mass-selection {
 
 html.gravitykit #sidebar-menu,
 html.gravitykit #sidebar-practice,
-html.gravitykit #sidebar-help {
+html.gravitykit #sidebar-help,
+html.gravitykit #app-menu {
   display:none;
+}
+
+button {
+  outline:none;
 }

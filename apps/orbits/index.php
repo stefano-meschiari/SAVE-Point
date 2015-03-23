@@ -23,10 +23,10 @@ write_mission_rules($cfg);
 </script>
 
 <div id="app-rotate">
-    Please rotate your device.
-    <div>
-        <img src="/share/img/ipad.png" class="uk-align-center">
-    </div>
+  Please rotate your device.
+  <div>
+    <img src="/share/img/ipad.png" class="uk-align-center">
+  </div>
 </div>
 <div id="app-modal" class="full-size" style="display:none">
   Hello!
@@ -43,12 +43,22 @@ write_mission_rules($cfg);
     
     <div id="info-top">
       <div id="info-table-container">
-          <table cols="2">
-              <tr id="mass-selection">
-              <td class="td-label">Mass</td>
-              <td class="td-val val-planet">
-                  <button class="td-val val-planet" id="mass-selector"><span id="mass" class="td-val"></span> <span class="change">change</span></button>                 
-              </td>
+        <table cols="2">
+          <tr>
+            <td class="td-2col" colspan=2>
+              <button class="planet" id="planet-1" data-n=1></button>
+              <button class="planet" id="planet-2" data-n=2></button>
+              <button class="planet" id="planet-3" data-n=3></button>
+              <button class="planet" id="planet-4" data-n=4></button>
+              <button class="planet" id="planet-5" data-n=5></button>
+              <button class="planet" id="planet-6" data-n=6></button>
+            </td>
+          </tr>
+          <tr id="mass-selection">
+            <td class="td-label">Mass</td>
+            <td class="td-val val-planet">
+              <button class="td-val val-planet" id="mass-selector"><span id="mass" class="td-val"></span> <span class="change">change</span></button>                 
+            </td>
           </tr>
 
           <tr>
@@ -60,8 +70,8 @@ write_mission_rules($cfg);
             <td class="td-val val-planet" id="speed"></td>
           </tr>
           <tr>
-              <td class="td-label">Time to orbit</td>
-              <td class="td-val val-planet" id="period"></td>
+            <td class="td-label">Time to orbit</td>
+            <td class="td-val val-planet" id="period"></td>
           </tr>
           <tr>
             <td class="td-stars" colspan="2">
@@ -72,32 +82,39 @@ write_mission_rules($cfg);
         </table>
       </div>
       <div id="toolbars">
-          <div class="toolbar in-front hidden" id="toolbar-masses">
-              Mass:
-              <div class="uk-vertical-align">
-                  <button class="planet-select uk-vertical-align-middle earth btn btn-jrs" data-mass="1">
-                      <div class="planet">
-                      </div>
-                      Earth
-                  </button>
-                  <button class="planet-select uk-vertical-align-middle neptune btn btn-jrs" data-mass="17">
-                      <div class="planet">
-                      </div>
-                      Neptune
-                  </button>
-                  <button class="planet-select uk-vertical-align-middle jupiter btn btn-jrs" data-mass="318">
-                      <div class="planet">
-                      </div>
-                      Jupiter
-                  </button>                  
-              </div>
+        <div class="toolbar in-front hidden" id="toolbar-masses">
+          <div class="toolbar-title">
+            Mass
+            <button class="glass-btn fa fa-times close"></button>
           </div>
-        <div class="toolbar in-front hidden" id="toolbar-zoom">
-            Zoom: <strong><span id="zoom-value">100</span>%</strong>
-            <div>
-                <button class="btn-jrs in-front circular" id="zoom-in"><span class="fa fa-plus"></span></button>
-                <button class="btn-jrs in-front circular" id="zoom-out"><span class="fa fa-minus"></span></button>
+          <div id="mass-slider-container">
+            <input type="range" id="mass-slider" min=0 max=500 step=1 value=1 >
+          </div>
+          <!--  
+          <div class="uk-vertical-align mass-panel">
+            <div style="float:left" class="earth">
+              <div class="planet">
+              </div>
+              Earth
             </div>
+            <div style="float:right" class="jupiter">
+              <div class="planet">
+              </div>
+              Jupiter
+            </div>
+          </div>
+          -->
+        </div>
+        <div class="toolbar in-front hidden" id="toolbar-zoom">
+          <div class="toolbar-title">
+            Zoom: <strong><span id="zoom-value">100</span>%</strong> &mdash;
+            Speed: <strong><span id="speed-value">1</span>x</strong>
+            <button class="glass-btn fa fa-times close"></button>
+          </div>
+          <button class="btn-jrs in-front circular" id="zoom-in"><span class="fa fa-plus"></span></button>
+          <button class="btn-jrs in-front circular" id="zoom-out"><span class="fa fa-minus"></span></button>
+          <button class="btn-jrs in-front circular" id="speed-down"><span class="fa fa-backward"></span></button>
+          <button class="btn-jrs in-front circular" id="speed-up"><span class="fa fa-forward"></span></button>
         </div>
       </div>
       
@@ -129,9 +146,9 @@ write_mission_rules($cfg);
       <button id="forces" class="btn-jrs-ico icon-force"  title="Toggle forces" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Toggle forces</div>
     </div>    
-    <div class="sidebar-item"  title="Zoom" data-tooltip-content="{pos: 'right', offset:20}" id="sidebar-zoom">
+    <div class="sidebar-item"  title="Zoom and Speed" data-tooltip-content="{pos: 'right', offset:20}" id="sidebar-zoom">
       <button id="zoom" class="btn-jrs-ico fa fa-search"></button>
-      <div class="sidebar-title">Zoom</div>
+      <div class="sidebar-title">Zoom and Speed</div>
     </div>
     <div class="sidebar-item" id="sidebar-practice">
       <button id="practice" class="btn-jrs-ico icon-sandbox" title="Practice mode" data-tooltip-content="{pos: 'right', offset:20}"></button>
@@ -164,13 +181,13 @@ write_mission_rules($cfg);
 
 <div id="app-menu" class="animated">
   <div id="app-menu-map-container">
-      <div id="app-menu-world">
-          <div id="app-menu-world-stars">
-              <span class="icon-win-star color-accent"></span>&times;<span id="app-menu-stars-earned">20</span>
-          </div>
-          <div id="app-menu-world-name">
-          </div>
+    <div id="app-menu-world">
+      <div id="app-menu-world-stars">
+        <span class="icon-win-star color-accent"></span>&times;<span id="app-menu-stars-earned">20</span>
       </div>
+      <div id="app-menu-world-name">
+      </div>
+    </div>
     <div id="app-menu-map">
       
     </div>
@@ -199,44 +216,44 @@ write_mission_rules($cfg);
     <div id="app-menu-start-container">
     </div>
   </div>
- 
+  
 </div>
- <div id="settings-modal" class="uk-modal">
-   <div class="uk-modal-dialog" id="settings-dialog">
-     
+<div id="settings-modal" class="uk-modal">
+  <div class="uk-modal-dialog" id="settings-dialog">
+    
 
-     <div class="settings-pane">
-       <div>
-         <label><i class="fa fa-music"></i> Music</label>
-         <output></output>
-       </div>
-       <div class="clear"></div>
-       <input type="range" id="settings-music-volume" min=0 max=100 step=10 value=0 data-property="musicVolume">
-     </div>
+    <div class="settings-pane">
+      <div>
+        <label><i class="fa fa-music"></i> Music</label>
+        <output></output>
+      </div>
+      <div class="clear"></div>
+      <input type="range" class="settings-slider" id="settings-music-volume" min=0 max=100 step=10 value=0 data-property="musicVolume">
+    </div>
 
-     <div class="separator-center"></div>
+    <div class="separator-center"></div>
 
-     <div class="settings-pane">
-       <div>
-         <label><i class="fa fa-bell"></i> Sound effects</label>
-         <output></output>
-       </div>
-       <div class="clear"></div>
-       <input type="range" id="settings-effects-volume" min=0 max=100 step=10 value=0 data-property="effectsVolume">
+    <div class="settings-pane">
+      <div>
+        <label><i class="fa fa-bell"></i> Sound effects</label>
+        <output></output>
+      </div>
+      <div class="clear"></div>
+      <input type="range" class="settings-slider" id="settings-effects-volume" min=0 max=100 step=10 value=0 data-property="effectsVolume">
 
-     </div>
+    </div>
 
-     <div class="separator-center"></div>
+    <div class="separator-center"></div>
 
-     <button class="btn-jrs uk-modal-close"><i class="fa fa-check"></i> OK</button>
-   </div>
+    <button class="btn-jrs uk-modal-close"><i class="fa fa-check"></i> OK</button>
+  </div>
 
 
- </div>
- 
-  <script type="text/javascript" src="../share/js/init.js"></script>
+</div>
 
-  <script type="text/javascript" src="js/ui.js"></script>
+<script type="text/javascript" src="../share/js/init.js"></script>
+
+<script type="text/javascript" src="js/ui.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/templates.js"></script>
 <script type="text/javascript" src="js/map.js"></script>
@@ -259,13 +276,13 @@ if (db_is_god_user()) {
    $(window).load(function() {
      var missions = app.get('missions');
 
-    missions.each(function(mission) {
-        mission.set('stars', mission.get('value') || 3);
-        mission.set('completed', true);
-    });
+     missions.each(function(mission) {
+       mission.set('stars', mission.get('value') || 3);
+       mission.set('completed', true);
+     });
 
-       $("#menu-dashboard").html("&nbsp;EXIT");
-    console.log('done');
+     $("#menu-dashboard").html("&nbsp;EXIT");
+     console.log('done');
    });
   </script>
 <?php

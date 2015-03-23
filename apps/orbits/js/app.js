@@ -73,6 +73,8 @@ var TYPE_HALO = 16;
 var TYPE_OUTLINE = 32;
 var TYPE_DRAG = 64;
 
+var POV_BARYCENTRIC = 0;
+
 var POWERS = [
     "can-zoom",
     "can-toggle-sizes",
@@ -105,6 +107,7 @@ var App = Backbone.ROComputedModel.extend({
             // coordinates for each body, (x^0, y^0, z^0, x^1, y^1, z^1, ...),
             // so that the are 3*nplanets components.
             position: [0, 0, 0],
+            centeredPosition: [0, 0, 0],
             // initial velocity of the star (AU/day). The vector contains the 3
             // velocity components for each body, (v_x^0, v_y^0, v_z^0, v_x^1, v_y^1, v_z^1, ...),
             // so that the are 3*nplanets components.
@@ -239,6 +242,23 @@ var App = Backbone.ROComputedModel.extend({
         return x;
     },
 
+    povPositionForBody: function(i, x) {
+        x = this.positionForBody(i, x);
+        var bary = this.barycenter();
+        x[0] -= bary[0];
+        x[1] -= bary[1];
+        x[2] -= bary[2];
+        return x;
+    },
+
+    povSetPositionForBody: function(i, x) {
+        var bary = this.barycenter();
+        x[0] += bary[0];
+        x[1] += bary[1];
+        x[2] += bary[2];
+        this.setPositionForBody(i, x);
+    },
+    
     /*
      * Returns the mass for the body (internal units)
      */
@@ -364,8 +384,6 @@ var App = Backbone.ROComputedModel.extend({
         velocity[(i+1)*NPHYS+Z] = v[2];
 
         this.ensureConstraintsForBody(i);
-        Physics.barycenter(this.ctx);
-
         this.trigger("change:velocity");        
     },
 
@@ -374,6 +392,7 @@ var App = Backbone.ROComputedModel.extend({
      * Calculates the barycenter of the system.
      */
     barycenter:function() {
+        Physics.barycenter(this.ctx);                
         return this.ctx.bary;
     },
     
@@ -384,17 +403,19 @@ var App = Backbone.ROComputedModel.extend({
     tick: function() {
         if (this.get('invalid') || this.get('state') == MENU || !this.get('alive'))
             return;
+
+        // Subtract COM speed
+        if (!this.get('centered')) {
+            
+        }
         
         var t = this.get('time');
-        var deltat = this.get('deltat');
+        var deltat = this.get('deltat') * SPEED;
         var nplanets = this.get('nplanets');
         
         this.ctx.t = t;
-        this.ctx.x = this.get('position');
-        this.ctx.v = this.get('velocity');
-        this.ctx.M = this.get('masses');
+        var dt = this.get('dt');
 
-        var dt = deltat * SPEED;
         for (var i = 1; i <= app.get('nplanets'); i++) {
             var r = Math.sqrt(this.ctx.x[i*NPHYS+X] * this.ctx.x[i*NPHYS+X] +
                               this.ctx.x[i*NPHYS+Y] * this.ctx.x[i*NPHYS+Y]);
@@ -402,10 +423,12 @@ var App = Backbone.ROComputedModel.extend({
             dt = Math.min(dt, 0.05*Math.sqrt(r*r*r/K2));
         }
 
+
         var collided = false;
         var minAU = this.get('minAU');
         var steps = (deltat / dt) | 0;
         var rem = deltat % dt;
+        this.ctx.dt = dt;
         
         for (var j = 0; j <= steps; j++) {
             if (j == steps && rem < 1e-8)
@@ -442,8 +465,8 @@ var App = Backbone.ROComputedModel.extend({
         }
 
 
-        Physics.barycenter(this.ctx);
-
+        Physics.barycenter(this.ctx, true);
+        
         this.trigger("tick");
     },
 
@@ -610,6 +633,7 @@ var App = Backbone.ROComputedModel.extend({
             velocity: defaults.velocity,
             types: defaults.types,
             nplanets: defaults.nplanets,
+            centered:false,
             
             time: defaults.time,
             state: defaults.state,
@@ -620,7 +644,8 @@ var App = Backbone.ROComputedModel.extend({
             collided: defaults.collided,
             selectedPlanet: defaults.selectedPlanet
         });
-        this.ctx.elements = null;
+        this.ctx = {M:this.get('masses'), x: this.get('position'), v:this.get('velocity'), dt: 0.25};
+        console.log('inited');
         this.trigger('reset');
         this.trigger('start');
         this.resetFlags();
@@ -834,13 +859,15 @@ var App = Backbone.ROComputedModel.extend({
                 period = Math.min(period, time).toFixed(1) + " days";                
             }
         }
-        var mass = this.massLabel(this.massForBody(body-1));
+        var M = this.massForBody(body-1);
+        var mass = this.massLabel(M);
 
         return {
             distance: (r * Units.RUNIT / (1e11)).toFixed(1) + " million km",
             speed: (v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(1) + " km/s",
             period: period,
-            mass: mass
+            mass: mass,
+            massSliderVal: Math.log10(M * Units.MSUN/Units.MEARTH) * 100
         };
     },
     
@@ -853,6 +880,9 @@ var App = Backbone.ROComputedModel.extend({
         this.ctx = {M:this.get('masses'), x: this.get('position'), v:this.get('velocity'), dt: 0.25 };
         this.listenTo(this, "planet:drag planet:dragvelocity", function() { this.elements(true); });
 
+        if (!this.ctx.M)
+            console.error('');
+        
         this.listenTo(this, "change:state", function() {
             if (self.get('state') == PAUSED)
                 app.trigger('state:paused');
@@ -892,8 +922,10 @@ var AppView = Backbone.View.extend({
         "click #forces": function() { app.flags.disabledForce = !app.flags.disabledForce; app.trigger('refresh'); },
         "click #zoom-in": function() { draw.setZoom(draw.zoom*2); },
         "click #zoom-out": function() { draw.setZoom(draw.zoom/2); },
+        "click #speed-up": function() { draw.setSpeed(SPEED * 2); },
+        "click #speed-down": function() { draw.setSpeed(SPEED / 2); },        
         "click #zoom": function() { this.setToolbarVisible($("#toolbar-zoom")); },
-        "click #mass-selector": function() { this.setToolbarVisible($("#toolbar-masses")); },
+        "click #mass-selector": function() { if (app.get('state') == PAUSED) this.setToolbarVisible($("#toolbar-masses")); },
         "click #dashboard": function() { location.href = "/"; }
         
     }),
@@ -954,12 +986,20 @@ var AppView = Backbone.View.extend({
             self.validateTimer = _.delay(_.bind(self.validate, self), secs);
         });
 
-        $(".planet-select").on(UI.clickEvent, function() {
+        $('#mass-slider').rangeslider({ polyfill: false });
+        
+        $('#mass-slider').on('change', function(a, b, c) {
             var idx = app.get('selectedPlanet')-1;
-            var mass = $(this).data("mass") | 0;
-            console.log($(this), mass, idx);
+            var mass = Math.pow(10, $(this).val()/100) | 0;
             app.setMassForBody(idx, mass * Units.MEARTH/Units.MSUN);
-            $("#toolbar-masses").toggleClass("expanded").toggleClass("hidden"); 
+        });
+
+        $('.toolbar .close').on(UI.clickEvent, function() {
+            self.setToolbarVisible($(this).parents('.toolbar'));
+        });
+
+        $(".planet").on(UI.clickEvent, function() {
+            app.set('selectedPlanet', $(this).data('n'));
         });
     },
 
@@ -1009,10 +1049,7 @@ var AppView = Backbone.View.extend({
     missionDelay: 5000,
     missionQuickDelay: 2000,
 
-    setToolbarVisible: function($toolbar, visible) {
-        if (app.get('state') != PAUSED)
-            visible = false;
-        
+    setToolbarVisible: function($toolbar, visible) {        
         if (visible === undefined || visible === 'toggle') {
             $toolbar.toggleClass("expanded").toggleClass("hidden");
         } else if (visible) {
@@ -1093,6 +1130,10 @@ var AppView = Backbone.View.extend({
      */    
     renderInfo: function() {
         
+        for (var i = 0; i < app.get('nplanets'); i++) {
+            $("#planet-" + (i+1)).css('display', (i < app.get('nplanets') ? 'inline' : 'none')).css("background-color", draw.color(TYPE_PLANET, i)).removeClass("planet-selected");
+        }
+        
         if (app.get('nplanets') > 0) {
             var idx = app.get('selectedPlanet')-1;
             var info = app.getHumanInfoForBody(idx);
@@ -1105,14 +1146,17 @@ var AppView = Backbone.View.extend({
             $("#mass-selector").show();
             
             $(".val-planet").css("color", draw.color(TYPE_HALO, idx));
-            $(".planet").css("background-color", draw.color(TYPE_PLANET, idx));
-            
+            $("#planet-" + (idx+1)).addClass("planet-selected");
+            $("#mass-slider-container .rangeslider__fill").css('background-color', draw.color(TYPE_PLANET, idx));
+            if (idx >= 0)
+                $("#mass-slider").val(info.massSliderVal).change();
         } else {
             $("#distance").text("");
             $("#speed").text("");
             $("#eccentricity").text("");
             $("#period").text("");
-            $("#mass-selector").hide();            
+            $("#mass-selector").hide();
+            $(".planet").css("display", "none");
         }
     },
 
@@ -1140,7 +1184,7 @@ var AppView = Backbone.View.extend({
             $("#info-top").show();
 
         if (state != PAUSED)
-            this.setToolbarVisible($(".toolbar"));
+            this.setToolbarVisible($("#toolbar-masses"), false);
     },
 
     /*

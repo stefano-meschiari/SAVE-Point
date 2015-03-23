@@ -1,7 +1,7 @@
 // Number of stars
 STARS = 300;
 CANVAS_ID = 'canvas';
-MAX_SEGMENTS = 200;
+MAX_SEGMENTS = 400;
 SLOW_ENV = false;
 SPEED = 1;
 
@@ -102,7 +102,8 @@ ThreeDPath.prototype.update = function() {
 ThreeDPath.prototype.sort = function() {
     for (var i = 0; i < this.p.length; i++) {
         this.p[i].bringToFront();
-        this.p[i].insertBelow(this.body);
+        if (this.body.positionZ > 0)
+            this.body.bringToFront();
     }
     for (i = 0; i < this.m.length; i++)
         this.m[i].sendToBack();
@@ -351,12 +352,24 @@ var Draw = Backbone.View.extend({
         this.trailsUpdate();        
     },
 
+    setSpeed: function(speed) {
+        if (speed > 16 || speed < 1/16)
+            return;
+
+        var speedLabel = speed;
+        if (speed < 1)
+            speedLabel = "1/" + (1./speed).toFixed(0);
+        
+        $("#speed-value").text(speedLabel);
+        SPEED = speed;
+    },
+    
     calculateBodySize: function(mass, body) {
         mass = mass * Units.MSUN / Units.MEARTH;
         var radius;
 
-        if (mass < 1.5 * Units.MJUP / Units.MEARTH) {
-            radius = Math.pow(mass, 0.5);
+        if (mass < Units.MJUP / Units.MEARTH) {
+            radius = Math.pow(mass, 0.42);
         } else {
             radius = _m.interp(mass, Units.MJUP/Units.MEARTH, Units.MSUN/Units.MEARTH, Units.RJUP/Units.REARTH, Units.RSUN/Units.REARTH);
         }
@@ -372,7 +385,9 @@ var Draw = Backbone.View.extend({
             body.bodyRadius = R;
             body.haloRadius = Math.max(3 * R, DRAG_TARGET_MIN_SIZE);
             body.bodyDragRadius = 2 * R;
-            body.haloDragRadius = 2 * body.haloRadius;
+            if (body.radius > 0.5*DRAG_TARGET_MIN_SIZE)
+                body.bodyDragRadius = 0.5 * DRAG_TARGET_MIN_SIZE;
+            body.haloDragRadius = body.haloRadius;
         }
         return R;
     },
@@ -391,13 +406,14 @@ var Draw = Backbone.View.extend({
        
 
         if (star) {
+            var center = star.bounds.center;
             star.bounds.width = 2*zoom*star.bodyRadius;
             star.bounds.height = 2*zoom*star.bodyRadius;
             star.halo.bounds.width = 2*zoom*star.haloRadius;
             star.halo.bounds.height = 2*zoom*star.haloRadius;
             
-            star.position = view.center;
-            star.halo.position = view.center;
+            star.position = center;
+            star.halo.position = center;
         }
         if (this.planets)
             for (var i = 0; i < this.planets.length; i++) {
@@ -405,7 +421,7 @@ var Draw = Backbone.View.extend({
                 this.calculateBodySize(app.massForBody(i), body);
                 
                 if (!body.dragging) {
-                    var center = body.bounds.center;                
+                    center = body.bounds.center;                
                     body.bounds.size = new Size(2*body.bodyRadius*zoom, 2*body.bodyRadius*zoom);
                     body.bounds.center = center;
                 }
@@ -927,9 +943,14 @@ var Draw = Backbone.View.extend({
             }
     },
     
-    starUpdate: function(position) {
-        this.star.halo.position.x = this.star.position.x = view.center.x + position[X] * PIXELS_PER_AU;
-        this.star.halo.position.y = this.star.position.y = view.center.y + position[Y] * PIXELS_PER_AU;
+    starUpdate: function() {
+        var position = app.povPositionForBody(-1);
+        position = Physics.applyRotation(this.transformation,
+                              { x: position[X], y: position[Y], z: position[Z] },
+                              {} );
+
+        this.star.halo.position.x = this.star.position.x = view.center.x + position.x;
+        this.star.halo.position.y = this.star.position.y = view.center.y + position.y;
     },
 
     validatePlanetPositions: function(position) {
@@ -975,8 +996,8 @@ var Draw = Backbone.View.extend({
             }
 
             if (changed) {
-                var c = [(point.x - this.star.position.x)/PIXELS_PER_AU, (point.y - this.star.position.y) / PIXELS_PER_AU, 0];
-                app.setPositionForBody(i, c);                
+                var c = [(point.x - view.center.x)/PIXELS_PER_AU, (point.y - view.center.y) / PIXELS_PER_AU, 0];
+                app.povSetPositionForBody(i, c);                
             }
         }
     },
@@ -986,8 +1007,6 @@ var Draw = Backbone.View.extend({
             return;
         
         var self = this;
-        
-        var position = app.get('position');
         
         
         var planets = this.planets;
@@ -1062,8 +1081,7 @@ var Draw = Backbone.View.extend({
                             var c = [point.x - self.star.position.x, point.y - self.star.position.y, 0];
                             c[0] /= PIXELS_PER_AU;
                             c[1] /= PIXELS_PER_AU;
-                            app.setPositionForBody(body.planetIndex, c);
-                            
+                            app.povSetPositionForBody(body.planetIndex, c);                            
                         }
                         console.log(refuseDrag);
 
@@ -1121,11 +1139,14 @@ var Draw = Backbone.View.extend({
         var star = this.star;
         var ret = {};
         var zoomOut = false;
+        var position = [];
         
         for (i = 0; i < nplanets; i++) {
             var planet = planets[i];
+            position = app.povPositionForBody(i, position);
+            
             Physics.applyRotation(this.transformation,
-                                  { x: position[NPHYS*(i+1)+X], y: position[NPHYS*(i+1)+Y], z: position[NPHYS*(i+1)+Z] },
+                                  { x: position[X], y: position[Y], z: position[Z] },
                                   ret);
             
             planet.position.x = ret.x + view.center.x;
@@ -1135,7 +1156,8 @@ var Draw = Backbone.View.extend({
                 planet.insertBelow(this.star);
             else
                 planet.bringToFront();
-            
+
+            planet.positionZ = ret.z;
             var dx = planet.position.x - star.position.x;
             var dy = planet.position.y - star.position.y;
 
@@ -1166,7 +1188,6 @@ var Draw = Backbone.View.extend({
             return;
         }
 
-        var position = app.get('position');
         var velocity = app.get('velocity');
         var nplanets = app.get('nplanets');
         var handles = this.handles;
@@ -1187,7 +1208,7 @@ var Draw = Backbone.View.extend({
                 
                 halo.fillColor =  {
                     gradient: {
-                        stops:[[haloColor, 0.3], ['rgb(0, 0, 0, 0)', 0.8]],
+                        stops:[[haloColor, 0.3], [window.Color(haloColor).alpha(0).rgbString(), 0.8]],
                         radial:true
                     },
                     origin: body.position,
@@ -1388,12 +1409,17 @@ var Draw = Backbone.View.extend({
             
         }
 
-
+        var position = [];
         
         for (i = 0; i < planets.length; i++) {
             
-            if (this.trailThetaTotal[i] > 2.*Math.PI && !interactingSystem)
+            if (this.trailThetaTotal[i] > 2.*Math.PI && !interactingSystem) {
+                if (this.computedTrails && this.computedTrailPaths[i]) {
+                    this.computedTrailPaths[i].remove();
+                    this.computedTrailCoords[i] = [];
+                }
                 continue;
+            }
             
             var star = this.star;
             
@@ -1411,15 +1437,12 @@ var Draw = Backbone.View.extend({
             }
             
             if (tCoords.length > MAX_SEGMENTS) {
-                if (interactingSystem)
-                    tCoords.shift();
-                else
-                    continue;
+                    tCoords.shift();                
             }
             
             var lastPos;
-            var position = app.get('position');
-            var theta = Math.atan2(position[(i+1)*NPHYS+Y], position[(i+1)*NPHYS+X]);
+            position = app.povPositionForBody(i, position);
+            var theta = Math.atan2(position[Y], position[X]);
             var firstArc = false;
             
             if (tCoords.length == 0) {
@@ -1446,8 +1469,8 @@ var Draw = Backbone.View.extend({
 
             var a = els[i].sma;
             var e = els[i].eccentricity;
-            var r = position[(i+1)*NPHYS+X]*position[(i+1)*NPHYS+X] +
-                    position[(i+1)*NPHYS+Y]*position[(i+1)*NPHYS+Y];
+            var r = position[X]*position[X] +
+                    position[Y]*position[Y];
 
             var arc2 = dt * dt * r * PIXELS_PER_AU_1 * PIXELS_PER_AU_1;
             var pt = tickLengths[i];
@@ -1465,7 +1488,7 @@ var Draw = Backbone.View.extend({
             }
             
             tCoords.push(
-                { x: position[(i+1)*NPHYS+X], y: position[(i+1)*NPHYS+Y], z:position[(i+1)*NPHYS+Z]}
+                { x: position[X], y: position[Y], z:position[Z]}
             );
             
             
@@ -1517,7 +1540,7 @@ var Draw = Backbone.View.extend({
         }
     },
 
-
+    
     animateStar: function() {
         var start = 5;
         var N = 20;
@@ -1530,15 +1553,18 @@ var Draw = Backbone.View.extend({
         this.cancelAnimation('travel');
         
         this.pushAnimation('star', function(cmd) {
+            var pos = app.povPositionForBody(-1);
             
             if (cmd == 'cancel') {
                 star.bounds.width = 2*star.bodyRadius*zoom;
                 star.bounds.height = 2*star.bodyRadius*zoom;
                 star.halo.bounds.width = 2*star.haloRadius*zoom;
                 star.halo.bounds.height = 2*star.haloRadius*zoom;
+
                 
-                star.position = view.center;
-                star.halo.position = view.center;
+                
+                star.position = view.center + new Point(pos[X], pos[Y]) * PIXELS_PER_AU;
+                star.halo.position = view.center + new Point(pos[X], pos[Y]) * PIXELS_PER_AU;;
                 star.visible = true;
                 star.halo.visible = true;
 
@@ -1552,8 +1578,8 @@ var Draw = Backbone.View.extend({
             star.halo.bounds.width = (i*dx+start) * star.haloRadius/star.bodyRadius;
             star.halo.bounds.height = (i*dx+start) * star.haloRadius/star.bodyRadius;
             
-            star.position = view.center;
-            star.halo.position = view.center;
+            star.position = view.center + new Point(pos[X], pos[Y]) * PIXELS_PER_AU;;
+            star.halo.position = view.center + new Point(pos[X], pos[Y]) * PIXELS_PER_AU;;
             if (i == 1) {
                 star.visible = true;
                 star.halo.visible = true;
@@ -1569,14 +1595,16 @@ var Draw = Backbone.View.extend({
         var fr = 20;
         var star = this.star;
         var zoom = this.zoom;
-        
+            
         this.pushAnimation('bobstar', function() {
             if (i == fr)
                 return false;
+            var pos = app.povPositionForBody(-1);
 
+            
             star.bounds.width = zoom * star.bodyRadius * (2 + 0.2 * Math.sin(Math.PI*i/fr));
             star.bounds.height = zoom * star.bodyRadius * (2 + 0.2 * Math.sin(Math.PI*i/fr));
-            star.position = view.center;
+            star.position = view.center + new Point(pos[X], pos[Y]) * PIXELS_PER_AU;;
             i++;
             return true;
         });
@@ -1588,8 +1616,7 @@ var Draw = Backbone.View.extend({
         if (this.animating)
             return;
         
-        var position = app.get('position');
-        this.starUpdate(position);
+        this.starUpdate();
         this.planetsUpdate();
         this.handlesUpdate();
         this.trailsUpdate();
