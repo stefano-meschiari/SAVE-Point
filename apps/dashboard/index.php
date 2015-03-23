@@ -93,7 +93,14 @@ write_cfg_json($cfg);
           </div>
 
         </div>
-        
+        <div class="app-col uk-width-1-3">
+        </div>
+        <div class="app-col uk-width-1-3">
+            <button id="help" class="uk-animation-hover uk-animation-scale">
+                ?
+            </button>
+            <div class="app-title">Help & Credits</div>
+        </div>
       </div>
 
       <?php

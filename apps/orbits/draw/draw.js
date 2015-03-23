@@ -100,8 +100,10 @@ ThreeDPath.prototype.update = function() {
 };
 
 ThreeDPath.prototype.sort = function() {
-    for (var i = 0; i < this.p.length; i++)
+    for (var i = 0; i < this.p.length; i++) {
         this.p[i].bringToFront();
+        this.p[i].insertBelow(this.body);
+    }
     for (i = 0; i < this.m.length; i++)
         this.m[i].sendToBack();
 };
