@@ -499,6 +499,7 @@ left:430px;
 
 #info-top table {
   width:100%;
+  min-width:300px;
 }
 
 #toolbars {
@@ -518,7 +519,14 @@ left:430px;
   padding:10px;
   margin-top:15px;
   position:relative;
+  text-align:center;
   background: @color-glass;
+}
+
+.toolbar button.circular {
+  border-radius:50px;
+  width:50px;
+  height:50px;
 }
 
 .btn-borderless {
@@ -535,6 +543,11 @@ td.td-label {
 td.td-val {
   border-bottom:1px solid white;
   text-align:right;
+  font-weight:bold;
+}
+
+td.td-val button {
+  font-family:Dosis;
   font-weight:bold;
 }
 
@@ -733,6 +746,14 @@ td.td-val {
   &:before {
     content: @fa-var-circle-o;
     background: radial-gradient(ellipse at center, rgba(255,255,136,1) 0%,rgba(255,255,136,0) 90%); 
+  }
+}
+
+.icon-force {
+  .fa;
+  &:before {
+    content: @fa-var-long-arrow-right;
+    transform: rotate(45deg);
   }
 }
 
@@ -1202,8 +1223,83 @@ html.tablet div.mobile-only {
  body, html {
    overflow:hidden;
  }
-
  
 .center {
   text-align:center;
+}
+
+#mass-selector {
+  position:relative;
+  z-index:10;
+  border:none;
+  background:none;
+  width:100%;
+  text-align:right;
+}
+
+#mass-selector .change {
+  background-color:@color-glass;
+  border-radius:30px;
+  float:right;
+  height:30px;
+  margin-left:10px;
+  padding-left:10px;
+  padding-right:10px;
+  line-height:30px;
+  font-size:18px;
+  font-variant:small-caps;
+}
+
+.planet {
+  margin:0 auto;
+  margin-bottom:10px;
+  background:radial-gradient(circle at 0px 0px, rgba(0, 0, 0, 0) 0%, black 100%);
+}
+
+.earth .planet {
+  width:20px;
+  height:20px;
+  background-color:red;
+  border-radius:10px;
+}
+
+.neptune .planet {
+  width:35px;
+  height:35px;
+  background-color:red;
+  border-radius:35px;
+}
+
+.jupiter .planet {
+  width:60px;
+  height:60px;
+  background-color:red;
+  border-radius:60px;
+}
+
+.planet-select {
+  height:120px;
+  width:100px;
+  margin:2px;
+}
+
+
+#sidebar-sizes, #sidebar-zoom, #mass-selection {
+  display:none;
+}
+
+html.can-toggle-sizes #sidebar-sizes {
+  display:block;
+}
+html.can-zoom #sidebar-zoom {
+  display:block;
+}
+html.can-select-mass #mass-selection {
+  display:table-row;
+}
+
+html.gravitykit #sidebar-menu,
+html.gravitykit #sidebar-practice,
+html.gravitykit #sidebar-help {
+  display:none;
 }

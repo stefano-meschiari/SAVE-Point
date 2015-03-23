@@ -43,7 +43,14 @@ write_mission_rules($cfg);
     
     <div id="info-top">
       <div id="info-table-container">
-        <table cols="2">
+          <table cols="2">
+              <tr id="mass-selection">
+              <td class="td-label">Mass</td>
+              <td class="td-val val-planet">
+                  <button class="td-val val-planet" id="mass-selector"><span id="mass" class="td-val"></span> <span class="change">change</span></button>                 
+              </td>
+          </tr>
+
           <tr>
             <td class="td-label">Distance</td>
             <td class="td-val val-planet" id="distance"></td>
@@ -53,8 +60,8 @@ write_mission_rules($cfg);
             <td class="td-val val-planet" id="speed"></td>
           </tr>
           <tr>
-            <td class="td-label">Time to orbit</td>
-            <td class="td-val val-planet" id="period"></td>
+              <td class="td-label">Time to orbit</td>
+              <td class="td-val val-planet" id="period"></td>
           </tr>
           <tr>
             <td class="td-stars" colspan="2">
@@ -65,15 +72,32 @@ write_mission_rules($cfg);
         </table>
       </div>
       <div id="toolbars">
+          <div class="toolbar in-front hidden" id="toolbar-masses">
+              Mass:
+              <div class="uk-vertical-align">
+                  <button class="planet-select uk-vertical-align-middle earth btn btn-jrs" data-mass="1">
+                      <div class="planet">
+                      </div>
+                      Earth
+                  </button>
+                  <button class="planet-select uk-vertical-align-middle neptune btn btn-jrs" data-mass="17">
+                      <div class="planet">
+                      </div>
+                      Neptune
+                  </button>
+                  <button class="planet-select uk-vertical-align-middle jupiter btn btn-jrs" data-mass="318">
+                      <div class="planet">
+                      </div>
+                      Jupiter
+                  </button>                  
+              </div>
+          </div>
         <div class="toolbar in-front hidden" id="toolbar-zoom">
-          Zoom: <strong><span id="zoom-value">100</span>%</strong>
-          <span class="pull-right">
-            <span class="btn-group">
-              <button class="btn-jrs in-front fa fa-plus" id="zoom-in"></button>
-              <button class="btn-jrs in-front fa fa-minus" id="zoom-out"></button>
-            </span>
-            <span class="fa fa-minus-circle btn-borderless" id="zoom-close"></span>
-          </span>
+            Zoom: <strong><span id="zoom-value">100</span>%</strong>
+            <div>
+                <button class="btn-jrs in-front circular" id="zoom-in"><span class="fa fa-plus"></span></button>
+                <button class="btn-jrs in-front circular" id="zoom-out"><span class="fa fa-minus"></span></button>
+            </div>
         </div>
       </div>
       
@@ -89,32 +113,35 @@ write_mission_rules($cfg);
       <div class="separator-center"></div>
     </div>
     
-    <div class="sidebar-item">
+    <div class="sidebar-item" id="sidebar-menu">
       <button id="missions" class="btn-jrs-ico icon-missions" title="Mission menu" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Mission menu</div>
     </div>
-    <div class="sidebar-item">
+    <div class="sidebar-item" id="sidebar-restart">
       <button id="reset" class="btn-jrs-ico fa fa-undo"  title="Restart mission" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Restart mission</div>
     </div>
+    <div class="sidebar-item" id="sidebar-sizes">
+      <button id="sizes" class="btn-jrs-ico fa fa-arrows-alt"  title="Toggle physical size" data-tooltip-content="{pos: 'right', offset:20}"></button>
+      <div class="sidebar-title">Toggle physical size</div>
+    </div>
     <div class="sidebar-item">
+      <button id="forces" class="btn-jrs-ico icon-force"  title="Toggle forces" data-tooltip-content="{pos: 'right', offset:20}"></button>
+      <div class="sidebar-title">Toggle forces</div>
+    </div>    
+    <div class="sidebar-item"  title="Zoom" data-tooltip-content="{pos: 'right', offset:20}" id="sidebar-zoom">
+      <button id="zoom" class="btn-jrs-ico fa fa-search"></button>
+      <div class="sidebar-title">Zoom</div>
+    </div>
+    <div class="sidebar-item" id="sidebar-practice">
       <button id="practice" class="btn-jrs-ico icon-sandbox" title="Practice mode" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Practice mode</div>
     </div>
-    <div class="sidebar-item">
+    <div class="sidebar-item" id="sidebar-help">
       <button id="help" class="btn-jrs-ico fa fa-question-circle" title="Help" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Help</div>
     </div>
 
-    <div class="separator-center sidebar-item-disabled"></div>
-    <div class="sidebar-item sidebar-item-disabled" id="sidebar-sizes">
-      <button id="sizes" class="btn-jrs-ico fa fa-arrows-alt"  title="Toggle physical size" data-tooltip-content="{pos: 'right', offset:20}"></button>
-      <div class="sidebar-title">Toggle physical size</div>
-    </div>
-    <div class="sidebar-item sidebar-item-disabled"  title="Zoom" data-tooltip-content="{pos: 'right', offset:20}" id="sidebar-zoom">
-      <button id="zoom" class="btn-jrs-ico fa fa-search"></button>
-      <div class="sidebar-title">Zoom</div>
-    </div>
     <div class="separator-center"></div>
     <div class="sidebar-item">
       <button class="settings btn-jrs-ico fa fa-sliders" data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-tooltip-content="{pos: 'right', offset:20}"></button>

@@ -4,6 +4,11 @@ if (typeof(exports) !== 'undefined')
 
 var _m = {};
 
+_m.eps = function(a, b, eps) {
+    if (eps === undefined) eps = 0.1;
+    return Math.abs(a-b)/Math.abs(a+b) < eps;
+};
+
 _m.vectorize = function(f) {
     return function(v, vout) {
         if (typeof(v) !== "object")
@@ -315,6 +320,10 @@ _m.interpFun = function(x, y) {
     };
 };
 
+_m.interp = function(x, x1, x2, y1, y2) {
+    return (x-x1) * (y2-y1)/(x2-x1) + y1;
+}
+
 _m.derivFun = function(f, h) {
     h = h || 1e-3;
 
@@ -322,6 +331,8 @@ _m.derivFun = function(f, h) {
         return (f(x+0.5*h)-f(x-0.5*h))/h;
     };
 };
+
+
 
 _m.defaultFormat = function(n) {
     var v;

@@ -20,6 +20,7 @@ var Templates = Backbone.Model.extend({
         "@disable-velocity-drag": function() { app.flags.disabledVelocityDrag = true; },
         "@disable-velocity": function() { app.flags.disabledVelocity = true; },
         "@disable-force": function() { app.flags.disabledForce = true; },
+        "@reset-flags": function() { app.resetFlags(); },
         "@refresh": function() { app.trigger("refresh"); },
         "@validateplanetpositions": function() { draw.validatePlanetPositions(); },
         "@enter-avatar": function() {

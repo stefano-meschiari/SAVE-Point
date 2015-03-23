@@ -301,7 +301,7 @@ Physics.applyRotation = function(T, xin, Xout, scale) {
         Xout.x = x * T.stretch;
         Xout.y = y * T.stretch;
         Xout.z = z * T.stretch;
-        return;
+        return Xout;
     }
     if (scale) {
         T.sinW *= scale;
@@ -318,6 +318,8 @@ Physics.applyRotation = function(T, xin, Xout, scale) {
         T.sinI /= scale;
         T.sinO /= scale;
     }
+
+    return Xout;
 };
 
 

@@ -130,25 +130,25 @@ missions:
           
       - on: proceed
         message: >
-          @boss @disable-star  @disable-planet-drag @disable-velocity @disable-force @interactive
+          @boss @reset-flags @disable-star  @disable-planet-drag @disable-velocity @disable-force @interactive
           First, *@icon-tap tap anywhere* to add a new planet. 
            
       - on: change:nplanets
         message: >
-          @boss @disable-star @disable-velocity @disable-force @refresh @validateplanetpositions  @interactive
+          @boss @reset-flags @disable-star @disable-velocity @disable-force @refresh @validateplanetpositions  @interactive
           That's your first planet! Now try to *@icon-drag @color-cyan{drag the planet}*
           to change its position.
 
       - on: planet:drag
         message: |
-          @boss @disable-star @disable-velocity @disable-force @refresh @validateplanetpositions
+          @boss @reset-flags @disable-star @disable-velocity @disable-force @refresh @validateplanetpositions
           Great job, rookie! Lots of useful information about your planet is shown in the upper right, 
           such as its distance from the star and its speed.
           @proceed
 
       - on: proceed
         message: |
-          @boss @disable-star @disable-planet-drag @disable-velocity
+          @boss  @reset-flags @disable-star @disable-planet-drag @disable-velocity
           *Check out that @color-force{yellow arrow}!*
 
 
@@ -177,13 +177,13 @@ missions:
           
       - on: proceed
         message: >
-          @disable-star @refresh @boss  @validateplanetpositions
+        @reset-flags @disable-star @refresh @boss  @validateplanetpositions
           Now try to @icon-drag *drag the @color-cyan{head of the green speed arrow}* to change the speed
           and direction of the planet, and see its speed change in the upper right. 
 
       - on: planet:dragvelocity
         message: |
-          @boss @validateplanetpositions
+          @reset-flags @boss @validateplanetpositions
           As you change the position and speed of the planet, its orbital path will change.
 
           
@@ -191,7 +191,7 @@ missions:
           
       - on: win3
         message: |
-          @boss
+          @boss 
           Good work, but we need you to train quickly!  We need to 
           engineer all of the new star systems forming in the Arcturus Nebula, and our 
           customers are very... picky.
@@ -621,7 +621,11 @@ missions:
     constraints:
       nplanets: 6
     music: gravitykit
-    hideui: true
+    nosave: true
+    powers:
+      - can-zoom
+      - can-select-mass
+      - can-toggle-sizes
     enabled: true
     hidden: true
     help:

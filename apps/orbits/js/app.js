@@ -65,12 +65,19 @@ var MissionCollection = Backbone.Collection.extend({
  *
  */
 
-var TYPE_STAR = 0;
-var TYPE_PLANET = 1;
-var TYPE_STAR_FIXED = 2;
-var TYPE_PLANET_FIXED = 3;
-var TYPE_HALO = 4;
-var TYPE_OUTLINE = 5;
+var TYPE_STAR = 1;
+var TYPE_PLANET = 2;
+var TYPE_STAR_FIXED = 4;
+var TYPE_PLANET_FIXED = 8;
+var TYPE_HALO = 16;
+var TYPE_OUTLINE = 32;
+var TYPE_DRAG = 64;
+
+var POWERS = [
+    "can-zoom",
+    "can-toggle-sizes",
+    "can-select-mass"
+];
 
 var App = Backbone.ROComputedModel.extend({
     defaults: function() {
@@ -106,7 +113,7 @@ var App = Backbone.ROComputedModel.extend({
             // all the bodies in the system.
             masses: [1],
             // default mass of new objects
-            defaultMass:0,
+            defaultMass: Units.MEARTH / Units.MSUN,
             // mission collection
             missions: null,
             // interactive?
@@ -126,11 +133,13 @@ var App = Backbone.ROComputedModel.extend({
             minAU: 0.19,
             // Music settings
             musicVolume:0.2,
-            effectsVolume:0.2
+            effectsVolume:0.2,
+            // Powers
+            activePowers: []
         };
     },
 
-    saveKeys: ['musicVolume', 'effectsVolume'],
+    saveKeys: ['musicVolume', 'effectsVolume', 'activePowers'],
     components: {},
     flags: {},
     loaded: false,
@@ -230,9 +239,28 @@ var App = Backbone.ROComputedModel.extend({
         return x;
     },
 
+    /*
+     * Returns the mass for the body (internal units)
+     */
+    massForBody: function(i) {
+        return this.get('masses')[i+1];
+    },
+
+    setMassForBody: function(i, mass) {
+        this.get('masses')[i+1] = mass;
+        this.trigger('change:masses');
+    },
 
     typeForBody: function(i) {
         return this.get('bodyTypes')[i+1];
+    },
+
+    interactingSystem: function() {
+        var masses = this.get('masses');
+        for (var i = 1; i < masses.length; i++)
+            if (masses[i] > 1.5 * Units.MEARTH/Units.MSUN)
+                return true;
+        return false;
     },
     
     /*
@@ -488,6 +516,7 @@ var App = Backbone.ROComputedModel.extend({
             mission = this.get('currentMission')+1;
 
         var self = this;
+        var missionName = mission;
         if (_.isString(mission)) {            
             app.get('missions').find(function(m, idx) {
                 if (m.get('name') === mission) {
@@ -497,9 +526,15 @@ var App = Backbone.ROComputedModel.extend({
                 return false;
             });
         }
-        
+
+        var previousMissionName = (app.mission() ? app.mission().get('name') : null);
+        if (previousMissionName)
+            $('html').removeClass(previousMissionName);
+            
         this.set({ currentMission: mission });
         this.reset();
+
+        $('html').addClass(this.mission().get('name'));
         
         var missionObj = this.mission();
         this.sounds.playMusic(missionObj.get('music'));      
@@ -588,7 +623,7 @@ var App = Backbone.ROComputedModel.extend({
         this.ctx.elements = null;
         this.trigger('reset');
         this.trigger('start');
-
+        this.resetFlags();
         if (app.component)
             app.component.stopListening();
         
@@ -682,6 +717,10 @@ var App = Backbone.ROComputedModel.extend({
     saveMissionData: function() {
         var self = this;
         var saveData = {};
+
+        if (this.mission().get('nosave'))
+            return;
+        
         _.each(this.saveKeys, function(key) {
             this[key] = self.get(key);
         }, saveData);
@@ -752,7 +791,21 @@ var App = Backbone.ROComputedModel.extend({
         _.delay(f2, wait);
     },
 
+    massRanges: {
+        Earth: 1,
+        Neptune: 17,
+        Jupiter: 300
+    },
 
+    massLabel: function(mass) {
+        mass = mass * Units.MSUN / Units.MEARTH;
+        if (mass < 17)
+            return mass.toFixed(1) + " x Earth";
+        else if (mass < 318)
+            return (mass / 17).toFixed(1) + " x Neptune";
+        else
+            return (mass / 318).toFixed(1) + " x Jupiter";
+    },
 
     getHumanInfoForBody: function(body) {
         if (body < 0)
@@ -781,10 +834,13 @@ var App = Backbone.ROComputedModel.extend({
                 period = Math.min(period, time).toFixed(1) + " days";                
             }
         }
+        var mass = this.massLabel(this.massForBody(body-1));
+
         return {
             distance: (r * Units.RUNIT / (1e11)).toFixed(1) + " million km",
             speed: (v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(1) + " km/s",
-            period: period
+            period: period,
+            mass: mass
         };
     },
     
@@ -833,11 +889,13 @@ var AppView = Backbone.View.extend({
         "click #reset": function() { app.reset(); },
         "click #missions": function() { app.menu(); },
         "click #sizes": function() { app.set('physicalSizes', !app.get('physicalSizes')); },
+        "click #forces": function() { app.flags.disabledForce = !app.flags.disabledForce; app.trigger('refresh'); },
         "click #zoom-in": function() { draw.setZoom(draw.zoom*2); },
         "click #zoom-out": function() { draw.setZoom(draw.zoom/2); },
-        "click #zoom": function() { $("#toolbar-zoom").addClass("expanded").removeClass("hidden"); },
-        "click #zoom-close": function() { $("#toolbar-zoom").removeClass("expanded").addClass("hidden"); },
+        "click #zoom": function() { this.setToolbarVisible($("#toolbar-zoom")); },
+        "click #mass-selector": function() { this.setToolbarVisible($("#toolbar-masses")); },
         "click #dashboard": function() { location.href = "/"; }
+        
     }),
 
     // Binds functions to change events in the model.
@@ -847,7 +905,7 @@ var AppView = Backbone.View.extend({
         
         
         // Update information when planetary parameters change
-        self.listenTo(self.model, 'change:nplanets change:time change:position change:velocity change:elements change:selectedPlanet', _.throttle(self.renderInfo, 200));
+        self.listenTo(self.model, 'change:nplanets change:masses change:time change:position change:velocity change:elements change:selectedPlanet', _.throttle(self.renderInfo, 400));
         
         self.listenTo(self.model, 'start change:missions reset', self.renderMission);
         self.listenTo(self.model, 'change:state', self.setVisibility);
@@ -857,6 +915,8 @@ var AppView = Backbone.View.extend({
         // Renders the information table on the top-right corner.
         this.renderInfo();
 
+
+        
         // A timer that checks whether a mission has been completed, by running the
         // validate function.
         self.listenTo(self.model, 'start change:missions reset', function() {
@@ -892,6 +952,14 @@ var AppView = Backbone.View.extend({
             
             var wait = Math.min(secs, 7000);
             self.validateTimer = _.delay(_.bind(self.validate, self), secs);
+        });
+
+        $(".planet-select").on(UI.clickEvent, function() {
+            var idx = app.get('selectedPlanet')-1;
+            var mass = $(this).data("mass") | 0;
+            console.log($(this), mass, idx);
+            app.setMassForBody(idx, mass * Units.MEARTH/Units.MSUN);
+            $("#toolbar-masses").toggleClass("expanded").toggleClass("hidden"); 
         });
     },
 
@@ -941,6 +1009,19 @@ var AppView = Backbone.View.extend({
     missionDelay: 5000,
     missionQuickDelay: 2000,
 
+    setToolbarVisible: function($toolbar, visible) {
+        if (app.get('state') != PAUSED)
+            visible = false;
+        
+        if (visible === undefined || visible === 'toggle') {
+            $toolbar.toggleClass("expanded").toggleClass("hidden");
+        } else if (visible) {
+            $toolbar.addClass("expanded").removeClass("hidden");
+        } else {
+            $toolbar.removeClass("expanded").addClass("hidden");
+        }
+    },
+    
     renderMission: function(hint) {
         // Check if the top banner is already expanded; if it is, hide it
         // temporarily and show it again.
@@ -988,6 +1069,16 @@ var AppView = Backbone.View.extend({
             self.missionBannerShowing = false;
         }, delay);
 
+        if (mission.get('powers')) {
+            var activePowers = app.get('activePowers');
+            _.each(mission.get('powers'), function(power) {
+                if (activePowers.indexOf(power) < 0)
+                    activePowers.push(power);
+                $('html').addClass(power);
+            });
+            
+        }
+        
     },
 
     els: {},
@@ -1006,16 +1097,22 @@ var AppView = Backbone.View.extend({
             var idx = app.get('selectedPlanet')-1;
             var info = app.getHumanInfoForBody(idx);
             
+            
             $("#distance").html(info.distance);
             $("#speed").text(info.speed);
             $("#period").text(info.period);
-
+            $("#mass").text(info.mass);
+            $("#mass-selector").show();
+            
             $(".val-planet").css("color", draw.color(TYPE_HALO, idx));
+            $(".planet").css("background-color", draw.color(TYPE_PLANET, idx));
+            
         } else {
             $("#distance").text("");
             $("#speed").text("");
             $("#eccentricity").text("");
             $("#period").text("");
+            $("#mass-selector").hide();            
         }
     },
 
@@ -1041,6 +1138,9 @@ var AppView = Backbone.View.extend({
         }
         if (state != MENU)
             $("#info-top").show();
+
+        if (state != PAUSED)
+            this.setToolbarVisible($(".toolbar"));
     },
 
     /*
@@ -1255,9 +1355,6 @@ var MessageView = Backbone.View.extend({
         
         self.lastHelp = helpText;
         
-        _.defer(function() {
-            app.resetFlags();
-        });
         _.defer(function() {
             if (help && help.funcs)
                 for (var i = 0; i < help.funcs.length; i++)
@@ -1479,3 +1576,5 @@ $(window).load(function() {
     });
 });
 
+if (_.parameter('mission') != null)
+    $('html').addClass(_.parameter('mission'));
