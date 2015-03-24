@@ -93,7 +93,6 @@ write_cfg_json($cfg);
   <div class="uk-clearfix logout-header">
 
     <?php if (!db_is_kiosk_user()) { ?>
-
       <div class="uk-float-right uk-button-dropdown" data-uk-dropdown>
         <button class="uk-button primary-button"><i class="fa fa-user"></i> <?= db_user() ?> <i class="fa fa-caret-down"></i></button>
         <div class="uk-dropdown uk-dropdown-small">
@@ -102,6 +101,9 @@ write_cfg_json($cfg);
           </ul>
         </div>
       </div>
+      <a class="uk-float-right uk-button primary-button uk-button-primary" href="http://save-point.io" target="_new"  style="margin-right:10px">
+        <strong>SAVE</strong>/Point
+      </a>
     <?php } ?>
     <div class="uk-float-right">
     </div>
@@ -139,7 +141,13 @@ write_cfg_json($cfg);
     </div>
     <div class="uk-grid" data-uk-grid-margin>
       <div class="app-col uk-width-1-3">
-        <img src="img/systemic_live.png" width="192" class="uk-animation-hover uk-animation-scale app-icon" onClick="location.href = 'http://stefanom.org/systemic-online/';">
+        <img src="img/systemic_live.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"
+             <?php if (db_is_kiosk_user()) { ?>
+             onClick="alert('This app is not available yet for use on this kiosk.');"
+             <?php } else { ?>
+             onClick="location.href = 'http://stefanom.org/systemic-online/';">
+             <?php } ?>
+             >
         <div class="app-title">
           Systemic Live
         </div>

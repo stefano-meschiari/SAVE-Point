@@ -21,6 +21,8 @@ Units.RUNIT = Units.AU;
 Units.MUNIT = Units.MSUN;
 Units.TUNIT = Units.DAY;
 
+Units.TEMPSUN = 5778.;
+
 Units.K2 = ((Units.GGRAV * Units.MUNIT * Units.TUNIT * Units.TUNIT) / (Units.RUNIT*Units.RUNIT*Units.RUNIT));
 
 Units.update = function() {

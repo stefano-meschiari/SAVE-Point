@@ -729,7 +729,7 @@ var App = Backbone.ROComputedModel.extend({
                 _.delay(function() {
                     app.trigger('load');
                     app.menu();
-                }, 3000);
+                }, 2000);
                
 
             });
@@ -832,6 +832,12 @@ var App = Backbone.ROComputedModel.extend({
             return (mass / 318).toFixed(1) + " x Jupiter";
     },
 
+    albedo: Math.pow(1-0.3, 0.25),
+    temperatureForDistance: function(r, albedo) {
+        albedo = albedo || this.albedo;
+        return Units.TEMPSUN * albedo * Math.sqrt(Units.RSUN / Units.RUNIT * 1./(2. * r)) - 273.15;        
+    },
+    
     getHumanInfoForBody: function(body) {
         if (body < 0)
             return {};
@@ -845,7 +851,15 @@ var App = Backbone.ROComputedModel.extend({
         var v = Math.sqrt((velocity[X]-velocity[body*NPHYS+X])*(velocity[X]-velocity[body*NPHYS+X]) +
                           (velocity[Y]-velocity[body*NPHYS+Y])*(velocity[Y]-velocity[body*NPHYS+Y]) +
                           (velocity[Z]-velocity[body*NPHYS+Z])*(velocity[Z]-velocity[body*NPHYS+Z]));
-
+        var T = this.temperatureForDistance(r);
+        var Tlabel;
+        if (T < 0)
+            Tlabel = '&#10052; Freezing';
+        else if (T > 100)
+            Tlabel = '&#9728; Boiling';
+        else
+            Tlabel = '&#9786; Habitable';
+        
         var period;
         if (app.get('state') == PAUSED) {
             period = '';
@@ -867,7 +881,8 @@ var App = Backbone.ROComputedModel.extend({
             speed: (v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(1) + " km/s",
             period: period,
             mass: mass,
-            massSliderVal: Math.log10(M * Units.MSUN/Units.MEARTH) * 100
+            massSliderVal: Math.log10(M * Units.MSUN/Units.MEARTH) * 100,
+            temperature: Tlabel + " (" + T.toFixed(0) + " &deg;C)"
         };
     },
     
@@ -920,8 +935,8 @@ var AppView = Backbone.View.extend({
         "click #missions": function() { app.menu(); },
         "click #sizes": function() { app.set('physicalSizes', !app.get('physicalSizes')); },
         "click #forces": function() { app.flags.disabledForce = !app.flags.disabledForce; app.trigger('refresh'); },
-        "click #zoom-in": function() { draw.setZoom(draw.zoom*2); },
-        "click #zoom-out": function() { draw.setZoom(draw.zoom/2); },
+        "click #zoom-in": function() { draw.setZoom(draw.zoom*2, true); },
+        "click #zoom-out": function() { draw.setZoom(draw.zoom/2, true); },
         "click #speed-up": function() { draw.setSpeed(SPEED * 2); },
         "click #speed-down": function() { draw.setSpeed(SPEED / 2); },        
         "click #zoom": function() { this.setToolbarVisible($("#toolbar-zoom")); },
@@ -1133,7 +1148,7 @@ var AppView = Backbone.View.extend({
         for (var i = 0; i < app.get('nplanets'); i++) {
             $("#planet-" + (i+1)).css('display', (i < app.get('nplanets') ? 'inline' : 'none')).css("background-color", draw.color(TYPE_PLANET, i)).removeClass("planet-selected");
         }
-        
+        $(".change").hide();
         if (app.get('nplanets') > 0) {
             var idx = app.get('selectedPlanet')-1;
             var info = app.getHumanInfoForBody(idx);
@@ -1144,18 +1159,24 @@ var AppView = Backbone.View.extend({
             $("#period").text(info.period);
             $("#mass").text(info.mass);
             $("#mass-selector").show();
-            
+            $("#temperature").html(info.temperature);
+            $("#temperature-label").html(info.temperatureLabel);
             $(".val-planet").css("color", draw.color(TYPE_HALO, idx));
             $("#planet-" + (idx+1)).addClass("planet-selected");
             $("#mass-slider-container .rangeslider__fill").css('background-color', draw.color(TYPE_PLANET, idx));
-            if (idx >= 0)
+            if (idx >= 0) {
                 $("#mass-slider").val(info.massSliderVal).change();
+                if (app.get('state') == PAUSED)
+                    $(".change").show();
+            }
         } else {
             $("#distance").text("");
             $("#speed").text("");
             $("#eccentricity").text("");
             $("#period").text("");
             $("#mass-selector").hide();
+            $("#temperature").html("");
+            $("#temperature-label").html("");
             $(".planet").css("display", "none");
         }
     },
@@ -1556,7 +1577,7 @@ var AppModalView = Backbone.View.extend({
         this.frame = _.bind(this.frame, this);
     },
 
-    loadingMessage: '<img src="img/logo.png"><div class="flash">Traveling to the <%= world %>...</div><i class="fa fa-circle-o-notch fa-spin"></i>',
+    loadingMessage: '<div class="orbits-loading"><img src="img/logo.png"><div class="flash">Traveling to the <%= world %>...</div></div><i class="fa fa-circle-o-notch fa-spin"></i>',
 
     frame: function() {
         this.size = this.size * 1.01;

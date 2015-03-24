@@ -15,12 +15,13 @@ var Templates = Backbone.Model.extend({
         "@center{(.+)}": '<div class="center">$1</div>',
         "@noninteractive": function() { app.set("interactive", false); },
         "@interactive": function() { app.set("interactive", true); },
+        "@reset-flags": function() { app.resetFlags(); },
+        "@disable-everything": function() { app.flags.disabledStar = app.flags.disabledPlanetDrag = app.flags.disabledVelocityDrag = app.flags.disabledVelocity = app.flags.disabledForce = true; },        
         "@disable-star": function() { app.flags.disabledStar = true; },
         "@disable-planet-drag": function() { app.flags.disabledPlanetDrag = true; },
         "@disable-velocity-drag": function() { app.flags.disabledVelocityDrag = true; },
         "@disable-velocity": function() { app.flags.disabledVelocity = true; },
         "@disable-force": function() { app.flags.disabledForce = true; },
-        "@reset-flags": function() { app.resetFlags(); },
         "@refresh": function() { app.trigger("refresh"); },
         "@validateplanetpositions": function() { draw.validatePlanetPositions(); },
         "@enter-avatar": function() {
@@ -62,8 +63,8 @@ var Templates = Backbone.Model.extend({
         "@wait-5": function() {  _.delay(function(self) {  self.listener.proceed(); }, 5000, this); }
     },
 
-    winTemplate: _.template('<div id="win-stars"></div><div class="win-title"><%= win %></div><div class="win-message"><%= message %></div><div class="win-toolbar"><button class="btn-jrs btn-lg btn-throb" on' + UI.clickEvent + '="app.menuView.selectNextMission(); app.menu();"><span class="fa fa-rocket"></span> Next Mission</button></div>'),
-    loseTemplate: _.template('<div id="win-stars"></div><div class="win-title"><%= lose %></div><div class="win-message"><%= message %></div><div class="win-toolbar"><button class="btn-jrs btn-lg btn-throb" on' + UI.clickEvent + '="app.reset()"><span class="fa fa-undo"></span> Retry</button></div>'),
+    winTemplate: _.template('<div class="win-title"><span id="win-stars"></span> <%= win %></div><div class="win-message"><%= message %></div><div class="win-toolbar"><button class="btn-jrs btn-lg btn-throb" on' + UI.clickEvent + '="app.menuView.selectNextMission(); app.menu();"><span class="fa fa-rocket"></span> Next Mission</button>'),
+    loseTemplate: _.template('</div><div class="win-title"><span id="win-stars"></span> <%= lose %></div><div class="win-message"><%= message %></div><div class="win-toolbar"><button class="btn-jrs btn-lg btn-throb" on' + UI.clickEvent + '="app.reset()"><span class="fa fa-undo"></span> Retry</button>'),
     
     winDefaultEncouragement: '@boss\nGood job, rookie!',
     loseDefaultEncouragement: '@boss\nToo bad! Give it another try?',

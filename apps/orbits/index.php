@@ -70,14 +70,15 @@ write_mission_rules($cfg);
             <td class="td-val val-planet" id="speed"></td>
           </tr>
           <tr>
-            <td class="td-label">Time to orbit</td>
-            <td class="td-val val-planet" id="period"></td>
+            <td class="td-label">Temperature</td>
+            <td class="td-val val-planet">
+              <div id="temperature">
+              </div>              
+            </td>
           </tr>
           <tr>
-            <td class="td-stars" colspan="2">
-              <div id="stars">
-              </div>
-            </td>
+            <td class="td-label">Time to orbit</td>
+            <td class="td-val val-planet" id="period"></td>
           </tr>
         </table>
       </div>

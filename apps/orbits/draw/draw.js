@@ -305,6 +305,7 @@ var Draw = Backbone.View.extend({
     
     animating:false,
     zoom:1,
+    autoZoom: true,
     
     color: function(type, index) {
         var colors = app.mission().get('colors') || [];
@@ -324,10 +325,10 @@ var Draw = Backbone.View.extend({
         return color;
     },
     
-    setZoom: function(zoom) {
+    setZoom: function(zoom, disableAutoZoom) {
         if (zoom < 0.05 || zoom > 10)
             return;
-        
+        autoZoom = !disableAutoZoom;
         zoom = ((zoom * 100)|0)/100;
 
         $("#zoom-value").text((zoom * 100)|0);
@@ -1083,7 +1084,6 @@ var Draw = Backbone.View.extend({
                             c[1] /= PIXELS_PER_AU;
                             app.povSetPositionForBody(body.planetIndex, c);                            
                         }
-                        console.log(refuseDrag);
 
                         var info = app.getHumanInfoForBody(body.planetIndex);
                         self.showText("Distance:\n" + info.distance, body.position,
@@ -1173,9 +1173,8 @@ var Draw = Backbone.View.extend({
                 zoomOut = true;
         }
 
-        if (zoomOut && (app.get('state') == RUNNING || app.get('state') == ROTATABLE))
-            this.setZoom(this.zoom * 0.5);
-        
+        if (zoomOut && (app.get('state') == RUNNING || app.get('state') == ROTATABLE) && this.autoZoom)
+            this.setZoom(this.zoom * 0.5);        
     },
 
     handlesUpdate: function() {
@@ -1730,7 +1729,9 @@ var Draw = Backbone.View.extend({
 
     resetView: function() {
         this.setZoom(1);
+        this.autoZoom = true;
         this.resetTransformation();
+        this.setSpeed(1);
     },
 
     resetTransformation: function() {

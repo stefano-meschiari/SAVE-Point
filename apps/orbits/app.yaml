@@ -77,14 +77,14 @@ missions:
     help:      
       - on: startLevel
         message: |          
-          @fly @noninteractive @groknar
+          @fly @noninteractive @groknar  @disable-everything
           "I quit!" said Groknar, Lead Engineer of Nova Planetia and head of planetary development, 
           as she threw the digipad on the Big Boss's desk.
           @proceed
       
       - on: proceed
         message: |          
-          @fly @noninteractive @boss
+          @fly @noninteractive @boss  @disable-everything
           "But we just got a huge contract to develop 
           the Arcturus Nebular Cloud!" Big Boss Reaz-7 protested.
 
@@ -95,32 +95,32 @@ missions:
 
       - on: proceed
         message: |
-          @fly @noninteractive @groknar
+          @fly @noninteractive @groknar  @disable-everything
           Groknar spat.  "Maybe next time you'll get us a breakroom espresso maker."  She slammed the door.
           @proceed
           
       - on: proceed
         message: |
-          @fly @noninteractive @boss
+          @fly @noninteractive @boss  @disable-everything
           Reaz-7 turned furiously.  "@name!  You're hired.  Get in the spacedozer and start training!"
           @proceed
 
       - on: proceed
         message: |
-          @fly @noninteractive @boss
+          @fly @noninteractive @boss  @disable-everything
           You’ll be paid in @color-accent{@icon-star} stars @color-accent{@icon-star}!  Stars can be redeemed at the company store for special prizes later on.
           Your payment is based on how well you do the job at hand.
           @proceed
           
       - on: proceed
         message: |
-          @noninteractive @stop-fly @boss
+          @noninteractive @stop-fly @boss @disable-everything
           But first, you need to get through the company's mandated training program.  It’s simple enough: create a planet and make it orbit around the star!          
           @proceed
       
       - on: proceed
         message: |
-          @noninteractive @boss
+          @noninteractive @boss @disable-everything
           To review your current mission at any time, click on the @icon-help Help button! You can also practice your skills using the @icon-sandbox *Practice Mode*.
 
 
@@ -130,7 +130,7 @@ missions:
           
       - on: proceed
         message: >
-          @boss @reset-flags @disable-star  @disable-planet-drag @disable-velocity @disable-force @interactive
+          @boss @reset-flags @disable-star @disable-planet-drag @disable-velocity @disable-force @interactive
           First, *@icon-tap tap anywhere* to add a new planet. 
            
       - on: change:nplanets
@@ -177,7 +177,7 @@ missions:
           
       - on: proceed
         message: >
-        @reset-flags @disable-star @refresh @boss  @validateplanetpositions
+          @reset-flags @disable-star @refresh @boss  @validateplanetpositions
           Now try to @icon-drag *drag the @color-cyan{head of the green speed arrow}* to change the speed
           and direction of the planet, and see its speed change in the upper right. 
 
