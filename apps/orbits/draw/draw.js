@@ -328,7 +328,9 @@ var Draw = Backbone.View.extend({
     setZoom: function(zoom, disableAutoZoom) {
         if (zoom < 0.05 || zoom > 10)
             return;
-        autoZoom = !disableAutoZoom;
+        
+        if (disableAutoZoom !== undefined)
+            autoZoom = !disableAutoZoom;
         zoom = ((zoom * 100)|0)/100;
 
         $("#zoom-value").text((zoom * 100)|0);
@@ -676,7 +678,6 @@ var Draw = Backbone.View.extend({
         if (this.getAnimation('fly'))
             return;
 
-        
         var self = this;
         var dI = 0.001 * SPEED;
         var interactivity = app.get('interactive');
@@ -689,6 +690,7 @@ var Draw = Backbone.View.extend({
         this.destroyPlanets();
         
         app.set('interactive', false);
+        var size = self.star.bounds.width;
         
         this.pushAnimation('fly', function(arg) {
             Physics.setRotation(self.transformation,
@@ -699,8 +701,14 @@ var Draw = Backbone.View.extend({
             
             self.rotateBackgroundStars();
             if (self.star.visible && self.star.bounds.width >= 1) {
-                self.star.scale(scale);
-                self.star.halo.scale(scale);                
+                size *= scale;
+                if (size > 1) { 
+                    self.star.bounds.width = size;
+                    self.star.bounds.height = size;
+                } else {
+                    self.star.visible = false;
+                    self.star.halo.visible = false;
+                }
             } else {
                 self.star.visible = false;
                 self.star.halo.visible = false;
@@ -952,6 +960,9 @@ var Draw = Backbone.View.extend({
 
         this.star.halo.position.x = this.star.position.x = view.center.x + position.x;
         this.star.halo.position.y = this.star.position.y = view.center.y + position.y;
+
+        this.bary.visible = (Math.abs(this.star.halo.position.x - view.center.x) + Math.abs(this.star.halo.position.y - view.center.y) > 4);
+        this.bary.position = view.center;
     },
 
     validatePlanetPositions: function(position) {
@@ -1374,8 +1385,7 @@ var Draw = Backbone.View.extend({
                     theta += hs * dtheta;
                 }
                 if (e >= 1) {
-                    //                    ts.pop().remove();
-                    //                    tc.pop();
+                    tc.pop();
                 }
 
                 this.computedTrailCoords[i] = tc;
@@ -1818,6 +1828,18 @@ var Draw = Backbone.View.extend({
             this.recalculateSizes();
         });
 
+        this.bary = new Path.Star({
+            center: view.center,
+            points:6,
+            radius1:4,
+            radius2:8,
+            fillColor:'black',
+            strokeColor:'white',
+            strokeWidth:2,
+            locked:true
+            
+        });
+        
         this.fly();
     }
 });
@@ -1868,7 +1890,6 @@ function onFrame(event) {
             } else {
                 STARS = (STARS * 0.5 * (1 + perf / targetFrameRate))|0;
                 MAX_SEGMENTS = (MAX_SEGMENTS * 0.5 * (1 + perf / targetFrameRate))|0;
-                SPEED = targetFrameRate / perf;
                 draw.createBackgroundStars();
                 
                 samplingFrames = 0;

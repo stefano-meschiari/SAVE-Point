@@ -40,7 +40,12 @@ var Templates = Backbone.Model.extend({
         
         "\\*(.+?)\\*": "<strong>$1</strong>",
         "\\{(.+?)\\}": '<img src=$1>',
-        "\\[(.+?)\\]\\((.+?)\\)": '<a href="$2" target="_blank">$1</a>',
+        "\\[(.+?)\\]\\((.+?)\\)": function() {
+            if (IS_KIOSK)
+                return '<strong>$1</strong>';
+            else
+                return '<a href="$2" target="_blank">$1</a>';
+        }(),
         "^(#)\\s*(.+)": "<h1>$2</h1>",
         "^\s*$": "<br>",
         "@proceed-win": '<div class="help-toolbar"><button id="help-next-mission" class="btn btn-lg btn-jrs"><span class="fa fa-thumbs-up"></span>  Next mission</button></div>',

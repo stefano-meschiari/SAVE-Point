@@ -241,8 +241,7 @@ missions:
     rule: nplanets > 0 && elements[0].eccentricity > 1. && !collided
     name: ejected
     colors: orange
-    starsrule: |
-      (elements[0].eccentricity < 2 ? 3 : (elements[0].eccentricity < 5 ? 2 : 1))
+    starsrule: 3
     enabled: true
     music: sad
     subtitle: Add a planet that escapes the pull of its star.
@@ -305,7 +304,7 @@ missions:
       - on: hint
         message: |
            @boss
-           Try aiming the speed at a right angle @icon-perpendicular to the star.  Check the yellow force  arrow by clicking on the planet and compare it to your direction of motion.
+           The people of Selia Prime want a world with a very oval orbit. Try to give the planet just enough speed not to collide with the star.
            @hide-5
 
       - on: lose
@@ -316,7 +315,7 @@ missions:
       - on: win1
         message: |
           @boss
-          Surely you can make the orbit more EXTREME than that.
+          ...however, surely you can make the orbit more EXTREME than that.
       
       - on: win2
         message: |
@@ -425,8 +424,8 @@ missions:
     help:
       - on: startLevel
         message: >
-          In this mission, your planet will have a *fixed speed (40 km/s)*
-          and a *fixed direction* (perpendicular to the direction towards the star).
+          In this mission, your planet will have a  @color-accent{fixed speed (40 km/s)}
+          and a @color-accent{fixed direction} (perpendicular to the direction towards the star).
 
           To complete this job, you will have to place the planet at just the right distance to get
           a circular orbit. 
@@ -512,7 +511,7 @@ missions:
     name: circular_question
     subtitle: Earn an extra star by answering this question!
     intro: |
-      Answer this question, rookie!
+      We have to justify our work to our investors!  Get out there and make us look good!
     win: That's the right answer!
     lose: Not quite right.
     question: |
