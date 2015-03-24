@@ -422,7 +422,7 @@ var App = Backbone.ROComputedModel.extend({
             
             dt = Math.min(dt, 0.05*Math.sqrt(r*r*r/K2));
         }
-
+        
 
         var collided = false;
         var minAU = this.get('minAU');
