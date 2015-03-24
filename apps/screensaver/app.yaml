@@ -34,14 +34,6 @@ slides:
     img: img/tap_and_drag.png
     fixed: true
 
-  - title: Astronomers Discover Ancient Solar System with Five Earth-sized Planets
-    img: img/Kepler444_Illo.jpg
-    attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
-
-  - title: Black Hole Chokes on a Swallowed Star
-    img: img/star-disruption-combo.jpg
-    attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
-
   - title: "An artist's concept of the Giant Magellan Telescope."
     img: img/gmt1.jpg
     attrib: Todd Mason/GMT Consortium/Carnegie Observatories
@@ -50,7 +42,7 @@ slides:
     img: img/domes.jpg
     attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
 
-  - title: The Hobby-Eberle Telescope
+  - title: The Hobby-Eberly Telescope
     img: img/het.jpg
     attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
   

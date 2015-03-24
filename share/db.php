@@ -9,14 +9,12 @@ $urlp = parse_url($_ENV["DATABASE_URL"]);
 
 // Build connection string for Postgres
 $urls = "host={$urlp['host']} port={$urlp['port']} user={$urlp['user']} password={$urlp['pass']}  dbname=" . substr($urlp['path'], 1);
-error_log($urls);
 // Open connection
 $dbconn = pg_pconnect($urls);
 
 if ($dbconn === FALSE) {
   error_log(pg_last_error());
   error_log('Cannot connect to database.');
-  db_generic_error();
   
   die();
 };
@@ -39,7 +37,7 @@ function db_user_logged_in() {
   if ($result === FALSE)
     return FALSE;
   else {
-   
+    
     $arr = pg_fetch_array($result);
     return ($arr[0] != 0);
   }  
@@ -152,33 +150,39 @@ function db_get_game_data($game, $user) {
 }
 
 
-function db_login($user) {
+function db_login($user, $password) {
   $_SESSION['username'] = $user;
+  $_SESSION['password'] = $password;
   redirect_dashboard();
 }
 
 
 function db_is_demo_user($user) {
-    $demo_users = array('demo', 'kiosk', 'instructor-demo');
-    return in_array($user, $demo_users);
+  $demo_users = array('demo', 'kiosk', 'instructor-demo');
+  return in_array($user, $demo_users);
 }
 
 function db_is_kiosk_user() {
-    return db_user() == 'kiosk';
+  return db_user() == 'kiosk';
 }
 
 function db_is_god_user() {
-    return (db_user() == 'instructor-demo') || (db_user() == 'kiosk');
+  return (db_user() == 'instructor-demo') || (db_user() == 'kiosk');
+}
+
+function db_is_admin_user() {
+  return (db_user() == 'admin');
 }
 
 function db_check_special_user() {
-    if (isset($_GET['login']) && db_is_demo_user($_GET['login']) && !db_user_logged_in()) {
-        session_unset();
-        
-        db_login($_GET['login']);
-        header('Location: /dashboard/users.php');
-        die();
-    }
+  if (isset($_GET['login']) && db_is_demo_user($_GET['login'])) {
+    session_unset();
+    session_start();
+    error_log("Re-logging in");
+    db_login($_GET['login']);
+    header('Location: /dashboard/users.php');
+    die();
+  }
 }
 
 
