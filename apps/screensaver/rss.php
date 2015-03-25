@@ -97,33 +97,30 @@ if ($last_saved_diff > 3600 || !file_exists('slides.txt')) {
       }
 
       
+      if ($imageURL !== FALSE) {
+          $dest = "assets/" . basename($imageURL);
+          
+          if (file_exists($dest) ) {
+              $slide['img'] = $dest;
+          } else if ($imageURL !== FALSE && ! (in_array(basename($imageURL), $cfg['blacklisted']))) {
+              $url =  array(
+                  str_replace("-thumb", "-large_web", $imageURL),
+                  str_replace("a-thumb", "b-large_web", $imageURL),
+                  str_replace("a-thumb", "c-large_web", $imageURL)
+              );
 
-      $dest = "assets/" . basename($imageURL);
-
-      if (file_exists($dest)) {
-        $slide['img'] = $dest;
-      } else if ($imageURL !== FALSE && ! (in_array(basename($imageURL), $cfg['blacklisted']))) {
-
-        
-        
-        $url =  array(
-          str_replace("-thumb", "-large_web", $imageURL),
-          str_replace("a-thumb", "b-large_web", $imageURL),
-          str_replace("a-thumb", "c-large_web", $imageURL)
-        );
-
-        
-        $data = download($url);
-        
-        if ($data !== FALSE) {
-          $file = fopen($dest, "w+");
-          fputs($file, $data);
-          fclose($file);
-          $slide['img'] = $dest;
-        } else {
-        }
+              
+              $data = download($url);
+              
+              if ($data !== FALSE) {
+                  $file = fopen($dest, "w+");
+                  fputs($file, $data);
+                  fclose($file);
+                  $slide['img'] = $dest;
+              } else {
+              }
+          }
       }
-      
       $slide['attrib'] = $feed['attrib'];
       if (isset($slide['img'])) {
         $slides[] = $slide;
@@ -151,7 +148,9 @@ if (!isset($_GET['showall'])) {
   echo "</div>";
 
 } else {
-  echo "<center>";
+    echo "<style> body { overflow: scroll} </style>";
+    echo "<center>";
+    
   foreach ($slides as $idx => $slide) {
 
     echo "<h1>" . $slide['title'] . "</h1>";
