@@ -58,9 +58,9 @@ var Templates = Backbone.Model.extend({
         "@run": function() { app.set('state', RUNNING); },
         
         "@rotatable": function() { app.set('state', ROTATABLE); },
-        "@restart": '<button class="btn btn-jrs btn-throb font-l" on' + UI.clickEvent + '="app.reset();"><span class="fa fa-undo"></span> Start from scratch</button>',
-        "@play": '<button class="btn btn-jrs btn-throb font-l" on' + UI.clickEvent + '="app.set(\'state\', RUNNING);"><span class="fa fa-rocket"></span> Start orbiting!</button>',
-        "@dashboard": '<button class="btn btn-jrs btn-throb font-l" on' + UI.clickEvent + '="location.href=\'/\';"><span class="fa fa-times"></span> Exit</button>',
+        "@restart": '<button class="btn btn-jrs  font-l" on' + UI.clickEvent + '="app.reset();"><span class="fa fa-undo"></span> Start from scratch</button>',
+        "@play": '<button class="btn btn-jrs  font-l" on' + UI.clickEvent + '="app.set(\'state\', RUNNING);"><span class="fa fa-rocket"></span> Start orbiting!</button>',
+        "@dashboard": '<button class="btn btn-jrs  font-l" on' + UI.clickEvent + '="location.href=\'/\';"><span class="fa fa-times"></span> Exit</button>',
         "@dark-help": function() {
             $("#help-text").addClass("dark");
         },

@@ -1,5 +1,5 @@
 "use strict";
-
+/*
 window._debug = {
     winAll: function() {
          var missions = app.get('missions');
@@ -22,6 +22,27 @@ window._debug = {
         app.menu();
     }
 };
+ */
+
+if (_.parameter('fps')) {
+    $(window).load(function() {
+        app.once("reset", function() {
+            window.measureFPS();
+
+            app.addPlanet([0, 1]);
+            app.addPlanet([1, 0]);
+            app.addPlanet([-1, 0]);
+            app.addPlanet([0, -1]);
+            
+            app.set('state', RUNNING);
+            
+            _.delay(function() {
+                var fps = window.measureFPS();
+                alert(fps);
+            }, 60000);
+        });
+    });
+}
 
 /*
 $("#sidebar").append('<button id="debug-get-stars" class="btn btn-sm btn-danger">get all stars</button>', [
