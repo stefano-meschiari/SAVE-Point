@@ -422,7 +422,7 @@ var App = Backbone.ROComputedModel.extend({
             
             dt = Math.min(dt, 0.05*Math.sqrt(r*r*r/K2));
         }
-
+        
 
         var collided = false;
         var minAU = this.get('minAU');
@@ -838,19 +838,26 @@ var App = Backbone.ROComputedModel.extend({
         return Units.TEMPSUN * albedo * Math.sqrt(Units.RSUN / Units.RUNIT * 1./(2. * r)) - 273.15;        
     },
     
-    getHumanInfoForBody: function(body) {
+    getHumanInfoForBody: function(body, ret) {
         if (body < 0)
             return {};
+        ret = ret || {};
         body += 1;
         var position = this.get('position');
-        var velocity = this.get('velocity');
         var r = Math.sqrt((position[X]-position[body*NPHYS+X])*(position[X]-position[body*NPHYS+X]) +
                           (position[Y]-position[body*NPHYS+Y])*(position[Y]-position[body*NPHYS+Y]) +
                           (position[Z]-position[body*NPHYS+Z])*(position[Z]-position[body*NPHYS+Z]));
-
+        ret.distance = (r * Units.RUNIT / (1e11)).toFixed(1) + " million km";
+        if (ret.distanceOnly) {
+            return ret;
+        }
+        
+        var velocity = this.get('velocity');
         var v = Math.sqrt((velocity[X]-velocity[body*NPHYS+X])*(velocity[X]-velocity[body*NPHYS+X]) +
                           (velocity[Y]-velocity[body*NPHYS+Y])*(velocity[Y]-velocity[body*NPHYS+Y]) +
                           (velocity[Z]-velocity[body*NPHYS+Z])*(velocity[Z]-velocity[body*NPHYS+Z]));
+        ret.speed = (v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(1) + " km/s";
+
         var T = this.temperatureForDistance(r);
         var Tlabel;
         if (T < 0)
@@ -876,14 +883,11 @@ var App = Backbone.ROComputedModel.extend({
         var M = this.massForBody(body-1);
         var mass = this.massLabel(M);
 
-        return {
-            distance: (r * Units.RUNIT / (1e11)).toFixed(1) + " million km",
-            speed: (v * Units.RUNIT / Units.TUNIT / (1e5)).toFixed(1) + " km/s",
-            period: period,
-            mass: mass,
-            massSliderVal: Math.log10(M * Units.MSUN/Units.MEARTH) * 100,
-            temperature: Tlabel + " (" + T.toFixed(0) + " &deg;C)"
-        };
+        ret.period = period;
+        ret.mass = mass;
+        ret.massSliderVal = Math.log10(M * Units.MSUN/Units.MEARTH) * 100;
+        ret.temperature = Tlabel + " (" + T.toFixed(0) + " &deg;C)";
+        return ret;
     },
     
     /*
@@ -1142,7 +1146,8 @@ var AppView = Backbone.View.extend({
      *
      * For now, it displays time (in days), the distance from the central star (in 10^8 km),
      * and the speed (in km/s).
-     */    
+     */
+    info: {},
     renderInfo: function() {
         
         for (var i = 0; i < app.get('nplanets'); i++) {
@@ -1151,8 +1156,7 @@ var AppView = Backbone.View.extend({
         $(".change").hide();
         if (app.get('nplanets') > 0) {
             var idx = app.get('selectedPlanet')-1;
-            var info = app.getHumanInfoForBody(idx);
-            
+            var info = app.getHumanInfoForBody(idx, this.info);
             
             $("#distance").html(info.distance);
             $("#speed").text(info.speed);

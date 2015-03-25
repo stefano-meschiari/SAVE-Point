@@ -56,7 +56,7 @@ write_cfg_json($cfg);
         <span class="fa fa-hand-o-up"></span>
       </td>
       <td>
-        Tap and drag on the objects shown on the screen to interact with the applications.
+        Use your finger to tap and drag on the items shown on the screen to interact with the applications.
       </td>
       </tr>
       <tr>
@@ -143,11 +143,11 @@ write_cfg_json($cfg);
       <div class="app-col uk-width-1-3">
         <img src="img/systemic_live.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"
              <?php if (db_is_kiosk_user()) { ?>
-             onClick="alert('This app is not available yet for use on this kiosk.');"
+             onClick="alert('This app is not available yet for use on this kiosk.');">
              <?php } else { ?>
              onClick="location.href = 'http://stefanom.org/systemic-online/';">
              <?php } ?>
-             >
+             
         <div class="app-title">
           Systemic Live
         </div>
@@ -156,14 +156,17 @@ write_cfg_json($cfg);
         </div>
 
       </div>
-      <?php if (db_is_kiosk_user()) { ?>
       <div class="app-col uk-width-1-3">
+
+      <?php if (db_is_kiosk_user()) { ?>
         <button id="help" class="uk-animation-hover uk-animation-scale" data-uk-modal="{target:'#kiosk-credits'}">
           <span class="fa fa-question-circle"></span>
         </button>
         <div class="app-title">Help & Credits</div>
-      </div>
       <?php } ?>
+      </div>
+      <div class="app-col uk-width-1-3">
+      </div>
     </div>
 
     <?php

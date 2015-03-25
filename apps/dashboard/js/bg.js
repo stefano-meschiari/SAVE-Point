@@ -86,7 +86,8 @@ $(document).ready(function() {
 
         _.delay(function() {
             location.href = "/screensaver/";
-        }, 60000);
+         }, 60000);
+        $("#container").on("touchmove", false);
     }
     // Animation code
     window.requestAnimationFrame(nextFrame);

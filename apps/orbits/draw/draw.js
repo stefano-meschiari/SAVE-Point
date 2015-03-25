@@ -1096,7 +1096,8 @@ var Draw = Backbone.View.extend({
                             app.povSetPositionForBody(body.planetIndex, c);                            
                         }
 
-                        var info = app.getHumanInfoForBody(body.planetIndex);
+                        var info = app.getHumanInfoForBody(body.planetIndex, { distanceOnly: true });
+
                         self.showText("Distance:\n" + info.distance, body.position,
                                       self.color(TYPE_HALO, body.planetIndex), body.bounds.height,
                                       [ self.handles[body.planetIndex].vector, self.forces[body.planetIndex], self.star ]);
@@ -1867,9 +1868,29 @@ var targetFrameRate = 40;
 var trials = 0;
 var maxTrials = 3;
 
+var FPS = 0;
+var FPS_SAMPLE = false;
+var FPS_STARTED = null;
+
+window.measureFPS = function() {
+    FPS_SAMPLE = !FPS_SAMPLE;
+
+    if (!FPS_SAMPLE) {
+        FPS = FPS/(new Date() - FPS_STARTED) * 1000;
+        console.log('FPS', FPS);
+        return FPS;
+    } else {
+        FPS_STARTED = new Date();
+    }
+}
+
 function onFrame(event) {
     if (!app.get('alive')) {
         return;
+    }
+
+    if (FPS_SAMPLE) {
+        FPS++;
     }
     
     if (sampling) {
