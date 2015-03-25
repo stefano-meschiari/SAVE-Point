@@ -44,7 +44,8 @@ constants:
 
 utils:
   - /share/js/utils.js
-
+  - /share/js/uiutils.js
+  
 animalese:
   - /share/animalese/riffwave.js
   - /share/animalese/Blob.js

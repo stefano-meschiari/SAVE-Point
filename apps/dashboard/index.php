@@ -48,7 +48,7 @@ write_cfg_json($cfg);
         <span class="fa fa-th-large"></span>
       </td>
       <td>
-        To start an application, tap on one of the icons.
+        To start an application, <span class="word-tap"></span> on one of the icons.
       </td>
       </tr>
       <tr>
@@ -56,7 +56,7 @@ write_cfg_json($cfg);
         <span class="fa fa-hand-o-up"></span>
       </td>
       <td>
-        Use your finger to tap and drag on the items shown on the screen to interact with the applications.
+        To interact with the applications, use your <span class="word-finger"></span> to <span class="word-tap"></span> and drag on the items shown on the screen.
       </td>
       </tr>
       <tr>
@@ -157,15 +157,10 @@ write_cfg_json($cfg);
 
       </div>
       <div class="app-col uk-width-1-3">
-
-      <?php if (db_is_kiosk_user()) { ?>
         <button id="help" class="uk-animation-hover uk-animation-scale" data-uk-modal="{target:'#kiosk-credits'}">
           <span class="fa fa-question-circle"></span>
         </button>
         <div class="app-title">Help & Credits</div>
-      <?php } ?>
-      </div>
-      <div class="app-col uk-width-1-3">
       </div>
     </div>
 

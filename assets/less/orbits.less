@@ -493,7 +493,6 @@ left:430px;
   background:@color-glass;
   padding:10px;
   font-size:18px;
-  font-weight:200;
   color:white;
 }
 
@@ -534,15 +533,14 @@ left:430px;
 }
 
 td.td-label {
-  border-bottom:1px solid white;
-  cellmargin-left:5px;
+  border-bottom:1px solid rgb(100, 100, 100);
   text-transform:uppercase;
-  padding-right:10px;
   height:30px;
+  font-weight:normal;
 }
 
 td.td-val {
-  border-bottom:1px solid white;
+  border-bottom:1px solid rgb(100, 100, 100);
   text-align:right;
   font-weight:bold;
 }
@@ -554,7 +552,7 @@ td.td-val button {
 
 td.td-2col {
   text-align:center;
-  border-bottom:1px solid white;
+  border-bottom:1px solid rgb(100, 100, 100);
   padding-bottom:10px;
 }
 
@@ -1274,17 +1272,13 @@ html.tablet div.mobile-only {
   line-height:30px;
   font-size:18px;
   font-variant:small-caps;
-    -webkit-animation: throbshadow 1s infinite;
-  -webkit-animation-direction: alternate;
-  animation: throbshadow 1s infinite;
-  animation-direction: alternate;
-
+  box-shadow:0px 0px 6px white, 0px 0px 6px white, 0px 0px 6px white;
 }
 
 .planet {
   margin:0 auto;
-  width:40px;
-  height:40px;
+  width:30px;
+  height:30px;
   background:radial-gradient(circle at 0px 0px, rgba(0, 0, 0, 0) 0%, black 90%);
   border:none;
   border-radius:40px;
@@ -1292,7 +1286,7 @@ html.tablet div.mobile-only {
 }
 
 .planet-selected {
-  border:3px solid white;
+  box-shadow: 0px 0px 6px white, 0px 0px 6px white, 0px 0px 6px white, 0px 0px 6px white;
 }
 
 #mass-slider-container {

@@ -952,8 +952,8 @@ var AppView = Backbone.View.extend({
         
         
         // Update information when planetary parameters change
-        self.listenTo(self.model, 'change:nplanets change:masses change:time change:position change:velocity change:elements change:selectedPlanet', _.throttle(self.renderInfo, 400));
-        
+        self.listenTo(self.model, 'change:nplanets change:time change:position change:velocity change:elements change:selectedPlanet', _.throttle(self.renderInfo, 600));
+        self.listenTo(self.model, 'change:masses', self.renderInfo);
         self.listenTo(self.model, 'start change:missions reset', self.renderMission);
         self.listenTo(self.model, 'change:state', self.setVisibility);
         self.listenTo(self.model, 'win', self.renderWin);
@@ -1134,7 +1134,7 @@ var AppView = Backbone.View.extend({
     },
 
     els: {},
-
+    renderInfoDisabled:false,
     
     /*
      * Fills the table on the top-right hand side with the relevant information. renderInfo is
@@ -1143,8 +1143,12 @@ var AppView = Backbone.View.extend({
      * For now, it displays time (in days), the distance from the central star (in 10^8 km),
      * and the speed (in km/s).
      */    
-    renderInfo: function() {
-        
+    renderInfo: function(a) {
+        if (this.renderInfoDisabled) {
+            this.renderInfoDisabled = false;
+            return;
+        }
+            
         for (var i = 0; i < app.get('nplanets'); i++) {
             $("#planet-" + (i+1)).css('display', (i < app.get('nplanets') ? 'inline' : 'none')).css("background-color", draw.color(TYPE_PLANET, i)).removeClass("planet-selected");
         }
@@ -1165,7 +1169,9 @@ var AppView = Backbone.View.extend({
             $("#planet-" + (idx+1)).addClass("planet-selected");
             $("#mass-slider-container .rangeslider__fill").css('background-color', draw.color(TYPE_PLANET, idx));
             if (idx >= 0) {
+                this.renderInfoDisabled = true;
                 $("#mass-slider").val(info.massSliderVal).change();
+                
                 if (app.get('state') == PAUSED)
                     $(".change").show();
             }
