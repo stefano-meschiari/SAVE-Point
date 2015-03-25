@@ -112,7 +112,7 @@ write_cfg_json($cfg);
   <div id="content">
     <div class="uk-grid" data-uk-grid-margin>
       <div class="app-col uk-width-1-3">
-        <a class="app-launcher" href="/orbits/?mission=gravitykit"><img src="img/gravity.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
+        <a class="app-launcher" href="/gravitykit"><img src="img/gravity.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
         <div class="app-title">
           GravityKit <div class="uk-badge uk-badge-danger">BETA</div>
         </div>
