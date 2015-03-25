@@ -1881,6 +1881,7 @@ window.measureFPS = function() {
         return FPS;
     } else {
         FPS_STARTED = new Date();
+        return null;
     }
 }
 
