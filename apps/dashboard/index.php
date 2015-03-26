@@ -30,12 +30,17 @@ write_cfg_json($cfg);
     <img src="/share/img/ipad.png" class="uk-align-center">
   </div>
 </div>
+<div id="app-launching">
+  Loading...
+</div>
 
 <div id="kiosk-credits" class="uk-modal">
   <div class="uk-modal-dialog">
-    <div class="uk-modal-header">
-      SAVE/Point kiosk
-      <a class="uk-modal-close uk-close" style="float:right"></a>
+    <div class="uk-modal-header uk-">
+        <button class="uk-float-right uk-button uk-button-primary" id="kiosk-credits-close">
+            Close
+        </button>
+        SAVE/Point kiosk
     </div>
     <h1>Help</h1>
     <hr>
@@ -109,31 +114,34 @@ write_cfg_json($cfg);
   <div id="content">
     <div class="uk-grid" data-uk-grid-margin>
       <div class="app-col uk-width-1-3">
-        <a class="app-launcher" href="/gravitykit"><img src="img/gravity.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
+        <a class="app-launcher" href="/gravitykit"><img src="img/gravity.png" width="192" class="uk-animation-hover uk-animation-scale app-icon">
         <div class="app-title">
           GravityKit <div class="uk-badge uk-badge-danger">BETA</div>
         </div>
         <div class="app-subtitle">
           See how gravity affects the motion of planets.
         </div>
+        </a>
       </div>
       <div class="app-col uk-width-1-3">
-        <a class="app-launcher" href="/orbits/"><img src="img/orbits.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
+        <a class="app-launcher" href="/orbits/"><img src="img/orbits.png" width="192" class="uk-animation-hover uk-animation-scale app-icon">
         <div class="app-title">
           Orbits <div class="uk-badge uk-badge-danger">BETA</div>
         </div>
         <div class="app-subtitle">
           Help an alien civilization design new planetary systems.
         </div>
+        </a>
       </div>
       <div class="app-col uk-width-1-3">
-        <a class="app-launcher" href="http://www.stefanom.org/spc/?kiosk=true"><img src="img/spc.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"></a>
+        <a class="app-launcher" href="http://www.stefanom.org/spc/?kiosk=true"><img src="img/spc.png" width="192" class="uk-animation-hover uk-animation-scale app-icon">
         <div class="app-title">
           Super Planet Crash 
         </div>
         <div class="app-subtitle">
           Create and destroy your own Solar System.
         </div>
+        </a>
       </div>
     </div>
     <div class="uk-grid" data-uk-grid-margin>
@@ -154,7 +162,7 @@ write_cfg_json($cfg);
 
       </div>
       <div class="app-col uk-width-1-3">
-        <button id="help" class="uk-animation-hover uk-animation-scale" data-uk-modal="{target:'#kiosk-credits'}">
+        <button id="help" class="uk-animation-hover uk-animation-scale">
           <span class="fa fa-question-circle"></span>
         </button>
         <div class="app-title">Help & Credits</div>

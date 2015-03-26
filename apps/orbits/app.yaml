@@ -614,11 +614,11 @@ missions:
 
       - on: change:nplanets
         message: |
-          @disable-force @center{Add more planets or @spacer{20px} @play}
+          @disable-force @center{Add more planets or @spacer{10px} @play @spacer{10px} @dashboard}
           
       - on: state:running
         message: |        
-          @rotatable @center{@icon-drag Drag to rotate the view! @spacer{20px} @restart @spacer{20px} @dashboard}
+          @rotatable @center{@icon-drag Drag to rotate the view! @spacer{10px} @restart @spacer{10px} @dashboard}
     
   - title: Practice Mode
     subtitle: Practice your moves.

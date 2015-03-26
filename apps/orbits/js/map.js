@@ -201,7 +201,7 @@ var AppMenuView = Backbone.View.extend({
         }
 
         console.log(world_props);
-        if (world_props.cutscene && app.get('cutscenesPlayed').indexOf(world_props.cutscene) < 0) {
+        if (world_props.cutscene && app.get('cutscenesPlayed').indexOf(world_props.cutscene) < 0 && !_.parameter("mission")) {
             app.setMission(world_props.cutscene);
         }
     }

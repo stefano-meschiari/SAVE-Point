@@ -18,7 +18,8 @@ var UIUtils = (function() {
                 $("." + spanClass).text(touchDevice ? warr[0] : warr[1]);
             });
         },
-        touchDevice: touchDevice
+        touchDevice: touchDevice,
+        clickEvent: (touchDevice ? "touchstart" : "click")
     };    
     
 })();

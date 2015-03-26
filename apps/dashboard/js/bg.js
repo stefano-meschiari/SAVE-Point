@@ -53,6 +53,16 @@ function nextFrame() {
     window.requestAnimationFrame(nextFrame);
 }
 
+var timer;
+function setupTimer() {
+    if (timer)
+        window.clearTimeout(timer);
+    console.log("Starting timer.");
+    timer = _.delay(function() {
+        location.href = "/screensaver/";
+    }, 60000);
+}
+
 
 $(document).ready(function() {
     // If this function is not present, the browser is probably too old and we should not do
@@ -74,21 +84,30 @@ $(document).ready(function() {
         $(".app-launcher").each(function() {
             var s = $(this);
             var h = s.attr('href');
-            s.on("click", function(e) {
+
+            s.on("touchstart click", function(e) {
                 var href = h;
                 $("#app-launching").show();
-                _.defer(function() {
+                _.delay(function() {
                     location.href = href;
-                });
+                }, 500);
                 return false;
             });            
         });
 
-        _.delay(function() {
-            location.href = "/screensaver/";
-         }, 60000);
+        $(document).on("touchstart touchmove", setupTimer);
+        
         $("#container").on("touchmove", false);
+        setupTimer();
     }
+
+    $("#help").on(UIUtils.clickEvent, function() {
+        UIkit.modal("#kiosk-credits").show();
+    });
+    $("#kiosk-credits-close").on(UIUtils.clickEvent, function() {
+        UIkit.modal("#kiosk-credits").hide();
+    });
+    
     // Animation code
     window.requestAnimationFrame(nextFrame);
 });

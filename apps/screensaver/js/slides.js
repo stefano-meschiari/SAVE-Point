@@ -91,8 +91,6 @@ $(document).ready(function() {
     } else {
         Slides.run(0);
         $("#screen").on("mousedown", Slides.clicked);
-        $("#screen").on("touchstart", Slides.clicked);
-    }
-     
-    
+        $("#screen").on("touchstart touchmove touchend", Slides.clicked);
+    }    
 });

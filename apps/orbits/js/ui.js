@@ -2,6 +2,8 @@
 
 var UI = (function() {
 
+    
+    
     // Init tooltips
     if (device.desktop()) {
         $("[data-tooltip-content]").each(function() {
@@ -27,6 +29,19 @@ var UI = (function() {
         }
     });
 
+    if (IS_KIOSK) {
+        var timer;
+        var setupTimer = function() {
+            if (timer)
+                window.clearTimeout(timer);
+            console.log("Starting timer.");
+            timer = _.delay(function() {
+                location.href = "/screensaver/";
+            }, 60000);
+        };
+        setupTimer();
+        $(document).on("touchstart touchmove", setupTimer);
+    }
 
     window.onfocus = function() {
         app.set('alive', true);
