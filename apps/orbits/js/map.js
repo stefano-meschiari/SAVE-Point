@@ -173,6 +173,7 @@ var AppMenuView = Backbone.View.extend({
         var state = app.get('state');
         var world = this.currentWorldName;
         var world_props = _.where(app.get('map'), { world: world })[0];
+
         
         var $el = this.$el;
         mapPlumb.reset();
@@ -197,6 +198,11 @@ var AppMenuView = Backbone.View.extend({
             this.select(this.selectedMission);
         } else {
             $el.removeClass("expanded");
+        }
+
+        console.log(world_props);
+        if (world_props.cutscene && app.get('cutscenesPlayed').indexOf(world_props.cutscene) < 0) {
+            app.setMission(world_props.cutscene);
         }
     }
 });

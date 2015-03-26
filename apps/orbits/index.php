@@ -260,6 +260,7 @@ write_mission_rules($cfg);
 <script type="text/javascript" src="js/map.js"></script>
 <script type="text/javascript" src="js/single-choice.js"></script>
 <script type="text/javascript" src="js/drag-choice.js"></script>
+<script type="text/javascript" src="js/cutscene.js"></script>
 <script type="text/javascript" src="js/speech.js"></script>
 <script type="text/javascript" src="js/settings.js"></script>
 <script type="text/javascript" src="js/actions.js"></script>
@@ -271,14 +272,16 @@ write_mission_rules($cfg);
 
 <?php write_footer($cfg); ?>
 <?php
-if (db_is_god_user()) {
+if (db_is_god_user() || db_is_kiosk_user()) {
+    
 ?>
-  <script>
+    <script>
+     var val = <?php if (db_is_kiosk_user()) echo "0"; else echo "3"; ?>;
    $(window).load(function() {
      var missions = app.get('missions');
 
      missions.each(function(mission) {
-       mission.set('stars', mission.get('value') || 3);
+       mission.set('stars', val);
        mission.set('completed', true);
      });
 

@@ -2,6 +2,7 @@
 - world: Kepler Nebula
   num: 1
   bg: img/arcturus.jpg
+  cutscene: cutscene-kepler
   travel-bg: img/arcturus_travel.jpg
   levels:
     - practice

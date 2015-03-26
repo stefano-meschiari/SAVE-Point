@@ -137,12 +137,16 @@ var App = Backbone.ROComputedModel.extend({
             // Music settings
             musicVolume:0.2,
             effectsVolume:0.2,
+            // Cutscenes
+            cutscenesPlayed:[], 
             // Powers
-            activePowers: []
+            activePowers: [],
+            // Player name
+            playerName: LOGGED_USER
         };
     },
 
-    saveKeys: ['musicVolume', 'effectsVolume', 'activePowers'],
+    saveKeys: ['musicVolume', 'effectsVolume', 'activePowers', 'cutscenesPlayed', 'playerName'],
     components: {},
     flags: {},
     loaded: false,
@@ -282,6 +286,7 @@ var App = Backbone.ROComputedModel.extend({
                 return true;
         return false;
     },
+
     
     /*
      * Returns the force for the i-th body, in internal units (AU/Msun/days)
@@ -663,7 +668,7 @@ var App = Backbone.ROComputedModel.extend({
      * Read in properties from app.yaml.
      */
     loadConfig: function(dict) {
-        var missions = dict.missions;
+        var missions = dict.missions.concat(dict.cutscenes);
         var coll = new MissionCollection();
         var starsBounty = 0;
         
@@ -723,8 +728,10 @@ var App = Backbone.ROComputedModel.extend({
                     }
                     
                     _.each(saveData, function(value, key) {
-                        self.set(value, key);
-                    });                    
+                        self.set(key, value);
+                    });
+
+                    console.log(app.get('cutscenesPlayed'));
                 }
                 _.delay(function() {
                     app.trigger('load');
@@ -1401,10 +1408,14 @@ var MessageView = Backbone.View.extend({
             this.listener.destroy();
             this.listener = null;
         }
+        var self = this;
         this.listener = new MissionHelpModel({ model:this.model });
         this.listenTo(this.listener, 'help', this.render);
         this.listenTo(this.model, 'help', this.render);
         this.listener.setup();
+        this.proceed = function() {
+            self.listener.proceed();
+        };
     },
 
     plainText: function(txt) {
@@ -1454,6 +1465,7 @@ var MessageView = Backbone.View.extend({
             $("#help-next").on(UI.clickEvent, function() { self.listener.proceed(); } );
             $("#help-close").on(UI.clickEvent, function() { self.hide(); });
             $("#help-next-mission").on(UI.clickEvent, function() { self.model.nextMission(); } );
+            $(".player-name").text(app.get('playerName'));
             
             $("#help-text").addClass("expanded");
             $("#help-text").removeClass("large");
@@ -1643,6 +1655,7 @@ $(window).load(function() {
     app.once('load', function() {
         app.sounds.playMusic('level');
         app.loaded = true;
+
         if (_.parameter('mission') != null) {
             _.defer(function() {
                 app.setMission(_.parameter('mission'));

@@ -53,28 +53,15 @@ assets:
     clickety: sounds/proceed.wav
     addPlanet: sounds/add-planet.mp3
     "planet:drag": sounds/drag.wav
-  
-missions:        
-  - title: Training
-    name: practice
-    subtitle: Create your first planet.
-    win: Woohoo! Look at that planet go!
-    lose: Darn! You forgot to add the planet!
-    rule: nplanets > 0 
-    music: level
+
+cutscenes:
+  - title: Welcome to Nova Planetia
+    subtitle: Custom built planetary systems at fair prices!
+    name: cutscene-kepler
     enabled: true
-    icon: icon-practice
-    starsrule: 3
-    colors: cyan
-    intro: |
-      Big Boss Reaz-7 pushes aside the giant potted plant on his golden desk and glares at you.
-
-
-      *"You! Who are you? Don't just stand at the door, press that Play button!"*
-      
-    constraints:
-      nplanets: 1
-    help:      
+    hidden: true
+    type: cutscene
+    help:
       - on: startLevel
         message: |          
           @fly @noninteractive @groknar  @disable-everything
@@ -86,7 +73,7 @@ missions:
         message: |          
           @fly @noninteractive @boss  @disable-everything
           "But we just got a huge contract to develop 
-          the Arcturus Nebular Cloud!" Big Boss Reaz-7 protested.
+          the Kepler Nebular Cloud!" Big Boss Reaz-7 protested.
 
           
           "We already brought 1000 
@@ -98,37 +85,54 @@ missions:
           @fly @noninteractive @groknar  @disable-everything
           Groknar spat.  "Maybe next time you'll get us a breakroom espresso maker."  She slammed the door.
           @proceed
+
+      - on: proceed
+        message: |
+          @fly @noninteractive @boss @disable-everything
+          Big Boss Reaz-7 pushes aside the giant potted plant on his golden desk and glares at you.
+
+          
+          *"You! Who are you?"*
+          @name-enter
           
       - on: proceed
         message: |
           @fly @noninteractive @boss  @disable-everything
-          Reaz-7 turned furiously.  "@name!  You're hired.  Get in the spacedozer and start training!"
-          @proceed
+          *@name! You're hired!*
+          
 
-      - on: proceed
-        message: |
-          @fly @noninteractive @boss  @disable-everything
           You’ll be paid in @color-accent{@icon-star} stars @color-accent{@icon-star}!  Stars can be redeemed at the company store for special prizes later on.
           Your payment is based on how well you do the job at hand.
           @proceed
-          
+
       - on: proceed
         message: |
-          @noninteractive @stop-fly @boss @disable-everything
-          But first, you need to get through the company's mandated training program.  It’s simple enough: create a planet and make it orbit around the star!          
-          @proceed
+          @fly @noninteractive @boss  @disable-everything
+          Now get in the spacedozer and start training!
+          @button{Start playing}{end-cutscene}
+              
+missions:    
+  - title: Training
+    name: practice
+    subtitle: Create your first planet.
+    win: Woohoo! Look at that planet go!
+    lose: Darn! You forgot to add the planet!
+    rule: nplanets > 0 
+    music: level
+    enabled: true
+    icon: icon-practice
+    starsrule: 3
+    colors: cyan
+    intro: |      
+      First, you need to get through the company's mandated training program.  It’s simple enough: create a planet and make it orbit around the star!          
+
       
-      - on: proceed
-        message: |
-          @noninteractive @boss @disable-everything
-          To review your current mission at any time, click on the @icon-help Help button! You can also practice your skills using the @icon-sandbox *Practice Mode*.
-
-
-          
-          *Now, let's start training!*
-          @proceed
-          
-      - on: proceed
+      *Press that Play button to get started!*
+      
+    constraints:
+      nplanets: 1
+    help:          
+      - on: startLevel
         message: >
           @boss @reset-flags @disable-star @disable-planet-drag @disable-velocity @disable-force @interactive
           First, *@icon-tap tap anywhere* to add a new planet. 
@@ -183,17 +187,26 @@ missions:
 
       - on: planet:dragvelocity
         message: |
-          @reset-flags @boss @validateplanetpositions
+          @reset-flags @boss @validateplanetpositions @disable-star
           As you change the position and speed of the planet, its orbital path will change.
-
+          @proceed
           
+      - on: proceed
+        message: |
+          @noninteractive @boss @disable-everything
+          To review your current mission at any time, click on the @icon-help *Help button*! You can also practice your skills using the @icon-sandbox *Practice Mode*.
+          @proceed
+
+      - on: proceed
+        message: |
+          @boss
           Now *tap on the @icon-sun star* to let the planet orbit!
           
       - on: win3
         message: |
           @boss 
           Good work, but we need you to train quickly!  We need to 
-          engineer all of the new star systems forming in the Arcturus Nebula, and our 
+          engineer all of the new star systems forming in the Kepler Nebula, and our 
           customers are very... picky.
 
       - on: lose
@@ -569,42 +582,6 @@ missions:
         message: |
           @boss
           You might want to practice this out a bit. How about taking the @icon-sandbox *Practice Mode* for a spin? 
-
-  - title: Boss level
-    hidden: true
-    subtitle: Boss level test
-    name: boss_arcturus
-    icon: icon-boss
-
-  - title: Multi-planet test
-    subtitle: Under construction...
-    rule: nplanets > 0 
-    name: multi-planet-test
-    hidden: true
-    icon: icon-circ-rvs
-    enabled: true
-    win: So circular!
-    lose: The orbit was not quite circular... Try moving the planet to a different distance.
-    constraints:
-      nplanets: 2
-
-  - title: Barycentric gravity
-    subtitle: Under construction...
-    rule: nplanets > 0 
-    icon: icon-circ-rvs
-    enabled: true
-    hidden: true
-    name: barycentric
-    win: So circular!
-    lose: The orbit was not quite circular... Try moving the planet to a different distance.
-    bodies:
-      - mass: 0.25
-        x: 1
-        y: 0
-        z: 0
-        u: 0
-        v: 0.017
-        z: 0
 
   - title: GravityKit
     subtitle: Create your own Solar System.

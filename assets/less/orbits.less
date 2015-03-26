@@ -601,6 +601,7 @@ td.td-2col {
   background: @color-glass !important;
 }
 
+
 #help-text.large .avatar-right-visible {
   right:-100px;
 }
@@ -1323,4 +1324,29 @@ html.gravitykit .orbits-loading {
 
 button {
   outline:none;
+}
+
+
+html.cutscene #help-text {
+  top:30% !important;
+  bottom:initial !important;
+}
+
+html.cutscene #sidebar,
+html.cutscene #info-top {
+  display:none !important;
+}
+
+#enter-name-container {
+  margin:30px;
+}
+
+#enter-name {
+  text-align:center;
+  width:100%;
+  font-size:30px;
+  -webkit-animation: throbshadow 1s infinite;
+  -webkit-animation-direction: alternate;
+  animation: throbshadow 1s infinite;
+  animation-direction: alternate; 
 }

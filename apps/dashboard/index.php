@@ -30,9 +30,6 @@ write_cfg_json($cfg);
     <img src="/share/img/ipad.png" class="uk-align-center">
   </div>
 </div>
-<div id="app-launching">
-  Loading...
-</div>
 
 <div id="kiosk-credits" class="uk-modal">
   <div class="uk-modal-dialog">
