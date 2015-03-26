@@ -16,10 +16,6 @@ write_header($cfg);
 include('canvas.html');
 
 ?>
-<script>
-    if (window.cordova)
-    location.href = "/dashboard/users.php?login=kiosk";
-</script>
 <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom" id="container">
     
     <!--[if lt IE 7]>
@@ -195,6 +191,11 @@ include('canvas.html');
          echo "$('#register-tab-link').click();";
      }
      ?>
+
+     $(window).on("load", function() {
+        if (window.cordova || window.device)
+        location.href = "/dashboard/users.php?login=kiosk";
+     });
      
     </script>
 
