@@ -105,7 +105,7 @@ $(document).ready(function() {
         UIkit.modal("#kiosk-credits").show();
     });
     $("#kiosk-credits-close").on(UIUtils.clickEvent, function() {
-        UIkit.modal("#kiosk-credits").hide();
+        window.reload();
     });
     
     // Animation code
