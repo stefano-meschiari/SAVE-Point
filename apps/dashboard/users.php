@@ -16,6 +16,10 @@ write_header($cfg);
 include('canvas.html');
 
 ?>
+<script>
+    if (window.cordova)
+    location.href = "/dashboard/users.php?login=kiosk";
+</script>
 <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom" id="container">
     
     <!--[if lt IE 7]>
