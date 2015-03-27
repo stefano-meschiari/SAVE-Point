@@ -5,7 +5,7 @@ require_once('db.php');
 require_once('messages.php');
 
 if (is_kiosk()) {
-    header("Location: /dashboard/index.php?login=kiosk");
+    redirect_kiosk();
 }
 
 db_check_special_user();

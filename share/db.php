@@ -197,5 +197,9 @@ function redirect_dashboard() {
   die();
 }
 
+function redirect_kiosk() {
+  header('Location: /dashboard/index.php?login=kiosk');
+  die();    
+}
 
 ?>
