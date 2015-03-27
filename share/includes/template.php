@@ -12,7 +12,10 @@ function is_local() {
 function write_header($cfg) {
   header('Content-Type: text/html; charset=UTF-8');
   $m = new Mustache_Engine;  
-  echo $m->render(file_get_contents(ROOT . "share/skeleton/header.html"), $cfg);
+    echo $m->render(file_get_contents(ROOT . "share/skeleton/header.html"), $cfg);
+
+    if (is_kiosk()) 
+        echo '<script type="text-javascript">\nIS_KIOSK = true;</script>\n';
 };
 
 // Renders the footer using the given hash.
@@ -52,6 +55,10 @@ function write_mission_rules($cfg) {
   }
 
   echo "\n</script>\n";
+}
+
+function is_kiosk() {
+    return (stripos($_SERVER['SERVER_NAME'], "save-point-kiosk") !== FALSE);
 }
 
 // Loads the package configuration, and the required libraries.

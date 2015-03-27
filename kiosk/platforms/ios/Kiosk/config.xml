@@ -22,6 +22,9 @@
     <feature name="WKWebViewPolyfill">
         <param name="ios-package" value="WKWebViewPolyfill" />
     </feature>
+    <feature name="Restarter">
+        <param name="ios-package" value="Restarter" />
+    </feature>
     <name>Kiosk</name>
     <description>
     </description>
@@ -30,7 +33,4 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <feature name="Restarter">
-        <param name="ios-package" value="Restarter" />
-    </feature>
 </widget>

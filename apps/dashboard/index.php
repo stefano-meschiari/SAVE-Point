@@ -24,6 +24,7 @@ write_cfg_json($cfg);
 <script>
  IS_KIOSK=<?= (db_is_kiosk_user() ? 'true' : 'false') ?>;
 </script>
+
 <div id="app-rotate">
   Hold your device in landscape orientation.
   <div>

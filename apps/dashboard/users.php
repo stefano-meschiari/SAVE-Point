@@ -4,6 +4,10 @@ require_once('../../share/startup.php');
 require_once('db.php');
 require_once('messages.php');
 
+if (is_kiosk()) {
+    header("Location: /dashboard/index.php?login=kiosk");
+}
+
 db_check_special_user();
 
 if (db_user_logged_in()) {
@@ -191,11 +195,6 @@ include('canvas.html');
          echo "$('#register-tab-link').click();";
      }
      ?>
-
-     $(window).on("load", function() {
-        if (window.cordova)
-        location.href = "/dashboard/users.php?login=kiosk";
-     });
      
     </script>
 
