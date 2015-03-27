@@ -6,12 +6,20 @@ module.exports = [
         "clobbers": [
             "wkwebview"
         ]
+    },
+    {
+        "file": "plugins/com.malex.cordova.plugin.restarter/www/restarter.js",
+        "id": "com.malex.cordova.plugin.restarter.restarter",
+        "clobbers": [
+            "restarter"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "com.telerik.plugins.wkwebview": "0.3.5"
+    "com.telerik.plugins.wkwebview": "0.3.5",
+    "com.malex.cordova.plugin.restarter": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

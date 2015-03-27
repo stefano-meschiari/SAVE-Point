@@ -193,7 +193,7 @@ include('canvas.html');
      ?>
 
      $(window).on("load", function() {
-        if (window.cordova || window.device)
+        if (window.cordova)
         location.href = "/dashboard/users.php?login=kiosk";
      });
      

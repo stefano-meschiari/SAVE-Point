@@ -1662,6 +1662,9 @@ $(window).load(function() {
             });
         }
     });
+
+
+    
 });
 
 if (_.parameter('mission') != null)

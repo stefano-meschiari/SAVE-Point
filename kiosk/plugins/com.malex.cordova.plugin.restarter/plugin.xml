@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="com.malex.cordova.plugin.restarter" version="1.0.0">
+    <name>Restarter</name>
+    <description>Cordova Restarter Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,restarter,reload,ios</keywords>
+    <js-module src="www/restarter.js" name="restarter">
+        <clobbers target="restarter" />
+    </js-module>
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Restarter">
+                <param name="ios-package" value="Restarter"/>
+            </feature>
+        </config-file>
+        <header-file src="src/ios/Restarter.h" />
+        <source-file src="src/ios/Restarter.m" />
+    </platform>
+</plugin>

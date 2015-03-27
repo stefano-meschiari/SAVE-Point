@@ -47,6 +47,7 @@
 		BB90AAA8EC1A4F2E9E9ECAD1 /* AppDelegate+WKWebViewPolyfill.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BF0F8BC178A4E6F91A297DD /* AppDelegate+WKWebViewPolyfill.m */; };
 		D2F3797123E44F848FFAD281 /* ReroutingUIWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = C0E4BEECA1DC4982BFC1D778 /* ReroutingUIWebView.m */; };
 		D4A0D8761607E02300AEF8BB /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D4A0D8751607E02300AEF8BB /* Default-568h@2x~iphone.png */; };
+		EBC29543A09B48E3997F10A6 /* Restarter.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D66DF734224FD79BB1065F /* Restarter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +123,8 @@
 		EB87FDF31871DA8E0020F90C /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../../www; sourceTree = "<group>"; };
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = Kiosk/config.xml; sourceTree = "<group>"; };
+		80D66DF734224FD79BB1065F /* Restarter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "Restarter.m"; path = "com.malex.cordova.plugin.restarter/Restarter.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		CB5FD9201D72498DBE69E663 /* Restarter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Restarter.h"; path = "com.malex.cordova.plugin.restarter/Restarter.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +238,8 @@
 				E74274C619044E48A8F580B0 /* ReroutingUIWebView.h */,
 				3BCC736A3AB84B34B3446574 /* CDVWebViewOperationsDelegate.h */,
 				BB310809D04542AA8C2C8336 /* CDVWebViewUIDelegate.h */,
+				80D66DF734224FD79BB1065F /* Restarter.m */,
+				CB5FD9201D72498DBE69E663 /* Restarter.h */,
 			);
 			name = Plugins;
 			path = Kiosk/Plugins;
@@ -429,6 +434,7 @@
 				D2F3797123E44F848FFAD281 /* ReroutingUIWebView.m in Sources */,
 				0009E17886AC4071B799EFDC /* CDVWebViewOperationsDelegate.m in Sources */,
 				3136D1B1EE134A3BB844C8EF /* CDVWebViewUIDelegate.m in Sources */,
+				EBC29543A09B48E3997F10A6 /* Restarter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

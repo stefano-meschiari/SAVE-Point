@@ -1,0 +1,17 @@
+{
+    "version": "1.0.0",
+    "name": "com.malex.cordova.plugin.restarter",
+    "cordova_name": "Restarter",
+    "description": "Cordova Restarter Plugin",
+    "license": "Apache 2.0",
+    "keywords": [
+        "cordova",
+        "restarter",
+        "reload",
+        "ios"
+    ],
+    "platforms": [
+        "ios"
+    ],
+    "engines": []
+}

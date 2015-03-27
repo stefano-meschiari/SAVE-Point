@@ -30,4 +30,7 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+    <feature name="Restarter">
+        <param name="ios-package" value="Restarter" />
+    </feature>
 </widget>

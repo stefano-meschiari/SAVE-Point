@@ -148,7 +148,7 @@ write_cfg_json($cfg);
       <div class="app-col uk-width-1-3">
         <img src="img/systemic_live.png" width="192" class="uk-animation-hover uk-animation-scale app-icon"
              <?php if (db_is_kiosk_user()) { ?>
-             onClick="alert('This app is not available yet for use on this kiosk.'); location.reload()">
+             onClick="alert('This app is not available yet for use on this kiosk.'); window.location.reload(true)">
              <?php } else { ?>
              onClick="location.href = 'http://stefanom.org/systemic-online/';">
              <?php } ?>
@@ -190,8 +190,6 @@ write_cfg_json($cfg);
       </div>
   </div>
 </div>
-
-
 
 <?php
 write_js_requires($cfg);

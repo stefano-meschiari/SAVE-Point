@@ -36,7 +36,7 @@ var UI = (function() {
                 window.clearTimeout(timer);
             console.log("Starting timer.");
             timer = _.delay(function() {
-                location.href = "/screensaver/";
+                window.location.href = "/screensaver/";
             }, 60000);
         };
         setupTimer();

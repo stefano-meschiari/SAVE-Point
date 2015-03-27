@@ -20,7 +20,7 @@ var UIUtils = (function() {
         },
         touchDevice: touchDevice,
         clickEvent: (touchDevice ? "touchstart" : "click")
-    };        
+    };    
 })();
 
 $(window).load(UIUtils.bootstrap);
