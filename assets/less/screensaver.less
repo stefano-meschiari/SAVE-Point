@@ -143,4 +143,17 @@ body {
   left:0;
   width:100%;
   height:100%;
+  opacity:0;
+
+  background:url('/dashboard/img/bg2.jpg');
+  background-color:black;
+  .transition(0.5s, ease-in);
+  background-repeat:no-repeat;
+  background-size:contain;  
 }
+
+#screen.expanded {
+  .transition(0.5s, ease-in);
+  opacity:1;
+}
+

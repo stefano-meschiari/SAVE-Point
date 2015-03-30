@@ -77,7 +77,10 @@ var Slides = (function() {
             }, (currentSlide < 0 ? 0 : delay));
         },
         clicked: function() {
-            location.href = '/?login=kiosk';
+            _.delay(function() {
+                location.href = '/?login=kiosk';
+            }, 500);
+            $("#screen").addClass("expanded");
         }
     };
     
