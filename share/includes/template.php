@@ -14,8 +14,10 @@ function write_header($cfg) {
   $m = new Mustache_Engine;  
     echo $m->render(file_get_contents(ROOT . "share/skeleton/header.html"), $cfg);
 
-    if (is_kiosk()) 
-        echo "<script type="text-javascript">\nIS_KIOSK = true;</script>";
+    if (is_kiosk()) {
+    echo "<script type=\"text-javascript\">\nIS_KIOSK = true;</script>\n";
+    echo "<script src=\"cordova.js\"></script>\n";
+    }
 };
 
 // Renders the footer using the given hash.
