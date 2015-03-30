@@ -229,7 +229,7 @@ var App = Backbone.ROComputedModel.extend({
 
         if (this.ensureConstraintsForBody(i))
             this.trigger('change:velocity');
-        
+        this.elements(true);
         this.trigger("change:position");
         Physics.barycenter(this.ctx);
     },

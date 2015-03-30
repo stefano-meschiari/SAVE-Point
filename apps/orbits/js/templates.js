@@ -56,7 +56,7 @@ var Templates = Backbone.Model.extend({
         "@menu": '<div class="help-toolbar"><button id="help-menu" class="btn btn-lg btn-jrs" onClick="app.menu();"><span class="fa fa-chevron-right"></span>  Start</button></div>',
         "@practice-mode": '<div class="help-toolbar"><button class="btn btn-lg btn-jrs" onClick="app.setMission(\'sandbox\');"><span class="icon-practice"></span> Go to Practice Mode</button></div>',
         "@eccentricity": '<span id="eccentricity"></span>',
-        "@name-enter": '<div id="enter-name-container"><input type="text" id="enter-name" value="' + app.get('playerName') + '"></div><div class="help-toolbar"><button onClick="app.set(\'playerName\', $(\'#enter-name\').val()); app.messageView.proceed();" class="btn btn-lg btn-jrs"><span class="fa fa-chevron-right"></span>  Next</button></div>',
+        "@name-enter": '<div id="enter-name-container"><input type="text" id="enter-name" value="' + app.get('playerName') + '" onBlur="window.UI.scrollToTop=true;" onFocus="window.UI.scrollToTop=false;"></div><div class="help-toolbar"><button onClick="app.set(\'playerName\', $(\'#enter-name\').val()); app.messageView.proceed();" class="btn btn-lg btn-jrs"><span class="fa fa-chevron-right"></span>  Next</button></div>',
         "@name": "<span class=player-name></span>",
         "@run": function() { app.set('state', RUNNING); },
         
