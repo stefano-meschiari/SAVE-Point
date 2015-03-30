@@ -6,11 +6,20 @@ $cfg = init();
 write_header($cfg);
 write_cfg_json($cfg);
 write_mission_rules($cfg);
-include('rss.php');
 
 ?>
 
-<?php write_js_requires($cfg); ?>
+<script>
+ window.setTimeout(function() {
+   if (document.readyState !== "complete")
+     location.href = '/dashboard/?login=kiosk';   
+ }, 60000);
+</script>
+
+<?php
+write_js_requires($cfg);
+include('rss.php');
+?>
 
 <?php
 
