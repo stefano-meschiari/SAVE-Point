@@ -872,7 +872,7 @@ var App = Backbone.ROComputedModel.extend({
         else if (T > 100)
             Tlabel = '&#9728; Boiling';
         else
-            Tlabel = '&#9786; Habitable';
+            Tlabel = '&#9786; Liquid water';
         
         var period;
         if (app.get('state') == PAUSED) {

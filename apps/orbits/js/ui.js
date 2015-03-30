@@ -15,7 +15,9 @@ var UI = (function() {
 
     $(document).ready(function() {
         if (device.ios() || device.mobile()) {
-            setInterval(function() { window.scrollTo(0, 0); }, 500);
+            _.defer(function() {
+                window.scrollTo(0, 0);
+            });
         }
         if (device.ios() || device.mobile()) {
             var start = 0;
