@@ -15,7 +15,7 @@ function write_header($cfg) {
     echo $m->render(file_get_contents(ROOT . "share/skeleton/header.html"), $cfg);
 
     if (is_kiosk()) 
-        echo '<script type="text-javascript">\nIS_KIOSK = true;</script>\n';
+        echo "<script type="text-javascript">\nIS_KIOSK = true;</script>";
 };
 
 // Renders the footer using the given hash.
