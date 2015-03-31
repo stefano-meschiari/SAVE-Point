@@ -135,7 +135,11 @@ write_cfg_json($cfg);
         </a>
       </div>
       <div class="app-col uk-width-1-3">
+        <?php if (db_is_kiosk_user()) {?>
         <a class="app-launcher" href="http://www.stefanom.org/spc/?kiosk=true"><img src="img/spc.png" width="192" class="uk-animation-hover uk-animation-scale app-icon">
+        <?php } else { ?>
+          <a class="app-launcher" href="http://www.stefanom.org/spc/"><img src="img/spc.png" width="192" class="uk-animation-hover uk-animation-scale app-icon">
+        <?php } ?>
         <div class="app-title">
           Super Planet Crash 
         </div>

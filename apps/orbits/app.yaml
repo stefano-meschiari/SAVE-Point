@@ -60,6 +60,7 @@ cutscenes:
     name: cutscene-kepler
     enabled: true
     hidden: true
+    music: level
     type: cutscene
     help:
       - on: startLevel
