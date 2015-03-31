@@ -3,7 +3,8 @@ STARS = 300;
 CANVAS_ID = 'canvas';
 MAX_SEGMENTS = 400;
 SLOW_ENV = false;
-SPEED = 1;
+DEFAULT_SPEED = 1;
+SPEED = DEFAULT_SPEED;
 
 CLUSTERS = 20;
 CLUSTER_SIZE = window.innerWidth / 10;
@@ -1742,7 +1743,7 @@ var Draw = Backbone.View.extend({
         this.setZoom(1);
         this.autoZoom = true;
         this.resetTransformation();
-        this.setSpeed(1);
+        this.setSpeed(DEFAULT_SPEED);
     },
 
     resetTransformation: function() {
@@ -1930,7 +1931,7 @@ function onFrame(event) {
 }
 
 if (IS_KIOSK)
-    SPEED = 2;
+    DEFAULT_SPEED = 2;
 
 onMouseDown = _.bind(draw.onMouseDown, draw);
 onMouseMove = _.bind(draw.onMouseMove, draw);
