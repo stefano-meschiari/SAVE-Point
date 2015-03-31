@@ -1929,6 +1929,9 @@ function onFrame(event) {
     draw.update();
 }
 
+if (IS_KIOSK)
+    SPEED = 2;
+
 onMouseDown = _.bind(draw.onMouseDown, draw);
 onMouseMove = _.bind(draw.onMouseMove, draw);
 onMouseDrag = _.bind(draw.onMouseDrag, draw);
