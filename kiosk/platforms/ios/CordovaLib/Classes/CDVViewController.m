@@ -765,7 +765,7 @@
     if ([url isFileURL]) {
         return YES;
     }
-    else if ([[url absoluteString] isEqualToString:@"about:blank"]) {
+    else if ([[url scheme] isEqualToString:@"about"]) {
         NSLog(@"Rewriting about:blank");
         NSString* app = [[NSBundle mainBundle] resourcePath];
         NSString* blankpath = [NSString stringWithFormat: @"%@/www/blank.html", app];

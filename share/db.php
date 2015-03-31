@@ -120,6 +120,12 @@ function db_user_register($user) {
   ));
 }
 
+function db_kiosk_register_url() {
+  return pg_query_params("INSERT INTO urls (date, url) VALUES ($1, $2)", array(
+    date ("Y-m-d H:i:s"),
+    "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
+  ));
+}
 
 function db_get_classes() {
   $result = pg_query('SELECT * FROM classes ORDER BY class_name');

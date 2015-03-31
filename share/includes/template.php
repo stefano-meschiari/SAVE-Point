@@ -24,6 +24,8 @@ function write_header($cfg) {
 function write_footer($cfg) {
   $m = new Mustache_Engine;
   echo $m->render(file_get_contents(ROOT . "share/skeleton/footer.html"), $cfg);
+  if (db_is_kiosk_user())
+    db_kiosk_register_url();
 };
 
 function write_js_requires($cfg) {
