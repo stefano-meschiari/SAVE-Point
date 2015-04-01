@@ -1015,7 +1015,7 @@ var AppView = Backbone.View.extend({
                 self.validate();
             });
             
-            var wait = Math.min(secs, 5000);
+            var wait = Math.min(secs, 2500);
             console.log("Waiting ", secs, "before validation");
             self.validateTimer = _.delay(_.bind(self.validate, self), wait);
         });

@@ -1,6 +1,7 @@
 ---
-description: User management.
-title: Dashboard
+description: SAVE/Point — The Society for Astronomy Visualization and Education
+title: SAVE/Point
+icon: /dashboard/img/save-point.png
 requires:
   - jquery
   - underscore

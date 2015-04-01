@@ -69,6 +69,10 @@ function init() {
   $cfg = spyc_load_file("./app.yaml");
   $libs = spyc_load_file(ROOT . "apps/share/libraries.yaml");
 
+    if ($_GET['mission'] == 'gravitykit') {
+        $cfg = array_merge($cfg, spyc_load_file(ROOT . "apps/gravitykit/app.yaml"));
+    }
+    
   $cfg['app-cfg'] = $cfg;
   $cfg['css-requires'] = array();
   $cfg['js-requires'] = array();

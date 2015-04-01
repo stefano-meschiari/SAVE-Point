@@ -59,7 +59,7 @@ include('canvas.html');
             <div class="brand">
                 <div class="uk-float-right">
                     <div>
-                        <img class="app-icon-preview" src="img/gravity.png" width="100">
+                        <img class="app-icon-preview" src="img/gravitykit.png" width="100">
                         <img class="app-icon-preview" src="img/orbits.png" width="100">
                         <img class="app-icon-preview" src="img/spc.png" width="100">
                         <img class="app-icon-preview" src="img/systemic_live.png" width="100">                    
