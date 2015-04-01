@@ -72,6 +72,16 @@ function init() {
     if ($_GET['mission'] == 'gravitykit') {
         $cfg = array_merge($cfg, spyc_load_file(ROOT . "apps/gravitykit/app.yaml"));
     }
+    if (isset($_GET['s'])) {
+        $cfg2 = spyc_load_file(ROOT . "apps/" . basename($_GET['s']) . "/app.yaml");
+        $cfg['title'] = $cfg2['title'];
+        $cfg['icon'] = $cfg2['icon'];
+        $cfg['description'] = $cfg2['description'];
+    }
+    $cfg['icon'] = "http://$_SERVER[HTTP_HOST]/" . $cfg['icon'];
+    if (isset($cfg['icon2']))
+        $cfg['icon2'] = "http://$_SERVER[HTTP_HOST]/" . $cfg['icon2'];
+    
     
   $cfg['app-cfg'] = $cfg;
   $cfg['css-requires'] = array();
