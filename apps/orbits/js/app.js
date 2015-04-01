@@ -229,7 +229,7 @@ var App = Backbone.ROComputedModel.extend({
 
         if (this.ensureConstraintsForBody(i))
             this.trigger('change:velocity');
-        
+        this.elements(true);
         this.trigger("change:position");
         Physics.barycenter(this.ctx);
     },
@@ -392,7 +392,11 @@ var App = Backbone.ROComputedModel.extend({
         this.trigger("change:velocity");        
     },
 
-
+    originalURL: null,
+    urlShare: function() {
+        this.originalURL = location.href;        
+    },
+    
     /*
      * Calculates the barycenter of the system.
      */
@@ -872,7 +876,7 @@ var App = Backbone.ROComputedModel.extend({
         else if (T > 100)
             Tlabel = '&#9728; Boiling';
         else
-            Tlabel = '&#9786; Habitable';
+            Tlabel = '&#9786; Liquid water';
         
         var period;
         if (app.get('state') == PAUSED) {
@@ -912,8 +916,9 @@ var App = Backbone.ROComputedModel.extend({
         this.listenTo(this, "change:state", function() {
             if (self.get('state') == PAUSED)
                 app.trigger('state:paused');
-            else if (self.get('state') == RUNNING)
+            else if (self.get('state') == RUNNING) {
                 app.trigger('state:running');
+            }
             else if (self.get('state') == ROTATABLE)
                 app.trigger('state:rotatable');
             else if (self.get('state') == MENU)
@@ -1006,10 +1011,13 @@ var AppView = Backbone.View.extend({
             if (! isNaN(Pmin)) {
                 secs = Pmin / deltat * (1/60) * 1000;
             }
+            app.once("change:collided", function() {
+                self.validate();
+            });
             
-            
-            var wait = Math.min(secs, 7000);
-            self.validateTimer = _.delay(_.bind(self.validate, self), secs);
+            var wait = Math.min(secs, 5000);
+            console.log("Waiting ", secs, "before validation");
+            self.validateTimer = _.delay(_.bind(self.validate, self), wait);
         });
 
         $('#mass-slider').rangeslider({ polyfill: false });
@@ -1245,10 +1253,10 @@ var AppView = Backbone.View.extend({
         var f = app.mission().get('rule')();
         if (f) {
             this.model.win();
-            clearInterval(this.validateTimer);
         } else {
             this.model.lose();
         }
+        clearInterval(this.validateTimer);
     },
 
     /*
@@ -1660,9 +1668,14 @@ $(window).load(function() {
             _.defer(function() {
                 app.setMission(_.parameter('mission'));
             });
+
+            if (_.parameter('mission') == 'gravitykit') {
+                app.urlShare();
+            }
         }
     });
 
+    
 
     
 });

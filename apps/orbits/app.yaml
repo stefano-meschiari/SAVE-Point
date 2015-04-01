@@ -60,6 +60,7 @@ cutscenes:
     name: cutscene-kepler
     enabled: true
     hidden: true
+    music: level
     type: cutscene
     help:
       - on: startLevel
@@ -181,19 +182,19 @@ missions:
           
       - on: proceed
         message: >
-          @reset-flags @disable-star @refresh @boss  @validateplanetpositions
+          @reset-flags @disable-star @refresh @boss
           Now try to @icon-drag *drag the @color-cyan{head of the green speed arrow}* to change the speed
           and direction of the planet, and see its speed change in the upper right. 
 
       - on: planet:dragvelocity
         message: |
-          @reset-flags @boss @validateplanetpositions @disable-star
+          @reset-flags @boss @disable-star
           As you change the position and speed of the planet, its orbital path will change.
           @proceed
           
       - on: proceed
         message: |
-          @noninteractive @boss @disable-everything
+          @boss @reset-flags @interactive
           To review your current mission at any time, click on the @icon-help *Help button*! You can also practice your skills using the @icon-sandbox *Practice Mode*.
           @proceed
 
@@ -204,7 +205,7 @@ missions:
           
       - on: win3
         message: |
-          @boss 
+          @boss @reset-flags @interactive
           Good work, but we need you to train quickly!  We need to 
           engineer all of the new star systems forming in the Kepler Nebula, and our 
           customers are very... picky.
@@ -437,6 +438,7 @@ missions:
     help:
       - on: startLevel
         message: >
+          @boss
           In this mission, your planet will have a  @color-accent{fixed speed (40 km/s)}
           and a @color-accent{fixed direction} (perpendicular to the direction towards the star).
 

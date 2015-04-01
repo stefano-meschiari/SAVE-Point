@@ -15,7 +15,7 @@ var UI = (function() {
 
     $(document).ready(function() {
         if (device.ios() || device.mobile()) {
-            setInterval(function() { window.scrollTo(0, 0); }, 500);
+            setInterval(function() { if (window.UI.scrollToTop) window.scrollTo(0, 0); }, 500);
         }
         if (device.ios() || device.mobile()) {
             var start = 0;
@@ -40,7 +40,7 @@ var UI = (function() {
             }, 60000);
         };
         setupTimer();
-        $(document).on("touchstart touchmove", setupTimer);
+        $(document).on("touchstart touchmove click", setupTimer);
     }
 
     window.onfocus = function() {
@@ -54,6 +54,7 @@ var UI = (function() {
     var touchDevice = device.tablet() || device.mobile();
     return {
         touchDevice: touchDevice,
+        scrollToTop: true,
         clickEvent: (touchDevice ? "touchstart" : "click"),
 
         makeEventTable: function(table) {

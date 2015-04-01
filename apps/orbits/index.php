@@ -173,7 +173,7 @@ write_mission_rules($cfg);
   </div>
 
   
-
+  
   <div id="help-text" class="animated">
     <div id="help-body">
     </div>

@@ -765,7 +765,16 @@
     if ([url isFileURL]) {
         return YES;
     }
-
+    else if ([[url absoluteString] isEqualToString:@"about:blank"]) {
+        NSLog(@"Rewriting about:blank");
+        NSString* app = [[NSBundle mainBundle] resourcePath];
+        NSString* blankpath = [NSString stringWithFormat: @"%@/www/blank.html", app];
+        NSURL* blankurl = [NSURL fileURLWithPath:blankpath];
+        
+        [[UIApplication sharedApplication] openURL:blankurl];
+        
+        return NO;
+    }
     /*
      *    If we loaded the HTML from a string, we let the app handle it
      */

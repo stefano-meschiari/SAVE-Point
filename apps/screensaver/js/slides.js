@@ -77,7 +77,10 @@ var Slides = (function() {
             }, (currentSlide < 0 ? 0 : delay));
         },
         clicked: function() {
-            location.href = '/?login=kiosk';
+            _.delay(function() {
+                location.href = '/?login=kiosk';
+            }, 500);
+            $("#screen").addClass("expanded");
         }
     };
     
@@ -90,7 +93,9 @@ $(document).ready(function() {
         $("body").addClass("show-overflow");       
     } else {
         Slides.run(0);
-        $("#screen").on("mousedown", Slides.clicked);
-        $("#screen").on("touchstart touchmove touchend", Slides.clicked);
+        if (!_.parameter("noredirect")) {
+            $("#screen").on("mousedown", Slides.clicked);
+            $("#screen").on("touchstart touchmove touchend", Slides.clicked);
+        }
     }    
 });
