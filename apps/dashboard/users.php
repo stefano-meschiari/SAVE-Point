@@ -39,7 +39,9 @@ include('canvas.html');
             <div class="modal-content">
                     <div><span class="fa fa-warning"></span> You are about to play as a demo user. You will not be able to save your progress unless you register.</div>
                     <div><span class="fa fa-warning"></span> If you are a student in a class, your grade will not be recorded unless you register!</div>
-                <hr>
+                    <hr>
+                    Registration is very helpful to us in terms of justifying the development of our software to our funding agencies and to track interest in the community.                    
+                    <hr>
                 <button type="button" id="play-anyway" class="uk-button primary-button">Play anyway</button>
                 <button type="button" class="uk-button uk-button-primary primary-button uk-modal-close">Close and register</button>
             </div>

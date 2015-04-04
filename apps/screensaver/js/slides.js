@@ -96,6 +96,11 @@ $(document).ready(function() {
         if (!_.parameter("noredirect")) {
             $("#screen").on("mousedown", Slides.clicked);
             $("#screen").on("touchstart touchmove touchend", Slides.clicked);
+
+            _.delay(function() {
+                window.location.reload();
+            }, 10 * 60 * 1000);
+            
         }
     }    
 });
