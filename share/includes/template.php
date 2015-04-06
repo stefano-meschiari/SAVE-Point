@@ -10,13 +10,14 @@ function is_local() {
 
 // Renders the header using the given hash.
 function write_header($cfg) {
-  header('Content-Type: text/html; charset=UTF-8');
-  $m = new Mustache_Engine;  
+    header('Content-Type: text/html; charset=UTF-8');
+    $m = new Mustache_Engine;  
     echo $m->render(file_get_contents(ROOT . "share/skeleton/header.html"), $cfg);
 
+
     if (is_kiosk()) {
-    echo "<script type=\"text-javascript\">\nIS_KIOSK = true;</script>\n";
-    echo "<script src=\"cordova.js\"></script>\n";
+        echo "<script type=\"text-javascript\">\nIS_KIOSK = true;</script>\n";
+        echo "<script src=\"cordova.js\"></script>\n";
     }
 };
 
@@ -70,6 +71,20 @@ function init() {
   $cfg = spyc_load_file("./app.yaml");
   $libs = spyc_load_file(ROOT . "apps/share/libraries.yaml");
 
+    if ($_GET['mission'] == 'gravitykit') {
+        $cfg = array_merge($cfg, spyc_load_file(ROOT . "apps/gravitykit/app.yaml"));
+    }
+    if (isset($_GET['s'])) {
+        $cfg2 = spyc_load_file(ROOT . "apps/" . basename($_GET['s']) . "/app.yaml");
+        $cfg['title'] = $cfg2['title'];
+        $cfg['icon'] = $cfg2['icon'];
+        $cfg['description'] = $cfg2['description'];
+    }
+    $cfg['icon'] = "http://$_SERVER[HTTP_HOST]/" . $cfg['icon'];
+    if (isset($cfg['icon2']))
+        $cfg['icon2'] = "http://$_SERVER[HTTP_HOST]/" . $cfg['icon2'];
+    
+  $cfg['url'] = "http://$_SERVER[HTTP_HOST]/";
   $cfg['app-cfg'] = $cfg;
   $cfg['css-requires'] = array();
   $cfg['js-requires'] = array();

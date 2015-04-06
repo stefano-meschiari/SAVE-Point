@@ -331,7 +331,8 @@ var Draw = Backbone.View.extend({
             return;
         
         if (disableAutoZoom !== undefined)
-            autoZoom = !disableAutoZoom;
+            this.autoZoom = !disableAutoZoom;
+        
         zoom = ((zoom * 100)|0)/100;
 
         $("#zoom-value").text((zoom * 100)|0);

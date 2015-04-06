@@ -58,13 +58,15 @@ include('canvas.html');
             </div>-->
             <div class="brand">
                 <div class="uk-float-right">
-                    <img class="app-icon-preview" src="img/gravity.png" width="100">
-                    <img class="app-icon-preview" src="img/orbits.png" width="100">
-                    <img class="app-icon-preview" src="img/spc.png" width="100">
-                    <img class="app-icon-preview" src="img/systemic_live.png" width="100">                    
+                    <div>
+                        <img class="app-icon-preview" src="img/gravitykit.png" width="100">
+                        <img class="app-icon-preview" src="img/orbits.png" width="100">
+                        <img class="app-icon-preview" src="img/spc.png" width="100">
+                        <img class="app-icon-preview" src="img/systemic_live.png" width="100">                    
+                    </div>
                 </div>
 
-                <span class="heavy">SAVE</span><span class="sep">/</span><span class="light">Point</span>
+                <a href="http://save-point.io"><span class="heavy">SAVE</span><span class="sep">/</span><span class="light">Point</span></a>
                 <div class="brand-acronym">
                     <span class="sep">S</span>ociety for <span class="sep">A</span>stronomy
                     <span class="sep">V</span>isualization and <span class="sep">E</span>ducation

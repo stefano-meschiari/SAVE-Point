@@ -1,6 +1,7 @@
 ---
-description: A game of gravity
+description: Help an alien civilization design new planetary systems.
 title: Orbits
+icon: /dashboard/img/orbits.png
 requires:
   - device
   - color
@@ -438,6 +439,7 @@ missions:
     help:
       - on: startLevel
         message: >
+          @boss
           In this mission, your planet will have a  @color-accent{fixed speed (40 km/s)}
           and a @color-accent{fixed direction} (perpendicular to the direction towards the star).
 

@@ -41,7 +41,7 @@ write_cfg_json($cfg);
         <button class="uk-float-right uk-button uk-button-primary" id="kiosk-credits-close">
             Close
         </button>
-        SAVE/Point kiosk
+        SAVE/Point
     </div>
     <h1>Help</h1>
     <hr>
@@ -105,7 +105,7 @@ write_cfg_json($cfg);
         </div>
       </div>
       <a class="uk-float-right uk-button primary-button uk-button-primary" href="http://save-point.io" target="_new"  style="margin-right:10px">
-        <strong>SAVE</strong>/Point
+          <span class="fa fa-globe"></span> About <strong>SAVE</strong>/Point
       </a>
     <?php } ?>
     <div class="uk-float-right">
@@ -115,7 +115,7 @@ write_cfg_json($cfg);
   <div id="content">
     <div class="uk-grid" data-uk-grid-margin>
       <div class="app-col uk-width-1-3">
-        <a class="app-launcher" href="/gravitykit"><img src="img/gravity.png" width="192" class="uk-animation-hover uk-animation-scale app-icon">
+        <a class="app-launcher" href="/gravitykit"><img src="img/gravitykit.png" width="192" class="uk-animation-hover uk-animation-scale app-icon">
         <div class="app-title">
           GravityKit <div class="uk-badge uk-badge-danger">BETA</div>
         </div>

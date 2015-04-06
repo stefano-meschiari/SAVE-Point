@@ -1,7 +1,7 @@
 "use strict";
 
 var CutScene = Backbone.View.extend({
-    BUTTON_SKIP: "<button id='cutscene-skip' onClick='app.trigger(\"end-cutscene\");'style='position:absolute; left:20px; bottom:20px; font-size:22px' class='btn btn-jrs'><span class='fa fa-forward'></span> Skip</button>",
+    BUTTON_SKIP: "<button id='cutscene-skip' on" + UI.clickEvent + "='app.trigger(\"end-cutscene\");' style='position:absolute; left:20px; bottom:20px; font-size:22px' class='btn btn-jrs'><span class='fa fa-forward'></span> Skip</button>",
     
     initialize: function() {
         var self = this;

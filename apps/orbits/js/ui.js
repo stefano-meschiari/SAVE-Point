@@ -40,7 +40,7 @@ var UI = (function() {
             }, 60000);
         };
         setupTimer();
-        $(document).on("touchstart touchmove", setupTimer);
+        $(document).on("touchstart touchmove click", setupTimer);
     }
 
     window.onfocus = function() {
