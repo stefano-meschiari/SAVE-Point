@@ -57,6 +57,9 @@ var Slides = (function() {
         },
         run: function(slide) {
             _.delay(function() {
+                if (Slides.canReset)
+                    window.location.reload();
+                    
                 if (slide === undefined) {
                     slide = currentSlide;
                     while (slide == currentSlide) {                        
@@ -79,7 +82,7 @@ var Slides = (function() {
         clicked: function() {
             _.delay(function() {
                 location.href = '/?login=kiosk';
-            }, 500);
+            }, 300);
             $("#screen").addClass("expanded");
         }
     };
@@ -96,6 +99,11 @@ $(document).ready(function() {
         if (!_.parameter("noredirect")) {
             $("#screen").on("mousedown", Slides.clicked);
             $("#screen").on("touchstart touchmove touchend", Slides.clicked);
+
+            _.delay(function() {
+                Slides.canReset = true;
+            }, 120000);
+            
         }
     }    
 });

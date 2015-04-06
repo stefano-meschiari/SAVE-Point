@@ -5,31 +5,31 @@
     },
     "config_munge": {
         "files": {
-            "framework": {
+            "config.xml": {
                 "parents": {
-                    "WebKit.framework": [
+                    "/*": [
                         {
-                            "xml": "false",
+                            "xml": "<feature name=\"Restarter\"><param name=\"ios-package\" value=\"Restarter\" /></feature>",
                             "count": 1
-                        }
-                    ],
-                    "libz.dylib": [
+                        },
                         {
-                            "xml": "false",
+                            "xml": "<feature name=\"WKWebViewPolyfill\"><param name=\"ios-package\" value=\"WKWebViewPolyfill\" /></feature>",
                             "count": 1
                         }
                     ]
                 }
             },
-            "config.xml": {
+            "framework": {
                 "parents": {
-                    "/*": [
+                    "WebKit.framework": [
                         {
-                            "xml": "<feature name=\"WKWebViewPolyfill\"><param name=\"ios-package\" value=\"WKWebViewPolyfill\" /></feature>",
+                            "xml": false,
                             "count": 1
-                        },
+                        }
+                    ],
+                    "libz.dylib": [
                         {
-                            "xml": "<feature name=\"Restarter\"><param name=\"ios-package\" value=\"Restarter\" /></feature>",
+                            "xml": false,
                             "count": 1
                         }
                     ]
@@ -38,10 +38,10 @@
         }
     },
     "installed_plugins": {
-        "com.telerik.plugins.wkwebview": {
+        "com.malex.cordova.plugin.restarter": {
             "PACKAGE_NAME": "com.savepoint.kiosk"
         },
-        "com.malex.cordova.plugin.restarter": {
+        "com.telerik.plugins.wkwebview": {
             "PACKAGE_NAME": "com.savepoint.kiosk"
         }
     },

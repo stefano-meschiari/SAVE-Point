@@ -24,6 +24,7 @@
 #import "CDVUserAgentUtil.h"
 #import "CDVWebViewDelegate.h"
 #import <AVFoundation/AVFoundation.h>
+#import "CDVHandleOpenURL.h"
 
 #define degreesToRadian(x) (M_PI * (x) / 180.0)
 
@@ -459,7 +460,9 @@
 
         [CDVTimer stop:@"TotalPluginStartup"];
     }
-
+    
+    [self registerPlugin:[[CDVHandleOpenURL alloc] initWithWebView:self.webView] withClassName:NSStringFromClass([CDVHandleOpenURL class])];
+    
     // /////////////////
     NSURL* appURL = [self appUrl];
 
@@ -765,16 +768,7 @@
     if ([url isFileURL]) {
         return YES;
     }
-    else if ([[url scheme] isEqualToString:@"about"]) {
-        NSLog(@"Rewriting about:blank");
-        NSString* app = [[NSBundle mainBundle] resourcePath];
-        NSString* blankpath = [NSString stringWithFormat: @"%@/www/blank.html", app];
-        NSURL* blankurl = [NSURL fileURLWithPath:blankpath];
-        
-        [[UIApplication sharedApplication] openURL:blankurl];
-        
-        return NO;
-    }
+
     /*
      *    If we loaded the HTML from a string, we let the app handle it
      */

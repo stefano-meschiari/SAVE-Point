@@ -134,6 +134,10 @@ $slides = unserialize(file_get_contents('slides.txt'));
 $slides = array_merge($cfg['slides'], $slides);
 $slides = array_merge($slides, $news);
 
+$title_slide = $slides[0];
+shuffle($slides);
+$slides = array_slice($slides, 0, 10);
+array_unshift($slides, $title_slide);
 
 if (!isset($_GET['showall'])) {
   echo "<div class='slide-container'>";
