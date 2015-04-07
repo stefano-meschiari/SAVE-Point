@@ -84,7 +84,7 @@ function init() {
     if (isset($cfg['icon2']))
         $cfg['icon2'] = "http://$_SERVER[HTTP_HOST]/" . $cfg['icon2'];
     
-  $cfg['url'] = "http://$_SERVER[HTTP_HOST]/";
+//  $cfg['url'] = "http://$_SERVER[HTTP_HOST]/";
   $cfg['app-cfg'] = $cfg;
   $cfg['css-requires'] = array();
   $cfg['js-requires'] = array();
