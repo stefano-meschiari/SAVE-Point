@@ -4,6 +4,12 @@ require_once('../../share/startup.php');
 require_once('db.php');
 require_once('messages.php');
 
+if ($_GET['s']) {
+  $app = basename($_GET['s']);
+  header("Location: /" + $app + "/");
+  die();
+}
+
 db_check_special_user();
 db_ensure_logged_in();
 
