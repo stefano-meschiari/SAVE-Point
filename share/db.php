@@ -125,6 +125,9 @@ function db_kiosk_register_url() {
     date ("Y-m-d H:i:s"),
     "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
   ));
+
+  function db_store_url($url) {
+    return pg_query_params("INSERT INTO urls (url) VALUES ($1)", array($url));
 }
 
 function db_get_classes() {
