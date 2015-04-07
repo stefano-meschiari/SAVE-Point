@@ -734,9 +734,8 @@ var Draw = Backbone.View.extend({
         this.cancelAnimation('star');
         
         var dI_start = 0.001 * SPEED;
-        var frames = 120;
+        var frames = 60;
         var frame = 0;
-        
         
         this.pushAnimation('cancel-fly', function(arg) {
             app.set('interactive', false);
@@ -755,6 +754,7 @@ var Draw = Backbone.View.extend({
                 self.rotateBackgroundStars(true);
                 self.resetTransformation();
                 app.set('interactive', true);
+                app.trigger('cancelFly');
                 if (frame == frames)
                     self.animateStar();
                 return false;
