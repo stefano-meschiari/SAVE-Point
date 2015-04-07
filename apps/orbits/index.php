@@ -2,7 +2,8 @@
 require($_SERVER['DOCUMENT_ROOT'] . '/../share/startup.php');
 require('db.php');
 
-db_ensure_logged_in();
+if (!isset($_GET["mission"]) && $_GET['mission'] !== "gravitykit")
+    db_ensure_logged_in();
 $user = db_user();
 $logged_in = 'true';
 
