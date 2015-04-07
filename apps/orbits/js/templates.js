@@ -62,7 +62,7 @@ var Templates = Backbone.Model.extend({
         
         "@rotatable": function() { app.set('state', ROTATABLE); },
         "@restart": '<button class="btn btn-jrs  font-l" on' + UI.clickEvent + '="app.reset();"><span class="fa fa-undo"></span> Restart</button>',
-        "@share": '<button class="btn btn-jrs font-l" on' + UI.clickEvent + '="app.share();"><span class="fa fa-share-square-o"></span> Share</button>',
+        "@share": '<button id="share" class="btn btn-jrs font-l" on' + UI.clickEvent + '="app.share();"><span class="fa fa-share-square-o"></span> Share</button>',
         "@play": '<button class="btn btn-jrs  font-l" on' + UI.clickEvent + '="app.set(\'state\', RUNNING);"><span class="fa fa-rocket"></span> Start orbiting!</button>',
         "@dashboard": '<button class="btn btn-jrs  font-l" on' + UI.clickEvent + '="location.href=\'/\';"><span class="fa fa-times"></span> Exit</button>',
         "@dark-help": function() {

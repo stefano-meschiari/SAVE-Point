@@ -125,9 +125,26 @@ function db_kiosk_register_url() {
     date ("Y-m-d H:i:s"),
     "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"
   ));
+}
 
-  function db_store_url($url) {
-    return pg_query_params("INSERT INTO urls (url) VALUES ($1)", array($url));
+function db_store_param($param) {
+  $res = pg_query_params("INSERT INTO params (param) VALUES ($1) RETURNING id", array($param));
+  if ($res === FALSE)
+    return FALSE;
+  else {
+    $row = pg_fetch_row($res);
+    return $row[0];
+  }
+}
+
+function db_get_param($id) {
+  $res = pg_query_params("SELECT param FROM params WHERE id=$1", array($id));
+  if ($res === FALSE)
+    return FALSE;
+  else {
+    $row = pg_fetch_row($res);
+    return $row[0];
+  }
 }
 
 function db_get_classes() {

@@ -220,6 +220,16 @@ write_mission_rules($cfg);
   </div>
   
 </div>
+<div id="share-modal" class="uk-modal">
+  <div class="uk-modal-dialog">
+    Copy and paste this address to share your planetary system:
+    <div>
+      <input id="share-url">
+    </div>
+    <div class="separator-center"></div>
+    <button class="btn-jrs uk-modal-close"><i class="fa fa-check"></i> OK</button>    
+  </div>
+</div>
 <div id="settings-modal" class="uk-modal">
   <div class="uk-modal-dialog" id="settings-dialog">
     
@@ -274,8 +284,10 @@ write_mission_rules($cfg);
 <?php write_footer($cfg); ?>
 <?php
 if (db_is_god_user() || db_is_kiosk_user()) {
-    
 ?>
+  <style>
+   #share {display:none}
+  </style>
     <script>
      var val = <?php if (db_is_kiosk_user()) echo "0"; else echo "3"; ?>;
    $(window).load(function() {
@@ -287,6 +299,7 @@ if (db_is_god_user() || db_is_kiosk_user()) {
      });
 
      $("#menu-dashboard").html("&nbsp;EXIT");
+
      console.log('done');
    });
   </script>

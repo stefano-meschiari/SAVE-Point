@@ -393,10 +393,12 @@ var App = Backbone.ROComputedModel.extend({
     },
 
     originalURL: null,
-    newURL: null,
+
     urlShare: function() {
         this.originalURL = [location.protocol, '//', location.host, location.pathname].join('');
-
+        if (_.parameter('mission') && _.parameter('mission') == 'gravitykit')
+            this.originalURL = [location.protocol, '//', location.host, '/gravitykit/'].join('');
+        
         var fmt = function(x) {
             if (x == (x|0))
                 return x;
@@ -407,45 +409,61 @@ var App = Backbone.ROComputedModel.extend({
         };
 
         app.once('cancelFly', function() {
-            if (!_.parameter('x'))
+            if (!_.parameter('u'))
                 return;
-            
-            var x = _.map(_.parameter('x').split('_'), function(x) { return +x; });
-            var v = _.map(_.parameter('v').split('_'), function(x) { return +x; });
-            var m = _.map(_.parameter('m').split('_'), function(x) { return +x; });
+            var id = +_.parameter('u');
+            if (!_.isNumber(id))
+                return;
+            app.set('interactive', false);
 
-            app.ctx.elements = null;
-            app.set('position', x);
-            app.set('velocity', v);
-            app.set('masses', m);
-            app.set('nplanets', m.length-1);
-            app.trigger("addPlanet change:position change:velocity change:masses");
-            app.set('selectedPlanet', app.get('nplanets'));            
+            $.ajax({
+                type:'GET',
+                url:'/share/php/serv.php?action=get&id=' + id
+            }).done(function(data) {
+                data = JSON.parse(data);
+                var x = _.map(data.x, function(x) { return +x; });
+                var v = _.map(data.v, function(x) { return +x; });
+                var m = _.map(data.m, function(x) { return +x; });
+           
+                app.set('position', x);
+                app.set('velocity', v);
+                app.set('masses', m);
+                app.set('nplanets', m.length-1);
+                app.ctx = {M:app.get('masses'), x: app.get('position'), v:app.get('velocity'), dt: 0.25};
+                app.trigger("addPlanet change:position change:velocity change:masses");
+                app.set('selectedPlanet', app.get('nplanets'));
+                app.set('interactive', true);
+            });
+            
         });
         
-        app.on("change:nplanets change:position change:velocity", function() {
+        app.on("change:nplanets change:position change:masses change:velocity", function() {
             if (app.get('state') != PAUSED)
                 return;
-            
-            var n = app.get('nplanets');
-            var comp = [];
-            if (_.parameter("mission"))
-                comp.push("mission=" + _.parameter('mission'));
 
-            comp.push(
-                "x=" + _.map(app.get('position'), fmt).join("_")
-            );
-            comp.push(
-                "v=" + _.map(app.get('velocity'), fmt).join("_")
-            );
-            comp.push(
-                "m=" + _.map(app.get('masses'), fmt).join("_")
-            );
+            app.params = app.params || { };
             
-            app.newURL = app.originalURL + "?" + comp.join("&");
+            app.params.x = [].concat(app.get('position'));
+            app.params.v = [].concat(app.get('velocity'));
+            app.params.m = [].concat(app.get('masses'));            
         });
 
         
+    },
+
+    share: function() {
+        $("#share-url").val("Loading...");
+        UIkit.modal("#share-modal").show();
+        console.log(JSON.stringify(app.params));
+
+        $.ajax({
+            type:'POST',
+            url:"/share/php/serv.php?action=store",
+            data: {val: JSON.stringify(app.params)}
+        }).done(function(data) {
+            $("#share-url").val(app.originalURL + "?u=" + data);
+            $("#share-url").focus();
+        });
     },
     
     /*
@@ -1085,6 +1103,10 @@ var AppView = Backbone.View.extend({
 
         $(".planet").on(UI.clickEvent, function() {
             app.set('selectedPlanet', $(this).data('n'));
+        });
+
+        $("#share-url").on("keyup keypress focus change select", function() {
+            this.select();
         });
     },
 
@@ -1726,9 +1748,7 @@ $(window).load(function() {
         }
     });
 
-    
-
-    
+       
 });
 
 if (_.parameter('mission') != null)

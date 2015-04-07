@@ -2,11 +2,11 @@
 
 
 // UI constants
-var RUNNING = 0;
-var PAUSED = 1;
-var MENU = 2;
-var ROTATABLE = 3;
-var TITLE = 4;
+var RUNNING = "running";
+var PAUSED = "paused";
+var MENU = "menu";
+var ROTATABLE = "rotatable";
+var TITLE = "title";
 
 // Paper.js font styles
 
@@ -26,6 +26,7 @@ var COLOR_SUN_HALO_OUTER = 'rgba(200,200,0,0.)';
 
 var COLOR_OUTLINE = 'rgba(255, 255, 255, 1)';
 var COLOR_MESSAGE = base0a;
+
 
 var Colors = {
     cyan: base0c,

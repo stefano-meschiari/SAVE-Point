@@ -31,7 +31,7 @@ _.each(['planet:drag', 'planet:dragvelocity'], function(action) {
             return;
         if (! app.get('interactive'))
             return;
-        if (Actions.actions[Actions.actions.length-1].action == action)
+        if (Actions.actions.length > 0 && Actions.actions[Actions.actions.length-1].action == action)
             return;
         
         Actions.actions.push({

@@ -1055,92 +1055,93 @@ var Draw = Backbone.View.extend({
                     body.planetIndex = i;
 
                     
+                    (function(body) {
+                        var drag = function(event) {
+                            if (app.flags.disabledPlanetDrag)
+                                return;
+                            if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
+                                return;
 
-                    var drag = function(event) {
-                        if (app.flags.disabledPlanetDrag)
-                            return;
-                        if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
-                            return;
+                            var minDist = app.get('minAU') * PIXELS_PER_AU;
+                            var point = event.point;
+                            var bsize = body.bounds.width;
+                            var refuseDrag = false;
+                            
+                            var dist = Math.sqrt((point.x - view.center.x) * (point.x - view.center.x) +
+                                                 (point.y - view.center.y) * (point.y - view.center.y));
 
-                        var minDist = app.get('minAU') * PIXELS_PER_AU;
-                        var point = event.point;
-                        var bsize = body.bounds.width;
-                        var refuseDrag = false;
+                            if (dist < minDist) {
+                                point.x = (point.x - view.center.x) * minDist/dist + view.center.x;
+                                point.y = (point.y - view.center.y) * minDist/dist + view.center.y;                            
+                            }
+                            
+                            if (point.x - bsize < 0 ||
+                                point.y - bsize < 0 ||
+                                point.x + bsize > view.bounds.width ||
+                                point.y + bsize > view.bounds.height ||
+                                document.elementFromPoint(point.x-bsize, point.y-bsize).id !== CANVAS_ID ||
+                                document.elementFromPoint(point.x+bsize, point.y+bsize).id !== CANVAS_ID ||
+                                document.elementFromPoint(point.x, point.y).id !== CANVAS_ID)
+                            {
+                                refuseDrag = true;
+                            }
+
+                            if (!body.dragging)
+                                body.mouseDown();
+                            
+                            body.dragging = true;
+
+                            if (!refuseDrag) {
+                                var c = [point.x - self.star.position.x, point.y - self.star.position.y, 0];
+                                c[0] /= PIXELS_PER_AU;
+                                c[1] /= PIXELS_PER_AU;
+                                app.povSetPositionForBody(body.planetIndex, c);                            
+                            }
+
+                            var info = app.getHumanInfoForBody(body.planetIndex, { distanceOnly: true });
+
+                            self.showText("Distance:\n" + info.distance, body.position,
+                                          self.color(TYPE_HALO, body.planetIndex), body.bounds.height,
+                                          [ self.handles[body.planetIndex].vector, self.forces[body.planetIndex], self.star ]);
+                        };
+
+                        var mouseDown = function() {
+                            if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
+                                return;
+                            app.set('selectedPlanet', body.planetIndex + 1);
+                            var center = body.bounds.center;
+                            var R = draw.zoom*body.bodyDragRadius;
+                            var hR = body.haloDragRadius;
+                            body.bounds.size = new Size(2*R, 2*R);
+                            body.bounds.center = center;
+                            self.handles[body.planetIndex].halo.bounds.size = new Size(2*hR, 2*hR);
+                            self.handles[body.planetIndex].halo.bounds.center = center;
+                        };
+
+                        var mouseUp = function() {
+                            if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
+                                return;
+                            
+                            if (app.flags.disabledPlanetDrag)
+                                return;
+                            
+                            if (body.dragging)
+                                app.trigger("planet:drag");
+                            
+                            body.dragging = false;
+
+                            self.hideText();
+                            self.recalculateSizes();
+                        };
                         
-                        var dist = Math.sqrt((point.x - view.center.x) * (point.x - view.center.x) +
-                                             (point.y - view.center.y) * (point.y - view.center.y));
-
-                        if (dist < minDist) {
-                            point.x = (point.x - view.center.x) * minDist/dist + view.center.x;
-                            point.y = (point.y - view.center.y) * minDist/dist + view.center.y;                            
-                        }
+                        body.drag = drag;
+                        body.mouseDown = mouseDown;
+                        body.mouseUp = mouseUp;
                         
-                        if (point.x - bsize < 0 ||
-                            point.y - bsize < 0 ||
-                            point.x + bsize > view.bounds.width ||
-                            point.y + bsize > view.bounds.height ||
-                            document.elementFromPoint(point.x-bsize, point.y-bsize).id !== CANVAS_ID ||
-                            document.elementFromPoint(point.x+bsize, point.y+bsize).id !== CANVAS_ID ||
-                            document.elementFromPoint(point.x, point.y).id !== CANVAS_ID)
-                        {
-                            refuseDrag = true;
-                        }
-
-                        if (!body.dragging)
-                            body.mouseDown();
-                        
-                        body.dragging = true;
-
-                        if (!refuseDrag) {
-                            var c = [point.x - self.star.position.x, point.y - self.star.position.y, 0];
-                            c[0] /= PIXELS_PER_AU;
-                            c[1] /= PIXELS_PER_AU;
-                            app.povSetPositionForBody(body.planetIndex, c);                            
-                        }
-
-                        var info = app.getHumanInfoForBody(body.planetIndex, { distanceOnly: true });
-
-                        self.showText("Distance:\n" + info.distance, body.position,
-                                      self.color(TYPE_HALO, body.planetIndex), body.bounds.height,
-                                      [ self.handles[body.planetIndex].vector, self.forces[body.planetIndex], self.star ]);
-                    };
-
-                    var mouseDown = function() {
-                        if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
-                            return;
-                        app.set('selectedPlanet', body.planetIndex + 1);
-                        var center = body.bounds.center;
-                        var R = draw.zoom*body.bodyDragRadius;
-                        var hR = body.haloDragRadius;
-                        body.bounds.size = new Size(2*R, 2*R);
-                        body.bounds.center = center;
-                        self.handles[body.planetIndex].halo.bounds.size = new Size(2*hR, 2*hR);
-                        self.handles[body.planetIndex].halo.bounds.center = center;
-                    };
-
-                    var mouseUp = function() {
-                        if (app.typeForBody(body.planetIndex) == TYPE_PLANET_FIXED)
-                            return;
-                        
-                        if (app.flags.disabledPlanetDrag)
-                            return;
-                        
-                        if (body.dragging)
-                            app.trigger("planet:drag");
-                        
-                        body.dragging = false;
-
-                        self.hideText();
-                        self.recalculateSizes();
-                    };
-                    
-                    body.drag = drag;
-                    body.mouseDown = mouseDown;
-                    body.mouseUp = mouseUp;
-                    
-                    body.on("mousedrag", body.drag);
-                    body.on("mousedown", body.mouseDown);
-                    body.on("mouseup", body.mouseUp);                  
+                        body.on("mousedrag", body.drag);
+                        body.on("mousedown", body.mouseDown);
+                        body.on("mouseup", body.mouseUp);
+                    })(body);
                 }
                 
             } else {
