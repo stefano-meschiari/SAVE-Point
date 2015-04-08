@@ -451,6 +451,21 @@ var App = Backbone.ROComputedModel.extend({
         
     },
 
+    resetToInitial: function() {
+        if (app.params && app.params.x) {
+            app.set('position', app.params.x);
+            app.set('velocity', app.params.v);
+            app.set('masses', app.params.m);
+            app.set('nplanets', app.params.m.length-1);
+            app.ctx = {M:app.get('masses'), x: app.get('position'), v:app.get('velocity'), dt: 0.25};
+            app.set('state', PAUSED);
+            draw.destroyHandles();
+            draw.destroyPlanets();
+            draw.updatePlanets();
+            draw.resetView();
+        }
+    },
+
     share: function() {
         $("#share-url").val("Loading...");
         UIkit.modal("#share-modal").show();
@@ -1025,6 +1040,7 @@ var AppView = Backbone.View.extend({
         "click #speed-up": function() { draw.setSpeed(SPEED * 2); },
         "click #speed-down": function() { draw.setSpeed(SPEED / 2); },        
         "click #zoom": function() { this.setToolbarVisible($("#toolbar-zoom")); },
+        "click #reset-initial": function() { app.resetToInitial(); },
         "click #mass-selector": function() { if (app.get('state') == PAUSED) this.setToolbarVisible($("#toolbar-masses")); },
         "click #dashboard": function() { location.href = "/"; }
         
@@ -1302,6 +1318,12 @@ var AppView = Backbone.View.extend({
         if (state != MENU)
             $("#info-top").show();
 
+        _.each(STATES, function(stateToRemove) {
+            $("html").removeClass("state-" + stateToRemove);
+        });
+        $("html").addClass("state-" + state);
+
+        
         if (state != PAUSED)
             this.setToolbarVisible($("#toolbar-masses"), false);
     },

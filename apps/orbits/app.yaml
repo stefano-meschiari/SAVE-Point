@@ -621,7 +621,7 @@ missions:
           
       - on: state:running
         message: |        
-          @rotatable @center{@icon-drag Drag to rotate the view! @spacer{10px} @restart @spacer{10px} @share @spacer{10px} @dashboard}
+          @rotatable @center{@icon-drag Drag to rotate the view! @spacer{5px} @restart @spacer{5px} @share @spacer{5px} @dashboard}        
     
   - title: Practice Mode
     subtitle: Practice your moves.
@@ -644,8 +644,7 @@ missions:
         showOnce: true
         message: |          
           @boss
-          Here you can practice your planet building skills! You can place as many
-          planets as you want.        
+          Here you can practice your planet building skills! You can place up to six planets.        
 
 
           Press the @icon-missions *Mission menu* button to get back to the missions menu.

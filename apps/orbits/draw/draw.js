@@ -1730,7 +1730,10 @@ var Draw = Backbone.View.extend({
     toggleState: function(event) {
         if (app.get('state') != PAUSED) {
             this.destroyHandles();
+        } else {
+            this.destroyTrails();
         }
+        
         
         if (app.get('state') == RUNNING)
             this.bobStar();

@@ -160,7 +160,10 @@ write_mission_rules($cfg);
       <button id="help" class="btn-jrs-ico fa fa-question-circle" title="Help" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Help</div>
     </div>
-
+    <div class="sidebar-item" id="sidebar-reset-initial">
+      <button id="reset-initial" class="btn-jrs-ico fa fa-history" title="Reset to initial conditions" data-tooltip-content="{pos: 'right', offset:20}"></button>
+      <div class="sidebar-title">Reset to initial conditions</div>
+    </div>
     <div class="separator-center"></div>
     <div class="sidebar-item">
       <button class="settings btn-jrs-ico fa fa-sliders" data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-tooltip-content="{pos: 'right', offset:20}"></button>

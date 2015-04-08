@@ -7,6 +7,14 @@ var PAUSED = "paused";
 var MENU = "menu";
 var ROTATABLE = "rotatable";
 var TITLE = "title";
+var STATES = [
+    RUNNING,
+    PAUSED,
+    MENU,
+    ROTATABLE,
+    TITLE
+];
+
 
 // Paper.js font styles
 
