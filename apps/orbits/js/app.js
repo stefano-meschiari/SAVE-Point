@@ -458,11 +458,13 @@ var App = Backbone.ROComputedModel.extend({
             app.set('masses', app.params.m);
             app.set('nplanets', app.params.m.length-1);
             app.ctx = {M:app.get('masses'), x: app.get('position'), v:app.get('velocity'), dt: 0.25};
-            app.set('state', PAUSED);
+            app.set('invalid', false);
+            app.set('collided', false);
             draw.destroyHandles();
             draw.destroyPlanets();
-            draw.updatePlanets();
+            draw.planetsUpdate();
             draw.resetView();
+            app.set('state', PAUSED);            
         }
     },
 
@@ -494,8 +496,8 @@ var App = Backbone.ROComputedModel.extend({
      * of all bodies.
      */
     tick: function() {
-        if (this.get('invalid') || this.get('state') == MENU || !this.get('alive'))
-            return;
+        if (this.get('invalid') || this.get('state') == MENU || this.get('state') == PAUSED || !this.get('alive'))
+            return false;
 
         // Subtract COM speed
         if (!this.get('centered')) {
@@ -561,6 +563,7 @@ var App = Backbone.ROComputedModel.extend({
         Physics.barycenter(this.ctx, true);
         
         this.trigger("tick");
+        return true;
     },
 
     /*
@@ -1760,12 +1763,17 @@ $(window).load(function() {
         app.loaded = true;
 
         if (_.parameter('mission') != null) {
+            var mission = _.parameter('mission');
             _.defer(function() {
-                app.setMission(_.parameter('mission'));
+                app.setMission(mission);
             });
 
-            if (_.parameter('mission') == 'gravitykit') {
+            if (mission == 'gravitykit') {
                 app.urlShare();
+                app.on("change:state", function() {
+                    if (app.get('state') == RUNNING)
+                        app.set('state', ROTATABLE);
+                });
             }
         }
     });
