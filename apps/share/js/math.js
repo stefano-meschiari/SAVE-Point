@@ -2,6 +2,10 @@
 if (typeof(exports) !== 'undefined')
     var fs = require('fs');
 
+Math.log10 = Math.log10 || function(x) {
+  return Math.log(x) / Math.LN10;
+};
+
 var _m = {};
 
 _m.eps = function(a, b, eps) {
