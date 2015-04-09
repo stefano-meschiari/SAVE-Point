@@ -10,6 +10,14 @@
 
 "use strict";
 
+window.requestAnimationFrame = (function(){
+  return  window.requestAnimationFrame       ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame    ||
+          function( callback ){
+            window.setTimeout(callback, 1000 / 60);
+          };
+})();
 
 
 /* Read-only computed properties. */
@@ -1784,11 +1792,3 @@ $(window).load(function() {
 if (_.parameter('mission') != null)
     $('html').addClass(_.parameter('mission'));
 
-window.requestAnimFrame = (function(){
-  return  window.requestAnimationFrame       ||
-          window.webkitRequestAnimationFrame ||
-          window.mozRequestAnimationFrame    ||
-          function( callback ){
-            window.setTimeout(callback, 1000 / 60);
-          };
-})();
