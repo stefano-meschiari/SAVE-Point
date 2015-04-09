@@ -4,7 +4,7 @@ device:
   - /share/devicejs/lib/device.min.js
   
 paper:
-  - /share/paper/dist/paper-full.js
+  - /share/paper/dist/paper-full.min.js
 
 jquery:
   - /share/jquery/dist/jquery.min.js
