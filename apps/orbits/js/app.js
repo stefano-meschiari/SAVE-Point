@@ -143,7 +143,7 @@ var App = Backbone.ROComputedModel.extend({
             maxAU: 1.5,
             minAU: 0.19,
             // Music settings
-            musicVolume:0.2,
+            musicVolume:0.1,
             effectsVolume:0.2,
             // Cutscenes
             cutscenesPlayed:[], 
@@ -1809,3 +1809,4 @@ $(window).load(function() {
 if (_.parameter('mission') != null)
     $('html').addClass(_.parameter('mission'));
 
+ 
