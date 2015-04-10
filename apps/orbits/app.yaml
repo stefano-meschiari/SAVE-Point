@@ -552,6 +552,16 @@ missions:
           You might want to try this out in @icon-practice Practice Mode and then come back to earn your bonus star.
           @practice-mode
 
+  - title: Small Elliptical Orbit
+    enabled: true
+    hidden: true
+    value: 3
+    music: lurk
+    icon: icon-elliptical
+    name: small_elliptical
+    subtitle: Create an elliptical orbit that fits inside the circle.
+      
+
   - title: The speed of planets/3
     enabled: true
     hidden: true    
