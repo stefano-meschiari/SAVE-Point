@@ -560,7 +560,20 @@ missions:
     icon: icon-elliptical
     name: small_elliptical
     subtitle: Create an elliptical orbit that fits inside the circle.
-      
+    circleat: 1.5
+    colors: blue
+    rule: nplanets > 0 && (1-elements[0].eccentricity)*elements[0].sma < 0.95 * 1.5
+    constraints:
+      direction: perpendicular
+      position: 1.5
+      nplanets: 1
+    bodies:
+      - circular: true
+        x:
+          - 1.5
+          - 0
+          - 0
+
 
   - title: The speed of planets/3
     enabled: true

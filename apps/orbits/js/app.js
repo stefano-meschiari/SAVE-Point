@@ -231,6 +231,8 @@ var App = Backbone.ROComputedModel.extend({
      */
     setPositionForBody: function(i, x) {
         var position = this.get('position');
+        
+        
         position[(i+1)*NPHYS+X] = x[0];
         position[(i+1)*NPHYS+Y] = x[1];
         position[(i+1)*NPHYS+Z] = x[2];
@@ -381,6 +383,14 @@ var App = Backbone.ROComputedModel.extend({
             vel[(i+1) * NPHYS+X] = v[0]/vn * speed;
             vel[(i+1) * NPHYS+Y] = v[1]/vn * speed;
             vel[(i+1) * NPHYS+Z] = v[2]/vn * speed;            
+        }
+
+        if (constraints.position) {
+            var p = +constraints.position;
+            var d = Math.sqrt(x[0] * x[0] + x[1] * x[1]);
+            pos[(i+1)*NPHYS+X] = x[0] / d * p;
+            pos[(i+1)*NPHYS+Y] = x[1] / d * p;
+            changed = true;
         }
         return changed;
     },
@@ -684,16 +694,17 @@ var App = Backbone.ROComputedModel.extend({
         
         var bodies = missionObj.get('bodies');
         if (bodies) {
-            _.each(bodies, function(body) {
-                var type = TYPE_PLANET;
-                if (body.type)
-                    type = eval(body.type);
-                
-                var i = self.addPlanet(body.x, { type: type, circular: body.circular });
-                if (body.v)
-                    self.setVelocityForBody(i - 1, body.v);
-                
-            });
+            console.log("Adding bodies...");
+                _.each(bodies, function(body) {
+                    var type = TYPE_PLANET;
+                    if (body.type)
+                        type = eval(body.type);
+                    
+                    var i = self.addPlanet(body.x, { type: type, circular: body.circular });
+                    if (body.v)
+                        self.setVelocityForBody(i - 1, body.v);
+                    
+                });
         }
     },
 

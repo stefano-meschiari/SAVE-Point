@@ -1643,7 +1643,7 @@ var Draw = Backbone.View.extend({
         this.destroyTrails();
         this.planetsUpdate();
         this.handlesUpdate();
-
+        this.objectsUpdate();
     },
     
     // Mouse-down event on canvas. Forward message to appView.
@@ -1749,8 +1749,35 @@ var Draw = Backbone.View.extend({
         this.autoZoom = true;
         this.resetTransformation();
         this.setSpeed(DEFAULT_SPEED);
+        this.resetObjects();
     },
 
+    objects: [],
+
+    resetObjects: function() {
+        var objects = this.objects;
+        _.each(objects, function(o) { o.remove(); });
+        var mission = app.mission();
+        if (mission.get('circleat')) {
+            var c = new Path.Circle({
+                center: view.center,               
+                radius: +mission.get('circleat') * PIXELS_PER_AU,  
+                fillColor: 'rgba(102, 204, 255, 0.2)'
+            });
+            c.auradius = +mission.get('circleat');
+            c.centered = true;
+            objects.push(c);
+            c.sendToBack();
+        }
+    },
+
+    objectsUpdate: function() {
+        _.each(this.objects, function(o) {
+            if (o.centered)
+                o.position = view.center;
+        });
+    },
+    
     resetTransformation: function() {
         this.transformation = Physics.setRotation(this.transformation, 0, 0, 0, PIXELS_PER_AU); 
     },
@@ -1821,8 +1848,9 @@ var Draw = Backbone.View.extend({
             self.recalculateSizes();
         });
 
-        this.listenTo(this.model, "reset start", function() {           
+        this.listenTo(this.model, "reset start state:menu", function() {           
             this.resetView();
+            
         });
         this.listenTo(this.model, "startLevel", function() {
             this.cancelFly();

@@ -77,8 +77,8 @@ var Templates = Backbone.Model.extend({
     winTemplate: _.template('<div class="win-title"><span id="win-stars"></span> <%= win %></div><div class="win-message"><%= message %></div><div class="win-toolbar"><button class="btn-jrs btn-lg btn-throb" on' + UI.clickEvent + '="app.menuView.selectNextMission(); app.menu();"><span class="fa fa-rocket"></span> Next Mission</button>'),
     loseTemplate: _.template('</div><div class="win-title"><span id="win-stars"></span> <%= lose %></div><div class="win-message"><%= message %></div><div class="win-toolbar"><button class="btn-jrs btn-lg btn-throb" on' + UI.clickEvent + '="app.reset()"><span class="fa fa-undo"></span> Retry</button>'),
     
-    winDefaultEncouragement: '@boss\nGood job, rookie!',
-    loseDefaultEncouragement: '@boss\nToo bad! Give it another try?',
+    winDefaultEncouragement: 'Good job, rookie!',
+    loseDefaultEncouragement: 'Too bad! Give it another try?',
     
     /*
      Takes an object containing a "message" field, and returns the object with the translated message
