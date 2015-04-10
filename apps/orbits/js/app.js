@@ -486,7 +486,9 @@ var App = Backbone.ROComputedModel.extend({
             draw.destroyPlanets();
             draw.planetsUpdate();
             draw.resetView();
-            app.set('state', PAUSED);            
+            app.set('state', PAUSED);
+            app.trigger('resetmessages');
+            app.trigger('change:nplanets');
         }
     },
 
@@ -1484,7 +1486,7 @@ var MessageView = Backbone.View.extend({
             this.setupTemplates();
         });
         
-        this.listenTo(this.model, "start", function() {
+        this.listenTo(this.model, "start resetmessages", function() {
             this.render(null);
             this.setupMessages();
         });
