@@ -459,6 +459,20 @@ var App = Backbone.ROComputedModel.extend({
         
     },
 
+    random: function() {
+        app.reset();
+
+        app.once('cancelFly', function() {
+            var np = _m.integerRandom(null, 1, 6)[0];
+
+            for (var i = 0; i < np; i++) {
+
+                
+            }
+            
+        });
+    },
+
     resetToInitial: function() {
         if (app.params && app.params.x) {
             app.set('position', app.params.x);
@@ -1052,6 +1066,7 @@ var AppView = Backbone.View.extend({
         "click #speed-down": function() { draw.setSpeed(SPEED / 2); },        
         "click #zoom": function() { this.setToolbarVisible($("#toolbar-zoom")); },
         "click #reset-initial": function() { app.resetToInitial(); },
+        "click #random": function() { app.random(); },
         "click #mass-selector": function() { if (app.get('state') == PAUSED) this.setToolbarVisible($("#toolbar-masses")); },
         "click #dashboard": function() { location.href = "/"; }
         

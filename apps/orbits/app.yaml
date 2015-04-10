@@ -621,7 +621,7 @@ missions:
           
       - on: state:running
         message: |        
-          @rotatable @center{@icon-drag Drag to rotate the view! @spacer{5px} @restart @spacer{5px} @share @spacer{5px} @dashboard}        
+          @rotatable @center{@icon-drag Drag to rotate the view! @spacer{5px} @restart @spacer{5px} @share @spacer{5px} @about @spacer{5px} @dashboard}        
     
   - title: Practice Mode
     subtitle: Practice your moves.

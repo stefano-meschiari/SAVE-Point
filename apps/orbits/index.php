@@ -164,6 +164,12 @@ write_mission_rules($cfg);
       <button id="reset-initial" class="btn-jrs-ico fa fa-history" title="Reset to initial conditions" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Reset to initial conditions</div>
     </div>
+    <!-- 
+    <div class="sidebar-item" id="sidebar-random">
+      <button id="random" class="btn-jrs-ico fa fa-bolt" title="Make a random system!" data-tooltip-content="{pos: 'right', offset:20}"></button>
+      <div class="sidebar-title">Make a random system!</div>
+    </div>
+    -->
     <div class="separator-center"></div>
     <div class="sidebar-item">
       <button class="settings btn-jrs-ico fa fa-sliders" data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-tooltip-content="{pos: 'right', offset:20}"></button>
