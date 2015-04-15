@@ -577,7 +577,7 @@ var App = Backbone.ROComputedModel.extend({
                 r = Math.sqrt(dx*dx + dy*dy + dz*dz);
                 
                 if (r < minAU)
-                    collided = { x: this.ctx.x[i*NPHYS+X], y: this.ctx.x[i*NPHYS+Y], planet:i };
+                    collided = {pos: this.povPositionForBody(i-1), planet:i};
             }
             
             if (collided)

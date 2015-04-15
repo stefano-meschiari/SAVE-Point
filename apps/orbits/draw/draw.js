@@ -801,8 +801,8 @@ var Draw = Backbone.View.extend({
         var frames = 60;
         var explosionSize = 100;
 
-        var x = info.x * PIXELS_PER_AU + this.star.position.x;
-        var y = info.y * PIXELS_PER_AU + this.star.position.y;
+        var x = info.pos[0] * PIXELS_PER_AU + this.star.position.x;
+        var y = info.pos[1] * PIXELS_PER_AU + this.star.position.y;
 
         var pos = new Point(x, y);
         var smoke = new Path.Circle(pos, 1);
