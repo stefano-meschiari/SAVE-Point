@@ -9,9 +9,12 @@
     - crash
     - ejected
     - elliptical
-    - elliptical_question
     - circular
     - speed_vs_distance_40
     - speed_vs_distance_30
     - speed_vs_distance_25
     - circular_question        
+    - small_elliptical
+    - large_elliptical
+    - elliptical_question
+    

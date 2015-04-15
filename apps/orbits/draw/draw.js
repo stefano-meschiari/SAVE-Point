@@ -354,6 +354,7 @@ var Draw = Backbone.View.extend({
         this.recalculateSizes();
         this.planetsUpdate();
         this.handlesUpdate();
+        this.resetObjects();
         this.trailsUpdate();        
     },
 
@@ -1644,6 +1645,7 @@ var Draw = Backbone.View.extend({
         this.planetsUpdate();
         this.handlesUpdate();
         this.objectsUpdate();
+        this.resetObjects();
     },
     
     // Mouse-down event on canvas. Forward message to appView.
@@ -1729,7 +1731,7 @@ var Draw = Backbone.View.extend({
     
     toggleState: function(event) {
         if (app.get('state') != PAUSED) {
-            this.destroyHandles();
+            this.destroyHandles();            
         } else {
             this.destroyTrails();
         }
@@ -1740,6 +1742,7 @@ var Draw = Backbone.View.extend({
         
         if (app.get('state') == MENU) {
             this.fly();
+            this.destroyObjects();
         }
         
     },
@@ -1753,19 +1756,41 @@ var Draw = Backbone.View.extend({
     },
 
     objects: [],
+    destroyObjects: function() {
+        var objects = this.objects;
+        _.each(objects, function(o) { o.remove(); });     
+    },
 
     resetObjects: function() {
+        this.destroyObjects();
         var objects = this.objects;
-        _.each(objects, function(o) { o.remove(); });
         var mission = app.mission();
+        var c;
         if (mission.get('circleat')) {
-            var c = new Path.Circle({
+            c = new Path.Circle({
                 center: view.center,               
                 radius: +mission.get('circleat') * PIXELS_PER_AU,  
                 fillColor: 'rgba(102, 204, 255, 0.2)'
             });
             c.auradius = +mission.get('circleat');
             c.centered = true;
+            objects.push(c);
+            c.sendToBack();
+        } else if (mission.get('circleoutside')) {
+            var hole = new Path.Circle({
+                        center: view.center,
+                        radius: +mission.get('circleoutside') * PIXELS_PER_AU
+            });
+            c = new CompoundPath({
+                children: [
+                    new Path.Rectangle(view.bounds),
+                    hole
+                ],
+                fillColor: 'rgba(102, 204, 255, 0.2)'
+            });
+            hole.auradius = +mission.get('circleoutside');
+            hole.centered = true;
+            objects.push(hole);
             objects.push(c);
             c.sendToBack();
         }

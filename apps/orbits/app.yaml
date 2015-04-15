@@ -574,6 +574,27 @@ missions:
           - 0
           - 0
 
+  - title: Large Elliptical Orbit
+    enabled: true
+    hidden: true
+    value: 3
+    music: lurk
+    icon: icon-elliptical
+    name: large_elliptical
+    subtitle: Create an elliptical orbit that is completely outside the circle.
+    circleoutside: 1.5
+    colors: blue
+    rule: nplanets > 0 && (1+elements[0].eccentricity)*elements[0].sma > 1.01 * 1.5 && elements[0].eccentricity < 0.99
+    constraints:
+      direction: perpendicular
+      position: 1.5
+      nplanets: 1
+    bodies:
+      - circular: true
+        x:
+          - 1.5
+          - 0
+          - 0
 
   - title: The speed of planets/3
     enabled: true
