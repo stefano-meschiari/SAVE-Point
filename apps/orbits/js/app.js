@@ -231,6 +231,8 @@ var App = Backbone.ROComputedModel.extend({
      */
     setPositionForBody: function(i, x) {
         var position = this.get('position');
+        
+        
         position[(i+1)*NPHYS+X] = x[0];
         position[(i+1)*NPHYS+Y] = x[1];
         position[(i+1)*NPHYS+Z] = x[2];
@@ -382,9 +384,25 @@ var App = Backbone.ROComputedModel.extend({
             vel[(i+1) * NPHYS+Y] = v[1]/vn * speed;
             vel[(i+1) * NPHYS+Z] = v[2]/vn * speed;            
         }
+
+        if (constraints.position) {
+            var p = +constraints.position;
+            var d = Math.sqrt(x[0] * x[0] + x[1] * x[1]);
+            pos[(i+1)*NPHYS+X] = x[0] / d * p;
+            pos[(i+1)*NPHYS+Y] = x[1] / d * p;
+            changed = true;
+        }
         return changed;
     },
 
+    velocityForBody: function(i, v) {
+        var velocity = this.get('velocity');
+        return [
+            velocity[(i+1) * NPHYS+X],
+            velocity[(i+1) * NPHYS+Y],
+            velocity[(i+1) * NPHYS+Z]
+        ];
+    },
     /*
      * Sets the velocity for the i-th body.
      */
@@ -694,21 +712,39 @@ var App = Backbone.ROComputedModel.extend({
         var missionObj = this.mission();
         this.sounds.playMusic(missionObj.get('music'));      
         
-        var bodies = missionObj.get('bodies');
-        if (bodies) {
-            _.each(bodies, function(body) {
-                var type = TYPE_PLANET;
-                if (body.type)
-                    type = eval(body.type);
-                
-                var i = self.addPlanet(body.x, { type: type, circular: body.circular });
-                if (body.v)
-                    self.setVelocityForBody(i - 1, body.v);
-                
-            });
-        }
     },
 
+    addDefaultBodies: function() {
+        var bodies = this.mission().get('bodies');
+        var self = this;
+        if (bodies) {
+            console.log("Adding bodies...");
+                _.each(bodies, function(body) {
+                    var type = TYPE_PLANET;
+                    if (body.type)
+                        type = eval(body.type);
+                    
+                    self.addPlanet(body.x, { type: type, circular: body.circular });
+                    console.log(body.v);
+                    if (body.v) {
+                        var i = app.get('nplanets');
+                        if (body.v == 'random') {
+                            var v = self.velocityForBody(i-1);
+                            var r = 1 + 0.25 * (1-2*Math.random());
+                            console.log(v);
+                            v[0] *= r;
+                            v[1] *= r;
+                            v[2] *= r;
+                            self.setVelocityForBody(i-1, v);
+                            console.log(r, v, i);
+                        } else {
+                            self.setVelocityForBody(i - 1, body.v);
+                        }
+                    }
+                });
+        }
+    },
+                                          
     /*
      * Change the current state to MENU. This should trigger an update in the view, where
      * the app-menu div is brought to the forefront and UI elements are hidden.
@@ -788,6 +824,7 @@ var App = Backbone.ROComputedModel.extend({
         if (mission.get('type') && app.components[mission.get('type')]) {
             app.component = new app.components[mission.get('type')]({ model: this });
         }
+        this.addDefaultBodies();
     },
 
 
@@ -878,7 +915,7 @@ var App = Backbone.ROComputedModel.extend({
         var saveData = {};
 
         if (this.mission().get('nosave'))
-            return;
+            return null;
         
         _.each(this.saveKeys, function(key) {
             this[key] = self.get(key);

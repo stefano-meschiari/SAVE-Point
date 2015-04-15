@@ -1322,14 +1322,14 @@ html.gravitykit #sidebar-random {
   display:block;
 } 
 
-html.gravitykit #sidebar-reset-initial,
+#sidebar-reset-initial,
 html.state-paused #sidebar-reset-initial {
   display:none;
 }
 
-html.state-running #sidebar-reset-initial,
-html.state-rotatable #sidebar-reset-initial {
-  display:block;
+html.gravitykit html.state-running #sidebar-reset-initial,
+html.gravitykit html.state-rotatable #sidebar-reset-initial {
+  display:block !important;
 }
 
 html.gravitykit #sidebar-menu,
