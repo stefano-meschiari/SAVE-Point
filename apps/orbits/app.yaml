@@ -556,7 +556,7 @@ missions:
     enabled: true
     hidden: true
     value: 3
-    music: lurk
+    music: triumph
     icon: icon-elliptical
     name: small_elliptical
     subtitle: Create an elliptical orbit that fits inside the circle.
@@ -578,7 +578,7 @@ missions:
     enabled: true
     hidden: true
     value: 3
-    music: lurk
+    music: triumph
     icon: icon-elliptical
     name: large_elliptical
     subtitle: Create an elliptical orbit that is completely outside the circle.
