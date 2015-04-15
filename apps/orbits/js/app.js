@@ -460,17 +460,29 @@ var App = Backbone.ROComputedModel.extend({
     },
 
     random: function() {
+        /*
         app.reset();
 
         app.once('cancelFly', function() {
             var np = _m.integerRandom(null, 1, 6)[0];
-
+            var minAU = app.get('minAU');
+            var maxAU = 0.75 * Math.min(window.innerWidth, window.innerHeight) / PIXELS_PER_AU;
+            
+            var mass = [];
+            
             for (var i = 0; i < np; i++) {
-
+                while (true) {
+                    var a = Math.random() * (maxAU-minAU) + minAU;
+                    var t = 2*Math.PI*Math.random();
+                    
+                    
+                    x.push(a * Math.cos(t), a * Math.sin(t), 0);
+                    
+                }
                 
             }
             
-        });
+        });*/
     },
 
     resetToInitial: function() {
