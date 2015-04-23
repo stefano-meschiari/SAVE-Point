@@ -711,6 +711,16 @@ var App = Backbone.ROComputedModel.extend({
         
         var missionObj = this.mission();
         this.sounds.playMusic(missionObj.get('music'));      
+
+        // Set up reminder
+        var delay = _.delay(function() {
+            
+        });
+    },
+
+    showHint: function(text, options) {
+        options = options || {};
+        var centered = options.centered;
         
     },
 
