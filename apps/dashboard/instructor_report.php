@@ -13,8 +13,14 @@ if (!db_instructor_has_class(db_user(), $class_id)) {
     die();
 }
 
+
+function sortcmp2($row1, $row2) {
+    return strcasecmp($row1[0], $row2[0]);      
+}
+
+
 $cfg = init();
-$apps = $cfg['apps'];
+$apps = array('orbits');
 $headers_all = array();
 $data_all = array();
 
@@ -40,7 +46,7 @@ foreach ($apps as $app) {
 
     $avg = array(0, 0);
     $avg_counts = array(0, 0);
-        
+    
     $data_a = array();
     foreach ($data as $row) {
         $row_a = array();
@@ -94,11 +100,7 @@ foreach ($apps as $app) {
     }
     $data_a[] = $avg_row;
 
-    function sortcmp($row1, $row2) {
-        return strcasecmp($row1[0], $row2[0]);      
-    }
-
-    usort($data_a, 'sortcmp');
+    usort($data_a, 'sortcmp2');
     $data_all[$app] = $data_a;
     $headers_all[$app] = $head;
 }
@@ -142,7 +144,7 @@ write_header($cfg);
 <?php write_js_requires($cfg); ?>
 <style>
  html {
-     background-color:white;
+     background:white;
      color:black;
      user-select:all;
      -webkit-user-select:all;
@@ -150,6 +152,12 @@ write_header($cfg);
  .uk-table {
      white-space:nowrap;
      font-size:0.7rem;
+ }
+ a {
+     color:blue;
+ }
+ .uk-button {
+     color:black !important;
  }
  
 </style>
