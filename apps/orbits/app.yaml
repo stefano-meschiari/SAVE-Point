@@ -562,7 +562,7 @@ missions:
     subtitle: Create an elliptical orbit that fits inside the circle.
     circleat: 1.5
     colors: blue
-    rule: nplanets > 0 && (1-elements[0].eccentricity)*elements[0].sma < 0.95 * 1.5
+    rule: nplanets > 0 && (1-elements[0].eccentricity)*elements[0].sma < 0.95 * 1.5 && !collided
     constraints:
       direction: perpendicular
       position: 1.5
@@ -584,7 +584,7 @@ missions:
     subtitle: Create an elliptical orbit that is completely outside the circle.
     circleoutside: 1.5
     colors: blue
-    rule: nplanets > 0 && (1+elements[0].eccentricity)*elements[0].sma > 1.01 * 1.5 && elements[0].eccentricity < 0.99
+    rule: nplanets > 0 && !collided && (1+elements[0].eccentricity)*elements[0].sma > 1.01 * 1.5 && elements[0].eccentricity < 0.99
     constraints:
       direction: perpendicular
       position: 1.5
