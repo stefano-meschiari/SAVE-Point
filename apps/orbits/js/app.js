@@ -1247,7 +1247,7 @@ var AppView = Backbone.View.extend({
 
     missionTemplate: _.template('<div class="title"><%= title %></div><div class="subtitle"><%= subtitle %></div>'),
     missionDelay: 5000,
-    missionQuickDelay: 2000,
+    missionQuickDelay: 1000,
 
     setToolbarVisible: function($toolbar, visible) {        
         if (visible === undefined || visible === 'toggle') {
@@ -1852,7 +1852,8 @@ $(window).load(function() {
         }
     });
 
-       
+    if (window.IS_KIOSK)
+        $("html").addClass("kiosk");
 });
 
 if (_.parameter('mission') != null)
