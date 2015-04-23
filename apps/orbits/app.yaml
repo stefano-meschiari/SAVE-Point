@@ -79,7 +79,7 @@ cutscenes:
 
           
           "We already brought 1000 
-          planets out of the Eridani drydocks and they're waiting to be deployed!"
+          planets out of storage and they're waiting to be deployed!"
           @proceed
 
       - on: proceed
@@ -103,7 +103,8 @@ cutscenes:
           *@name! You're hired!*
           
 
-          You’ll be paid in @color-accent{@icon-star} stars @color-accent{@icon-star}!  Stars can be redeemed at the company store for special prizes later on.
+          You’ll be paid in @color-accent{@icon-star} stars @color-accent{@icon-star}!  
+	  #Stars can be redeemed at the company store for special prizes later on.
           Your payment is based on how well you do the job at hand.
           @proceed
 
@@ -124,9 +125,9 @@ missions:
     enabled: true
     icon: icon-practice
     starsrule: 3
-    colors: cyan
+    colors: purple
     intro: |      
-      First, you need to get through the company's mandated training program.  It’s simple enough: create a planet and make it orbit around the star!          
+      First, you need to get through the company's mandated training program.  It’s simple enough: create a planet and get it moving around the star!          
 
       
       *Press that Play button to get started!*
@@ -184,7 +185,7 @@ missions:
       - on: proceed
         message: >
           @reset-flags @disable-star @refresh @boss
-          Now try to @icon-drag *drag the @color-cyan{head of the green speed arrow}* to change the speed
+          Now try to @icon-drag *drag the @color-cyan{head of the purple speed arrow}* to change the speed
           and direction of the planet, and see its speed change in the upper right. 
 
       - on: planet:dragvelocity
@@ -196,13 +197,19 @@ missions:
       - on: proceed
         message: |
           @boss @reset-flags @interactive
-          To review your current mission at any time, click on the @icon-help *Help button*! You can also practice your skills using the @icon-sandbox *Practice Mode*.
+          To review your current mission at any time or for hints to complete a mission, click on the @icon-help *Help button*! You can also practice your skills using the @icon-sandbox *Practice Mode*.
+          @proceed
+
+      - on: proceed
+        message: |
+          @boss @reset-flags @interactive
+	  Remember, at any time, you can return to the Mission Menu by clicking @icon-missions.
           @proceed
 
       - on: proceed
         message: |
           @boss
-          Now *tap on the @icon-sun star* to let the planet orbit!
+          Now *tap on the @icon-sun star* to set the planet on its way!
           
       - on: win3
         message: |
@@ -249,7 +256,7 @@ missions:
       - on: win3
         message: |
           @boss
-          They failed to miss the star.  Good work!
+          The concert was a blast!  Good work!
       
 
   - title: Ejected!
@@ -259,14 +266,14 @@ missions:
     starsrule: 3
     enabled: true
     music: sad
-    subtitle: Add a planet that escapes the pull of its star.
-    win: Bye bye planet!
+    subtitle: Add a planet that escapes from its star.
+    win: Bye bye, planet!
     lose: Oh no!  You're caught by the pull of gravity!
     icon: icon-hyperbolic
     intro: |
       @boss
       We have a job for you!  The Empress of the Planet Zanimech wants to set up her loud father-in-law
-      on a beautiful new planetary estate... on a one-way trip out of the star system.
+      on a beautiful new planetary estate... on a one-way trip out of the star system.  Maybe he won't even	 notice!
     constraints:
       nplanets: 1
     help:
@@ -325,7 +332,7 @@ missions:
       - on: lose
         message: |
           @boss
-          I said TOUR the solar system, not become a permanent piece of space junk!  Make it an elliptical orbit.
+          I said TOUR the solar system, rookie!  Make it an elliptical orbit.
 
       - on: win1
         message: |
@@ -335,7 +342,7 @@ missions:
       - on: win2
         message: |
           @boss
-          I still want to tour the inner and outer solar system; can you work on that?
+          I still want to tour the solar system near and far from the star; can you work on that?
 
       - on: win3
         message: |
@@ -361,8 +368,8 @@ missions:
       @boss @fly
       How do planets in elliptical, or oval, orbits move when they are far from their star?
     choices:
-      - They slow down.
-      - They speed up.
+      - They move slower.
+      - They move faster.
       - They move at a constant speed.
     answer: 0
     help:
@@ -532,13 +539,13 @@ missions:
     lose: Not quite right.
     question: |
       @boss @fly @noninteractive
-      For planets in circular orbits, the speed of a planet orbiting far from the star is...
+      For two planets in circular orbits, the speed of the planet orbiting far from the star is...
     choices:
       - faster 
       - the same speed
       - slower 
     question-below: |
-      ...compared to a planet orbiting close to the star.
+      ...compared to the planet orbiting close to the star.
     answer: 2
     help:
       - on: win
@@ -631,7 +638,7 @@ missions:
           You might want to practice this out a bit. How about taking the @icon-sandbox *Practice Mode* for a spin? 
 
   - title: GravityKit
-    subtitle: Create your own Solar System.
+    subtitle: Create your own Solar System!
     name: gravitykit
     value: 0
     colors: 
@@ -668,7 +675,7 @@ missions:
           @rotatable @center{@icon-drag Drag to rotate the view! @spacer{5px} @restart @spacer{5px} @share @spacer{5px} @about @spacer{5px} @dashboard}        
     
   - title: Practice Mode
-    subtitle: Practice your moves.
+    subtitle: Practice your moves!
     name: sandbox
     value: 0
     colors:
