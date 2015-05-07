@@ -5,15 +5,16 @@ require_once('db.php');
 require_once('messages.php');
 
 if (is_kiosk()) {
-redirect_kiosk();
+    redirect_kiosk();
+}
+
+
+if (db_user_logged_in()) {
+    redirect_dashboard();
+    return;
 }
 
 db_check_special_user();
-
-if (db_user_logged_in()) {
-redirect_dashboard();
-return;
-}
 
 $cfg = init();
 write_header($cfg);
@@ -169,7 +170,7 @@ include('canvas.html');
             <div id="why" class="uk-width-1-3">
                 <div>
                     <strong>Register</strong> for a free account to access the suite
-                    of educational apps and games developed by <a href="http://save-point.io">SAVE/Point</a>.
+                    of educational apps and games developed by <a href="http://save-point.io">SAVE/Point</a>.<br>
                     <a href="http://save-point.io" class="uk-button uk-button-danger">Read more...</a>
                 </div>
             </div>

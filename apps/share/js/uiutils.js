@@ -1,7 +1,6 @@
 "use strict";
 
 var UIUtils = (function() {
-
     var touchDevice = device.tablet() || device.mobile();
     
     var mappings = (function() {

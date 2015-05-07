@@ -1,0 +1,13 @@
+---
+description: Create and destroy your own Solar System.
+title: Super Planet Crash
+icon: /dashboard/img/spc.png
+requires:
+  - device
+  - color
+  - jquery
+  - underscore
+  - underscore.string
+  - bootstrap
+  - exo
+  - utils

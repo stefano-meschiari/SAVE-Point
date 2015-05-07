@@ -1,0 +1,378 @@
+/* Colors based on base16 by Chris Kempson */
+
+.base00-background { background-color: #2d2d2d; }
+.base01-background { background-color: #393939; }
+.base02-background { background-color: #515151; }
+.base03-background { background-color: #747369; }
+.base04-background { background-color: #a09f93; }
+.base05-background { background-color: #d3d0c8; }
+.base06-background { background-color: #e8e6df; }
+.base07-background { background-color: #f2f0ec; }
+.base08-background { background-color: #f2777a; }
+.base09-background { background-color: #f99157; }
+.base0A-background { background-color: #ffcc66; }
+.base0B-background { background-color: #99cc99; }
+.base0C-background { background-color: #66cccc; }
+.base0D-background { background-color: #6699cc; }
+.base0E-background { background-color: #cc99cc; }
+.base0F-background { background-color: #d27b53; }
+
+.base00 { color: #2d2d2d; }
+.base01 { color: #393939; }
+.base02 { color: #515151; }
+.base03 { color: #747369; }
+.base04 { color: #a09f93; }
+.base05 { color: #d3d0c8; }
+.base06 { color: #e8e6df; }
+.base07 { color: #f2f0ec; }
+.base08 { color: #f2777a; }
+.base09 { color: #f99157; }
+.base0A { color: #ffcc66; }
+.base0B { color: #99cc99; }
+.base0C { color: #66cccc; }
+.base0D { color: #6699cc; }
+.base0E { color: #cc99cc; }
+.base0F { color: #d27b53; }
+.white-color {color:white;} 
+
+body {
+  background-color:#333333;
+  background: -webkit-radial-gradient(center, circle cover, #444444 0%, black 100%);
+  background: radial-gradient(circle at center, #444444 0%, black 100%);
+  min-height:100%;
+  overflow:hidden;
+  -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;
+}
+
+canvas {
+ -webkit-transform: translate3d(0, 0, 0);
+ -webkit-backface-visibility: hidden;
+ -webkit-perspective: 1000;
+}
+
+#footer {
+  font-family:'Exo';
+  font-size:20pt;
+  color:white;
+  height:2em;
+  padding-left:1em;
+  padding-right:1em;
+  clear: both;
+  position: relative;
+  z-index: 10;
+  margin-top: -2em;
+  text-shadow: black 0px 0px 2;
+}
+
+#sidebar {
+  font-family:'Exo';
+  font-size:16pt;
+  position:absolute;
+  background:linear-gradient(right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5));  
+  left:0px;
+  top:0;
+  height:100%;
+  width:300px;
+  color:white;
+  padding-left:30px;
+  padding-right:30px;
+  overflow:hidden;  
+}
+
+#sidebar .btn-group {
+  margin-bottom:5px;
+  width:100%;
+}
+
+#sidebar-buttons button {
+  font-size:16pt;
+  min-height:50px;
+}
+
+#newgame {
+  font-size:16pt;
+  min-height:50px;
+}
+
+#sidebar #templates {
+  text-align:center;
+  font-size:16pt;
+}
+
+
+.adjust-4 button {
+  width:25%;
+}
+
+.adjust-2 button {
+  width:50%;
+}
+
+.adjust-1 button {
+  width:100%;
+}
+
+@-webkit-keyframes gray-pulse {
+  from {background-color:white;}
+  50% {background-color:#b0b0b0;}
+  to {background-color:white;}
+}
+
+@-webkit-keyframes heart-pulse {
+  from {color:white;}
+  50% {color:#f2777a;}
+  to {color:white;}
+}
+
+.support {
+  color:white;
+}
+
+.support a {
+  color:white;
+  font-weight:bold;
+  text-decoration:underline;
+}
+
+
+.heart {
+  -webkit-animation-name: heart-pulse;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  margin-right:5px;
+  margin-top:3px;
+}
+button.pulsating {
+  -webkit-animation-name: gray-pulse;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  color:black;
+}
+
+
+button.gray-pulse:hover {
+  -webkit-animation-name: gray-pulse;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-iteration-count: infinite;
+  color:black;
+}
+
+.footer-bg {
+  background-color:#444444;
+  padding-left:4px;
+  padding-right:4px;
+}
+
+.planet {
+  margin-bottom:4px;
+}
+
+.help {
+  background-color:#444444;
+  padding-left:10px;
+  padding-right:10px;
+  padding-top:10px;
+  padding-bottom:10px;
+  font-size:14pt;
+  border-radius:5px;
+  background:linear-gradient(to bottom, rgba(70, 70, 70, 1), rgba(50, 50, 50, 0.5));  
+}
+
+
+button.red {
+  background-color:#f2777a;
+}
+
+#sidebar-right {
+  font-family:'Exo';
+  font-size:16pt;
+  position:absolute;
+  background:linear-gradient(right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1));  
+  z-index:-10;
+  right:0px;
+  top:0;
+  height:100%;
+  width:300px;
+  color:white;
+  padding-left:30px;
+  padding-right:30px;
+  line-height:1;
+  padding-top:30px;
+  overflow:hidden;
+}
+
+div.spacer {
+  height:50px;
+}
+
+div.spacer5 {
+  height:5px;
+}
+
+#highscores-list {
+}
+
+#hiscores-table {
+  width:100%;
+}
+
+#time {
+  font-size:20pt;
+  text-align:right;
+  margin-bottom:5px;
+}
+
+
+#points {
+  font-size:30pt;
+  color:white;
+  font-weight:bold;
+  text-align:right;
+  margin-bottom:10px;
+}
+
+#bonus {
+  font-size:12pt;
+  color:#909090;
+  margin-bottom:10px;
+  text-align:right;
+}
+
+#nplanets {
+  font-size:20pt;
+  color:#909090;
+  margin-bottom:5px;
+  text-align:right;
+}
+
+#title {
+  font-weight:900;
+  font-size:40px;
+  line-height:0.8;
+  padding-bottom:10px;
+  padding-top:30px;
+  border-bottom:1px solid #707070;
+  margin-bottom:10px;
+}
+
+hr {
+  color:#707070;
+  height:1px;
+  border:0;
+  border-top:1px solid #707070;
+  margin-top:15px;
+  margin-bottom:15px;
+}
+
+#popup {
+  font-family:'Exo';
+  color:#b0b0b0;
+  font-size:20px;
+  position:absolute;
+  top:50px;
+  left:0;
+  right:0;
+  margin-left:auto;
+  margin-right:auto;
+  width:600px;
+  background-color:rgba(0, 0, 0, 0.8);
+  padding:10px;
+  
+}
+
+#masses {
+  margin-bottom:20px;
+}
+
+
+#links-list {
+  font-size:12pt;
+}
+
+@-webkit-keyframes points-pulse {
+  from {color:white;}
+  25% {color: #66cccc;}
+  50% {color:##ffcc66;}
+  75% {color: #f2777a;}
+  to {color:white;}
+}
+
+.pop-big {
+  color:white;
+  font-size:70pt;
+  font-weight:900;
+  text-align:center;
+  line-height:1;
+}
+
+#pop-points {
+  font-size:30px;
+}
+
+#pop-hiscore {
+  color:#f2777a;
+  font-size:25px;
+}
+
+#pop-why {
+  color:red;
+  
+}
+
+.nav-pills > li a {
+  color:silver;
+  margin-top:5px;
+}
+
+.nav-pills > li.active a {
+  color:white;
+}
+
+.nav-pills > li a:hover {
+  color:black;
+}
+
+.badge {
+  font-family:'Exo';
+  font-size:12pt;
+}
+
+a.spc:hover {
+  text-decoration:none;
+}
+
+#templates {
+  width:100%;
+}
+
+button.full-width {
+  width:100%;
+  margin-bottom:5px;
+}
+
+
+html.tablet #time {
+  position:absolute;
+  right:10px;
+  bottom:20px;
+  z-index:-10;
+}
+
+html.tablet #points {
+  position:absolute;
+  right:10px;
+  top:20px;
+  z-index:-10;
+}
+
+#hiscore-name {
+  font-size:35px;
+  text-align:center;
+  margin:20px;
+  
+  color:black;
+}
+
+#newgame {
+  font-size:50px;
+}

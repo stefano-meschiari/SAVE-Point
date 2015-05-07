@@ -67,3 +67,6 @@ rangeslider:
 
 transit:
   - /share/js/jquery.transit.min.js
+
+exo:
+  - http://fonts.googleapis.com/css?family=Exo:400,100,200,300,500,700,600,800,900&a=.css
