@@ -198,7 +198,6 @@ if (UIUtils.touchDevice) {
     $("#universe").on("mousedown", function(e) {
         hideHelp();
         addPlanet(new Point(e.clientX, e.clientY));
-        e.preventDefault();
     });
 }
 

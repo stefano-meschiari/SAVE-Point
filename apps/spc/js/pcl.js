@@ -156,7 +156,7 @@ var System = (function() {
     };
 
     var t = 0.;
-    var dt = 0.5;
+    var dt = 1;
     var dt2 = dt*dt;
 
     var setDt = function(new_dt) {
@@ -244,7 +244,7 @@ Math.log10 = function(v) {
 };
 
 // UI global configuration variables
-TAIL_LENGTH = 200;
+TAIL_LENGTH = 40;
 SPEED = 8;
 STOPPED = false;
 CLICKED = false;
