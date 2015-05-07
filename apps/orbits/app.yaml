@@ -426,6 +426,39 @@ missions:
         message: |
           @arkanid I am spending this year in a vat of molten chocolate thanks to your efforts!  Mmmmm... fresh chocolate...
 
+  - title: The Paths of Planets
+    enabled: true
+    value: 1
+    type: single-choice
+    icon: icon-question
+    music: titter
+    name: orbits_question
+    subtitle: Earn an extra star by answering this question!
+    intro: |
+      We have to justify our work to our investors!  Get out there and make us look good!
+    win: That's the right answer!
+    lose: Not quite right.
+    question: |
+      @boss @fly @noninteractive
+      Which of these paths is not a possible outcome for a planet launched near a star?
+    choices:
+      -  EllipseCentral.png
+      -  EllipticalOrbit.png
+      -  EjectedOrbit.png
+      -  CircularOrbit.png
+
+    answer: 1
+    help:
+      - on: win
+        message: |
+          @boss
+          That's right, @name! The object being orbited is off to the side of an elliptical orbit, not in the exact center.  Puny humans call this property Kepler's 1st law.
+
+      - on: lose
+        message: |
+          @boss
+          You might want to try this out in @icon-practice Practice Mode and then come back to earn your bonus star.
+          @practice-mode
 
 
   - title: Speed vs. distance 1
