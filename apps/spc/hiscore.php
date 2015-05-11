@@ -31,6 +31,9 @@ if ($_GET['action'] == 'add') {
 } else if ($_GET['action'] == 'get') {
     $cur = pg_query("SELECT * FROM spc_data ORDER BY points DESC");
     $arr = pg_fetch_all($cur);
+
+    
+    
     echo json_encode($arr);
 }
 ?>
