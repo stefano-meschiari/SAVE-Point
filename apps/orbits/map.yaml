@@ -10,9 +10,16 @@
     - ejected
     - elliptical
     - circular
-    - speed_vs_distance_40
-    - speed_vs_distance_30
-    - speed_vs_distance_25
-    - circular_question        
+    - orbits_question
+    - fork:
+        - 
+          - speed_vs_distance_40
+          - speed_vs_distance_30
+          - speed_vs_distance_25
+        -
+          - physical_elliptical
+          - physical_crash    
+    - circular_question    
+    - small_elliptical
+    - large_elliptical
     - elliptical_question
-    

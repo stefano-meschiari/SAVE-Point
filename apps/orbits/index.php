@@ -35,6 +35,15 @@ write_mission_rules($cfg);
 
 
 <div id="app" class="full-size">
+<button id="star-start">
+    <i class="icon fa fa-play"></i>
+    <div>
+        PLAY
+    </div>
+</button>
+<div id="hint">
+    
+</div>
   <div id="text-top" class="animated">
     Welcome!
   </div>

@@ -45,7 +45,8 @@ var AppMenuView = Backbone.View.extend({
     },
     
     scanLevels: function(world, levels, missions, prev) {
-        for (var i = 0; i < levels.length; i++)
+        console.log(levels);
+        for (var i = 0; i < levels.length; i++) {
             if (_.isString(levels[i])) {
                 var name = levels[i];
                 var m = app.mission(name);
@@ -61,9 +62,12 @@ var AppMenuView = Backbone.View.extend({
                 }
                                 
                 prev = m;
-            } else if (levels[i].fork)
+            } else if (levels[i].fork) {
                 for (var j = 0; j < levels[i].fork.length; j++)
-                    this.scanLevels(world, levels[i].fork[j], missions, prev);        
+                    this.scanLevels(world, levels[i].fork[j], missions, prev);
+                prev = app.mission(levels[i].fork[0][levels[i].fork[0].length-1]);
+            }
+        }
     },
 
     setupMaps: function(maps, missions) {
@@ -116,7 +120,7 @@ var AppMenuView = Backbone.View.extend({
         else {
             if (next.length > 2)
                 console.error("Error: limited to only two forks.");
-
+            
             this.renderTree(this.model.mission(next[0]), posx + 'L', posy + 1, rows);
             this.renderTree(this.model.mission(next[1]), posx + 'R', posy + 1, rows);
         }

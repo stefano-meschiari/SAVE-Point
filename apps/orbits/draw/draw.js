@@ -966,6 +966,7 @@ var Draw = Backbone.View.extend({
 
         this.bary.visible = (Math.abs(this.star.halo.position.x - view.center.x) + Math.abs(this.star.halo.position.y - view.center.y) > 4);
         this.bary.position = view.center;
+
     },
 
     validatePlanetPositions: function(position) {
@@ -1873,10 +1874,14 @@ var Draw = Backbone.View.extend({
             self.recalculateSizes();
         });
 
-        this.listenTo(this.model, "reset start state:menu", function() {           
-            this.resetView();
-            
+        this.listenTo(this.model, "startLevel state:menu", function() {           
+            this.resetView();            
         });
+
+        this.listenTo(this.model, "reset state:menu", function() {
+            this.destroyObjects();
+        });
+        
         this.listenTo(this.model, "startLevel", function() {
             this.cancelFly();
         });

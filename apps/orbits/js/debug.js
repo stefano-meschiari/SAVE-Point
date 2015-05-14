@@ -1,5 +1,5 @@
 "use strict";
-/*
+
 window._debug = {
     winAll: function() {
          var missions = app.get('missions');
@@ -22,7 +22,7 @@ window._debug = {
         app.menu();
     }
 };
- */
+
 
 if (_.parameter('fps')) {
     $(window).load(function() {

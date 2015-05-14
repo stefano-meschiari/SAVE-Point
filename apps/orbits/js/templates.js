@@ -7,6 +7,7 @@ var Templates = Backbone.Model.extend({
     NEXT_MISSION_LABEL: '<span class="fa fa-thumbs-up"></span> Next Mission',
     FULL_STAR: '<span class="icon-win-star"></span> ',
     EMPTY_STAR: '<span class="icon-win-star-o"></span> ',
+    ADD_PLANET_HINT: 'Tap to add a planet.',
     
     templates: {
         "@separator": '<div class="separator"></div>',
@@ -54,7 +55,7 @@ var Templates = Backbone.Model.extend({
         "@proceed": '<div class="help-toolbar"><button id="help-next" class="btn btn-lg btn-jrs"><span class="fa fa-chevron-right"></span>  Next</button></div>',
         "@close": '<div class="help-toolbar"><button id="help-close" class="btn btn-lg btn-jrs"><span class="fa fa-check"></span> OK</button></div>',
         "@menu": '<div class="help-toolbar"><button id="help-menu" class="btn btn-lg btn-jrs" onClick="app.menu();"><span class="fa fa-chevron-right"></span>  Start</button></div>',
-        "@practice-mode": '<div class="help-toolbar"><button class="btn btn-lg btn-jrs" onClick="app.setMission(\'sandbox\');"><span class="icon-practice"></span> Go to Practice Mode</button></div>',
+        "@practice-mode": '<button class="button-link" on' + UI.clickEvent + '="app.setMission(\'sandbox\');">Practice Mode</button>',
         "@eccentricity": '<span id="eccentricity"></span>',
         "@name-enter": '<div id="enter-name-container"><input type="text" id="enter-name" value="' + app.get('playerName') + '" onBlur="window.UI.scrollToTop=true;" onFocus="window.UI.scrollToTop=false;"></div><div class="help-toolbar"><button onClick="app.set(\'playerName\', $(\'#enter-name\').val()); app.messageView.proceed();" class="btn btn-lg btn-jrs"><span class="fa fa-chevron-right"></span>  Next</button></div>',
         "@name": "<span class=player-name></span>",
@@ -74,8 +75,8 @@ var Templates = Backbone.Model.extend({
         "@wait-5": function() {  _.delay(function(self) {  self.listener.proceed(); }, 5000, this); }
     },
 
-    winTemplate: _.template('<div class="win-title"><span id="win-stars"></span> <%= win %></div><div class="win-message"><%= message %></div><div class="win-toolbar"><button class="btn-jrs btn-lg btn-throb" on' + UI.clickEvent + '="app.menuView.selectNextMission(); app.menu();"><span class="fa fa-rocket"></span> Next Mission</button>'),
-    loseTemplate: _.template('</div><div class="win-title"><span id="win-stars"></span> <%= lose %></div><div class="win-message"><%= message %></div><div class="win-toolbar"><button class="btn-jrs btn-lg btn-throb" on' + UI.clickEvent + '="app.reset()"><span class="fa fa-undo"></span> Retry</button>'),
+    winTemplate: _.template('<div class="win-title"><span id="win-stars"></span> <%= win %></div><div class="separator-center"></div><div class="win-message"><%= message %></div><div class="win-toolbar"><button class="btn-jrs btn-lg btn-throb" on' + UI.clickEvent + '="app.menuView.selectNextMission(); app.menu();"><span class="fa fa-rocket"></span> Next Mission</button>'),
+    loseTemplate: _.template('</div><div class="win-title"><span id="win-stars"></span> <%= lose %></div><div class="win-message"><%= message %></div><div class="separator-center"></div><div class="win-toolbar"><button class="btn-jrs btn-lg btn-throb" on' + UI.clickEvent + '="app.reset()"><span class="fa fa-undo"></span> Retry</button>'),
     
     winDefaultEncouragement: 'Good job, rookie!',
     loseDefaultEncouragement: 'Too bad! Give it another try?',

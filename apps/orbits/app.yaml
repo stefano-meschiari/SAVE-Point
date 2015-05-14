@@ -104,7 +104,6 @@ cutscenes:
           
 
           You’ll be paid in @color-accent{@icon-star} stars @color-accent{@icon-star}!  
-	  #Stars can be redeemed at the company store for special prizes later on.
 	  
           Your payment is based on how well you do the job at hand.
           @proceed
@@ -204,7 +203,7 @@ missions:
       - on: proceed
         message: |
           @boss @reset-flags @interactive
-	  Remember, at any time, you can return to the Mission Menu by clicking @icon-missions.
+          Remember, at any time, you can return to the Mission Menu by clicking @icon-missions.
           @proceed
 
       - on: proceed
@@ -382,8 +381,7 @@ missions:
       - on: lose
         message: |
           @boss          
-          You might want to try this out in the @icon-sandbox *Practice Mode* and come back to earn your star.
-          @practice-mode
+          You might want to try this out in the @icon-sandbox @practice-mode and come back to earn your star.
 
   - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.2 && elements[0].eccentricity > -0.001 && !collided
@@ -433,21 +431,23 @@ missions:
     icon: icon-question
     music: titter
     name: orbits_question
+    hideui: info
     subtitle: Earn an extra star by answering this question!
     intro: |
       We have to justify our work to our investors!  Get out there and make us look good!
     win: That's the right answer!
     lose: Not quite right.
+    style: width:45%; float:left;
     question: |
       @boss @fly @noninteractive
       Which of these paths is not a possible outcome for a planet launched near a star?
     choices:
-      -  EllipseCentral.png
-      -  EllipticalOrbit.png
-      -  EjectedOrbit.png
-      -  CircularOrbit.png
+      -  img/EllipseCentral.png
+      -  img/EllipticalOrbit.png
+      -  img/EjectedOrbit.png
+      -  img/CircularOrbit.png
 
-    answer: 1
+    answer: 0
     help:
       - on: win
         message: |
@@ -457,8 +457,7 @@ missions:
       - on: lose
         message: |
           @boss
-          You might want to try this out in @icon-practice Practice Mode and then come back to earn your bonus star.
-          @practice-mode
+          You might want to try this out in @icon-practice @practice-mode and then come back to earn your bonus star.
 
 
   - title: Speed vs. distance 1
@@ -590,8 +589,10 @@ missions:
       - on: lose
         message: |
           @boss
-          You might want to try this out in @icon-practice Practice Mode and then come back to earn your bonus star.
-          @practice-mode
+          You might want to try this out in @icon-practice @practice-mode and then come back to earn your bonus star.
+
+
+
 
   - title: Small Elliptical Orbit
     enabled: true
@@ -636,6 +637,89 @@ missions:
           - 1.5
           - 0
           - 0
+
+  - title: Real-life Elliptical
+    rule: nplanets > 0 && elements[0].eccentricity > 0.01 && elements[0].eccentricity < 0.99 && !collided
+    starsrule: |
+      (elements[0].eccentricity < 0.2 ? 1 : (elements[0].eccentricity < 0.7 ? 2 : 3))
+    enabled: true
+    name: physical_elliptical
+    colors: gold
+    physicalSizes: true
+    music: triumph
+    subtitle: Add a planet in an elliptical (oval) orbit.
+    win: So elliptical! 
+    lose: That orbit could be more elliptical...
+    icon: icon-elliptical
+    intro: |
+      @boss
+      The people of the planet Selia Prime are bored always orbiting the same distance from their star.  Now 
+      they want to resettle on a world that gently tours both the inner and outer solar system at different 
+      times of year. High Councilor Zeniak pulls out his cyber binoculars and eagerly awaits a fresh night sky.
+    constraints:
+      nplanets: 1
+    help:
+      - on: hint
+        message: |
+           @boss
+           The people of Selia Prime want a world with a very oval orbit. Try to give the planet just enough speed not to collide with the star.
+           @hide-5
+
+      - on: lose
+        message: |
+          @boss
+          I said TOUR the solar system, rookie!  Make it an elliptical orbit.
+
+      - on: win1
+        message: |
+          @boss
+          ...however, surely you can make the orbit more EXTREME than that.
+      
+      - on: win2
+        message: |
+          @boss
+          I still want to tour the solar system near and far from the star; can you work on that?
+
+      - on: win3
+        message: |
+          @boss
+          I feel the rush already!
+
+  - title: Real-life Crash & Burn
+    rule: nplanets > 0 && (collided || elements[0].sma * (1-elements[0].eccentricity) < app.get('minAU') )
+    name: physical_crash
+    physicalSizes: true
+    starsrule: 3
+    enabled: true
+    subtitle: Make your planet collide with the star.
+    win: Those were impressive fireworks!
+    lose: You avoided crashing into the star.
+    icon: icon-crash
+    music: groove
+    colors: red
+    intro: |
+      @boss
+      The ironic Asteroid Metal band *Suddenly Starburst* wants to play their farewell concert
+      on a new planet... as it crashes into its Sun.
+    constraints:
+      nplanets: 1
+    help:           
+      - on: hint
+        message: |
+           @boss
+           Try launching the planet towards the star, rookie.
+           @hide-5
+
+      - on: lose
+        message: |
+          @boss
+          At least they burned up ironically.  Now make sure they impact! It’s a big star out there.
+          
+      - on: win3
+        message: |
+          @boss
+          The concert was a blast!  Good work!
+          
 
   - title: The speed of planets/3
     enabled: true

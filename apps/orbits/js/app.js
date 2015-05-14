@@ -160,8 +160,10 @@ var App = Backbone.ROComputedModel.extend({
     loaded: false,
 
     resetFlags: function() {
-        this.flags = {};
+        this.flags = {};        
     },
+
+    
     
     /*
      * Toggles the state of the application between RUNNING and PAUSED.
@@ -725,6 +727,7 @@ var App = Backbone.ROComputedModel.extend({
     },
 
     addDefaultBodies: function() {
+        app.set('physicalSizes', app.mission().get('physicalSizes'));
         var bodies = this.mission().get('bodies');
         var self = this;
         if (bodies) {
@@ -735,7 +738,7 @@ var App = Backbone.ROComputedModel.extend({
                         type = eval(body.type);
                     
                     self.addPlanet(body.x, { type: type, circular: body.circular });
-                    console.log(body.v);
+                    console.log(body.x, body.v);
                     if (body.v) {
                         var i = app.get('nplanets');
                         if (body.v == 'random') {
@@ -834,7 +837,10 @@ var App = Backbone.ROComputedModel.extend({
         if (mission.get('type') && app.components[mission.get('type')]) {
             app.component = new app.components[mission.get('type')]({ model: this });
         }
-        this.addDefaultBodies();
+        app.once("startLevel", function() {
+            app.addDefaultBodies();
+        });
+
     },
 
 
@@ -1129,8 +1135,8 @@ var AppView = Backbone.View.extend({
         "click #reset-initial": function() { app.resetToInitial(); },
         "click #random": function() { app.random(); },
         "click #mass-selector": function() { if (app.get('state') == PAUSED) this.setToolbarVisible($("#toolbar-masses")); },
-        "click #dashboard": function() { location.href = "/"; }
-        
+        "click #dashboard": function() { location.href = "/"; },
+        "click #star-start": function() { app.set('state', RUNNING); }
     }),
 
     // Binds functions to change events in the model.
@@ -1146,6 +1152,41 @@ var AppView = Backbone.View.extend({
         self.listenTo(self.model, 'change:state', self.setVisibility);
         self.listenTo(self.model, 'win', self.renderWin);
         self.listenTo(self.model, 'lose', self.renderLose);
+
+        var startStarWidth = $("#star-start").width();
+        var startStarHeight = $("#star-start").height();
+        
+        self.listenTo(self.model, 'change:nplanets change:state change:position help resize', function() {
+            if (self.model.get('nplanets') > 0 && self.model.get('state') == PAUSED && !self.model.flags.disabledStar) {
+                $("#star-start").addClass("expanded");
+
+                var x = draw.star.bounds.centerX - 0.5 * startStarWidth;
+                var y = draw.star.bounds.centerY - 0.5 * startStarHeight;                
+                $("#star-start").css({left: x, top: y});
+            } else
+                $("#star-start").removeClass("expanded");
+        });
+        self.listenTo(self.model, 'change:physicalSizes', function() {
+            if (self.model.get('physicalSizes'))
+                $("html").addClass('physicalSizes');
+            else
+                $("html").removeClass('physicalSizes');
+        });
+
+        self.listenTo(self.model, 'reset change:state change:nplanets', function() {
+            window.clearInterval(self.hint);
+            $("#hint").hide();
+        });
+
+        var showStarFn = function() {
+            window.clearInterval(self.hint);
+            $("#hint").html(app.templates.ADD_PLANET_HINT);
+            $("#hint").show();
+        };
+        
+        self.listenTo(self.model, 'startLevel', function() {
+            self.hint = _.delay(showStarFn, 7000);
+        });
         
         // Renders the information table on the top-right corner.
         this.renderInfo();
@@ -1300,7 +1341,12 @@ var AppView = Backbone.View.extend({
         this.missionBannerShowing = true;
 
         var self = this;
-        this.missionHideTimer = _.delay(function() {
+        var hideFn = function() {
+            window.clearInterval(missionHideTimer);
+
+            if (!self.missionBannerShowing)
+                return;
+            
             if (app.get('state') != MENU) {
                 self.setVisibility();
             }
@@ -1314,7 +1360,13 @@ var AppView = Backbone.View.extend({
             }
             
             self.missionBannerShowing = false;
-        }, delay);
+            $("#canvas").off(UI.clickEvent, hideFn);
+        };
+        $("#text-top").off(UI.clickEvent);
+        $("#text-top").on(UI.clickEvent, hideFn);
+        $("#canvas").on(UI.clickEvent, hideFn);
+        
+        var missionHideTimer = _.delay(hideFn, delay);
 
         if (mission.get('powers')) {
             var activePowers = app.get('activePowers');
@@ -1388,11 +1440,12 @@ var AppView = Backbone.View.extend({
     setVisibility: function() {
         var state = app.get('state');
 
-        if (state == MENU || app.mission().get('hideui')) {
+        if (state == MENU) {
             $("#sidebar").hide();
             $("#sidebar").removeClass("expanded");
             $("#help-text").removeClass("expanded");
             $("#help-text").removeClass("large");
+            $("#star-start").removeClass("expanded");
             
             $("#info-top").hide();
             $("#help").hide();
@@ -1402,8 +1455,14 @@ var AppView = Backbone.View.extend({
             $("#info-top").show();
             $("#help").show();
         }
-        if (state != MENU)
-            $("#info-top").show();
+
+        if (app.mission().get('hideui')) {
+            var hideui = app.mission().get('hideui');
+            if (hideui.indexOf('info') != -1)
+                $("#info-top").hide();
+            if (hideui.indexOf('sidebar') != -1)
+                $("#sidebar").hide();            
+        }
 
         _.each(STATES, function(stateToRemove) {
             $("html").removeClass("state-" + stateToRemove);
