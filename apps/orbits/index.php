@@ -146,7 +146,7 @@ write_mission_rules($cfg);
       <div class="sidebar-title">Mission menu</div>
     </div>
     <div class="sidebar-item" id="sidebar-restart">
-      <button id="reset" class="btn-jrs-ico fa fa-undo"  title="Restart mission" data-tooltip-content="{pos: 'right', offset:20}"></button>
+      <button id="reset" class="btn-jrs-ico fa fa-undo"  title="Restart level" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Restart mission</div>
     </div>
     <div class="sidebar-item" id="sidebar-sizes">
