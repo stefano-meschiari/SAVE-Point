@@ -66,6 +66,7 @@ var AppMenuView = Backbone.View.extend({
                 for (var j = 0; j < levels[i].fork.length; j++)
                     this.scanLevels(world, levels[i].fork[j], missions, prev);
                 prev = app.mission(levels[i].fork[0][levels[i].fork[0].length-1]);
+                prev.set('endsFork', true);
             }
         }
     },
@@ -95,7 +96,7 @@ var AppMenuView = Backbone.View.extend({
             allowed = true;
         else if (prev && app.mission(prev).get('completed'))
             allowed = true;
-
+        
         var selected = app.mission().get('name') === rl.get('name');
         
         var div = this.DIV_THUMB({ divclass: 'box' + posx, name: rl.get('name'), icon: rl.get('icon') + '-b', allowed: (allowed ? '' : 'app-menu-mission-locked'), title: rl.get('title') } );
@@ -114,6 +115,8 @@ var AppMenuView = Backbone.View.extend({
         var next = rl.get('next');
         if (!next)
             return;
+//        if (rl.get('endsFork'))
+//            posx='';
         
         if (next.length == 1)
             this.renderTree(this.model.mission(next[0]), posx, posy + 1, rows);

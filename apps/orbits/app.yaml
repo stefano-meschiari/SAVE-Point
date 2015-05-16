@@ -103,8 +103,8 @@ cutscenes:
           *@name! You're hired!*
           
 
-          You’ll be paid in @color-accent{@icon-star} stars @color-accent{@icon-star}!  
-	  
+          You’ll be paid in @color-accent{@icon-star} stars @color-accent{@icon-star}!
+          
           Your payment is based on how well you do the job at hand.
           @proceed
 
@@ -112,6 +112,29 @@ cutscenes:
         message: |
           @fly @noninteractive @boss  @disable-everything
           Now get in the spacedozer and start training!
+          @button{Start playing}{end-cutscene}
+
+  - type: cutscene
+    name: cutscene-physical
+    music: level
+    hidden: true
+    enabled: true
+    help:
+      - on: startLevel
+        message: |
+          @boss @noninteractive @fly @disable-everything
+          Hey, good news.  Our old engineer Groknar had money problems and is back... as a custodial engineer.
+          @proceed
+      - on: proceed
+        message: |
+          @groknar @noninteractive @fly @disable-everything
+          The bad news is that I shorted out the planet simulator while cleaning the windows. You’ll have to set up the next system by eye, looking out the viewportal!
+          @proceed
+          
+      - on: proceed
+        message: |
+          @boss @noninteractive @fly @disable-everything
+          The objects will be their true sizes... don’t miss them!
           @button{Start playing}{end-cutscene}
               
 missions:    
@@ -349,7 +372,7 @@ missions:
           @boss
           I feel the rush already!
 
-  - title: The Speed of Planets
+  - title: The Speed of Planets/2
     enabled: true
     value: 1
     type: single-choice
@@ -558,7 +581,7 @@ missions:
           @arkanid
           We think this planet should be perfect for our chocolate pod plants!
 
-  - title: The Speed of Planets 2
+  - title: The Speed of Planets
     enabled: true
     value: 1
     type: single-choice
@@ -602,19 +625,30 @@ missions:
     icon: icon-elliptical
     name: small_elliptical
     subtitle: Create an elliptical orbit that fits inside the circle.
-    circleat: 1.5
+    intro: |
+      Two families share mining rights to a circular asteroid belt, and they both want planets that touch it once per year.  The first family claims the inner part of the solar system.  Can you place a planet so that it touches the asteroid belt and then stays inside their territory?
+    dashedcircle: 1.5
     colors: blue
-    rule: nplanets > 0 && (1-elements[0].eccentricity)*elements[0].sma < 0.95 * 1.5 && !collided
+    rule: nplanets > 0 && (1-elements[0].eccentricity)*elements[0].sma < 0.95 * 1.4 && !collided
     constraints:
       direction: perpendicular
       position: 1.5
       nplanets: 1
     bodies:
-      - circular: true
+      - circular: false
         x:
           - 1.5
           - 0
           - 0
+        v:
+          - 0
+          - 0.02
+          - 0
+    help:
+      - on: startLevel
+        message: |
+          @boss Make the planet's orbit fit *inside* the asteroid belt. @close
+          
 
   - title: Large Elliptical Orbit
     enabled: true
@@ -624,7 +658,7 @@ missions:
     icon: icon-elliptical
     name: large_elliptical
     subtitle: Create an elliptical orbit that is completely outside the circle.
-    circleoutside: 1.5
+    dashedcircle: 1.5
     colors: blue
     rule: nplanets > 0 && !collided && (1+elements[0].eccentricity)*elements[0].sma > 1.01 * 1.5 && elements[0].eccentricity < 0.99
     constraints:
@@ -637,6 +671,67 @@ missions:
           - 1.5
           - 0
           - 0
+    help:
+      - on: startLevel
+        message: |
+          @boss Make the planet's orbit fit *outside* the asteroid belt. @close
+          
+  - title: Real-life Crash & Burn
+    rule: nplanets > 0 && (collided || elements[0].sma * (1-elements[0].eccentricity) < app.get('minAU') )
+    name: physical_crash
+    cutscenebefore: cutscene-physical
+    physicalSizes: true
+    starsrule: 3
+    enabled: true
+    subtitle: Make your planet collide with the star.
+    win: Those were impressive fireworks!
+    lose: You avoided crashing into the star.
+    icon: icon-crash
+    music: groove
+    colors: red
+    cutscene: cutscene-physical
+    intro: |
+      @boss
+      Since our sensors are broken, we need to make sure our planet full of radioactive waste and garbage neatly crashes into the star to be incinerated.  Please help...
+    constraints:
+      nplanets: 1
+    help:           
+      - on: lose
+        message: |
+          @boss
+          Oh no, the radioactive waste is spreading everywhere!  Our solar system is ruined.
+          
+      - on: win3
+        message: |
+          @boss
+          Great job! I’m sure all of the waste burned up and we’ll never see it again.
+
+  - title: Real-life Ejected
+    rule: nplanets > 0 && elements[0].eccentricity > 1. && !collided
+    name: physical_ejected
+    colors: orange
+    starsrule: 3
+    enabled: true
+    music: sad
+    subtitle: Add a planet that escapes from its star.
+    win: Bye bye, planet!
+    lose: Oh no!  You're caught by the pull of gravity!
+    icon: icon-hyperbolic
+    intro: |
+      @boss
+      Using the star as a radioactive waste container was not a good idea. So we’re going to make sure no one ever sees it again - send the garbage planet out into interstellar space!
+    constraints:
+      nplanets: 1
+    help:
+      - on: lose
+        message: |
+           @boss
+           Um, I thought we were getting rid of the trash, not giving it a new orbit...
+
+      - on: win3
+        message: |
+          @boss
+          Great job!  I’m sure all of that waste will never come back to haunt us ever again.
 
   - title: Real-life Elliptical
     rule: nplanets > 0 && elements[0].eccentricity > 0.01 && elements[0].eccentricity < 0.99 && !collided
@@ -653,9 +748,7 @@ missions:
     icon: icon-elliptical
     intro: |
       @boss
-      The people of the planet Selia Prime are bored always orbiting the same distance from their star.  Now 
-      they want to resettle on a world that gently tours both the inner and outer solar system at different 
-      times of year. High Councilor Zeniak pulls out his cyber binoculars and eagerly awaits a fresh night sky.
+      The solar system tourist people of Selia Prime are back!  Can you make an elliptical orbit again, without using the planet magnifier?  Groknar is still trying to fix it.
     constraints:
       nplanets: 1
     help:
@@ -668,60 +761,59 @@ missions:
       - on: lose
         message: |
           @boss
-          I said TOUR the solar system, rookie!  Make it an elliptical orbit.
-
+          This must be some definition of ellipse that I’ve never heard of.  Or you’re going to be fired!
+          
       - on: win1
         message: |
           @boss
-          ...however, surely you can make the orbit more EXTREME than that.
+          OK, that’s an ellipse, but let’s make the orbit a lot more extreme than that.
       
       - on: win2
         message: |
           @boss
-          I still want to tour the solar system near and far from the star; can you work on that?
+          Well, that’s okay, but I want the planet to really skirt the edge of the solar system.
 
       - on: win3
         message: |
           @boss
-          I feel the rush already!
-
-  - title: Real-life Crash & Burn
-    rule: nplanets > 0 && (collided || elements[0].sma * (1-elements[0].eccentricity) < app.get('minAU') )
-    name: physical_crash
-    physicalSizes: true
-    starsrule: 3
+          That's the idea!
+          
+  - title: Circular Orbit
+    rule: nplanets > 0 && elements[0].eccentricity < 0.2 && elements[0].eccentricity > -0.001 && !collided
+    starsrule: |
+      (elements[0].sma > 2 ? 1 : (elements[0].sma < 1 ? 2 : 3))
     enabled: true
-    subtitle: Make your planet collide with the star.
-    win: Those were impressive fireworks!
-    lose: You avoided crashing into the star.
-    icon: icon-crash
-    music: groove
-    colors: red
+    name: physical_circular
+    music: standard
+    subtitle: Add a planet in a circular orbit.
+    win: Sweet! That's... pretty circular!
+    lose: That orbit is not very circular.
+    icon: icon-circular
     intro: |
       @boss
-      The ironic Asteroid Metal band *Suddenly Starburst* wants to play their farewell concert
-      on a new planet... as it crashes into its Sun.
+      I promise Groknar will have the planet magnifier fixed soon.  In the meantime, can you make a perfectly circular orbit for the Arkanids?  In one try?  Good luck.
     constraints:
       nplanets: 1
-    help:           
-      - on: hint
-        message: |
-           @boss
-           Try launching the planet towards the star, rookie.
-           @hide-5
-
+    help:
       - on: lose
         message: |
-          @boss
-          At least they burned up ironically.  Now make sure they impact! It’s a big star out there.
-          
+          @boss The Arkanids are unhappy with your concept of a ‘circle’.  They’re demanding free snacks.  This is a disaster!
+
+      - on: win1
+        message: |
+          @boss Well, maybe a really dizzy person would think that was a circle.
+      
+      - on: win2
+        message: |
+          @boss Well, that’s circular-ish.
+      
       - on: win3
         message: |
-          @boss
-          The concert was a blast!  Good work!
+          @boss The symmetry of nature, a perfect circle! Well done.
+
           
 
-  - title: The speed of planets/3
+  - title: MONKEYS
     enabled: true
     hidden: true    
     value: 1

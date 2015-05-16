@@ -299,6 +299,10 @@ var App = Backbone.ROComputedModel.extend({
         return false;
     },
 
+    hasCutscenePlayed: function(cutsceneName) {
+        return this.get('cutscenesPlayed').indexOf(cutsceneName) != -1;
+    },
+
     
     /*
      * Returns the force for the i-th body, in internal units (AU/Msun/days)
@@ -689,7 +693,7 @@ var App = Backbone.ROComputedModel.extend({
     setMission: function(mission) {
         if (mission === undefined)
             mission = this.get('currentMission')+1;
-
+        
         var self = this;
         var missionName = mission;
         if (_.isString(mission)) {            
@@ -701,7 +705,15 @@ var App = Backbone.ROComputedModel.extend({
                 return false;
             });
         }
-
+        var missionObj = app.get('missions').at(mission);
+        if (missionObj.get('cutscenebefore')) {
+            var cutscene = missionObj.get('cutscenebefore');
+            if (!app.hasCutscenePlayed(cutscene)) {
+                app.setMission(cutscene);
+                return;
+            }
+        }
+                
         var previousMissionName = (app.mission() ? app.mission().get('name') : null);
         if (previousMissionName)
             $('html').removeClass(previousMissionName);
@@ -714,10 +726,6 @@ var App = Backbone.ROComputedModel.extend({
         var missionObj = this.mission();
         this.sounds.playMusic(missionObj.get('music'));      
 
-        // Set up reminder
-        var delay = _.delay(function() {
-            
-        });
     },
 
     showHint: function(text, options) {
@@ -847,7 +855,7 @@ var App = Backbone.ROComputedModel.extend({
     /*
      * Read in properties from app.yaml.
      */
-    loadConfig: function(dict) {
+    loadConfig: function(dict) {        
         var missions = dict.missions.concat(dict.cutscenes);
         var coll = new MissionCollection();
         var starsBounty = 0;
@@ -1185,7 +1193,8 @@ var AppView = Backbone.View.extend({
         };
         
         self.listenTo(self.model, 'startLevel', function() {
-            self.hint = _.delay(showStarFn, 7000);
+            if (app.mission().type == 'level')
+                self.hint = _.delay(showStarFn, 7000);
         });
         
         // Renders the information table on the top-right corner.
@@ -1639,6 +1648,14 @@ var MessageView = Backbone.View.extend({
                 help.push({ on: 'lose', message: "" });
                 console.warn(m.get('name'), 'does not have a lose message.');                
             }
+
+            if (m.get('cutscenebefore')) {
+                app.mission(m.get('cutscenebefore')).set('returnto', m.get('name'));
+                app.mission(m.get('cutscenebefore')).set('title', m.get('title'));
+                app.mission(m.get('cutscenebefore')).set('subtitle', m.get('subtitle'));                
+            }
+            if (!m.get('type'))
+                m.set('type', 'level');
             
             for (var j = 0; j < help.length; j++) {
                 app.templates.template(help[j], m);

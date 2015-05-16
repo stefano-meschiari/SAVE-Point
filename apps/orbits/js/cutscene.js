@@ -8,8 +8,11 @@ var CutScene = Backbone.View.extend({
         var app = this.model;
         var mission = app.mission();
         var name = mission.get('name');
-        if (_.detect(app.get('cutscenesPlayed', name))) {
-            app.menu();
+        if (app.hasCutscenePlayed(name)) {
+            if (mission.get('returnto'))
+                app.setMission(mission.get('returnto'));
+            else
+                app.menu();
             return;
         }
 
@@ -21,10 +24,14 @@ var CutScene = Backbone.View.extend({
         app.once("end-cutscene", function() {
             app.get('cutscenesPlayed').push(name);
             app.saveMissionData();
-            app.menu();
             _.defer(function() {
                 self.tearDown();
+                if (mission.get('returnto'))
+                    app.setMission(mission.get('returnto'));
             });
+            
+            if (!mission.get('returnto'))
+                app.menu();
         });
     },
 

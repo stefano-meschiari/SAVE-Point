@@ -1794,6 +1794,18 @@ var Draw = Backbone.View.extend({
             objects.push(hole);
             objects.push(c);
             c.sendToBack();
+        } else if (mission.get('dashedcircle')) {
+            c = new Path.Circle({
+                center: view.center,               
+                radius: +mission.get('dashedcircle') * PIXELS_PER_AU,  
+                strokeColor: 'rgba(102, 204, 255, 0.2)',
+                strokeWidth: 5,
+                dashArray: [10, 4]
+            });
+            c.auradius = +mission.get('dashedcircle');
+            c.centered = true;
+            objects.push(c);
+            c.sendToBack();
         }
     },
 
