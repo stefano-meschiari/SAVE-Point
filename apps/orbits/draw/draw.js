@@ -684,7 +684,7 @@ var Draw = Backbone.View.extend({
         var self = this;
         var dI = 0.001 * SPEED;
         var interactivity = app.get('interactive');
-        var scale = Math.pow(0.1, 4./50);
+        var scale = Math.pow(0.1, 4./20);
         
         this.cancelAnimation('cancel-fly');
         this.cancelAnimation('star');

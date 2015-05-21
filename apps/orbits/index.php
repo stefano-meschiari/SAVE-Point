@@ -220,10 +220,10 @@ write_mission_rules($cfg);
     </div>
   </div>
   <div id="app-menu-text">
-    <button id="menu-dashboard" class="dashboard btn-jrs-ico icon-dashboard" title="Back to Dashboard" data-tooltip-content="{pos: 'bottom', offset:20}"></button>
-    <button class="settings btn-jrs-ico fa fa-sliders"  data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-tooltip-content="{pos: 'bottom', offset:20}"></button>
-    <button class="settings btn-jrs-ico icon-sandbox" id="menu-practice" title="Practice Mode" data-tooltip-content="{pos: 'bottom', offset: 20}"></button>
-    <button class="settings btn-jrs-ico icon-unlockable" id="menu-unlockables" title="Unlocked Prizes" data-uk-modal="{target:'#unlockables-modal', center: true, bgclose:false}" data-tooltip-content="{pos: 'bottom', offset: 20}"></button>
+      <button id="menu-dashboard" class="dashboard settings btn-jrs-ico icon-dashboard"><span class="title">Exit</span></button>
+      <button class="settings btn-jrs-ico fa fa-sliders" data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}"><span class="title">Settings</span></button>
+      <button class="settings btn-jrs-ico icon-sandbox" id="menu-practice"><span class="title">Practice Mode</span></button>
+      <button class="settings btn-jrs-ico icon-unlockable" id="menu-unlockables" data-uk-modal="{target:'#unlockables-modal', center: true, bgclose:false}"><span class="title">Unlocked prizes</span></button>
     
     <div id="app-menu-text-top">
       <div id="app-menu-mission-title" class="title"></div>

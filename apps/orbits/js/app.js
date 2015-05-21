@@ -308,7 +308,7 @@ var App = Backbone.ROComputedModel.extend({
             return;
         app.get('unlocked').push(unlockedName);
         app.trigger('unlock');
-        app.saveMissionData();
+        app.saveMissionData();       
     },
 
     
