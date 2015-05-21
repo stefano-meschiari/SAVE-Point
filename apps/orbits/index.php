@@ -219,11 +219,14 @@ write_mission_rules($cfg);
       
     </div>
   </div>
-  <div id="app-menu-text">
-      <button id="menu-dashboard" class="dashboard settings btn-jrs-ico icon-dashboard"><span class="title">Exit</span></button>
+  <div id="app-menu-toolbar">
+        <button id="menu-dashboard" class="dashboard settings btn-jrs-ico icon-dashboard"><span class="title">Exit</span></button>
       <button class="settings btn-jrs-ico fa fa-sliders" data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}"><span class="title">Settings</span></button>
       <button class="settings btn-jrs-ico icon-sandbox" id="menu-practice"><span class="title">Practice Mode</span></button>
       <button class="settings btn-jrs-ico icon-unlockable" id="menu-unlockables" data-uk-modal="{target:'#unlockables-modal', center: true, bgclose:false}"><span class="title">Unlocked prizes</span></button>
+    
+  </div>
+  <div id="app-menu-text">
     
     <div id="app-menu-text-top">
       <div id="app-menu-mission-title" class="title"></div>

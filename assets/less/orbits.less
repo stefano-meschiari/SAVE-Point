@@ -21,6 +21,10 @@ html, body {
   user-select: none;
 }
 
+html.loading #app {
+  display:none;
+}
+
 #app {
   color:white;
 }
@@ -133,14 +137,19 @@ html, body {
   background-color: @color-glass-dark;
 }
 
+#app-menu-toolbar {
+  position:absolute;
+  top:0;
+  right:0;
+}
 
-#app-menu-text .settings {
+#app-menu-toolbar .settings {
   font-size:40px;
   float:right;
   width:initial;
 }
 
-#app-menu-text .settings:hover .title {
+#app-menu-toolbar .settings:hover .title {
   color:black;
   text-shadow:none;
 }
