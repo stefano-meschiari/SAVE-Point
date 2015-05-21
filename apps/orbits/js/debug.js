@@ -23,6 +23,12 @@ window._debug = {
     }
 };
 
+if (_.parameter('relock')) {
+    app.once('load', function() {
+        app.set('unlocked', []);
+        app.saveMissionData();
+    });
+}
 
 if (_.parameter('fps')) {
     $(window).load(function() {

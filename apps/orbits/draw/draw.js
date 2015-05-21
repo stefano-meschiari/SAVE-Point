@@ -409,7 +409,7 @@ var Draw = Backbone.View.extend({
         this.calculateBodySize(1, star);
         
         app.set('minAU', zoom * star.bodyRadius / PIXELS_PER_AU);
-       
+        
 
         if (star) {
             var center = star.bounds.center;

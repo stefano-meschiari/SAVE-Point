@@ -55,6 +55,23 @@ assets:
     addPlanet: sounds/add-planet.mp3
     "planet:drag": sounds/drag.wav
 
+unlockables:
+  - name: kepler_1
+    title: Kepler's 1st Law
+    type: iframe
+    url: /orbits/unlockables/Keplers1stLaw/Keplers1stLaw.htm
+  
+  - name: kepler_3
+    title: Kepler's 3rd Law
+    type: iframe
+    url: /orbits/unlockables/Keplers3rdLaw/Keplers3rdLaw.html
+
+unlockableList:
+  - cutscene-kepler
+  - kepler_1
+  - cutscene-physical
+  - kepler_3
+    
 cutscenes:
   - title: Welcome to Nova Planetia
     subtitle: Custom built planetary systems at fair prices!
@@ -105,9 +122,10 @@ cutscenes:
 
           You’ll be paid in @color-accent{@icon-star} stars @color-accent{@icon-star}!
           
-          Your payment is based on how well you do the job at hand.
+          Your payment is based on how well you do the job at hand. 
           @proceed
 
+          
       - on: proceed
         message: |
           @fly @noninteractive @boss  @disable-everything
@@ -118,6 +136,7 @@ cutscenes:
     name: cutscene-physical
     music: level
     hidden: true
+    description: Groknar shorts out the planet simulator
     enabled: true
     help:
       - on: startLevel
@@ -399,7 +418,7 @@ missions:
       - on: win
         message: |
           @boss 
-          That's right, @name! Puny humans call this property "[Kepler's 2nd law](http://howthingsfly.si.edu/media/kepler%E2%80%99s-second-law)".
+          That's right, @name! Puny humans call this property "[Kepler's 2nd law]/ app.unlockables.show('kepler_2') /".
 
       - on: lose
         message: |
@@ -455,6 +474,7 @@ missions:
     music: titter
     name: orbits_question
     hideui: info
+    unlock: kepler_1
     subtitle: Earn an extra star by answering this question!
     intro: |
       We have to justify our work to our investors!  Get out there and make us look good!
@@ -475,7 +495,10 @@ missions:
       - on: win
         message: |
           @boss
-          That's right, @name! The object being orbited is off to the side of an elliptical orbit, not in the exact center.  Puny humans call this property Kepler's 1st law.
+          That's right, @name! The object being orbited is off to the side of an elliptical orbit, not in the exact center.
+
+
+          Puny humans call this property "[Kepler's 1st law]/ app.unlockables.show('kepler_1') /".
 
       - on: lose
         message: |
@@ -587,6 +610,7 @@ missions:
     type: single-choice
     icon: icon-question
     music: titter
+    unlock: kepler_3
     name: circular_question
     subtitle: Earn an extra star by answering this question!
     intro: |
@@ -607,7 +631,7 @@ missions:
       - on: win
         message: |
           @boss
-          That's right, @name! Puny humans call this property Kepler's 3rd law.
+          That's right, @name! Puny humans call this property [Kepler's 3rd law]/ app.unlockables.show('kepler_3') /.
 
       - on: lose
         message: |
@@ -711,6 +735,7 @@ missions:
     name: physical_ejected
     colors: orange
     starsrule: 3
+    physicalSizes: true    
     enabled: true
     music: sad
     subtitle: Add a planet that escapes from its star.
@@ -784,6 +809,7 @@ missions:
       (elements[0].sma > 2 ? 1 : (elements[0].sma < 1 ? 2 : 3))
     enabled: true
     name: physical_circular
+    physicalSizes: true
     music: standard
     subtitle: Add a planet in a circular orbit.
     win: Sweet! That's... pretty circular!

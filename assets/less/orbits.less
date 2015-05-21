@@ -677,6 +677,29 @@ td.td-2col {
   }
 }
 
+.icon-sandbox {
+  .fa;
+  &:before {
+    content: @fa-var-paper-plane;
+  }
+}
+
+.icon-movie {
+  .fa;
+  &:before {
+    content: @fa-var-film;
+  }
+}
+
+.icon-doc {
+  .fa;
+  &:before {
+    content: @fa-var-book;
+  }
+}
+
+
+
 .icon-missions {
   .fa;
   &:before {
@@ -762,6 +785,13 @@ td.td-2col {
   &:before {
     content: @fa-var-long-arrow-right;
     transform: rotate(45deg);
+  }
+}
+
+.icon-unlockable {
+  .fa;
+  &:before {
+    content: @fa-var-gift;
   }
 }
 
@@ -909,14 +939,14 @@ td.td-2col {
   }
 }
 
-
-#settings-dialog {
-  color:white;
+.uk-modal-dialog {
+    color:white;
   background-color:black;
   border:1px solid silver;
   font-size:30px;
   padding:30px;
   text-align:center;
+  border-radius:20px;
 }
 
 #settings-dialog button {
@@ -1408,6 +1438,7 @@ html.cutscene #info-top {
   color:@color-accent;
   text-decoration:underline;
   border:none;
+  font-family:inherit;
 }
 
 #star-start {
@@ -1441,4 +1472,56 @@ html.physicalSizes #star-start {
   width:30%;
   text-align:center;
   -webkit-animation:pulse 3s infinite;  
+}
+
+#message {
+  background:@color-glass;
+  font-size:@font-l;
+  padding:15px;
+  position:absolute;
+  top:-300px;
+  left:100px;
+  opacity:0;
+}
+
+#message.expanded {
+  top:0px;
+  z-index:100;
+  .transition(2s, ease-in);
+  opacity:1;
+}
+
+#unlockables-dialog {
+  height:400px;
+  overflow-y: scroll;
+}
+
+#unlockables-modal .uk-modal-dialog {
+  width:800px;
+}
+
+#unlockables-iframe .uk-modal-dialog {
+  width:800px;
+}
+
+#unlockables-iframe iframe {
+  width:100%;
+  height:500px;
+}
+
+#unlockables-dialog button {
+  width:100%;
+  margin-bottom:10px;
+  text-align:left;
+}
+
+#unlockables-dialog button.disabled {
+  border:1px solid silver;
+  background:black;
+  color:silver;
+}
+
+
+iframe {
+  background:white;
 }

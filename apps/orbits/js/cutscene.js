@@ -8,7 +8,7 @@ var CutScene = Backbone.View.extend({
         var app = this.model;
         var mission = app.mission();
         var name = mission.get('name');
-        if (app.hasCutscenePlayed(name)) {
+        if (app.isUnlocked(name)) {
             if (mission.get('returnto'))
                 app.setMission(mission.get('returnto'));
             else
@@ -22,7 +22,7 @@ var CutScene = Backbone.View.extend({
         });
         
         app.once("end-cutscene", function() {
-            app.get('cutscenesPlayed').push(name);
+            app.unlock(name);
             app.saveMissionData();
             _.defer(function() {
                 self.tearDown();

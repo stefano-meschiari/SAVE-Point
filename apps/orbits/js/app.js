@@ -145,16 +145,16 @@ var App = Backbone.ROComputedModel.extend({
             // Music settings
             musicVolume:0.1,
             effectsVolume:0.2,
-            // Cutscenes
-            cutscenesPlayed:[], 
             // Powers
             activePowers: [],
+            // Unlocked
+            unlocked: [],
             // Player name
             playerName: LOGGED_USER
         };
     },
 
-    saveKeys: ['musicVolume', 'effectsVolume', 'activePowers', 'cutscenesPlayed', 'playerName'],
+    saveKeys: ['musicVolume', 'effectsVolume', 'activePowers', 'playerName', 'unlocked'],
     components: {},
     flags: {},
     loaded: false,
@@ -299,8 +299,16 @@ var App = Backbone.ROComputedModel.extend({
         return false;
     },
 
-    hasCutscenePlayed: function(cutsceneName) {
-        return this.get('cutscenesPlayed').indexOf(cutsceneName) != -1;
+    isUnlocked: function(unlockedName) {
+        return this.get('unlocked').indexOf(unlockedName) != -1;
+    },
+
+    unlock: function(unlockedName) {
+        if (app.isUnlocked(unlockedName))
+            return;
+        app.get('unlocked').push(unlockedName);
+        app.trigger('unlock');
+        app.saveMissionData();
     },
 
     
@@ -575,7 +583,9 @@ var App = Backbone.ROComputedModel.extend({
             var r = Math.sqrt(this.ctx.x[i*NPHYS+X] * this.ctx.x[i*NPHYS+X] +
                               this.ctx.x[i*NPHYS+Y] * this.ctx.x[i*NPHYS+Y]);
             
-            dt = Math.min(dt, 0.05*Math.sqrt(r*r*r/K2));
+            dt = Math.min(dt, 0.005*Math.sqrt(r*r*r/K2));
+            if (r < 0.1)
+                console.log("dt", dt);
         }
         
 
@@ -675,6 +685,10 @@ var App = Backbone.ROComputedModel.extend({
 
         this.trigger('win' + this.stars());
         this.trigger('win');
+
+        if (mission.get('unlock'))
+            app.unlock(mission.get('unlock'));
+        
         app.saveMissionData();
     },
 
@@ -870,6 +884,7 @@ var App = Backbone.ROComputedModel.extend({
         this.set(dict);
         this.set('missions', coll);
         this.set('starsBounty', starsBounty);
+        this.set('unlockables', _.union(this.get('unlockables'), this.get('cutscenes')));
     },
 
     /*
@@ -919,7 +934,6 @@ var App = Backbone.ROComputedModel.extend({
                         self.set(key, value);
                     });
 
-                    console.log(app.get('cutscenesPlayed'));
                 }
                 _.delay(function() {
                     app.trigger('load');
@@ -1227,7 +1241,7 @@ var AppView = Backbone.View.extend({
             
 
             var secs = 7000;
-            if (app.get('collided') || emax > 0.99)
+            if (app.get('collided') || emax > 0.99 && !isNaN(Pmin))
                 secs = Pmin/4; // temporary
 
             if (! isNaN(Pmin)) {
@@ -1443,6 +1457,14 @@ var AppView = Backbone.View.extend({
         }
     },
 
+    showMessage: function(message, icon) {
+        if (icon)
+            message = '<span class="color-accent ' + icon + '"></span> ' + message;
+        
+        $("#message").html(message);
+        $("#message").addClass('expanded');
+    },
+    
     /*
      * When the user is shown the mission menu, fade away all the UI elements that could be distracting.
      */
@@ -1459,6 +1481,7 @@ var AppView = Backbone.View.extend({
             $("#info-top").hide();
             $("#help").hide();
             $("#text-top").removeClass("expanded");
+            $("#message").removeClass("expanded");
         } else {
             $("#sidebar").show();
             $("#info-top").show();
@@ -1851,7 +1874,80 @@ var AppMenuView = Backbone.View.extend({
     renderOrbit: function(ctx) {
     }
 });
-    */
+ */
+
+var AppUnlockablesView = Backbone.View.extend({
+    el: $("#unlockables-dialog"),
+
+    ICONS: {
+        iframe: 'icon-doc',
+        cutscene: 'icon-movie'
+    },
+
+    TITLE: '<div class="title"><span class="color-accent icon-unlockable"></span> Unlockable Prizes</div><div class="subtitle">Play levels to unlock these bonuses!</div>',
+    
+    initialize: function() {
+        this.listenTo(this.model, "change:missions change:state load start reset unlock", this.renderUnlockables);
+        this.listenTo(this.model, 'unlock', function() {
+            if (app.get('unlocked').length == 0)
+                return;
+            
+            var name = _.last(app.get('unlocked'));
+            var u = _.findWhere(app.get('unlockables'), {name: name});
+            console.log(u);
+            var title = u.title || u.description;
+            
+            if (u.type != 'cutscene') {
+                app.mainView.showMessage('BONUS: You unlocked <button class=button-link on' + UI.clickEvent + '="app.unlockables.show(\'' + name + '\')">' + title + '</button>!',
+                                     this.ICONS[u.type]);
+            }
+        });
+    },
+
+    show: function(name) {
+        
+        var u = _.findWhere(app.get('unlockables'), {name: name});
+        if (u.type == 'cutscene') {
+            UIkit.modal("#unlockables-modal").hide();
+            
+            app.get('unlocked').splice(app.get('unlocked').indexOf(name), 1);
+            app.setMission(name);
+        } else if (u.type == 'iframe') {
+            _.defer(function() {
+                $(".iframe-container iframe").attr("src", u.url);
+                UIkit.modal("#unlockables-iframe").show();
+            });
+        }
+        
+    },
+
+    renderUnlockables: function() {
+        var text = "";
+        var self = this;
+        
+        _.each(app.get('unlockableList'), function(name) {
+            var active = app.isUnlocked(name);
+            var u = _.findWhere(app.get('unlockables'), {name: name});
+            
+            var button;
+            if (active) {
+                button = "<button class='btn-jrs' on" + UI.clickEvent + "='app.unlockables.show(\"" + u.name + "\")'>";
+                button += "<i class='" + self.ICONS[u.type] + "'></i> ";
+                if (u.title)
+                    button += u.title;
+                else
+                    button += u.description;
+            } else {
+                button = "<button class='btn-jrs disabled'>";
+                button += "<i class='" + self.ICONS[u.type] + "'></i> ???";
+            }
+            button += "</button>";
+            text += button;
+        });
+        console.log(text);
+        this.$el.html(text);
+    }
+});
 
 var AppModalView = Backbone.View.extend({
     // Top-level container
@@ -1912,6 +2008,7 @@ $(window).load(function() {
     app.menuView = new AppMenuView({model: app});
     app.modalView = new AppModalView({model:app});
     app.settings = new AppSettings({ model:app });
+    app.unlockables = new AppUnlockablesView({ model: app });
     
     app.loadMissionData();
     app.sounds = new SoundEngine(app);

@@ -44,6 +44,9 @@ write_mission_rules($cfg);
 <div id="hint">
     
 </div>
+<div id="message">
+    
+</div>
   <div id="text-top" class="animated">
     Welcome!
   </div>
@@ -165,6 +168,10 @@ write_mission_rules($cfg);
       <button id="practice" class="btn-jrs-ico icon-sandbox" title="Practice mode" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Practice mode</div>
     </div>
+    <div class="sidebar-item" id="sidebar-unlockables">
+      <button id="unlocked" class="btn-jrs-ico icon-unlockable" title="Unlocked Prizes" data-tooltip-content="{pos: 'right', offset:20}" data-uk-modal="{target:'#unlockables-modal', center: true, bgclose:false}"></button>
+      <div class="sidebar-title">Unlocked prizes</div>
+    </div>
     <div class="sidebar-item" id="sidebar-help">
       <button id="help" class="btn-jrs-ico fa fa-question-circle" title="Help" data-tooltip-content="{pos: 'right', offset:20}"></button>
       <div class="sidebar-title">Help</div>
@@ -216,7 +223,8 @@ write_mission_rules($cfg);
     <button id="menu-dashboard" class="dashboard btn-jrs-ico icon-dashboard" title="Back to Dashboard" data-tooltip-content="{pos: 'bottom', offset:20}"></button>
     <button class="settings btn-jrs-ico fa fa-sliders"  data-uk-modal="{target:'#settings-modal', center: true, bgclose:false}" title="Settings" data-tooltip-content="{pos: 'bottom', offset:20}"></button>
     <button class="settings btn-jrs-ico icon-sandbox" id="menu-practice" title="Practice Mode" data-tooltip-content="{pos: 'bottom', offset: 20}"></button>
-
+    <button class="settings btn-jrs-ico icon-unlockable" id="menu-unlockables" title="Unlocked Prizes" data-uk-modal="{target:'#unlockables-modal', center: true, bgclose:false}" data-tooltip-content="{pos: 'bottom', offset: 20}"></button>
+    
     <div id="app-menu-text-top">
       <div id="app-menu-mission-title" class="title"></div>
       <div id="app-menu-mission-stars"></div>
@@ -247,6 +255,27 @@ write_mission_rules($cfg);
     <div class="separator-center"></div>
     <button class="btn-jrs uk-modal-close"><i class="fa fa-check"></i> OK</button>    
   </div>
+</div>
+
+<div id="unlockables-iframe" class="uk-modal">
+    <div class="uk-modal-dialog settings-pane">
+        <div class="iframe-container">
+            <iframe>
+            </iframe>
+        </div>
+        <button class="btn-jrs uk-modal-close"><i class="fa fa-close"></i> CLOSE</button>
+    </div>
+</div>
+
+<div id="unlockables-modal" class="uk-modal">
+    <div class="uk-modal-dialog settings-pane">
+        <div class="title"><span class="color-accent icon-unlockable"></span> Unlockable Prizes</div><div class="subtitle">Play levels to unlock these bonuses!</div>
+        <div id="unlockables-dialog">
+            
+        </div>
+        
+        <button class="btn-jrs uk-modal-close"><i class="fa fa-close"></i> CLOSE</button>            
+    </div>
 </div>
 <div id="settings-modal" class="uk-modal">
   <div class="uk-modal-dialog" id="settings-dialog">
