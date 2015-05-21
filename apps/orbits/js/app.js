@@ -722,7 +722,7 @@ var App = Backbone.ROComputedModel.extend({
         var missionObj = app.get('missions').at(mission);
         if (missionObj.get('cutscenebefore')) {
             var cutscene = missionObj.get('cutscenebefore');
-            if (!app.hasCutscenePlayed(cutscene)) {
+            if (!app.unlocked(cutscene)) {
                 app.setMission(cutscene);
                 return;
             }
