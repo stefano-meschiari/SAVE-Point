@@ -153,7 +153,7 @@ cutscenes:
       - on: proceed
         message: |
           @boss @noninteractive @fly @disable-everything
-          The objects will be their true sizes... don’t miss them!
+          The objects will be their true sizes, instead of the enhanced view you've been using until now... don’t miss them!
           @button{Start playing}{end-cutscene}
               
 missions:    
