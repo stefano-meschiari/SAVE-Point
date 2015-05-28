@@ -29,9 +29,9 @@ var SingleChoice = Backbone.View.extend({
 
         this.listenToOnce(app, "startLevel", function() {
             self.render();
+            $("#info-top").hide();
         });
         
-        $("#info-top").hide();
 
         this.listenTo(this.model, 'answer', this.answer);
     },
@@ -45,6 +45,7 @@ var SingleChoice = Backbone.View.extend({
             this.model.win();
         else
             this.model.lose();
+        
     }
 });
 

@@ -131,6 +131,7 @@ html.loading #app {
 
 #app-menu-text {
   padding:50px;
+  padding-top:75px;
   overflow-y:scroll;
   -webkit-overflow-scrolling: touch;
   height:100%;
@@ -141,10 +142,11 @@ html.loading #app {
   position:absolute;
   top:0;
   right:0;
+  z-index:10;
 }
 
 #app-menu-toolbar .settings {
-  font-size:40px;
+  font-size:30px;
   float:right;
   width:initial;
 }
@@ -156,6 +158,7 @@ html.loading #app {
 
 .settings .title {
   font-size:12px;
+  font-family: "proxima-nova", "Helvetica Neue", "Helvetica", "Arial", sans-serif;  
   text-transform:uppercase;
   display:block;
   width:60px;
@@ -961,6 +964,18 @@ td.td-2col {
     content: @fa-var-bomb;
   }
 }
+
+.icon-large-elliptical-b {
+  .icon-mission-badge;
+  background-image: url('../img/Largeelliptical_icon.png');
+}
+
+.icon-small-elliptical-b {
+  .icon-mission-badge;
+  background-image: url('../img/Smallelliptical_icon.png');
+}
+
+
 
 .uk-modal-dialog {
     color:white;

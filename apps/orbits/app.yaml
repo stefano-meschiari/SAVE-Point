@@ -66,11 +66,18 @@ unlockables:
     type: iframe
     url: /orbits/unlockables/Keplers3rdLaw/Keplers3rdLaw.html
 
+  - name: kepler_2
+    title: Kepler's 2nd Law
+    type: iframe
+    url: /orbits/unlockables/Keplers2ndLaw/Keplers2ndLaw.html
+
+    
 unlockableList:
   - cutscene-kepler
   - kepler_1
   - cutscene-physical
   - kepler_3
+  - kepler_2
     
 cutscenes:
   - title: Welcome to Nova Planetia
@@ -397,6 +404,7 @@ missions:
     type: single-choice
     icon: icon-question
     name: elliptical_question
+    unlock: kepler_2    
     music: titter
     subtitle: Earn an extra star by answering this question!
     intro: |
@@ -646,14 +654,14 @@ missions:
     hidden: true
     value: 3
     music: triumph
-    icon: icon-elliptical
+    icon: icon-small-elliptical
     name: small_elliptical
     subtitle: Create an elliptical orbit that fits inside the circle.
     intro: |
       Two families share mining rights to a circular asteroid belt, and they both want planets that touch it once per year.  The first family claims the inner part of the solar system.  Can you place a planet so that it touches the asteroid belt and then stays inside their territory?
     dashedcircle: 1.5
     colors: blue
-    rule: nplanets > 0 && (1-elements[0].eccentricity)*elements[0].sma < 0.95 * 1.4 && !collided
+    rule: nplanets > 0 && (1-elements[0].eccentricity)*elements[0].sma < 0.95 * 1.5 && !collided
     constraints:
       direction: perpendicular
       position: 1.5
@@ -679,11 +687,13 @@ missions:
     hidden: true
     value: 3
     music: triumph
-    icon: icon-elliptical
+    icon: icon-large-elliptical
     name: large_elliptical
     subtitle: Create an elliptical orbit that is completely outside the circle.
     dashedcircle: 1.5
     colors: blue
+    intro: |
+      The second family is jealous and they want a planet that touches the same asteroid belt, but stays outside the rest of the year, in their territory. Can you do that?
     rule: nplanets > 0 && !collided && (1+elements[0].eccentricity)*elements[0].sma > 1.01 * 1.5 && elements[0].eccentricity < 0.99
     constraints:
       direction: perpendicular
