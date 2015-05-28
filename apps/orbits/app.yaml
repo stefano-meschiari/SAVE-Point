@@ -716,14 +716,14 @@ missions:
     cutscene: cutscene-physical
     intro: |
       @boss
-      Since our sensors are broken, we need to make sure our planet full of radioactive waste and garbage neatly crashes into the star to be incinerated.  Please help...
+      We need to dump a planet full of radioactive waste and garbage.  The plan is to crash it into the star to be incinerated.  Please help...
     constraints:
       nplanets: 1
     help:           
       - on: lose
         message: |
           @boss
-          Oh no, the radioactive waste is spreading everywhere!  Our solar system is ruined.
+          Oh no, the radioactive waste is spreading everywhere!  Our solar system is ruined!
           
       - on: win3
         message: |
@@ -744,19 +744,19 @@ missions:
     icon: icon-hyperbolic
     intro: |
       @boss
-      Using the star as a radioactive waste container was not a good idea. So we’re going to make sure no one ever sees it again - send the garbage planet out into interstellar space!
+      Using the star as a radioactive waste container was... not a good idea. So we’re going to make sure no one ever sees it again - send our other garbage planet out into interstellar space!
     constraints:
       nplanets: 1
     help:
       - on: lose
         message: |
            @boss
-           Um, I thought we were getting rid of the trash, not giving it a new orbit...
+           Um, I thought we were getting rid of the trash.  Now it's forever part of this solar system.
 
       - on: win3
         message: |
           @boss
-          Great job!  I’m sure all of that waste will never come back to haunt us ever again.
+          Great job!  That waste will never come back to haunt us ever again.
 
   - title: Real-life Elliptical
     rule: nplanets > 0 && elements[0].eccentricity > 0.01 && elements[0].eccentricity < 0.99 && !collided
@@ -773,7 +773,7 @@ missions:
     icon: icon-elliptical
     intro: |
       @boss
-      The solar system tourist people of Selia Prime are back!  Can you make an elliptical orbit again, without using the planet magnifier?  Groknar is still trying to fix it.
+      The solar system tourists of Selia Prime are back!  Can you make an elliptical orbit again, without using the planet magnifier?  Groknar is still trying to fix it.  The planet should pass very close to the star at some point so the tourists can get some good selfies.
     constraints:
       nplanets: 1
     help:
@@ -801,7 +801,7 @@ missions:
       - on: win3
         message: |
           @boss
-          That's the idea!
+          That's the idea!  The tourists' pictures came out great!
           
   - title: Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.2 && elements[0].eccentricity > -0.001 && !collided
@@ -817,7 +817,7 @@ missions:
     icon: icon-circular
     intro: |
       @boss
-      I promise Groknar will have the planet magnifier fixed soon.  In the meantime, can you make a perfectly circular orbit for the Arkanids?  In one try?  Good luck.
+      I promise Groknar will have the planet magnifier fixed soon.  In the meantime, can you make a perfectly circular orbit for the Arkanids?  In one try?  Good luck - you know how picky they are.
     constraints:
       nplanets: 1
     help:
