@@ -8,3 +8,5 @@ git push
 open -a safari spring.html
 
 gifsicle -i --transparent "#1e1e1e" --loop --crop 1,1+-65x-1 arkanid*.gif > arkanid.gif 
+
+ffmpeg -ss 00:00:01.100 -i CircleSmall2.mov -pix_fmt rgb8 -r 20 -s 300x300 -t 00:00:7.65 CircleSmall2.gif
