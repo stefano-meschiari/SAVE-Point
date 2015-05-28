@@ -658,10 +658,12 @@ missions:
     name: small_elliptical
     subtitle: Create an elliptical orbit that fits inside the circle.
     intro: |
-      Two families share mining rights to a circular asteroid belt, and they both want planets that touch it once per year.  The first family claims the inner part of the solar system.  Can you place a planet so that it touches the asteroid belt and then stays inside their territory?
+      Two families share mining rights to a circular asteroid belt, and they both want planets that touch it once per year.  The first family claims the inner part of the solar system.  Can you place a planet in a very elliptical orbit so that it touches the asteroid belt and then stays inside their territory?
     dashedcircle: 1.5
     colors: blue
     rule: nplanets > 0 && (1-elements[0].eccentricity)*elements[0].sma < 0.95 * 1.5 && !collided
+    starsrule: |
+      (elements[0].eccentricity < 0.2 ? 1 : (elements[0].eccentricity < 0.45 ? 2 : 3))
     constraints:
       direction: perpendicular
       position: 1.5
