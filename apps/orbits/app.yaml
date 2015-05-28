@@ -661,7 +661,7 @@ missions:
       Two families share mining rights to a circular asteroid belt, and they both want planets that touch it once per year.  The first family claims the inner part of the solar system.  Can you place a planet in a very elliptical orbit so that it touches the asteroid belt and then stays inside their territory?
     dashedcircle: 1.5
     colors: blue
-    rule: nplanets > 0 && elements[0].eccentricity < 0.99 && elements[0].eccentricity > 0.001 && !collided
+    rule: nplanets > 0 && elements[0].sma < 1.4 && elements[0].eccentricity > 0.001 && !collided
     starsrule: |
       (elements[0].eccentricity < 0.2 ? 1 : (elements[0].eccentricity < 0.45 ? 2 : 3))
     constraints:
@@ -708,7 +708,9 @@ missions:
     colors: blue
     intro: |
       The second family is jealous and they want a planet that touches the same asteroid belt, but stays outside the rest of the year, in their territory. Can you do that?
-    rule: nplanets > 0 && !collided && (1+elements[0].eccentricity)*elements[0].sma > 1.01 * 1.5 && elements[0].eccentricity < 0.99
+    rule: nplanets > 0 && elements[0].sma > 1.4 && elements[0].eccentricity > 0.001 && !collided
+    starsrule: |
+      (elements[0].eccentricity < 0.2 ? 1 : (elements[0].eccentricity < 0.45 ? 2 : 3))
     constraints:
       direction: perpendicular
       position: 1.5
@@ -724,6 +726,18 @@ missions:
         message: |
           @boss Make the planet's orbit fit *outside* the asteroid belt. @close
           
+      - on: win1
+        message: |
+          @boss That planet is outside the asteroid belt, but just barely. Try to get farther from the star.
+      
+      - on: win2
+        message: |
+          @boss That's a fairly elliptical orbit, I guess. The mining family would still like to be able to check on their territory very far from the star.
+      
+      - on: win3
+        message: |
+          @boss The mining family will be pleased!  They can survey all of their territory now.
+
   - title: Real-life Crash & Burn
     rule: nplanets > 0 && (collided || elements[0].sma * (1-elements[0].eccentricity) < app.get('minAU') )
     name: physical_crash
