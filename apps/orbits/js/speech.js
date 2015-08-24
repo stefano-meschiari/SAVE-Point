@@ -44,12 +44,11 @@ var SoundEngine = Backbone.ROComputedModel.extend({
             return;
         
         try {
-            if (this.assets.effects[type]) {
-                this[type].currentTime = 0;
-                if (this[type].currentTime != 0)
-                    this[type].load();
+            if (this.assets.effects[type]) {               
+                this[type].load();
                 this[type].volume = app.get('effectsVolume');
                 this[type].play();
+                console.log("Playing sound " + type);
             } else {
                 console.warn("No sound effect of type ", type);
             }
@@ -63,7 +62,7 @@ var SoundEngine = Backbone.ROComputedModel.extend({
             return;
 
         this.musicPlayer.src = this.assets.music[type];
-        this.musicPlayer.play();        
+        this.musicPlayer.play();
     }
 });
 

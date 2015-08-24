@@ -1175,16 +1175,17 @@ var AppView = Backbone.View.extend({
         self.listenTo(self.model, 'win', self.renderWin);
         self.listenTo(self.model, 'lose', self.renderLose);
 
-        var startStarWidth = $("#star-start").width();
-        var startStarHeight = $("#star-start").height();
         
         self.listenTo(self.model, 'change:nplanets change:state change:position help resize', function() {
             if (self.model.get('nplanets') > 0 && self.model.get('state') == PAUSED && !self.model.flags.disabledStar) {
                 $("#star-start").addClass("expanded");
-
+                
+                var startStarWidth = $("#star-start").width();
+                var startStarHeight = $("#star-start").height();
                 var x = draw.star.bounds.centerX - 0.5 * startStarWidth;
-                var y = draw.star.bounds.centerY - 0.5 * startStarHeight;                
-                $("#star-start").css({left: x, top: y});
+                var y = draw.star.bounds.centerY - 0.5 * startStarHeight;
+                console.log({left: (x|0) + 'px !important', top: (y|0) + 'px !important'});
+                $("#star-start").css({left: (x|0), top: (y|0) });
             } else
                 $("#star-start").removeClass("expanded");
         });

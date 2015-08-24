@@ -841,7 +841,7 @@ missions:
           @boss
           That's the idea!  The tourists' pictures came out great!
           
-  - title: Circular Orbit
+  - title: Real-life Circular Orbit
     rule: nplanets > 0 && elements[0].eccentricity < 0.2 && elements[0].eccentricity > -0.001 && !collided
     starsrule: |
       (elements[0].sma > 2 ? 1 : (elements[0].sma < 1 ? 2 : 3))
