@@ -877,11 +877,11 @@ missions:
 
           
 
-  - title: MONKEYS
+  - title: Match orbit to speed
     enabled: true
     hidden: true    
     value: 1
-    type: drag-choice
+    type: match-choice
     icon: icon-question
     name: speeds_question
     subtitle: Get an extra star by answering this question.
@@ -891,15 +891,17 @@ missions:
     lose: Not quite right.
     question: |
       @fly @noninteractive
-      Imagine a planet in a circular orbit around the star. What would happen if you could change its speed?
-    fixed:
-      - You increased the speed a lot.
-      - You decreased the speed a lot.
-      - You changed the speed a little bit.
+      Imagine a planet's motion is perpendicular to the pull of the star. Match the possible speed of the planet to the orbit that would result.  
+    choices:
+      - Slow speed
+      - Perfect speed
+      - Near-perfect speed
+      - Fast speed
     options:
-      - The planet would be ejected.
-      - The planet would collide with the star.
-      - The orbit would become elliptical (oval).
+      - Crash into the star
+      - Circular orbit
+      - Elliptical orbit (oval)
+      - Escape
     help:
       - on: win
         message: |
