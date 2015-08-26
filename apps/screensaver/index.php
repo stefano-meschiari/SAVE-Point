@@ -8,6 +8,7 @@ write_cfg_json($cfg);
 write_mission_rules($cfg);
 
 ?>
+<link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
 
 <script>
  window.setTimeout(function() {

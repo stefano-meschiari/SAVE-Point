@@ -15,17 +15,18 @@ var Slides = (function() {
     return {
         anim: function() {
             clearInterval(timer);
-            
+            console.log(currentSlide);
             if (SLIDES[currentSlide].fixed) {
                 $("#img" + currentSlide).css("max-width", "100%");
                 return;
             } else {
                 var $img = $("#img" + currentSlide);
+                if ($img.length == 0)
+                    return;
                 var width = $img[0].naturalWidth;
                 var height = $img[0].naturalHeight;
                 var r = width/height;
                 $img.attr("style", "");
-                console.log(width, height, window.innerWidth, window.innerHeight);
                 var prop;
                 var wdim;
                 $img.css({ top: 0, left: 0});
@@ -39,7 +40,6 @@ var Slides = (function() {
                     $img.attr('width', (window.innerHeight * r) | 0);
                     $img.attr('height', window.innerHeight);
                 }
-                console.log($img.attr('width'), $img.attr('height'));
 
 
                 if ($img.attr('width') > window.innerWidth) {
@@ -63,9 +63,11 @@ var Slides = (function() {
                 if (slide === undefined) {
                     slide = currentSlide;
                     while (slide == currentSlide) {                        
-                        slide = getRandomInt(-10, SLIDES.length-1);
+                        slide = getRandomInt(-10, SLIDES.length + 100);
                         if (slide < 0)
                             slide = 0;
+                        if (slide >= SLIDES.length)
+                            slide = SLIDES.length - 1;
                     }
                 }
 
@@ -95,7 +97,32 @@ $(document).ready(function() {
     if (_.parameter("showall")) {
         $("body").addClass("show-overflow");       
     } else {
-        Slides.run(0);
+        $.get("/spc/hiscore.php?action=get", function(data) {
+            var div = "<div id='slide11' class='slide'><div class='slide-title'><strong>Super Planet Crash</strong><div class='attrib'>High Scores</div></div>";
+            div += "<table><tr><th>Name</th><th>Points</th></tr>";
+            data = JSON.parse(data);
+            var i = 0;
+
+            _.each(data, function(row) {
+                var points = +row['points'];
+                if (points === 0 || isNaN(points))
+                    return;
+                div += "<tr><td>" + row['name'] + "</td><td>" + row['points'] + "</td></tr>";
+                i++;
+                if (i > 10)
+                    return;
+            });
+
+            div += "</table></div>";
+            
+            $(".slide-container").append($(div));
+            SLIDES.push({});
+        }).done(function() {
+            Slides.run(0);
+        }).fail(function() {
+            Slides.run(0);
+        });
+        
         if (!_.parameter("noredirect")) {
             $("#screen").on("mousedown", Slides.clicked);
             $("#screen").on("touchstart touchmove touchend", Slides.clicked);
