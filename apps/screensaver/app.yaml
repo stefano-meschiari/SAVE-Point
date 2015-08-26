@@ -8,7 +8,7 @@ requires:
   - utils
   - transit
   - device
-
+  - colors
 
 feeds:
 #  - url: http://photojournal.jpl.nasa.gov/rss/new 

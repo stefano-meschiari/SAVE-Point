@@ -98,7 +98,7 @@ $(document).ready(function() {
         $("body").addClass("show-overflow");       
     } else {
         $.get("/spc/hiscore.php?action=get", function(data) {
-            var div = "<div id='slide11' class='slide'><div class='slide-title'><strong>Super Planet Crash</strong><div class='attrib'>High Scores</div></div>";
+            var div = "<div id='slide11' class='slide'><div class='slide-title'><strong>Super <span class='base0C'>Planet </span><span class='base0A'>Crash</span></strong><div class='attrib'>High Scores</div></div>";
             div += "<table><tr><th>Name</th><th>Points</th></tr>";
             data = JSON.parse(data);
             var i = 0;
@@ -109,7 +109,7 @@ $(document).ready(function() {
                     return;
                 div += "<tr><td>" + row['name'] + "</td><td>" + row['points'] + "</td></tr>";
                 i++;
-                if (i > 10)
+                if (i >= 8)
                     return;
             });
 

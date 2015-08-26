@@ -389,8 +389,7 @@ var UI = (function() {
             
             $.post('hiscore.php?token=' + token,
                 $(this).serialize(),
-                function(data) {
-                    
+                function(data) {                    
                     alert("High score saved!\nYou are in position #" + ((data|0)+1));
                     location.href = BASEURL;
                 }
@@ -691,11 +690,12 @@ var UI = (function() {
             $.post("hiscore.php?action=add", {
                 name: $("#hiscore-name").val(),
                 points: UI.points()
+            }).done(function() {
+                location.href="templates.html";
+                return;                
             });
         }
         
-        location.href="templates.html";
-        return;
         /*
 
         Use this if you don't want to use reload.
