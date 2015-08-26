@@ -63,7 +63,7 @@ var Slides = (function() {
                 if (slide === undefined) {
                     slide = currentSlide;
                     while (slide == currentSlide) {                        
-                        slide = getRandomInt(-10, SLIDES.length + 10);
+                        slide = getRandomInt(-5, SLIDES.length + 5);
                         if (slide < 0)
                             slide = 0;
                         if (slide >= SLIDES.length)
@@ -123,6 +123,8 @@ $(document).ready(function() {
         }).fail(function() {
             Slides.run(0);
         });
+
+        console.log("OK");
         
         if (!_.parameter("noredirect")) {
             $("#screen").on("mousedown", Slides.clicked);
