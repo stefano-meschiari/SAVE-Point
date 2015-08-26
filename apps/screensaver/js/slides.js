@@ -8,7 +8,7 @@ function getRandomInt(min, max) {
 var Slides = (function() {
 
     var currentSlide = -1;
-    var delay = 15000;
+    var delay = 6000;
     var rate = 40/1000;
     var timer;
     
@@ -63,7 +63,7 @@ var Slides = (function() {
                 if (slide === undefined) {
                     slide = currentSlide;
                     while (slide == currentSlide) {                        
-                        slide = getRandomInt(-5, SLIDES.length + 5);
+                        slide = getRandomInt(-3, SLIDES.length + 3);
                         if (slide < 0)
                             slide = 0;
                         if (slide >= SLIDES.length)

@@ -9,12 +9,11 @@ write_mission_rules($cfg);
 
 ?>
 <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
-
 <script>
  window.setTimeout(function() {
    if (document.readyState !== "complete")
      location.href = '/dashboard/?login=kiosk';   
- }, 60000);
+ }, 30000);
 </script>
 
 <?php
