@@ -86,6 +86,7 @@ var Slides = (function() {
                 location.href = '/?login=kiosk';
             }, 200);
             $("#screen").addClass("expanded");
+            return false;
         }
     };
     
@@ -125,7 +126,7 @@ $(document).ready(function() {
         
         if (!_.parameter("noredirect")) {
             $("#screen").on("mousedown", Slides.clicked);
-            $("#screen").on("touchstart touchmove touchend", Slides.clicked);
+            $("#screen").on("touchstart touchend", Slides.clicked);
 
             _.delay(function() {
                 Slides.canReset = true;
