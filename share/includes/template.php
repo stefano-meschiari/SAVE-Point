@@ -11,6 +11,10 @@ function is_local() {
 // Renders the header using the given hash.
 function write_header($cfg) {
     header('Content-Type: text/html; charset=UTF-8');
+    $cfg['gaproperty'] = 'UA-47960829-3';
+    if (is_kiosk())
+        $cfg['gaproperty'] = 'UA-47960829-6';
+        
     $m = new Mustache_Engine;  
     echo $m->render(file_get_contents(ROOT . "share/skeleton/header.html"), $cfg);
 

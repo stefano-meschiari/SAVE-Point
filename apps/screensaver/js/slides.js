@@ -8,7 +8,7 @@ function getRandomInt(min, max) {
 var Slides = (function() {
 
     var currentSlide = -1;
-    var delay = 6000;
+    var delay = 8000;
     var rate = 40/1000;
     var timer;
     
@@ -59,23 +59,20 @@ var Slides = (function() {
             _.delay(function() {
                 if (Slides.canReset)
                     window.location.href = '/screensaver/';
-                    
-                if (slide === undefined) {
-                    slide = currentSlide;
-                    while (slide == currentSlide) {                        
-                        slide = getRandomInt(-3, SLIDES.length + 3);
-                        if (slide < 0)
-                            slide = 0;
-                        if (slide >= SLIDES.length)
-                            slide = SLIDES.length - 1;
-                    }
-                }
 
-                currentSlide = slide;
+                if (slide !== undefined)
+                    currentSlide = slide;
+                else
+                    currentSlide = currentSlide + 1;
+
+                
                 $(".slide-expanded").removeClass("slide-expanded");
                 Slides.anim();                
-                $("#slide" + slide).addClass("slide-expanded");
+                $("#slide" + currentSlide).addClass("slide-expanded");
 
+                if (currentSlide == SLIDES.length-1) {
+                    Slides.canReset = true;
+                }
                 Slides.run();
 
                 
@@ -132,12 +129,7 @@ $(document).ready(function() {
         
         if (!_.parameter("noredirect")) {
             $("#screen").on("mousedown", Slides.clicked);
-            $("#screen").on("touchstart touchend", Slides.clicked);
-
-            _.delay(function() {
-                Slides.canReset = true;
-            }, 120000);
-            
+            $("#screen").on("touchstart touchend", Slides.clicked);            
         }
     }    
 });

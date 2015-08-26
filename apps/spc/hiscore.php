@@ -1,7 +1,7 @@
 <?php
 require_once('../../share/startup.php');
 require_once('db.php');
-if (db_user_logged_in() === FALSE) {
+if (db_user_logged_in() === FALSE && !is_kiosk()) {
   die();
 }
 if (!isset($_GET['action']))
