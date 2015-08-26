@@ -101,7 +101,12 @@ $(document).ready(function() {
         $.get("/spc/hiscore.php?action=get", function(data) {
             var div = "<div id='slide11' class='slide'><div class='slide-title'><strong>Super <span class='base0C'>Planet </span><span class='base0A'>Crash</span></strong><div class='attrib'>High Scores</div></div>";
             div += "<table><tr><th>Name</th><th>Points</th></tr>";
-            data = JSON.parse(data);
+            try {
+                data = JSON.parse(data);
+            } catch (e) {
+                Slides.run(0);
+                return;
+            }
             var i = 0;
 
             _.each(data, function(row) {
@@ -118,7 +123,6 @@ $(document).ready(function() {
             
             $(".slide-container").append($(div));
             SLIDES.push({});
-        }).done(function() {
             Slides.run(0);
         }).fail(function() {
             Slides.run(0);
