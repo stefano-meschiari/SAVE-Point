@@ -63,7 +63,7 @@ var Slides = (function() {
                 if (slide === undefined) {
                     slide = currentSlide;
                     while (slide == currentSlide) {                        
-                        slide = getRandomInt(-10, SLIDES.length + 100);
+                        slide = getRandomInt(-10, SLIDES.length + 10);
                         if (slide < 0)
                             slide = 0;
                         if (slide >= SLIDES.length)
