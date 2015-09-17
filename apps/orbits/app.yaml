@@ -891,7 +891,8 @@ missions:
     lose: Not quite right.
     question: |
       @fly @noninteractive
-      Imagine a planet's motion is perpendicular to the pull of the star. Match the possible speed of the planet to the orbit that would result.  
+      Imagine a planet is flying through space past a star. Depending on the planet's speed, something different might happen.
+      Match the speed of the planet to the possible outcome.  
     choices:
       - Slow speed
       - Perfect speed
