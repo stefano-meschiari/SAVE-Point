@@ -11,8 +11,8 @@ write_mission_rules($cfg);
 <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
 <script>
  window.setTimeout(function() {
-     location.href = '/dashboard/?login=kiosk';   
- }, 60000);
+     location.reload(true);
+ }, 120000);
 </script>
 
 <?php
