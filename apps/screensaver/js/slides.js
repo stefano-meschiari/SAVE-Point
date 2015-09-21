@@ -63,8 +63,7 @@ var Slides = (function() {
                     currentSlide = currentSlide + 1;
 
                 if (currentSlide == SLIDES.length) {
-                    alert("Done");
-                    location.href = '/screensaver/';
+                    location.reload(true);
                 }
                 
                 $(".slide-expanded").removeClass("slide-expanded");
@@ -76,7 +75,6 @@ var Slides = (function() {
         },
         clicked: function() {
             _.delay(function() {
-                alert("Clicked!");
                 location.href = '/?login=kiosk';
             }, 200);
             $("#screen").addClass("expanded");
