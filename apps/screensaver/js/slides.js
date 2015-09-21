@@ -104,16 +104,13 @@ $(document).ready(function() {
                 Slides.run(0);
                 return;
             }
-            var i = 0;
 
-            _.each(data, function(row) {
+            _.each(data, function(row, i) {
                 var points = +row['points'];
-                if (points === 0 || isNaN(points))
+                if (points === 0 || isNaN(points) || i >= 8)
                     return;
                 div += "<tr><td>" + row['name'] + "</td><td>" + row['points'] + "</td></tr>";
-                i++;
-                if (i >= 8)
-                    return;
+
             });
 
             div += "</table></div>";

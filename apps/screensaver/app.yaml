@@ -45,10 +45,6 @@ slides:
   - title: The Hobby-Eberly Telescope
     img: img/het.jpg
     attrib: McDonald Observatory &mdash; www.mcdonaldobservatory.org
-  
-  - title: "Saturn's Rings in Ultraviolet Light"
-    img: img/hs-2003-23-b-full_jpg.jpg
-    attrib: HubbleSite &mdash; www.hubblesite.org
 
   - title: Jupiter
     img: img/hs-2007-25-d-large_web.jpg
@@ -66,32 +62,16 @@ slides:
     img: img/hs-2010-06-d-full_jpg.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash;  NASA, ESA, and M. Buie (Southwest Research Institute)
 
-  - title: Uranus
-    img: img/hs-1998-35-a-full_jpg-1.jpg
-    attrib: HubbleSite &mdash; www.hubblesite.org &mdash; Erich Karkoschka (University of Arizona) and NASA
-
   - title: Neptune
     img: img/hs-2011-19-a-large_web.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA, ESA, and the Hubble Heritage Team (STScI/AURA)
-    
-  - title: Saturn Aurora
-    img: img/hs-2005-06-b-large_web.jpg
-    attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA, ESA, J. Clarke (Boston University), and Z. Levay (STScI)
     
   - title: The Ring Nebula
     img: img/hs-2013-13-b-large_web.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA, ESA, and the Hubble Heritage (STScI/AURA)-ESA/Hubble Collaboration
 
-  - title: Saturn
-    img: img/hs-2001-15-c-large_web.jpg
-    attrib: HubbleSite &mdash; www.hubblesite.org &mdash; NASA and the Hubble Heritage (STScI/AURA)
-
   - title: Europa
     img: img/pia19048_732.jpg
-    attrib: NASA PhotoJournal &mdash; photojournal.jpl.nasa.gov
-
-  - title: Triton
-    img: img/P353171_732.jpg
     attrib: NASA PhotoJournal &mdash; photojournal.jpl.nasa.gov
 
   - title: "Rosetta's Comet From 177 Miles"
@@ -102,10 +82,6 @@ slides:
     img: img/PIA15160_br.jpg
     attrib: NASA PhotoJournal &mdash; photojournal.jpl.nasa.gov
         
-  - title: Comet Hale-Bopp
-    img: img/104_hb_mai_732.jpg
-    attrib: NASA PhotoJournal &mdash; photojournal.jpl.nasa.gov
-    
   - title: Venus
     img: img/Venus_Clouds_br.jpg
     attrib: NSSDC Photo Gallery
@@ -121,10 +97,6 @@ slides:
   - title: Panoramic Hubble Picture Surveys Star Birth, Proto-Planetary Systems in the Great Orion Nebula
     img: img/hs-1995-45-a-large_web.jpg
     attrib: HubbleSite &mdash; www.hubblesite.org &mdash;  NASA, C.R. O'Dell and S.K. Wong (Rice University)
-
-  - title: "Cone Nebula (NGC 2264): Star-Forming Pillar of Gas and Dust"
-    img: img/hs-2002-11-b-large_web.jpg
-    attrib: HubbleSite &mdash; www.hubblesite.org &mdash;  NASA, H. Ford (JHU), G. Illingworth (UCSC/LO), M.Clampin (STScI), G. Hartig (STScI), the ACS Science Team, and ESA
 
 
 
