@@ -12,7 +12,8 @@ $offensive = array(
     'DIK',
     'COK',
     'TIT',
-    'FAG'
+    'FAG',
+    'ASS'
 );
 
 if ($_GET['action'] == 'add') {
