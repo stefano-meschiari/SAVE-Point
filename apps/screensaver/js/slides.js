@@ -74,6 +74,8 @@ var Slides = (function() {
             }, (currentSlide < 0 ? 0 : delay));
         },
         clicked: function() {
+            if (window.DINNER)
+                return;
             _.delay(function() {
                 location.href = '/?login=kiosk';
             }, 200);
@@ -89,6 +91,9 @@ $("#slide0").addClass("slide-expanded");
 $(document).ready(function() {
     if (_.parameter("showall")) {
         $("body").addClass("show-overflow");       
+    } else if (_.parameter("dinner")) {
+        window.DINNER = true;
+        Slides.run(1);
     } else {
         $.get("/spc/hiscore.php?action=get", function(data) {
             var div = "<div id='slide11' class='slide'><div class='slide-title'><strong>Super <span class='base0C'>Planet </span><span class='base0A'>Crash</span></strong><div class='attrib'>High Scores</div></div>";
