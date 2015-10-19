@@ -30,10 +30,6 @@ blacklisted:
   - PIA19244_modest.jpg
   
 slides:
-  - title: <strong>Tap</strong> and <strong>drag</strong> to interact with the apps.
-    img: img/tap_and_drag.png
-    fixed: true
-
   - title: "An artist's concept of the Giant Magellan Telescope."
     img: img/gmt1.jpg
     attrib: Todd Mason/GMT Consortium/Carnegie Observatories

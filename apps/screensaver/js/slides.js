@@ -95,7 +95,7 @@ $(document).ready(function() {
         window.DINNER = true;
         $("#footer").hide();
         $("#slide0").hide();
-        Slides.run(1);
+        Slides.run(0);
     } else {
         $.get("/spc/hiscore.php?action=get", function(data) {
             var div = "<div id='slide11' class='slide'><div class='slide-title'><strong>Super <span class='base0C'>Planet </span><span class='base0A'>Crash</span></strong><div class='attrib'>High Scores</div></div>";
