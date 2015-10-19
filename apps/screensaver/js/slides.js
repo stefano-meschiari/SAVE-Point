@@ -94,6 +94,7 @@ $(document).ready(function() {
     } else if (_.parameter("dinner")) {
         window.DINNER = true;
         $("#footer").hide();
+        $("#slide0").hide();
         Slides.run(1);
     } else {
         $.get("/spc/hiscore.php?action=get", function(data) {
