@@ -75,7 +75,7 @@ var Slides = (function() {
         },
         clicked: function() {
             if (window.DINNER)
-                return;
+                return false;
             _.delay(function() {
                 location.href = '/?login=kiosk';
             }, 200);
@@ -93,6 +93,7 @@ $(document).ready(function() {
         $("body").addClass("show-overflow");       
     } else if (_.parameter("dinner")) {
         window.DINNER = true;
+        $("#footer").hide();
         Slides.run(1);
     } else {
         $.get("/spc/hiscore.php?action=get", function(data) {
