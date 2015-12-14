@@ -26,6 +26,11 @@ _.arrayEquals = function(a1, a2) {
     return true;
 };
 
+window.setLocationRepeated = function(href) {
+    location.href = href;
+    _.delay(function() { window.setLocationRepeated(href); }, 1000);
+};
+
 window.requestAnimationFrame = (function(){
   return  window.requestAnimationFrame       ||
           window.webkitRequestAnimationFrame ||

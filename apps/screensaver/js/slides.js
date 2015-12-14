@@ -77,7 +77,7 @@ var Slides = (function() {
             if (window.DINNER)
                 return false;
             _.delay(function() {
-                location.href = '/?login=kiosk';
+                setLocationRepeated('/?login=kiosk');
             }, 200);
             $("#screen").addClass("expanded");
             return false;

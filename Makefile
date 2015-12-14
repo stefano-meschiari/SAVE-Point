@@ -1,4 +1,3 @@
-
 all: css colors #orbits
 
 css:
@@ -13,8 +12,7 @@ watch:
 	./node_modules/.bin/wach -o assets/less/*,apps/orbits/*.yaml,apps/dashboard/*.yaml,apps/orbits/js/app.js make 
 
 devserver:
-	sleep 2 && open http://localhost:8800 &
-	cd apps; /opt/local/bin/php55 -S localhost:8800 
+	./rundevserver.sh
 
 #orbits: apps/orbits/js/*.js
 #	cd apps/orbits/js; uglifyjs app.js -o app.min.js --source-map app_source_map -c -m

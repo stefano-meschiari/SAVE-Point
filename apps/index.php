@@ -1,5 +1,5 @@
 <?php
-if ($_GET['s']) {
+if (isset($_GET['s'])) {
   $app = basename($_GET['s']);
   header("Location: /" . $app . "/");
   die();

@@ -59,7 +59,7 @@ function setupTimer() {
         window.clearTimeout(timer);
     console.log("Starting timer.");
     timer = _.delay(function() {
-        location.href = "/screensaver/";
+        window.setLocationRepeated('/screensaver/');
     }, 60000);
 }
 
@@ -89,7 +89,7 @@ $(document).ready(function() {
                 var href = h;
                 $("#app-launching").show();
                 _.delay(function() {
-                    location.href = href;
+                    window.setLocationRepeated(href);
                 }, 500);
                 return false;
             });            
